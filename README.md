@@ -7,5 +7,4 @@
 <p>-Browser extensions and settings<br>
   -Linux site, tools, etc…<br>
   -TV shows, movies, other media…<br>
-  -Mail related stuff<br>
   -Add more categories.</p>
