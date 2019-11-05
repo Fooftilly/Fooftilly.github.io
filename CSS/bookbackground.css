@@ -1,0 +1,11 @@
+    body {
+        background:
+        /* top, transparent black, faked with gradient */ 
+        linear-gradient(
+          rgba(0, 0, 0, 0.7), 
+          rgba(0, 0, 0, 0.7)
+        ),
+          /* bottom, image */
+        url("/images/book-stack-books-education-48126.jpg");
+    }
+
