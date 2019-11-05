@@ -1,0 +1,36 @@
+.searchbar {
+    margin-left: auto;
+    left: 0;
+    margin-right: auto;
+    right: 0;
+    width: 650px;
+    height: 35px;
+	background-color: transparent;
+	overflow: hidden;
+    border-bottom: 3px solid white;
+}
+
+.searchinput {
+	position: relative;
+    left: 0px;
+	height: 35px;
+	width: 100%;
+    border: none;
+	font-size: 25px;
+    color: white;
+    font-family: 'Roboto';
+    background-color: transparent;
+    margin-left: 35px;
+}
+
+.searchinput:focus {
+	outline:none;
+	border:none;
+}
+.d {
+    position: relative;
+    top: -35px;
+    left: 0px;
+    height:100%;
+    -webkit-filter: drop-shadow(0px 0px 1px black);
+}
