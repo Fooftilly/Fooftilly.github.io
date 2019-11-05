@@ -8,5 +8,4 @@
   -Linux site, tools, etc…<br>
   -TV shows, movies, other media…<br>
   -Mail related stuff<br>
-  -Culinary things<br>
   -Add more categories.</p>
