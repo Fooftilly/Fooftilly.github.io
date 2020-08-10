@@ -9,6 +9,12 @@ head {
   color: #990000;
 }
 
+h1, h2, h3, h4, h5, h6 {
+	text-align: center;
+    	text-shadow: -1px 3px 3px rgba(0, 0, 0, 0.68);
+}
+
+
 hr {
   clear: both;
   visibility: hidden;
@@ -16,16 +22,15 @@ hr {
 
 a {
   color: green;
-}
-a {
   text-decoration: none;
+}
+a:link {
+  color: green
 }
 
 a:hover {
-  background-color: red;
+  color: red;
 }
-
-
   /* selected link */
   a:active {
   color: yellow;
