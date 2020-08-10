@@ -1,5 +1,4 @@
 body {
-  font-family: 'Helvetica', 'Arial';
   font-weight: normal;
   color: white;
   background-color: black;
@@ -47,13 +46,13 @@ a:hover {
     padding: 0;
     zoom:1;
 }
+
 nav {
     margin-left: auto;
     margin-right: auto;
     font-size: large;
     text-align: center;
 }
-
 
 .menubar li {
 	display: block;
@@ -93,6 +92,10 @@ nav {
     text-align: left;
 }
 
+code {
+	color: green;
+    /* overflow-x: auto; */
+}
 
 
 
