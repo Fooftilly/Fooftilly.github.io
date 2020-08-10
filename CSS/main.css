@@ -8,6 +8,40 @@ head {
   color: #990000;
 }
 
+#links img,footer img, li img, h1 img, h2 img, h3 img, p img, .dropme img {
+    height: 1em;
+}
+
+footer {
+	clear: both;
+	text-align: center;
+	padding-top: 2em;
+}
+
+body {
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1em;
+    color: inherit;
+    background: inherit;
+}
+
+html {
+    background: #111;
+    color: #eee;
+	padding-bottom: 500px;
+}
+
+dt {
+	color: orange;
+	margin-top: 2px;
+}
+
+dd {
+	margin-bottom: 2px;
+}
+
 h1, h2, h3, h4, h5, h6 {
 	text-align: center;
     	text-shadow: -1px 3px 3px rgba(0, 0, 0, 0.68);
@@ -96,7 +130,5 @@ code {
 	color: green;
     /* overflow-x: auto; */
 }
-
-
 
 }
