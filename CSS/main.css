@@ -28,7 +28,7 @@ a {
 }
 
 a:hover {
-  background-color: #882e7e;
+  background-color: #ffeae6;
 }
 
 #applyCSS>* {
@@ -53,6 +53,6 @@ a:hover {
   }
 
   li a:hover {
-    background-color: #111111;
+    background-color: ffeae6;
   }
 }
