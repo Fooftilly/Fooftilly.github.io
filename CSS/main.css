@@ -1,12 +1,12 @@
 body {
   font-family: 'Helvetica', 'Arial';
   font-weight: normal;
-  color: #EBC3E8;
-  background-color: #24292E;
+  color: #ffff66;
+  /* background-color: #24292E; */
 }
 
 head {
-  color: #EBC3E8;
+  color: #990000;
 }
 
 hr {
@@ -31,15 +31,6 @@ a:hover {
   background-color: #ffeae6;
 }
 
-#applyCSS>* {
-  ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #333333;
-  }
-
   li {
     float: left;
   }
@@ -53,6 +44,14 @@ a:hover {
   }
 
   li a:hover {
-    background-color: ffeae6;
+    background-color: red;
+  }
+  /* visited link */
+  a:visited {
+  color: green;
+  }
+  /* selected link */
+  a:active {
+  color: yellow;
   }
 }
