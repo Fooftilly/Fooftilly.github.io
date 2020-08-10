@@ -1,8 +1,8 @@
 body {
   font-family: 'Helvetica', 'Arial';
   font-weight: normal;
-  color: #ffff66;
-  /* background-color: #24292E; */
+  color: white;
+  background-color: black;
 }
 
 head {
@@ -15,20 +15,14 @@ hr {
 }
 
 a {
-  color: #EBC3E8;
+  color: green;
 }
-
-#fotter {
-  position: fixed;
-  bottom: 0;
-}
-
 a {
   text-decoration: none;
 }
 
 a:hover {
-  background-color: #ffeae6;
+  background-color: red;
 }
 
   li {
@@ -45,10 +39,6 @@ a:hover {
 
   li a:hover {
     background-color: red;
-  }
-  /* visited link */
-  a:visited {
-  color: green;
   }
   /* selected link */
   a:active {
