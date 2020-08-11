@@ -3,6 +3,9 @@ body {
   color: white;
   background-color: black;
 }
+h1 {
+  color: lime;
+}
 
 head {
   color: #990000;
@@ -53,11 +56,11 @@ hr {
 }
 
 a {
-  color: green;
+  color: lime;
   text-decoration: none;
 }
 a:link {
-  color: green
+  color: lime
 }
 
 a:hover {
@@ -126,7 +129,7 @@ nav {
 }
 
 code {
-	color: green;
+	color: lime;
     /* overflow-x: auto; */
 }
 
