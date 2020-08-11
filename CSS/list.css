@@ -1,21 +1,6 @@
-.list li a {
-  display: list-item;
-  }
 .list {
   display: list-item;
-  margin: 0;
-  padding: 0;
-  zoom:1;
-  }
-.list li {
-  display: list-item;
   float: center;
-  width: 100px;
-  min-height: 1.5em;
-  background: #222;
-  border: #444 solid 2px;
-  padding: 3px;
-  margin: 4px;
   list-style-type: none;
   display: flex;
   align-items: center;
@@ -27,15 +12,3 @@
 .list a {
   text-decoration: none;
   }
-.list li ul {
-  visibility: hidden;
-  position: relative;
-  padding-top: 10px;
-   }
-.list li ul {
-  float: center;
-  position: relative;
-  width: 150px;
-  text-align: center;
-  }
-}
