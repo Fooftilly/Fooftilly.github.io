@@ -14,8 +14,8 @@
   }
 
   /* LIST #2 */
-  #list2 { width:320px; }
-  #list2 ul { font-style:italic; font-size:24px; color:#bfe1f1;  }
-  #list2 ul li { }
-  #list2 ul li p a { padding:8px; font-style:normal; font-size:13px; color:#eee; border-left: 1px solid #999; }
-  #list2 ul li p em a { display:block; }
+  .list2 { width:320px; }
+  .list2 ul { font-style:italic; font-size:24px; color:#bfe1f1;  }
+  .list2 ul li { }
+  .list2 ul li p a { padding:8px; font-style:normal; font-size:13px; color:#eee; border-left: 1px solid #999; }
+  .list2 ul li p em a { display:block; }
