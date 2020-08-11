@@ -10,6 +10,48 @@
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
     <!-- link to main stylesheet -->
     <link rel="stylesheet" type="text/css" href="/CSS/main.css">
+
+    <style>
+    li a {
+        display: block;
+    }
+    .list {
+        display: list-item;
+        margin: 0;
+        padding: 0;
+        zoom:1;
+      }
+    .list li {
+        	display: block;
+        	float: left;
+        	width: 100px;
+            min-height: 1.5em;
+            background: #222;
+            border: #444 solid 2px;
+            padding: 3px;
+            margin: 4px;
+        }
+        .list li:hover {
+            background: #000;
+        }
+        .list a {
+            text-decoration: none;
+        }
+        .list li ul {
+        	visibility: hidden;
+        	position: center;
+            padding-top: 10px;
+        }
+        }
+        .list li ul li {
+            float: center;
+            position: center;
+            width: 150px;
+            text-align: left;
+        }
+    }
+    </style>
+
   </head>
 
   <body>
@@ -26,8 +68,7 @@
 
     <h3>Cobiss sites</h3>
 
-
-    <ul class="menubar">
+      <ul class=".list">
       <li><a title="Cobiss.cg" href="http://www.vbcg.me/" target="_blank">Cobiss Montenegro</a></li>
       <li><a title="Cobiss.rs" href="http://www.vbs.rs" target="_blank">Cobiss Serbia</a></li>
       <li><a title="Cobiss.ba" href="http://www.cobiss.ba" target="_blank">Cobiss Bosnia and Herzegovina</a></li>
