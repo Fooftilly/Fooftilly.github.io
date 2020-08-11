@@ -22,6 +22,7 @@
   border: #444 solid 2px;
   padding: 3px;
   margin: 4px;
+  list-style-type: none;
   }
 .list li:hover {
   background: #000;
