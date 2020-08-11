@@ -30,8 +30,11 @@
   }
 
   /* LIST #3 */
-  .list3 { color:#eee; }
+  .list3 {
+    color:#eee;
+    align-items: center;
+  }
   .list3 ul { font-size:18px; }
   .list3 ul li { }
-  .list3 ul li ul { list-style-image: url("/images/bg.png"); padding:5px 0 5px 18px; font-size:15px; }
+  .list3 ul li ul { list-style-image: url("images/bg.png"); padding:5px 0 5px 18px; font-size:15px; }
   .list3 ul li ul li { color:#bfe1f1; height:15px; margin-left:10px; }
