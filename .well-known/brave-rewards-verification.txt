@@ -1,4 +1,0 @@
-This is a Brave Rewards publisher verification file.
-
-Domain: fooftilly.github.io
-Token: 79be8f7bf98382cd87e92b195ac9d1243109e8e587e747ada12ff1735af87e40
