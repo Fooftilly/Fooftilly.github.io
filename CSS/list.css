@@ -20,8 +20,6 @@
   .list2 ul {
     font-style:italic; font-size:24px; color:#bfe1f1;
   }
-  .list2 ul li {
-  }
   .list2 ul li p a {
     padding:8px; font-style:normal; font-size:13px; color:#eee; border-left: 1px solid #999;
   }
@@ -34,7 +32,6 @@
     color:#eee;
     align-items: center;
   }
-  .list3 ul { font-size:18px; }
-  .list3 ul li { }
+  .list3 ul { font-size:18px;}
   .list3 ul li ul { list-style-image: url("images/bg.png"); padding:5px 0 5px 18px; font-size:15px; }
   .list3 ul li ul li { color:#bfe1f1; height:15px; margin-left:10px; }
