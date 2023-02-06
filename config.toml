@@ -1,0 +1,17 @@
+baseURL = 'https://www.peroniko.xyz/'
+languageCode = 'en-us'
+title = 'Perović Nikola'
+theme = 'lugo'
+
+
+[params]
+  favicon = "/favicon.svg"
+  stylesheet = "/style.css"
+  indexarticles = 10
+  taglist = true
+
+
+[sitemap]
+  changefreq = 'always'
+  filename = 'sitemap.xml'
+  priority = 0.5
