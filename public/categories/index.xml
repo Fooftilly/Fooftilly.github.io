@@ -1,25 +1,10 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-	<title>Perović Nikola</title>
-	<link>https://www.peroniko.xyz/categories/</link>
-	<description>Recent content in Categories on Perović Nikola</description>
-	<generator>Hugo -- gohugo.io</generator>
-	<language>en-us</language>
-    
-        <atom:link href="https://www.peroniko.xyz/categories/index.xml" rel="self" type="application/rss+xml" />
-	
-	
-	<item>
-		<title>About</title>
-		<link>https://www.peroniko.xyz/about/</link>
-		<pubDate>Mon, 06 Feb 2023 13:28:19 +0100</pubDate>
-		
-		<guid>https://www.peroniko.xyz/about/</guid>
-		<description>&lt;h1 id=&#34;my-personal-website&#34;&gt;My Personal Website&lt;/h1&gt;
-&lt;p&gt;This website is hosted on Github Pages.&lt;br&gt;
-Here is the &lt;a href=&#34;https://github.com/Fooftilly/Fooftilly.github.io&#34;&gt;Github Repo&lt;/a&gt;, if you want to look at the code.&lt;/p&gt;
-</description>
-	</item>
-	
-	</channel>
+    <title>Categories on Perović Nikola</title>
+    <link>https://www.peroniko.xyz/categories/</link>
+    <description>Recent content in Categories on Perović Nikola</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language><atom:link href="https://www.peroniko.xyz/categories/index.xml" rel="self" type="application/rss+xml" />
+  </channel>
 </rss>
