@@ -2,7 +2,6 @@ baseURL = 'https://www.peroniko.xyz/'
 languageCode = 'en-us'
 title = 'Perović Nikola'
 theme = 'm10c'
-googleAnalytics = "G-7XL7CEV7EW"
 paginate = 8
 
 [menu]
@@ -27,6 +26,7 @@ paginate = 8
   stylesheet = "/style.css"
   indexarticles = 10
   taglist = true
+  googleAnalyticsID = "G-7XL7CEV7EW"
   # Author
   author = "Nikola Perović"
   # Description
