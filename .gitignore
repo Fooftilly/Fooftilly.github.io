@@ -1,0 +1,7 @@
+.hugo_build.lock
+resources/
+themes/m10c/.editorconfig
+themes/m10c/images/
+themes/m10c/exampleSite/
+themes/m10c/LICENSE.md
+themes/m10c/README.md
