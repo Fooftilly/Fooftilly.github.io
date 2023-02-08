@@ -1,15 +1,73 @@
 baseURL = 'https://www.peroniko.xyz/'
 languageCode = 'en-us'
 title = 'Perović Nikola'
-theme = 'lugo'
+theme = 'm10c'
+googleAnalytics = "G-7XL7CEV7EW"
+paginate = 8
 
+[menu]
+  [[menu.main]]
+    identifier = "home"
+    name = "Home"
+    url = "/"
+    weight = 1
+  [[menu.main]]
+    identifier = "tags"
+    name = "Tags"
+    url = "/tags/"
+    weight = 2
+  [[menu.main]]
+    identifier = "about"
+    name = "About"
+    url = "/about/"
+    weight = 3
 
 [params]
   favicon = "/favicon.svg"
   stylesheet = "/style.css"
   indexarticles = 10
   taglist = true
+  # Author
+  author = "Nikola Perović"
+  # Description
+  description = "Personal Website"
+  # Social links
+  [[params.social]]
+    icon = "github"
+    name = "Github"
+    url = "https://github.com/Fooftilly"
+  [[params.social]]
+    icon = "twitter"
+    name = "Twitter"
+    url = "https://twitter.com/GregoryKentch"
+  [[params.social]]
+    icon = "tiktok"
+    name = "TikTok"
+    url = "https://www.tiktok.com/@fooftilly"
+  [[params.social]]
+    icon = "youtube"
+    name = "Youtube"
+    url = "https://www.youtube.com/channel/UC94TNPxReYOsZculkHjyS0Q"
+  [[params.social]]
+    icon = "letterboxd"
+    name = "Letterboxd"
+    url = "https://letterboxd.com/Fooftilly"
+  [[params.social]]
+    icon = "trakt"
+    name = "Trakt"
+    url = "https://trakt.tv/users/cobe10"
+  [[params.social]]
+    icon = "rss"
+    name = "RSS"
+    url = "index.xml"
 
+  # Default theme
+  [params.style]
+    darkestColor = "#242930"
+    darkColor = "#353b43"
+    lightColor = "#afbac4"
+    lightestColor = "#ffffff"
+    primaryColor = "#a59eca"
 
 [sitemap]
   changefreq = 'always'
