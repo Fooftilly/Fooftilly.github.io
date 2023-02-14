@@ -1,6 +1,5 @@
 baseURL = 'https://www.peroniko.xyz/'
 languageCode = 'en-us'
-title = 'Perović Nikola'
 theme = 'm10c'
 paginate = 8
 
@@ -23,6 +22,8 @@ paginate = 8
 
 [params]
   favicon = "/favicon.svg"
+  avatar = "/avatar.webp"
+  menu_item_separator = "·"
   stylesheet = "/style.css"
   indexarticles = 10
   taglist = true
@@ -67,6 +68,20 @@ paginate = 8
     lightColor = "#fae3bb"
     lightestColor = "#f3cc2c"
     primaryColor = "#a59eca"
+
+[params.giscus]
+repo = "Fooftilly/Fooftilly.github.io"
+repoID = "MDEwOlJlcG9zaXRvcnkyMTk4Mjg5MTg="
+category = "Articles"
+categoryID = "DIC_kwDODRpSts4CUNb-"
+mapping = "og:title"
+reactionsEnabled = "1"
+emitMetadata = "0"
+inputPosition = "bottom"
+theme = "dark_dimmed"
+lang = "en"
+loading = "lazy"
+
 
 [sitemap]
   changefreq = 'always'
