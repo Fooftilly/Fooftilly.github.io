@@ -1,5 +1,6 @@
 baseURL = 'https://www.peroniko.xyz/'
 languageCode = 'en-us'
+title = "Nikola Perović"
 theme = 'm10c'
 paginate = 8
 
