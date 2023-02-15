@@ -145,16 +145,12 @@ Simply run `import_youtube` in shell:
 ```bash
 import_youtube "/path/to/youtubeSubscriptions.opml"
 ```
-You could also add all your RSS script to global PATH.
-See instructions [bellow](#export-scripts-path).
-
+You could also add all your RSS script to global $PATH.
 
 Now that you have imported your YouTube subscriptions,
 you might want a way to update them.
 You could manually update them with `sfeed_update`,
 or you could use [youtube-update](#youtube-update) script I have provided in the [Scripts](#useful-rss-scripts)
-
-
 
 ## Useful RSS Scripts
 Here is a list of useful scripts that for RSS.
@@ -165,10 +161,6 @@ If they are not in path you would need to run them with `./` prefix (eg. ./news-
 If you want them to be available globally,
 you will need to add them to $PATH.
 
-### Export Scripts PATH
-```bash
-export PATH="$PATH:${$(find $HOME/rss/scripts/ -type d -printf %p:)%%:}"
-```
 
 ### news-update
 Update news feeds and open sfeed_curses, show only unread.
