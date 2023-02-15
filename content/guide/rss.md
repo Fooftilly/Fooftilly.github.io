@@ -1,6 +1,7 @@
 ---
 title: "My RSS setup with Sfeed"
 date: 2023-02-14
+lastmod: 2023-02-15
 tags: ["RSS","Sfeed","News","YouTube"]
 ---
 
@@ -30,7 +31,7 @@ you should probably download Sfeed from AUR,
 or use someting like `nix-shell` or `distrobox` if you are not or Arch-based distro.
 
 
-# Sfeed Setup
+## Setting up Sfeed
 Since I want to keep my YouTube and news feeds separate,
 I created a folder named `rss` in my home folder and add subfolders `news` and `youtube` into it.
 Sfeed saves read items in a plain text file that can be specified.
@@ -56,7 +57,7 @@ For more customization,
 you should check out [Sfeed README file](https://codemadness.org/git/sfeed/file/README.html).
 
 
-# News
+## News
 It is very easy to find RSS feeds for news.
 If the website has an RSS feed,
 extension like
@@ -69,8 +70,14 @@ as shown in the minimal example above.
 Next time you update your RSS,
 new feed should be available.
 
+After you update your feeds,
+you can use `sfeed_curses` to view those feeds.
+Alternatively,
+you could use [news-update](#news-update) script I have provided in the [Scripts](#useful-rss-scripts)
 
-# YouTube
+
+
+## YouTube
 There are a few steps you need to do before you will be able to import YouTube subscriptions into Sfeed.
 YouTube doesn't have an easy way to export subscriptions because they removed it.
 Instead,
@@ -113,7 +120,8 @@ This option,
 howerver,
 doesn't preserve the `sfeedpath` we changed to non-default one.
 Because of that,
-you could use this custom script (`import_youtube`) to preserve `sfeedpath` every time you update your subscriptions.
+you could use this script ([import_youtube](#import_youtube)) to preserve `sfeedpath` every time you update your subscriptions.
+### import_youtube
 ```bash
 #!/bin/sh
 
@@ -132,27 +140,40 @@ sfeed_opml_import < "$1" > $HOME/rss/youtube/sfeedrc
 # Fix path for youtube
 sed -i '1s/^#sfeedpath=.*/sfeedpath="$HOME\/rss\/youtube"/' $HOME/rss/youtube/sfeedrc
 ```
-Just edit paths in the script once and you could export YouTube subscriptions without a need to change `sfeedpath` every time.
+Just set up your path in the script and then you could export YouTube subscriptions without a need to change `sfeedpath` every time.
 Simply run `import_youtube` in shell:
 ```bash
 import_youtube "/path/to/youtubeSubscriptions.opml"
 ```
+You could also add all your RSS script to global PATH.
+See instructions [bellow](#export-scripts-path).
+
 
 Now that you have imported your YouTube subscriptions,
-you might want a way to update them
+you might want a way to update them.
+You could manually update them with `sfeed_update`,
+or you could use [youtube-update](#youtube-update) script I have provided in the [Scripts](#useful-rss-scripts)
 
-# Useful RSS Scripts
+
+
+## Useful RSS Scripts
 Here is a list of useful scripts that for RSS.
 If you want to use them,
 create a folder scripts inside the rss folder.
+Don't forget to make them executable with `chmod +x`
+If they are not in path you would need to run them with `./` prefix (eg. ./news-update) from the folder they are in.
 If you want them to be available globally,
 you will need to add them to $PATH.
+
+### Export Scripts PATH
 ```bash
 export PATH="$PATH:${$(find $HOME/rss/scripts/ -type d -printf %p:)%%:}"
 ```
 
-## news-update
-Update news feeds and open sfeed_curses, show only unread:
+### news-update
+Update news feeds and open sfeed_curses, show only unread.
+You can remove `sfeed_update` if you don't want to update your feed when you launch this script,
+or you can use Ctrl-C to interupt update and directly open `sfeed_curses` without updating.
 ```bash
 #!/bin/sh
 
@@ -164,8 +185,12 @@ export SFEED_URL_FILE="$HOME/rss/urls"
 sfeed_curses $HOME/rss/news/feeds/*
 ```
 
-## youtube-update
-Update YouTube feeds and open sfeed_curses, show only unwatched:
+### youtube-update
+Update YouTube feeds and open sfeed_curses, show only unwatched.
+Same thing as in [news-update](#news-update) above,
+you can remove `sfeed_update` if you don't want to update your feed when you launch this script,
+or you can use Ctrl-C to interupt update and directly open `sfeed_curses` without updating.
+
 ```bash
 #!/bin/sh
 
