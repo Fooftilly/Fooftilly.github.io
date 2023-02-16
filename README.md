@@ -7,6 +7,7 @@ Theme by [Fabien Casters](https://vaga.io/) - [Hugo Theme m10c](https://github.c
 - github-buttons · [isqua/hugo-shortcodes](https://github.com/isqua/hugo-shortcodes/blob/main/themes/hugo-shortcodes/layouts/shortcodes/github-button.html) ([Under MIT License](https://github.com/isqua/hugo-shortcodes/blob/main/LICENSE))
 - blockquote · [parsiya/Hugo-Shortcodes](https://github.com/parsiya/Hugo-Shortcodes/blob/master/shortcodes/blockquote.html) ([Under MIT License](https://github.com/parsiya/Hugo-Shortcodes/blob/master/LICENSE))
 - giscus · [cdwilson/hugo-coder](https://github.com/cdwilson/hugo-coder/blob/cb3a96da89ef939079b2b66f2e0c2399830f96be/layouts/partials/posts/giscus.html) ([Under MIT License](https://github.com/cdwilson/hugo-coder/blob/main/LICENSE.md))
+- hugo-cloak-email · [martignoni/hugo-cloak-email](https://github.com/martignoni/hugo-cloak-email) ([Under GPL-3.0 license](https://github.com/martignoni/hugo-cloak-email/blob/master/LICENSE))
 
 # License
 My posts are licensed under a
