@@ -1,7 +1,7 @@
 baseURL = 'https://www.peroniko.xyz/'
 languageCode = 'en-us'
 title = "Nikola Perović"
-theme = ["hugo-cloak-email", "m10c"]
+theme = ["hugo-cloak-email", "hugo-cite", "m10c"]
 paginate = 8
 
 [menu]

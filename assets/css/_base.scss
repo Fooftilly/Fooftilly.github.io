@@ -55,13 +55,23 @@ header p {
     padding-right: 1em;
   }
 
-  header p {
+header p {
     padding: 0; /* no padding for p elements inside header */
     text-align: center; /* center text for p elements inside header */
   }
 }
 
+.highlight {
+  padding: 1em; /* default padding */
+  padding-left: 0em; /* extra padding on the left */
+  padding-right: 8em; /* extra padding on the right */
+}
 
+.gist {
+  padding: 1em; /* default padding */
+  padding-left: 0em; /* extra padding on the left */
+  padding-right: 8em; /* extra padding on the right */
+}
 
 a {
   color: $primary-color;

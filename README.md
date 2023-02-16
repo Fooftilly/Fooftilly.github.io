@@ -4,8 +4,7 @@ This website is built in [Hugo](https://gohugo.io/) and hosted on [Github Pages]
 Theme by [Fabien Casters](https://vaga.io/) - [Hugo Theme m10c](https://github.com/vaga/hugo-theme-m10c) ([Distrubuted under the MIT license](https://github.com/vaga/hugo-theme-m10c/blob/master/LICENSE.md))\
 
 # Shortcodes
-- github-buttons · [isqua/hugo-shortcodes](https://github.com/isqua/hugo-shortcodes/blob/main/themes/hugo-shortcodes/layouts/shortcodes/github-button.html) ([Under MIT License](https://github.com/isqua/hugo-shortcodes/blob/main/LICENSE))
-- blockquote · [parsiya/Hugo-Shortcodes](https://github.com/parsiya/Hugo-Shortcodes/blob/master/shortcodes/blockquote.html) ([Under MIT License](https://github.com/parsiya/Hugo-Shortcodes/blob/master/LICENSE))
+- hugo-cite · [loup-brun/hugo-cite](https://github.com/loup-brun/hugo-cite) ([Under WTFPL License](https://github.com/loup-brun/hugo-cite/blob/master/LICENSE))
 - giscus · [cdwilson/hugo-coder](https://github.com/cdwilson/hugo-coder/blob/cb3a96da89ef939079b2b66f2e0c2399830f96be/layouts/partials/posts/giscus.html) ([Under MIT License](https://github.com/cdwilson/hugo-coder/blob/main/LICENSE.md))
 - hugo-cloak-email · [martignoni/hugo-cloak-email](https://github.com/martignoni/hugo-cloak-email) ([Under GPL-3.0 license](https://github.com/martignoni/hugo-cloak-email/blob/master/LICENSE))
 

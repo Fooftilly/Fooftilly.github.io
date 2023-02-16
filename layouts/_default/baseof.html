@@ -11,6 +11,7 @@
     <meta name="description" content="{{ if .IsHome }}{{ .Site.Params.description }}{{ else }}{{ .Description }}{{ end }}" />
     {{ $style := resources.Get "css/main.scss" | resources.ExecuteAsTemplate "css/main.scss" . | resources.ToCSS | resources.Minify | resources.Fingerprint -}}
     <link rel="stylesheet" href="{{ $style.RelPermalink }}" />
+    <link rel="stylesheet" type="text/css" href="{{ "/hugo-cite.css" | relURL }}" />
 
     {{ if .Site.Params.GoogleAnalyticsID }}
     {{ partial "analytics-gtag.html" . }}
