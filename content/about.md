@@ -2,7 +2,10 @@
 title: "About"
 ---
 
-# My Personal Website
+My personal website. Made by me.
+{{< cloakemail address="nikolaperovicccc@gmail.com" display="Click here to send me an email!" query="subject=Peroniko: Mail contact from website" >}}
+
+
 
 This website is built in [Hugo](https://gohugo.io/) and hosted on [Github Pages](https://pages.github.com/).\
 Here is the [Github Repo](https://github.com/Fooftilly/Fooftilly.github.io), if you want to look at the code.\
