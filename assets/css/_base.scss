@@ -73,6 +73,10 @@ header p {
   padding-right: 8em; /* extra padding on the right */
 }
 
+.app-header-social {
+  font-size: 1.8em !important;
+}
+
 a {
   color: $primary-color;
   transition: color 0.35s;

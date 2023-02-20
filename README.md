@@ -2,6 +2,7 @@
 
 This website is built in [Hugo](https://gohugo.io/) and hosted on [Github Pages](https://pages.github.com/).\
 Theme by [Fabien Casters](https://vaga.io/) - [Hugo Theme m10c](https://github.com/vaga/hugo-theme-m10c) ([Distrubuted under the MIT license](https://github.com/vaga/hugo-theme-m10c/blob/master/LICENSE.md))\
+Featured image is an adaptaion of [Attributes of Art and Illustration](https://www.oldbookillustrations.com/illustrations/attributes-art-illustration/) ([Under CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/))
 
 # Shortcodes
 - hugo-cite · [loup-brun/hugo-cite](https://github.com/loup-brun/hugo-cite) ([Under WTFPL License](https://github.com/loup-brun/hugo-cite/blob/master/LICENSE))

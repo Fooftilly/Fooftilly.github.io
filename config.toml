@@ -3,6 +3,7 @@ languageCode = 'en-us'
 title = "Nikola Perović"
 theme = ["hugo-cloak-email", "hugo-cite", "m10c"]
 paginate = 8
+canonifyURLs = true
 
 [menu]
   [[menu.main]]
@@ -32,8 +33,9 @@ paginate = 8
   # Author
   author = "Nikola Perović"
   # Description
-  description = "Personal Website"
+  description = "This is my personal website. I am currently a philosophy student. Other than philosophy, my interests are Linux and FOSS, film and film tradition, and literature."
   image="/avatar.webp"
+  images=["/featured.svg"]
   # Social links
   [[params.social]]
     icon = "github"
@@ -51,6 +53,10 @@ paginate = 8
     icon = "youtube"
     name = "Youtube"
     url = "https://www.youtube.com/channel/UC94TNPxReYOsZculkHjyS0Q"
+  [[params.social]]
+    icon = "instagram"
+    name = "Instagram"
+    url = "https://www.instagram.com/GregoryKentch/"
   [[params.social]]
     icon = "letterboxd"
     name = "Letterboxd"
