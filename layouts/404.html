@@ -1,0 +1,12 @@
+{{ define "main" }}
+  <div class="error-404">
+    <h1 class="error-404-title"> No track nor trail leadeth to this spot. </h1>
+    <p style="padding-right: 1em;text-align: center;">Oh, wretched misfortune! Thou hast been waylaid by a treacherous band of 404 errors!
+    <p style="padding-right: 1em;text-align: center;">Alas, it seems the page you were seeking has been lost in the wilderness of the internet. But fear not, for we shall not abandon you in this quest. Let us help you navigate through the labyrinthine paths of our website to find what you seek.</p>
+
+<p style="padding-right: 1em;text-align: center;">In the meantime, we suggest checking your spelling. Alternatively, you may wish to explore our homepage or browse through our categories to discover something new and exciting.</p>
+
+<p style="padding-right: 1em;text-align: center;">We apologize for any inconvenience caused by these mischievous 404 errors.</p>
+    <a href="{{ "/" | relURL }}">Make thy way back to thy abode, and tarry not on the road! {{ partial "icon.html" (dict "ctx" $ "name" "arrow-right") }}</a>
+  </div>
+{{ end }}

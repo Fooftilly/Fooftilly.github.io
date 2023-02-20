@@ -68,7 +68,7 @@ canonifyURLs = true
   [[params.social]]
     icon = "rss"
     name = "RSS"
-    url = "index.xml"
+    url = "https://www.peroniko.xyz/index.xml"
   # Default theme
   [params.style]
     darkestColor = "#242930"

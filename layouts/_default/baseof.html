@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="{{ .Site.Params.author | default "Nikola Perović" }}" />
     {{ $style := resources.Get "css/main.scss" | resources.ExecuteAsTemplate "css/main.scss" . | resources.ToCSS | resources.Minify | resources.Fingerprint -}}
-    <link rel="canonical" href="{{ .Permalink }}" itemprop="url" />
+    <link rel="canonical" href="{{ .Permalink }}" />
     <link rel="stylesheet" href="{{ $style.RelPermalink }}" />
     <link rel="stylesheet" type="text/css" href="{{ "/hugo-cite.css" | relURL }}" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
