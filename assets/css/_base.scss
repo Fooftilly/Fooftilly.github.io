@@ -59,6 +59,10 @@ header p {
     padding: 0; /* no padding for p elements inside header */
     text-align: center; /* center text for p elements inside header */
   }
+.highlight, .gist {
+    padding-left: 0em !important; /* no padding on the left */
+    padding-right: 0em !important; /* no padding on the right */
+  }
 }
 
 .highlight {
