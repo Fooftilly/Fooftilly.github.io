@@ -5,11 +5,13 @@ Theme by [Fabien Casters](https://vaga.io/) - [Hugo Theme m10c](https://github.c
 Featured image is an adaptaion of [Attributes of Art and Illustration](https://www.oldbookillustrations.com/illustrations/attributes-art-illustration/) ([Under CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/))
 
 # Shortcodes
+
 - hugo-cite · [loup-brun/hugo-cite](https://github.com/loup-brun/hugo-cite) ([Under WTFPL License](https://github.com/loup-brun/hugo-cite/blob/master/LICENSE))
 - giscus · [cdwilson/hugo-coder](https://github.com/cdwilson/hugo-coder/blob/cb3a96da89ef939079b2b66f2e0c2399830f96be/layouts/partials/posts/giscus.html) ([Under MIT License](https://github.com/cdwilson/hugo-coder/blob/main/LICENSE.md))
 - hugo-cloak-email · [martignoni/hugo-cloak-email](https://github.com/martignoni/hugo-cloak-email) ([Under GPL-3.0 license](https://github.com/martignoni/hugo-cloak-email/blob/master/LICENSE))
 
 # License
+
 My posts are licensed under a
 [Creative Commons Attribution-ShareAlike 4.0 International License][cc-by-sa].
 

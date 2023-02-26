@@ -2,7 +2,7 @@
 title: "My RSS setup with Sfeed"
 date: 2023-02-14
 lastmod: 2023-02-15
-tags: ["RSS","Sfeed","News","YouTube"]
+tags: ["RSS", "Sfeed", "News", "YouTube"]
 ---
 
 Although not widely utilized today by everyday people,
@@ -18,10 +18,13 @@ This setup is targeted for Linux users,
 but you could probably incorporate it on Windows with some tweaking.
 Instruction on how to download Sfeed are available [here](https://codemadness.org/sfeed-simple-feed-parser.html).
 If you just want to clone it you can use
+
 ```shell
 git clone git://git.codemadness.org/sfeed
 ```
+
 or if you use AUR helper you can download it with
+
 ```shell
 yay -S sfeed
 ```
@@ -30,8 +33,8 @@ If you don't want to edit source files,
 you should probably download Sfeed from AUR,
 or use someting like `nix-shell` or `distrobox` if you are not or Arch-based distro.
 
-
 ## Setting up Sfeed
+
 Since I want to keep my YouTube and news feeds separate,
 I created a folder named `rss` in my home folder and add subfolders `news` and `youtube` into it.
 Sfeed saves read items in a plain text file that can be specified.
@@ -41,6 +44,7 @@ I created `urls` and `urls-youtube` files within the `rss` folder.
 Inside `news` and `youtube` folder you should create `sfeedrc` file.
 This file stores configurations and list of feeds.
 An example of minimal sfeedrc:
+
 ```bash
 #sfeedpath="$HOME/.sfeed/feeds"
 
@@ -50,14 +54,15 @@ feeds() {
 	feed "Peroniko" "https://www.peroniko.xyz/index.xml"
 }
 ```
+
 Edit the `sfeedpath` variable to `$HOME/rss/news/feeds` in the `sfeedrc` file in the `news` folder, and in the `sfeedrc` file in the `youtube` folder, change `$HOME/.sfeed/feeds` to `$HOME/rss/youtube/feeds/`.
 
 Sfeed allows flexible folder structure and save location. Edit the `sfeedpath` variable to the preferred path and remove the comment (#) to change to that location.
 For more customization,
 you should check out [Sfeed README file](https://codemadness.org/git/sfeed/file/README.html).
 
-
 ## News
+
 It is very easy to find RSS feeds for news.
 If the website has an RSS feed,
 extension like
@@ -75,9 +80,8 @@ you can use `sfeed_curses` to view those feeds.
 Alternatively,
 you could use [news-update](#news-update) script I have provided in the [Scripts](#useful-rss-scripts)
 
-
-
 ## YouTube
+
 There are a few steps you need to do before you will be able to import YouTube subscriptions into Sfeed.
 YouTube doesn't have an easy way to export subscriptions because they removed it.
 Instead,
@@ -113,15 +117,19 @@ page directly.
 Now that you have `youtubeSubscriptions.opml` you need to import it into Sfeed.
 Sfeed has `sfeed_opml_command` that you could use to achieve this.
 Simply do
+
 ```bash
 sfeed_opml_import < path/to/youtubeSubscriptions.opml > "$HOME/rss/youtube/sfeedrc"
 ```
+
 This option,
 howerver,
 doesn't preserve the `sfeedpath` we changed to non-default one.
 Because of that,
 you could use this script ([import_youtube](#import_youtube)) to preserve `sfeedpath` every time you update your subscriptions.
+
 ### import_youtube
+
 ```bash
 #!/bin/sh
 
@@ -140,11 +148,14 @@ sfeed_opml_import < "$1" > $HOME/rss/youtube/sfeedrc
 # Fix path for youtube
 sed -i '1s/^#sfeedpath=.*/sfeedpath="$HOME\/rss\/youtube"/' $HOME/rss/youtube/sfeedrc
 ```
+
 Just set up your path in the script and then you could export YouTube subscriptions without a need to change `sfeedpath` every time.
 Simply run `import_youtube` in shell:
+
 ```bash
 import_youtube "/path/to/youtubeSubscriptions.opml"
 ```
+
 You could also add all your RSS script to global $PATH.
 
 Now that you have imported your YouTube subscriptions,
@@ -153,6 +164,7 @@ You could manually update them with `sfeed_update`,
 or you could use [youtube-update](#youtube-update) script I have provided in the [Scripts](#useful-rss-scripts)
 
 ## Useful RSS Scripts
+
 Here is a list of useful scripts that for RSS.
 If you want to use them,
 create a folder scripts inside the rss folder.
@@ -161,11 +173,12 @@ If they are not in path you would need to run them with `./` prefix (eg. ./news-
 If you want them to be available globally,
 you will need to add them to $PATH.
 
-
 ### news-update
+
 Update news feeds and open sfeed_curses, show only unread.
 You can remove `sfeed_update` if you don't want to update your feed when you launch this script,
 or you can use Ctrl-C to interupt update and directly open `sfeed_curses` without updating.
+
 ```bash
 #!/bin/sh
 
@@ -178,6 +191,7 @@ sfeed_curses $HOME/rss/news/feeds/*
 ```
 
 ### youtube-update
+
 Update YouTube feeds and open sfeed_curses, show only unwatched.
 Same thing as in [news-update](#news-update) above,
 you can remove `sfeed_update` if you don't want to update your feed when you launch this script,
@@ -195,8 +209,11 @@ sfeed_curses $HOME/rss/youtube/feeds/*
 ```
 
 ## Automatically update RSS
+
 You could use this script to manually update RSS feeds.
+
 ### newsup
+
 ```bash
 #!/bin/sh
 
@@ -221,7 +238,9 @@ done
 ```
 
 ### unread
+
 Count unread and send notification.
+
 ```bash
 #!/bin/sh
 
@@ -277,6 +296,7 @@ END {
 ```
 
 ### runner.py
+
 You can use this script to run the `newsup` script at the top of every hour automatically.
 To do so,
 add `runner.py` to something that will run it at startup,

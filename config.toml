@@ -6,76 +6,76 @@ paginate = 8
 canonifyURLs = true
 
 [menu]
-  [[menu.main]]
-    identifier = "home"
-    name = "Home"
-    url = "/"
-    weight = 1
-  [[menu.main]]
-    identifier = "tags"
-    name = "Tags"
-    url = "/tags/"
-    weight = 2
-  [[menu.main]]
-    identifier = "about"
-    name = "About"
-    url = "/about/"
-    weight = 3
+[[menu.main]]
+identifier = "home"
+name = "Home"
+url = "/"
+weight = 1
+[[menu.main]]
+identifier = "tags"
+name = "Tags"
+url = "/tags/"
+weight = 2
+[[menu.main]]
+identifier = "about"
+name = "About"
+url = "/about/"
+weight = 3
 
 [params]
-  favicon = "/favicon.svg"
-  avatar = "/avatar.webp"
-  menu_item_separator = "·"
-  stylesheet = "/style.css"
-  indexarticles = 10
-  taglist = true
-  googleAnalyticsID = "G-7XL7CEV7EW"
-  # Author
-  author = "Nikola Perović"
-  # Description
-  description = "This is my personal website. I am currently a philosophy student. Other than philosophy, my interests are Linux and FOSS, film and film tradition, and literature."
-  image="/avatar.webp"
-  images=["/featured.svg"]
-  # Social links
-  [[params.social]]
-    icon = "github"
-    name = "Github"
-    url = "https://github.com/Fooftilly"
-  [[params.social]]
-    icon = "twitter"
-    name = "Twitter"
-    url = "https://twitter.com/GregoryKentch"
-  [[params.social]]
-    icon = "tiktok"
-    name = "TikTok"
-    url = "https://www.tiktok.com/@fooftilly"
-  [[params.social]]
-    icon = "youtube"
-    name = "Youtube"
-    url = "https://www.youtube.com/channel/UC94TNPxReYOsZculkHjyS0Q"
-  [[params.social]]
-    icon = "instagram"
-    name = "Instagram"
-    url = "https://www.instagram.com/GregoryKentch/"
-  [[params.social]]
-    icon = "letterboxd"
-    name = "Letterboxd"
-    url = "https://letterboxd.com/Fooftilly"
-  [[params.social]]
-    icon = "trakt"
-    name = "Trakt"
-    url = "https://trakt.tv/users/cobe10"
-  [[params.social]]
-    icon = "rss"
-    name = "RSS"
-    url = "https://www.peroniko.xyz/index.xml"
-  # Default theme
-  [params.style]
-    darkestColor = "#242930"
-    darkColor = "#353b43"
-    lightColor = "#fae3bb"
-    lightestColor = "#f3cc2c"
-    primaryColor = "#a59eca"
+favicon = "/favicon.svg"
+avatar = "/avatar.webp"
+menu_item_separator = "·"
+stylesheet = "/style.css"
+indexarticles = 10
+taglist = true
+googleAnalyticsID = "G-7XL7CEV7EW"
+# Author
+author = "Nikola Perović"
+# Description
+description = "This is my personal website. I am currently a philosophy student. Other than philosophy, my interests are Linux and FOSS, film and film tradition, and literature."
+image = "/avatar.webp"
+images = ["/featured.svg"]
+# Social links
+[[params.social]]
+icon = "github"
+name = "Github"
+url = "https://github.com/Fooftilly"
+[[params.social]]
+icon = "twitter"
+name = "Twitter"
+url = "https://twitter.com/GregoryKentch"
+[[params.social]]
+icon = "tiktok"
+name = "TikTok"
+url = "https://www.tiktok.com/@fooftilly"
+[[params.social]]
+icon = "youtube"
+name = "Youtube"
+url = "https://www.youtube.com/channel/UC94TNPxReYOsZculkHjyS0Q"
+[[params.social]]
+icon = "instagram"
+name = "Instagram"
+url = "https://www.instagram.com/GregoryKentch/"
+[[params.social]]
+icon = "letterboxd"
+name = "Letterboxd"
+url = "https://letterboxd.com/Fooftilly"
+[[params.social]]
+icon = "trakt"
+name = "Trakt"
+url = "https://trakt.tv/users/cobe10"
+[[params.social]]
+icon = "rss"
+name = "RSS"
+url = "https://www.peroniko.xyz/index.xml"
+# Default theme
+[params.style]
+darkestColor = "#242930"
+darkColor = "#353b43"
+lightColor = "#fae3bb"
+lightestColor = "#f3cc2c"
+primaryColor = "#a59eca"
 
 [params.giscus]
 repo = "Fooftilly/Fooftilly.github.io"
@@ -92,6 +92,6 @@ loading = "lazy"
 
 
 [sitemap]
-  changefreq = 'always'
-  filename = 'sitemap.xml'
-  priority = 0.5
+changefreq = 'always'
+filename = 'sitemap.xml'
+priority = 0.5

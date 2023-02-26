@@ -2,7 +2,7 @@
 title: "How to Download Latest Release of a Package from Gitlab"
 date: 2023-02-16
 lastmod: 2023-02-16
-tags: ["Git","Gitlab","GitHub"]
+tags: ["Git", "Gitlab", "GitHub"]
 ---
 
 Gitlab currently lacks a convenient option to download the most recent package from a repository,
@@ -16,6 +16,7 @@ Here is the simple script that download latest package.
 To execute this script successfully,
 it is necessary to customize `<GITLAB_PROJECT_ID>` and `<GITLAB_PROJECT_RELEASE_FILE>`.
 The `<GITLAB_PROJECT_ID>` can be found by examining the page source and searching for:
+
 ```html
 <input type="hidden" name="project_id" id="project_id" value= />
 ```
