@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ .Site.LanguageCode | default "en-us" }}">
+<html lang="{{ .Site.LanguageCode | default "en" }}">
   <head>
     <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} // {{ .Site.Title }}{{ end }}</title>
     <link rel="shortcut icon" href="{{ .Site.Params.favicon | default "/favicon.ico" }}" />
@@ -7,10 +7,19 @@
     {{ hugo.Generator }}
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="{{ .Site.Params.author | default "Nikola Perović" }}" />
+    {{ if .Description }}
+    <meta name="description" content="{{ .Description }}">
+    {{ else if .IsPage }}
+    <meta name="description" content="{{ .Summary | plainify }}">
+    {{ else }}
+    <meta name="description" content="{{.Description | default .Site.Params.Description}}">
+    {{ end }}
+
     {{ $style := resources.Get "css/main.scss" | resources.ExecuteAsTemplate "css/main.scss" . | resources.ToCSS | resources.Minify | resources.Fingerprint -}}
     <link rel="canonical" href="{{ .Permalink }}" />
     <link rel="stylesheet" href="{{ $style.RelPermalink }}" />
     <link rel="stylesheet" type="text/css" href="{{ "/hugo-cite.css" | relURL }}" />
+
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-precomposed.png" />
     <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png" />
@@ -31,7 +40,6 @@
     <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144-precomposed.png" />
     <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152-precomposed.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180-precomposed.png" />
-
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="194x194" href="/favicon-194x194.png">
     <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
@@ -53,6 +61,7 @@
 {{ range .AlternativeOutputFormats -}}
     {{ printf `<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .Permalink $.Site.Title | safeHTML }}
 {{ end -}}
+
   </head>
   <body>
     <header class="app-header">

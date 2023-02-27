@@ -1,5 +1,5 @@
 baseURL = 'https://www.peroniko.xyz/'
-languageCode = 'en-us'
+languageCode = 'en'
 title = "Nikola Perović"
 theme = ["hugo-cloak-email", "hugo-cite", "m10c"]
 paginate = 8
@@ -90,6 +90,8 @@ theme = "dark_dimmed"
 lang = "en"
 loading = "lazy"
 
+[social]
+twitter = 'GregoryKentch'
 
 [sitemap]
 changefreq = 'always'
