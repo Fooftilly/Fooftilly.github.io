@@ -1,7 +1,7 @@
 ---
 title: "My RSS setup with Sfeed"
 date: 2023-02-14
-lastmod: 2023-02-15
+lastmod: 2023-02-27
 tags: ["RSS", "Sfeed", "News", "YouTube"]
 ---
 
@@ -14,8 +14,13 @@ Personally,
 I appreciate the fact that YouTube incorporates RSS,
 even though it is not advertised and accessing it requires a few extra steps to export subscriptions to the RSS suitable format.
 
-This setup is targeted for Linux users,
-but you could probably incorporate it on Windows with some tweaking.
+Although this setup is designed for Linux users,
+it's possible to adapt it for Windows with some tweaking at your end.
+If you had experience with RSS and Linux over the last few years,
+you've likely heard that Newsboat is the go-to lightweight RSS reader.
+While Newsboat is a reliable choice,
+I personally believe that Sfeed is more versatile and superior.
+
 Instruction on how to download Sfeed are available [here](https://codemadness.org/sfeed-simple-feed-parser.html).
 If you just want to clone it you can use
 
