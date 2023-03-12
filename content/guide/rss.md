@@ -151,7 +151,7 @@ fi
 sfeed_opml_import < "$1" > $HOME/rss/youtube/sfeedrc
 
 # Fix path for youtube
-sed -i '1s/^#sfeedpath=.*/sfeedpath="$HOME\/rss\/youtube"/' $HOME/rss/youtube/sfeedrc
+sed -i '1s/^#sfeedpath=.*/sfeedpath="$HOME\/rss\/youtube\/feeds"/' $HOME/rss/youtube/sfeedrc
 ```
 
 Just set up your path in the script and then you could export YouTube subscriptions without a need to change `sfeedpath` every time.
