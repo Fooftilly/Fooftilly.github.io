@@ -68,7 +68,7 @@ you should check out [Sfeed README file](https://codemadness.org/git/sfeed/file/
 
 ## News
 
-It is very easy to find RSS feeds for news.
+It is easy to find RSS feeds for news.
 If the website has an RSS feed,
 extension like
 [Feed Preview for Firefox](https://addons.mozilla.org/en-US/firefox/addon/feed-preview/)
@@ -128,7 +128,7 @@ sfeed_opml_import < path/to/youtubeSubscriptions.opml > "$HOME/rss/youtube/sfeed
 ```
 
 This option,
-howerver,
+however,
 doesn't preserve the `sfeedpath` we changed to non-default one.
 Because of that,
 you could use this script ([import_youtube](#import_youtube)) to preserve `sfeedpath` every time you update your subscriptions.
@@ -172,7 +172,7 @@ or you could use [youtube-update](#youtube-update) script I have provided in the
 
 Here is a list of useful scripts that for RSS.
 If you want to use them,
-create a folder scripts inside the rss folder.
+create a folder scripts inside the `rss` folder.
 Don't forget to make them executable with `chmod +x`
 If they are not in path you would need to run them with `./` prefix (eg. ./news-update) from the folder they are in.
 If you want them to be available globally,

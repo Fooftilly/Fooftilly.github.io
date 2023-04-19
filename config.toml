@@ -42,21 +42,9 @@ icon = "github"
 name = "Github"
 url = "https://github.com/Fooftilly"
 [[params.social]]
-icon = "twitter"
-name = "Twitter"
-url = "https://twitter.com/GregoryKentch"
-[[params.social]]
-icon = "tiktok"
-name = "TikTok"
-url = "https://www.tiktok.com/@fooftilly"
-[[params.social]]
 icon = "youtube"
 name = "Youtube"
 url = "https://www.youtube.com/channel/UC94TNPxReYOsZculkHjyS0Q"
-[[params.social]]
-icon = "instagram"
-name = "Instagram"
-url = "https://www.instagram.com/GregoryKentch/"
 [[params.social]]
 icon = "letterboxd"
 name = "Letterboxd"

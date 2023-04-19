@@ -5,12 +5,10 @@ title: "About"
 My personal website. Made by me.
 {{< cloakemail address="nikolaperovicccc@gmail.com" display="Click here to send me an email!" query="subject=Peroniko: Mail contact from website" >}}
 
-
-
 This website is built in [Hugo](https://gohugo.io/) and hosted on [Github Pages](https://pages.github.com/).\
 Here is the [Github Repo](https://github.com/Fooftilly/Fooftilly.github.io), if you want to look at the code.\
-Theme by [Fabien Casters](https://vaga.io/) - [Hugo Theme m10c](https://github.com/vaga/hugo-theme-m10c) ([Distrubuted under the MIT license](https://github.com/vaga/hugo-theme-m10c/blob/master/LICENSE.md)).\
-Featured image is an adaptaion of [Attributes of Art and Illustration](https://www.oldbookillustrations.com/illustrations/attributes-art-illustration/) ([Under CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)).
+Theme by [Fabien Casters](https://vaga.io/) - [Hugo Theme m10c](https://github.com/vaga/hugo-theme-m10c) ([Distributed under the MIT license](https://github.com/vaga/hugo-theme-m10c/blob/master/LICENSE.md)).\
+Featured image is an adaptation of [Attributes of Art and Illustration](https://www.oldbookillustrations.com/illustrations/attributes-art-illustration/) ([Under CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)).
 
 My posts are licensed under a
 [Creative Commons Attribution-ShareAlike 4.0 International License][cc-by-sa].
