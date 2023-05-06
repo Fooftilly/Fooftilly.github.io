@@ -33,7 +33,7 @@ googleAnalyticsID = "G-7XL7CEV7EW"
 # Author
 author = "Nikola Perović"
 # Description
-description = "This is my personal website. I am currently a philosophy student. Other than philosophy, my interests are Linux and FOSS, film and film tradition, and literature."
+description = "This is my website where I talk about stuff I'm into. Right now, I'm studying philosophy, but I'm also really interested in Linux and FOSS, film and its history, and literature."
 image = "/avatar.webp"
 images = ["/featured.svg"]
 # Social links
@@ -53,6 +53,10 @@ url = "https://letterboxd.com/Fooftilly"
 icon = "trakt"
 name = "Trakt"
 url = "https://trakt.tv/users/cobe10"
+[[params.social]]
+icon = "music"
+name = "RateYourMusic"
+url = "https://rateyourmusic.com/~Fooftilly"
 [[params.social]]
 icon = "rss"
 name = "RSS"

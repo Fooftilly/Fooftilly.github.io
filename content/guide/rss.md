@@ -2,7 +2,7 @@
 title: "My RSS setup with Sfeed"
 date: 2023-02-14
 lastmod: 2023-02-27
-tags: ["RSS", "Sfeed", "News", "YouTube"]
+tags: ["RSS","Sfeed","News","YouTube","Newsboat"]
 ---
 
 Although not widely utilized today by everyday people,

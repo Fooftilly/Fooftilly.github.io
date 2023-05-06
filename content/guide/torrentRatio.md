@@ -2,7 +2,7 @@
 title: "Simple Torrent Ratio Calculator"
 date: 2023-02-26
 lastmod: 2023-02-26
-tags: ["Torrent", "Ratio"]
+tags: ["Torrent", "Ratio","Calculator"]
 ---
 
 ## Online Ratio Calculator
