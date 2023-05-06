@@ -37,7 +37,7 @@ as each line can be compared independently,
 allowing for a more thorough analysis of changes than if the entire paragraph were written on a single line.
 I also do this for these blog posts,
 they are all written in Markdown,
-and You can see the concept [here]().
+and You can see the concept [here](https://github.com/Fooftilly/Fooftilly.github.io/blob/master/content/opinion/latex-markdown.md).
 
 Markdown is not only useful for technical writing but also a valuable tool for generating throwaway text.
 I often use it for writing learning materials for exams or anything that I simply need to print,
