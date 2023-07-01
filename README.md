@@ -7,7 +7,6 @@ Language icon by Onur Müştak Çobanlı and Farhat Datta from [languageicon.org
 
 # Shortcodes
 
-- hugo-cite · [loup-brun/hugo-cite](https://github.com/loup-brun/hugo-cite) ([Under WTFPL License](https://github.com/loup-brun/hugo-cite/blob/master/LICENSE))
 - giscus · [cdwilson/hugo-coder](https://github.com/cdwilson/hugo-coder/blob/cb3a96da89ef939079b2b66f2e0c2399830f96be/layouts/partials/posts/giscus.html) ([Under MIT License](https://github.com/cdwilson/hugo-coder/blob/main/LICENSE.md))
 - hugo-cloak-email · [martignoni/hugo-cloak-email](https://github.com/martignoni/hugo-cloak-email) ([Under GPL-3.0 license](https://github.com/martignoni/hugo-cloak-email/blob/master/LICENSE))
 

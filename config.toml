@@ -2,7 +2,7 @@ baseURL = 'https://www.peroniko.xyz/'
 languageCode = 'en'
 defaultContentLanguage = 'en'
 title = "Nikola Perović"
-theme = ["hugo-cloak-email", "m10c"]
+theme = ["hugo-cloak-email", "m10c", "hugo-citation"]
 paginate = 8
 canonifyURLs = true
 
