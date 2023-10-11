@@ -56,7 +56,7 @@ googleAnalyticsID = "G-7XL7CEV7EW"
 # Author
 author = "Nikola Perović"
 # Description
-description = "This is my website where I talk about stuff I'm into. Right now, I'm studying philosophy, but I'm also really interested in Linux and FOSS, film and its history, literature and music."
+description = "Personal website"
 image = "/avatar.webp"
 images = ["/featured.svg"]
 # Social links

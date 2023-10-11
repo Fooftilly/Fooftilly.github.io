@@ -15,7 +15,7 @@ Here is the simple script that download latest package.
 
 To execute this script successfully,
 it is necessary to customize `<GITLAB_PROJECT_ID>` and `<GITLAB_PROJECT_RELEASE_FILE>`.
-The `<GITLAB_PROJECT_ID>` can be found by examining the page source and searching for:
+The `<GITLAB_PROJECT_ID>` can be found by examining the page source of Gitlab repository and searching for:
 
 ```html
 <input type="hidden" name="project_id" id="project_id" value= />
