@@ -1,0 +1,197 @@
+baseURL: "https://www.peroniko.xyz/"
+title: Nikola Perović
+paginate: 5
+theme:
+  - hugo-PaperMod
+  - hugo-cloak-email
+  - hugo-citation
+
+enableInlineShortcodes: true
+enableRobotsTXT: true
+buildDrafts: false
+buildFuture: false
+buildExpired: false
+enableEmoji: true
+pygmentsUseClasses: true
+googleAnalytics: G-7XL7CEV7EW
+
+minify:
+    disableXML: true
+    # minifyOutput: true
+
+languages:
+    en:
+        languageName: "English"
+        weight: 1
+        taxonomies:
+          category: categories
+          tag: tags
+          series: series
+        menu:
+            main:
+                - name: Posts
+                  url: posts
+                  weight: 5
+                - name: Search
+                  url: search/
+                  weight: 10
+                - name: Tags
+                  url: tags/
+                  weight: 10
+
+    sr:
+        languageName: "Srpski"
+        languageAltTitle: Serbian
+        weight: 2
+        title: Nikola Perović
+        taxonomies:
+          tag: SRtags
+        profileMode:
+            enabled: true
+            title: Nikola Perović
+            imageUrl: "avatar.webp"
+            imageTitle: Avatar
+            # imageWidth: 120
+            # imageHeight: 120
+            subtitle: ""
+            buttons:
+                - name: Objave
+                  url: posts
+        menu:
+            main:
+                - name: Objave
+                  url: posts
+                  weight: 5
+                - name: Pretraga
+                  url: /search
+                  weight: 10
+                - name: Tags
+                  url: /tags
+                  weight: 10
+
+
+outputs:
+    home:
+        - HTML
+        - RSS
+        - JSON
+
+params:
+    env: production # to enable google analytics, opengraph, twitter-cards and schema.
+    description: "Personal Website"
+    author: Nikola Perović
+
+    defaultTheme: auto
+    # disableThemeToggle: true
+    ShowShareButtons: true
+    ShowReadingTime: true
+    # disableSpecial1stPost: true
+    displayFullLangName: true
+    ShowPostNavLinks: true
+    ShowBreadCrumbs: true
+    ShowCodeCopyButtons: true
+    ShowRssButtonInSectionTermList: true
+    ShowToc: true
+    ShowWordCount: true
+    comments: true
+    images: ["featured.svg"]
+
+    profileMode:
+        enabled: true
+        title: Nikola Perović
+        imageUrl: "avatar.webp"
+        imageTitle: Avatar
+        # imageWidth: 120
+        # imageHeight: 120
+        buttons:
+            - name: Posts
+              url: /posts
+
+    homeInfoParams:
+        Title: "Nikola Perović"
+        Content:
+
+    socialIcons:
+        - name: github
+          url: "https://github.com/Fooftilly"
+        - name: letterboxd
+          url: "https://letterboxd.com/Fooftilly"
+        - name: trakt
+          url: "https://trakt.tv/users/cobe10"
+        - name: RateYourMusic
+          url: "https://rateyourmusic.com/~Fooftilly"
+        - name: RSS
+          url: "index.xml"
+
+    editPost:
+        URL: "https://github.com/Fooftilly/Fooftilly.github.io/tree/master/content"
+        Text: "🖍️" # edit text
+        appendFilePath: true # to append file path to Edit link
+
+    label:
+        text: "Nikola Perović"
+        icon: favicon.svg
+        iconHeight: 35
+
+    # analytics:
+    #     google:
+    #         SiteVerificationTag: "XYZabc"
+
+    assets:
+        disableHLJS: true
+        favicon: "favicon.svg"
+        favicon16x16: "favicon-16x16.png"
+        favicon32x32: "favicon-32x32.png"
+        apple_touch_icon: "apple-touch-icon.png"
+        safari_pinned_tab: "safari-pinned-tab.svg"
+
+    # cover:
+    #     hidden: true # hide everywhere but not in structured data
+    #     hiddenInList: true # hide on list pages and home
+    #     hiddenInSingle: true # hide on single page
+
+    # fuseOpts:
+    #     isCaseSensitive: false
+    #     shouldSort: true
+    #     location: 0
+    #     distance: 1000
+    #     threshold: 0.4
+    #     minMatchCharLength: 0
+    #     limit: 10 # refer: https://www.fusejs.io/api/methods.html#search
+    #     keys: ["title", "permalink", "summary", "content"]
+
+markup:
+    goldmark:
+        renderer:
+            unsafe: true
+    highlight:
+        noClasses: false
+        # anchorLineNos: true
+        # codeFences: true
+        # guessSyntax: true
+        # lineNos: true
+        # style: monokai
+
+privacy:
+    vimeo:
+        disabled: false
+        simple: true
+
+    twitter:
+        disabled: false
+        enableDNT: true
+        simple: true
+
+    instagram:
+        disabled: false
+        simple: true
+
+    youtube:
+        disabled: false
+        privacyEnhanced: true
+
+services:
+    instagram:
+        disableInlineCSS: true
+    twitter:
+        disableInlineCSS: true

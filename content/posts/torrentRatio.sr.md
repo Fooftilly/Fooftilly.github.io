@@ -2,8 +2,7 @@
 title: "Kalkulator za torent ratio"
 date: 2023-02-26
 lastmod: 2023-02-26
-tags: ["Torent", "Ratio","Kalkulator"]
-translationKey: "torrentRatio"
+SRtags: ["Torent", "Ratio","Kalkulator"]
 ---
 
 ## Ratio kalkulator
