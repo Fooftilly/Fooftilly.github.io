@@ -54,9 +54,9 @@ languages:
             # imageWidth: 120
             # imageHeight: 120
             subtitle: ""
-            buttons:
-                - name: Objave
-                  url: posts
+            # buttons:
+            #    - name: Objave
+            #      url: posts
         menu:
             main:
                 - name: Objave
@@ -103,9 +103,9 @@ params:
         imageTitle: Avatar
         # imageWidth: 120
         # imageHeight: 120
-        buttons:
-            - name: Posts
-              url: /posts
+        # buttons:
+        #    - name: Posts
+        #      url: /posts
 
     homeInfoParams:
         Title: "Nikola Perović"

@@ -8,7 +8,7 @@ Moj lični sajt.
 
 Ovaj sajt je napravljen pomoću [Hugo](https://gohugo.io/) i nalazi se na [Github Pages](https://pages.github.com/).\
 Ovdje je [Github Repo](https://github.com/Fooftilly/Fooftilly.github.io), ako želiš da pogledaš kod.\
-Tema bazinana na [Fabien Casters](https://vaga.io/) - [Hugo Theme m10c](https://github.com/vaga/hugo-theme-m10c) ([Distributed under the MIT license](https://github.com/vaga/hugo-theme-m10c/blob/master/LICENSE.md)).\
+Tema: [hugo-PaperMod](https://github.com/adityatelange/hugo-PaperMod) ([Distributed under the MIT license](https://github.com/adityatelange/hugo-PaperMod/blob/master/LICENSE)).\
 Istaknuta slika je adaptacija [Attributes of Art and Illustration](https://www.oldbookillustrations.com/illustrations/attributes-art-illustration/) ([Under CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)).
 
 Objave su pod

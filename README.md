@@ -1,7 +1,7 @@
 # Peroniko
 
 This website is built in [Hugo](https://gohugo.io/) and hosted on [Github Pages](https://pages.github.com/).\
-Theme by [Fabien Casters](https://vaga.io/) - [Hugo Theme m10c](https://github.com/vaga/hugo-theme-m10c) ([Distrubuted under the MIT license](https://github.com/vaga/hugo-theme-m10c/blob/master/LICENSE.md))\
+Theme [hugo-PaperMod](https://github.com/adityatelange/hugo-PaperMod/) ([Distrubuted under the MIT license](https://github.com/adityatelange/hugo-PaperMod/blob/master/LICENSE))\
 Featured image is an adaptaion of [Attributes of Art and Illustration](https://www.oldbookillustrations.com/illustrations/attributes-art-illustration/) ([Under CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/))
 Language icon by Onur Müştak Çobanlı and Farhat Datta from [languageicon.org](https://www.languageicon.org/) ([Under CC with Relax-Attribution, Share Alike, Semi-Noncommercial ](https://www.languageicon.org/))
 
