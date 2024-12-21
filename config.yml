@@ -20,6 +20,9 @@ minify:
   disableXML: true
   # minifyOutput: true
 
+defaultContentLanguage: en
+defaultContentLanguageInSubdir: true
+
 languages:
   en:
     languageName: "English"
@@ -49,6 +52,7 @@ languages:
   sr:
     languageName: "Srpski"
     languageAltTitle: Serbian
+    languageCode: sr-Latn
     weight: 2
     title: Nikola Perović
     taxonomies:
