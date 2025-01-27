@@ -113,7 +113,7 @@ params:
     - name: bluesky
       url: "https://bsky.app/profile/peroniko.xyz"
     - name: letterboxd
-      url: "https://letterboxd.com/Fooftilly"
+      url: "https://letterboxd.com/Peroniko"
     - name: trakt
       url: "https://trakt.tv/users/cobe10"
     - name: RateYourMusic
