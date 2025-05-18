@@ -116,7 +116,7 @@ params:
       url: "https://letterboxd.com/Peroniko"
     - name: trakt
       url: "https://trakt.tv/users/cobe10"
-    - name: RateYourMusic
+    - name: rateyourmusic
       url: "https://rateyourmusic.com/~Fooftilly"
     - name: RSS
       url: "index.xml"
