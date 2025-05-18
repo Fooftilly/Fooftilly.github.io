@@ -21,7 +21,7 @@ minify:
   # minifyOutput: true
 
 defaultContentLanguage: en
-defaultContentLanguageInSubdir: true
+defaultContentLanguageInSubdir: false
 
 languages:
   en:
@@ -60,7 +60,7 @@ languages:
     menu:
       main:
         - name: Objave
-          url: /sr/posts
+          url: /posts
           weight: 5
         - name: Pretraga
           url: /search
