@@ -118,6 +118,8 @@ params:
       url: "https://trakt.tv/users/cobe10"
     - name: rateyourmusic
       url: "https://rateyourmusic.com/~Fooftilly"
+    - name: reddit
+      url: "https://old.reddit.com/r/Peroniko/"
     - name: RSS
       url: "index.xml"
 
