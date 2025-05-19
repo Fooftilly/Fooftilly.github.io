@@ -80,9 +80,22 @@ languages:
 
 outputs:
   home:
-    - HTML
-    - RSS
-    - JSON
+    - html
+    - rss
+    - json
+  page:
+    - html
+  rss:
+    - rss
+  section:
+    - html
+    - rss
+  taxonomy:
+    - html
+    - rss
+  term:
+    - html
+    - rss
 
 params:
   env: production # to enable google analytics, opengraph, twitter-cards and schema.
