@@ -1,0 +1,74 @@
+{{ define "main" }}
+  <style>
+    .hn-single {
+      max-width: 800px;
+      margin: 2rem auto;
+      border: 1px solid #a0a6d8;
+      border-radius: 4px;
+      padding: 20px;
+    }
+    .hn-single-header {
+      margin-bottom: 1.5rem;
+    }
+    .hn-single-title {
+      font-size: 24px;
+      margin: 0 0 8px 0;
+    }
+    /* New Flexbox container for meta and link */
+    .hn-single-meta-link {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      margin-bottom: 12px;
+      gap: 1.5em; /* space between date and link */
+    }
+    .hn-single-link {
+      margin: 0; /* Remove margin to keep inline */
+      font-size: 14px;
+      display: inline; /* Ensure inline */
+    }
+    .hn-single-link a {
+      color: #a0a6d8;
+      text-decoration: none;
+    }
+    .hn-single-link a:hover {
+      color: #7490ca;
+      text-decoration: underline;
+    }
+    .hn-single-content {
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    .hn-single-back {
+      margin-top: 2rem;
+    }
+    .hn-single-back a {
+      color: #a0a6d8;
+      text-decoration: none;
+    }
+    .hn-single-back a:hover {
+      color: #7490ca;
+    }
+  </style>
+  <div class="hn-single">
+    <div class="hn-single-header">
+      <h1 class="hn-single-title">{{ .Title }}</h1>
+      <div class="hn-single-meta-link">
+        <span>{{ .Date.Format "2006-01-02" }}</span>
+        {{ with .Params.link }}
+          <span class="hn-single-link">
+            🔗 <a href="{{ . }}" target="_blank" rel="noopener">{{ . }}</a>
+          </span>
+        {{ end }}
+      </div>
+    </div>
+
+    <div class="hn-single-content">
+      {{ .Content }}
+    </div>
+
+    <div class="hn-single-back">
+      <a href="{{ .CurrentSection.RelPermalink }}">← Back to Bookmarks</a>
+    </div>
+  </div>
+{{ end }}

@@ -1,6 +1,6 @@
 ---
 title: "Posts"
-layout: "archives"
+layout: "posts"
 url: "/posts/"
 aliases: "/en/posts/"
 summary: "Archives"

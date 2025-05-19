@@ -36,6 +36,9 @@ languages:
         - name: Posts
           url: /posts
           weight: 5
+        - name: Bookmarks
+          url: /bookmarks
+          weight: 7
         - name: Search
           url: /search
           weight: 10

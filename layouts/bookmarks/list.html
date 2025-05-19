@@ -1,0 +1,126 @@
+{{ define "main" }}
+  <style>
+    .hn-main {
+      margin: 2rem auto;
+      border: 1px solid #a0a6d8;
+      border-radius: 4px;
+      padding: 0;
+    }
+    .hn-header {
+      padding: 8px 12px;
+      font-size: 18px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      border: 1px solid #a0a6d8;
+      border-radius: 4px 4px 0 0;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .hn-categories {
+      display: flex;
+      gap: 0.5rem;
+      font-size: 14px;
+      font-weight: normal;
+    }
+    .hn-categories a {
+      color: #a0a6d8;
+      text-decoration: none;
+    }
+    .hn-categories a:hover {
+      color: #7490ca;
+      text-decoration: underline;
+    }
+    .hn-table {
+      width: 100%;
+      border: 1px solid #a0a6d8;
+      border-collapse: collapse;
+    }
+    .hn-table th, .hn-table td {
+      padding: 7px 8px;
+      font-size: 14px;
+      vertical-align: top;
+    }
+    .hn-table th {
+      color: #a0a6d8;
+      font-weight: normal;
+      border: 1px solid #a0a6d8;
+      border-bottom: 1px solid #a0a6d8;
+      text-align: left;
+    }
+    .hn-rank {
+      color: #828282;
+      width: 2em;
+      text-align: right;
+      font-size: 13px;
+      padding-right: 0.5em;
+    }
+    .hn-title a {
+      color: #a0a6d8;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .hn-title a:hover {
+      text-decoration: underline;
+      color: #7490ca;
+    }
+    .hn-meta {
+      font-size: 12px;
+      margin-top: 2px;
+    }
+    .hn-meta a {
+      color: #a0a6d8;
+      text-decoration: none;
+      margin-left: 0.3em;
+    }
+    .hn-meta a:hover {
+      text-decoration: underline;
+      color: #7490ca;
+    }
+    .hn-content {
+      color: #444;
+      font-size: 13px;
+      margin-top: 4px;
+    }
+    @media (max-width: 600px) {
+      .hn-main { max-width: 100%; }
+      .hn-table th, .hn-table td { font-size: 12px; }
+    }
+  </style>
+  <div class="hn-main">
+    <div class="hn-header">
+      Categories:
+      <div class="hn-categories">
+        {{ $categories := slice "PaperBookArticle" "Resource" "YouTube" "Music" "Fun" "Art" "Perspectives" }}
+        {{ range $categories }}
+          <a href="/bookmarks/{{ . | lower }}/">{{ . }}</a>
+        {{ end }}
+      </div>
+    </div>
+    <table class="hn-table">
+      <tbody>
+        {{ $pages := .RegularPagesRecursive.ByDate.Reverse }}
+        {{ range $i, $page := $pages }}
+        <tr>
+          <td class="hn-rank">{{ add $i 1 }}.</td>
+          <td>
+            <div class="hn-title">
+              {{ with $page.Params.link }}
+                <a href="{{ . }}" target="_blank" rel="noopener">{{ $page.Title }}</a>
+              {{ else }}
+                {{ $page.Title }}
+              {{ end }}
+            </div>
+            <div class="hn-meta">
+              {{ $page.Date.Format "2006-01-02" }}
+              {{ if $page.Content }}
+                | <a href="{{ $page.RelPermalink }}">Notes</a>
+              {{ end }}
+            </div>             
+          </td>
+        </tr>
+        {{ end }}        
+      </tbody>
+    </table>
+  </div>
+{{ end }}
