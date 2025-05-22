@@ -1,3 +1,4 @@
 ---
+title: "Art"
 layout: list
 ---

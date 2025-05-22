@@ -1,3 +1,4 @@
 ---
+title: "YouTube"
 layout: list
 ---

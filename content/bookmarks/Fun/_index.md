@@ -1,3 +1,4 @@
 ---
+title: "Fun"
 layout: list
 ---

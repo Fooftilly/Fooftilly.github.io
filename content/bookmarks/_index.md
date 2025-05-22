@@ -1,3 +1,4 @@
 ---
+title: "Bookmarks"
 layout: list
 ---

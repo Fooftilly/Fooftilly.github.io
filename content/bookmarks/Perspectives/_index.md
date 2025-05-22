@@ -1,3 +1,4 @@
 ---
+title: "Perspectives"
 layout: list
 ---
