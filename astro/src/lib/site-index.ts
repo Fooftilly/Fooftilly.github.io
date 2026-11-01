@@ -5,7 +5,7 @@ export const SITE_ORIGIN = "https://www.peroniko.xyz";
 
 /**
  * The routes that exist in the *current* Astro build. This is deliberately not
- * a wish list of Hugo routes: include additional pages as they are migrated.
+ * a wish list of unimplemented routes: include additional pages as they are migrated.
  */
 export function getPublishedPaths(bookmarkIds: readonly string[]): string[] {
   const paths = [
