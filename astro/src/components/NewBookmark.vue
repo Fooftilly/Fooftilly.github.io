@@ -17,6 +17,9 @@ const comments = ref("");
 const notes = ref("");
 const status = ref("");
 const editorLimit = 6000;
+// Paste this as the URL of a browser bookmark to capture the current page.
+// The target only becomes available once Astro is published at the domain.
+const captureBookmarklet = 'javascript:(()=>{const u=new URL("https://www.peroniko.xyz/new-bookmark/");u.searchParams.set("url",location.href);u.searchParams.set("title",document.title);window.open(u.href,"_blank","noopener");})();';
 
 onMounted(() => {
   const parameters = new URLSearchParams(window.location.search);
@@ -64,6 +67,11 @@ async function copy(value: string, description: string) {
   <section class="new-bookmark" aria-labelledby="draft-heading">
     <h1 id="draft-heading">New bookmark</h1>
     <p>Prepare a Markdown bookmark from your browser, then review and commit it on GitHub. This page has no GitHub write access, account session, or stored draft.</p>
+    <details class="capture-help">
+      <summary>Capture a page with a browser bookmarklet</summary>
+      <p>After Astro launches on this domain, create a browser bookmark and set its URL to the copied bookmarklet. Clicking it on any web page opens this form with its URL and title filled in. It does not save anything automatically.</p>
+      <button type="button" @click="copy(captureBookmarklet, 'Bookmarklet')">Copy capture bookmarklet</button>
+    </details>
 
     <div class="draft-fields">
       <label>
@@ -137,6 +145,9 @@ input, select, textarea {
 }
 textarea { min-height: 5rem; resize: vertical; font-weight: normal; }
 .output { border-top: 1px solid var(--border); padding-top: 1.25rem; }
+.capture-help { margin: 1rem 0; }
+.capture-help summary { cursor: pointer; }
+.capture-help button { padding: .6rem .8rem; border: 1px solid var(--border); border-radius: .4rem; background: var(--surface); color: var(--foreground); cursor: pointer; }
 .output label textarea { min-height: 12rem; font-family: ui-monospace, monospace; }
 .output code { overflow-wrap: anywhere; font-size: .9rem; }
 .actions { display: flex; align-items: center; flex-wrap: wrap; gap: .7rem; }
