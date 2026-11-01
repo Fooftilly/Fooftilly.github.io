@@ -74,3 +74,28 @@ Both source documents still describe Hugo/PaperMod. Their factual references
 must be refreshed when the Astro cutover is approved, without changing the
 published Hugo About pages prematurely. Other Serbian, posts and search
 routes remain outside this initial bilingual slice.
+
+## Posts and search route migration (staging only)
+
+The English/Serbian `/posts/`, `/sr/posts/`, `/search/` and
+`/sr/search/` routes now use the original Hugo root page frontmatter
+titles from the `sitePages` Astro collection. An accessible static
+`/en/posts/` redirect preserves the old Hugo archive alias and is
+excluded from the generated sitemap.
+
+There are currently no individual post Markdown entries (only
+`content/posts/_index.md`), so the bilingual archive truthfully reports
+an empty collection. The independent CI audit fails if individual post
+Markdown files appear without a corresponding detail page implementation.
+
+Both search pages reuse the typed Vue bookmark selector and the original
+576-item Markdown collection. Search, category filtering, sorting and
+URL-state controls work without a backend; the component's visible
+labels and accessible region names are localized to English/Serbian.
+This does **not** claim full-text indexing of posts that do not exist,
+nor production parity with all Hugo search features.
+
+All new implemented routes are included in `/sitemap.xml`, and the
+new CI audit verifies source page headings, locale and alternate URLs,
+rendered search data and controls, truthful empty archives, and the
+legacy `/en/posts/` alias. Automatic Pages publication remains off.
