@@ -23,7 +23,7 @@ This repository hosts the public site at `https://www.peroniko.xyz/`. Until the 
 
 ## Testing and checks
 
-- On the current Hugo site, the deployment workflow on `master` is the production source; #8 proposes PR build validation. Run Hugo builds and the relevant JavaScript tests before merging any UI change.
+- On the current Hugo site, the deployment workflow on `master` remains production-only until the Astro migration (#11). Do not expand obsolete Hugo build tooling; migration PRs must introduce their own Astro preview/build gates. Run relevant existing Hugo checks for any change that affects the currently deployed site.
 - After the Astro migration, use a lockfile, `npm ci`, strict TypeScript checks, content schema validation, accessible component tests, and limited browser tests for true user workflows (not redundant markup assertions).
 - Changes to routes/content require representative URL, feed, sitemap and bookmark-parity regression checks.
 - Workflow/config changes require workflow lint and relevant security/dependency checks.
@@ -34,6 +34,6 @@ This repository hosts the public site at `https://www.peroniko.xyz/`. Until the 
 - [#11](https://github.com/Fooftilly/Fooftilly.github.io/issues/11) coordinates the Astro/Vue migration and acceptance.
 - [#6](https://github.com/Fooftilly/Fooftilly.github.io/pull/6) is a standalone content deletion.
 - [#7](https://github.com/Fooftilly/Fooftilly.github.io/pull/7) is Hugo bookmark functionality that must be carried into Astro if superseded.
-- [#8](https://github.com/Fooftilly/Fooftilly.github.io/pull/8) establishes the proposed PR build gate and Hugo dependency upgrades. Do not duplicate its workflow changes in unrelated PRs.
+- [#8](https://github.com/Fooftilly/Fooftilly.github.io/pull/8) is superseded by the Astro direction (#11); its Hugo-specific upgrades must not be merged. Implement Astro CI in migration slices instead.
 
 This site does **not** need PRKS-specific Project #3 agent-queue publishing, PostgreSQL migration machinery, or six-shard browser tests.
