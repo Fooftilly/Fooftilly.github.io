@@ -23,8 +23,8 @@ const captureBookmarklet = 'javascript:(()=>{const u=new URL("https://www.peroni
 
 onMounted(() => {
   const parameters = new URLSearchParams(window.location.search);
-  url.value = (parameters.get("url") ?? "").slice(0, 2048);
-  title.value = (parameters.get("title") ?? "").slice(0, 200);
+  url.value = parameters.get("url") ?? "";
+  title.value = parameters.get("title") ?? "";
   const now = new Date();
   date.value = new Date(now.getTime() - now.getTimezoneOffset() * 60000)
     .toISOString().slice(0, 10);
@@ -76,11 +76,11 @@ async function copy(value: string, description: string) {
     <div class="draft-fields">
       <label>
         Web address
-        <input v-model="url" type="url" autocomplete="url" required maxlength="2048" placeholder="https://example.com/article" />
+        <input v-model="url" type="url" autocomplete="url" required placeholder="https://example.com/article" />
       </label>
       <label>
         Bookmark title
-        <input v-model="title" type="text" required maxlength="200" placeholder="Page title" />
+        <input v-model="title" type="text" required placeholder="Page title" />
       </label>
       <div class="draft-fields-two">
         <label>
@@ -121,12 +121,12 @@ async function copy(value: string, description: string) {
       </label>
       <div class="actions">
         <button type="button" @click="copy(result.draft!.markdown, 'Markdown')">Copy Markdown</button>
-        <button type="button" @click="copy(result.draft!.filename, 'Filename')">Copy filename</button>
+        <button type="button" @click="copy(result.draft!.path, 'File path')">Copy full file path</button>
         <a :href="editorHref" target="_blank" rel="noopener noreferrer">Open GitHub new-file editor</a>
       </div>
       <p class="help">GitHub sign-in is required to create the file. {{ prefilledEditor
-        ? "The editor link attempts to prefill the filename and content; verify both before committing."
-        : "The draft is too long for a reliable prefilled link. Copy the filename and Markdown into GitHub manually."
+        ? "GitHub may prefill the filename and content; verify both. If it does not, paste the full file path and Markdown before committing."
+        : "The draft is too long for a reliable prefilled link. Copy the full repository-relative file path and Markdown into GitHub manually."
       }} Create a separate branch and submit a pull request when prompted. Nothing is committed automatically.</p>
     </div>
     <p role="status" aria-live="polite" class="copy-status">{{ status }}</p>
