@@ -36,15 +36,16 @@ export function rewriteCloakEmailNode(node) {
   return transformed;
 }
 
-export default function remarkLegacyCloakEmail() {
-  return (tree) => {
-    function transform(node) {
-      if (!Array.isArray(node.children)) return;
-      node.children = node.children.flatMap((child) => {
-        transform(child);
-        return rewriteCloakEmailNode(child);
-      });
-    }
-    transform(tree);
+/**
+ * Sätteri's native MDAST visitor API. Replaces the matched node in the
+ * processor; no Unified/remark compatibility package is required.
+ */
+export function satteriLegacyCloakEmail() {
+  return {
+    name: "astro-legacy-cloakemail",
+    text(node, ctx) {
+      if (!node.value?.includes("cloakemail")) return;
+      ctx.replaceNode(node, rewriteCloakEmailNode(node));
+    },
   };
 }
