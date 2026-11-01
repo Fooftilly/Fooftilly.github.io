@@ -1,0 +1,25 @@
+{
+  "name": "peroniko-astro",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.22.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "check": "astro check",
+    "test": "node --test tests/*.test.mjs",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/vue": "7.1.2",
+    "astro": "7.4.4",
+    "vue": "3.5.44"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.12",
+    "typescript": "7.0.2"
+  }
+}
