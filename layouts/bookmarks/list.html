@@ -10,7 +10,12 @@
 {{- $pages := .RegularPagesRecursive.ByDate.Reverse -}}
 <section class="bookmark-browser" aria-labelledby="bookmark-heading">
   <header class="bookmark-browser__header">
-    <h1 id="bookmark-heading">{{ .Title }}</h1>
+    <div class="bookmark-browser__heading">
+      <h1 id="bookmark-heading">{{ .Title }}</h1>
+      {{- with .OutputFormats.Get "RSS" }}
+        <a href="{{ .RelPermalink }}" aria-label="Subscribe to bookmark RSS feed">RSS feed</a>
+      {{- end }}
+    </div>
     <p>{{ len $pages }} saved links{{ if ne .Title "Bookmarks" }} in this category{{ end }}</p>
   </header>
 
