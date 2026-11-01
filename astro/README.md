@@ -89,6 +89,8 @@ No database, server or new publishing credentials are introduced here.
 Run `npm run build`, **not** `npx astro build`, for any deploy candidate.
 The package build script fails if the generated parity manifest is invalid,
 extracts it to ignored `.audit/bookmarks-parity.json` for post-build CI checks,
-and removes the public `dist/migration-audit/` route. Tests and CI verify that
-`dist/` has no internal migration audit endpoint. This is a static output
+and removes the public `dist/migration-audit/` route. The intermediate
+route also returns HTTP 404 on the development server. Tests and CI verify
+both the production output and the live development server cannot expose
+internal audit records. This is a static output
 hardening step; the Astro Pages deployment remains deliberately disabled.
