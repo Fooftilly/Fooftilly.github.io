@@ -5,18 +5,35 @@ interface Props {
   title: string;
   description?: string;
   rssHref?: string;
+  lang?: "en" | "sr";
 }
 
-const { title, description = "Bookmarks, notes, projects and collections.", rssHref } = Astro.props;
+const { title, description = "Bookmarks, notes, projects and collections.", rssHref, lang = "en" } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const socialImage = new URL("/avatar-full.webp", Astro.site);
 ---
 <!doctype html>
-<html lang="en">
+<html lang={lang === "sr" ? "sr-Latn" : "en"}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title} · Nikola Perović</title>
     <meta name="description" content={description} />
+    <meta name="author" content="Nikola Perović" />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Nikola Perović" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical.toString()} />
+    <meta property="og:image" content={socialImage.toString()} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
     <link rel="canonical" href={canonical.toString()} />
     {rssHref && <link rel="alternate" type="application/rss+xml" title={title} href={rssHref} />}
   </head>
