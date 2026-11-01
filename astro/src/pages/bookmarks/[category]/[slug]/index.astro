@@ -1,0 +1,57 @@
+---
+import type { GetStaticPaths } from "astro";
+import type { CollectionEntry } from "astro:content";
+import { getCollection, render } from "astro:content";
+import SiteLayout from "../../../../layouts/SiteLayout.astro";
+import { bookmarkDetailParams } from "../../../../lib/bookmark-path.ts";
+import { categoryBySection, bookmarkCategoryPath } from "../../../../lib/bookmark-categories.ts";
+
+export const getStaticPaths = (async () => {
+  const entries = await getCollection("bookmarks", ({ id, data }) =>
+    id !== "_index" && !id.endsWith("/_index") && !data.draft
+  );
+  return entries.map((entry) => ({
+    params: bookmarkDetailParams(entry.id),
+    props: { entry },
+  }));
+}) satisfies GetStaticPaths;
+
+const { entry } = Astro.props as { entry: CollectionEntry<"bookmarks"> };
+const section = entry.id.split("/")[0];
+const category = categoryBySection(section);
+if (!category) throw new Error(`Unknown bookmark category in ${entry.id}`);
+
+const { Content } = await render(entry);
+const hasBody = Boolean(entry.body?.trim());
+let externalUrl = "";
+try {
+  const parsed = new URL(entry.data.link ?? "");
+  if (parsed.protocol === "http:" || parsed.protocol === "https:") externalUrl = parsed.href;
+} catch {
+  // Broken or unsafe external links must never become clickable.
+}
+const date = entry.data.date?.toISOString().slice(0, 10) ?? "";
+const categoryPath = bookmarkCategoryPath(category.slug);
+---
+<SiteLayout title={entry.data.title} description={`Bookmark in ${category.label}`}>
+  <nav aria-label="Bookmark context" class="breadcrumb">
+    <a href="/bookmarks/">Bookmarks</a>
+    <span aria-hidden="true">/</span>
+    <a href={categoryPath}>{category.label}</a>
+  </nav>
+  <article class="bookmark-detail">
+    <h1>{entry.data.title}</h1>
+    {date && <p class="meta"><time datetime={date}>{date}</time></p>}
+    {externalUrl && <p><a href={externalUrl} target="_blank" rel="noopener noreferrer">Open original link</a></p>}
+    {entry.data.comments && <p class="bookmark-comment">{entry.data.comments}</p>}
+    {hasBody && <section class="bookmark-notes" aria-label="Bookmark notes"><Content /></section>}
+  </article>
+</SiteLayout>
+<style>
+  .breadcrumb { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; color: var(--muted); }
+  .bookmark-detail { margin: 2rem 0; max-width: 65ch; overflow-wrap: anywhere; }
+  .bookmark-detail h1 { line-height: 1.2; }
+  .meta { color: var(--muted); }
+  .bookmark-comment { white-space: pre-wrap; }
+  .bookmark-notes { margin-top: 2rem; border-top: 1px solid var(--border); padding-top: 1rem; }
+</style>
