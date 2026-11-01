@@ -72,7 +72,7 @@ test("all source bookmark metadata survives Astro collection loading and output"
         rawLink,
         url: safeLink(rawLink),
         comments: frontmatter.comments ?? "",
-        notesUrl: sourceBody ? `/bookmarks/${section.toLowerCase()}/${filename.slice(0, -3)}/` : "",
+        notesUrl: sourceBody ? `/bookmarks/${section.toLowerCase()}/${filename.slice(0, -3).toLowerCase()}/` : "",
       };
       assert.ok(!expected.has(id), `Duplicate source ID: ${id}`);
       expected.set(id, normalized);
