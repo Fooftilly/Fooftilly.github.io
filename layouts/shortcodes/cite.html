@@ -1,0 +1,15 @@
+{{- /* Local compatibility override until hugo-citation replaces removed getJSON. */ -}}
+{{- $citationsPath := .Page.Params.bibFile -}}
+{{- $citations := partial "citation-data.html" $citationsPath -}}
+{{- $bibliography := slice -}}
+{{- range $citationKey := .Page.Params.citations -}}
+  {{- if eq $citationKey ($.Get 0) -}}
+    {{- $citation := index $citations $citationKey -}}
+    {{- $bibliography = $bibliography | append $citation -}}
+    {{- if eq ($.Get 1) "" -}}
+      {{- printf "(%s, %s)" $citation.author $citation.year -}}
+    {{- else -}}
+      {{- printf "(%s, %s: %s)" $citation.author $citation.year (string ($.Get 1)) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
