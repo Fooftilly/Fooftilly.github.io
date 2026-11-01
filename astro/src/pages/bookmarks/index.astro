@@ -1,0 +1,17 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import BookmarkBrowser from "../../components/BookmarkBrowser.vue";
+import { loadBookmarks } from "../../lib/bookmark-data.ts";
+
+const bookmarks = (await loadBookmarks()).map(({ id, title, category, url, date }) =>
+  ({ id, title, category, url, date })
+);
+---
+<SiteLayout title="Bookmarks" description="Browse a curated collection of art, music, web resources and interesting links.">
+  <h1>Bookmarks</h1>
+  <p class="collection-intro">Find and explore saved links. The source is the original Markdown library; no bookmark records are copied into a database.</p>
+  <BookmarkBrowser items={bookmarks} client:load />
+</SiteLayout>
+<style>
+  .collection-intro { max-width: 54rem; color: var(--muted); }
+</style>
