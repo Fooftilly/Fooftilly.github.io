@@ -81,8 +81,10 @@ separate parity work.
 The English/Serbian `/posts/`, `/sr/posts/`, `/search/` and
 `/sr/search/` routes now use the original Hugo root page frontmatter
 titles from the `sitePages` Astro collection. An accessible static
-`/en/posts/` redirect preserves the old Hugo archive alias and is
-excluded from the generated sitemap.
+`/en/posts/` redirect honors the alias declared in `content/posts.md`.
+The pinned Hugo build currently does **not** generate this alias, so this
+is source-configuration compatibility, not a claim of live URL parity.
+The redirect is excluded from the generated sitemap.
 
 There are currently no individual post Markdown entries (only
 `content/posts/_index.md`), so the bilingual archive truthfully reports
