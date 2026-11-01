@@ -2,9 +2,9 @@
 import type { GetStaticPaths } from "astro";
 import type { CollectionEntry } from "astro:content";
 import { getCollection, render } from "astro:content";
-import SiteLayout from "../../../layouts/SiteLayout.astro";
-import { bookmarkDetailParams } from "../../../lib/bookmark-path.ts";
-import { categoryBySection, bookmarkCategoryPath } from "../../../lib/bookmark-categories.ts";
+import SiteLayout from "../../../../layouts/SiteLayout.astro";
+import { bookmarkDetailParams } from "../../../../lib/bookmark-path.ts";
+import { categoryBySection, bookmarkCategoryPath } from "../../../../lib/bookmark-categories.ts";
 
 export const getStaticPaths = (async () => {
   const entries = await getCollection("bookmarks", ({ id, data }) =>
