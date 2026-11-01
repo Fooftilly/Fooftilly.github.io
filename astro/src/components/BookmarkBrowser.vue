@@ -1,42 +1,21 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from "vue";
-
-interface Bookmark {
-  id: string;
-  title: string;
-  category: string;
-  url: string;
-  date: string;
-}
+import { filterAndSortBookmarks, type Bookmark, type BookmarkSort } from "../lib/bookmark-filter.ts";
 
 const props = defineProps<{ items: Bookmark[] }>();
 const query = ref("");
 const category = ref("all");
-const sort = ref<"newest" | "oldest" | "title">("newest");
+const sort = ref<BookmarkSort>("newest");
 const limit = ref(50);
 const categories = computed(() =>
   [...new Set(props.items.map((item) => item.category))].sort((a, b) => a.localeCompare(b))
 );
 
-function fold(value: string) {
-  return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase();
-}
-
-const matches = computed(() => {
-  const terms = fold(query.value.trim()).split(/\s+/).filter(Boolean);
-  const filtered = props.items.filter((item) => {
-    if (category.value !== "all" && item.category !== category.value) return false;
-    const content = fold([item.title, item.category, item.url].join(" "));
-    return terms.every((term) => content.includes(term));
-  });
-  return filtered.sort((a, b) => {
-    if (sort.value === "title") return a.title.localeCompare(b.title, undefined, { sensitivity: "base" });
-    const diff = sort.value === "oldest"
-      ? a.date.localeCompare(b.date)
-      : b.date.localeCompare(a.date);
-    return diff || a.title.localeCompare(b.title, undefined, { sensitivity: "base" });
-  });
-});
+const matches = computed(() => filterAndSortBookmarks(props.items, {
+  query: query.value,
+  category: category.value,
+  sort: sort.value,
+}));
 const visible = computed(() => matches.value.slice(0, limit.value));
 
 onMounted(() => {
