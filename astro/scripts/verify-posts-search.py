@@ -102,10 +102,15 @@ def check_pages():
     legacy = os.environ.get("LEGACY_HUGO_SITE_DIR")
     if not legacy:
         raise RuntimeError("Compiled Hugo baseline is required to verify route parity")
-    for route in ("posts", "sr/posts", "search", "sr/search", "en/posts"):
+    for route in ("posts", "sr/posts", "search", "sr/search"):
         path = Path(legacy) / route / "index.html"
         assert path.is_file(), f"Legacy Hugo did not generate the expected route: {route}"
-    print("All five Astro page/alias URLs exist in the compiled legacy Hugo output")
+    # The historic source declares an alias, but the current pinned Hugo
+    # output does not actually generate it. Keep an accessible Astro redirect
+    # for the declared contract without asserting false live Hugo parity.
+    source_alias = (CONTENT / "posts.md").read_text(encoding="utf8")
+    assert re.search(r'^aliases:\\s*["\\x27]?/en/posts/', source_alias, re.MULTILINE), "Declared Hugo posts alias disappeared"
+    print("Four Astro pages match compiled Hugo routes; /en/posts/ restores a source-declared alias")
 
     redirect, _ = load_page("en/posts")
     assert 'http-equiv="refresh"' in redirect and '0;url=/posts/' in redirect, "Legacy Hugo archive alias missing"
