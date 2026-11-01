@@ -54,7 +54,7 @@ def check_assets():
 
 
 def check_sitemap():
-    records = json.loads((DIST / "migration-audit/bookmarks-parity.json").read_text())
+    records = json.loads((ASTRO / ".audit/bookmarks-parity.json").read_text())
     assert len(records) == 576, "Expected full bookmark parity manifest"
     expected = {SITE + "/", SITE + "/about/", SITE + "/sr/", SITE + "/sr/about/", SITE + "/posts/", SITE + "/sr/posts/", SITE + "/search/", SITE + "/sr/search/", SITE + "/bookmarks/"}
     expected.update(f"{SITE}/bookmarks/{section}/" for section in SECTIONS)
