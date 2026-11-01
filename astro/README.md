@@ -94,3 +94,31 @@ route also returns HTTP 404 on the development server. Tests and CI verify
 both the production output and the live development server cannot expose
 internal audit records. This is a static output
 hardening step; the Astro Pages deployment remains deliberately disabled.
+
+## Browser bookmark drafts (no backend)
+
+The `/new-bookmark/` page is a credential-free, static Vue composer. Supply
+an HTTP(S) URL, title, category and optional comment/Markdown notes. It
+generates YAML-compatible `content/bookmarks/<category>/<slug>.md` with a
+local date, checks all existing source IDs for filename collisions, warns
+when the URL already exists, and links to GitHub's authenticated new-file
+editor with a filename/content prefill attempt. Copy controls always
+provide a fallback if GitHub ignores URL parameters or the draft is too
+long for a reliable link.
+
+A copyable browser bookmarklet can capture the current tab's title and URL
+into the form after Astro goes live at `www.peroniko.xyz`. The bookmarklet
+does not create a file or send the page to any other service. No GitHub
+write token, OAuth client credentials or public write endpoint exist in
+the browser bundle. A maintainer must review and commit the generated
+Markdown (preferably on a separate branch and PR) in GitHub; until then
+nothing changes on the site.
+
+`tests/bookmark-draft.test.mjs` validates source-compatible YAML, unsafe
+protocol/credential rejection, title and date checks, duplicate detection
+and unique filenames. The Chromium smoke verifies real Vue hydration,
+query-parameter capture, duplicate warning and safe GitHub editor handoff.
+The `/new-bookmark/` route is included in the Astro sitemap; the site
+still has no automatic deployment. A future dedicated authenticated
+publishing workflow can improve one-click saving after its trust model
+and user approvals are defined.
