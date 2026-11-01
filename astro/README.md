@@ -30,3 +30,25 @@ The staging app now renders the root bookmark browser and all seven legacy categ
 ## Publishing
 
 The Astro build workflow performs verification only and has no `pages:write` or `id-token:write` permissions and no deploy job. Once Astro is accepted, a separate reviewed release PR will introduce the GitHub Pages deployment workflow and rollback instructions.
+
+
+## Static assets and discoverability
+
+Astro uses the existing repository-level `static/` directory directly through
+`publicDir`. All original CNAME, favicons, verification files, robots.txt,
+images, fonts and the web manifest are copied byte-for-byte during the build.
+No duplicate asset tree is maintained.
+
+The staging build produces `/sitemap.xml` with the routes **actually
+implemented in Astro**: homepage, About placeholder, bookmark root, seven
+categories and 576 detail pages. Future English/Serbian posts and search pages
+must be added to the shared site index when their routes are implemented.
+The sitemap does not claim these future pages exist.
+
+Shared layouts now emit canonical, description, author, icon and social
+metadata, with an explicit language parameter for upcoming translated routes.
+`astro/scripts/verify-site-seo.py` checks all static files for byte parity,
+sitemap completeness and representative metadata on generated pages.
+
+This does **not** complete full Hugo URL, localized content, or SEO parity;
+the old site remains published until all roadmap #11 acceptance gates pass.
