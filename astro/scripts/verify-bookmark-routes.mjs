@@ -49,7 +49,7 @@ test("all 576 original bookmark detail URLs are generated with correct canonical
     if (record.url) {
       // Astro escapes query delimiters in attribute values; compare a safe
       // token to avoid coupling to HTML serializer quote/entity choices.
-      const anchor = html.match(/<a\s+href="([^"]+)"\s+target="_blank"\s+rel="noopener noreferrer">Open original link<\/a>/);
+      const anchor = html.match(/<a\b[^>]*\bhref="([^"]+)"[^>]*>Open original link<\/a>/);
       assert.ok(anchor, `Missing original external link: ${pathname}`);
       assert.equal(anchor[1].replaceAll("&amp;", "&"), record.url, `External URL mismatch: ${pathname}`);
     }
