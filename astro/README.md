@@ -102,9 +102,13 @@ an HTTP(S) URL, title, category and optional comment/Markdown notes. It
 generates YAML-compatible `content/bookmarks/<category>/<slug>.md` with a
 local date, checks all existing source IDs for filename collisions, warns
 when the URL already exists, and links to GitHub's authenticated new-file
-editor with a filename/content prefill attempt. Copy controls always
-provide a fallback if GitHub ignores URL parameters or the draft is too
-long for a reliable link.
+editor with a filename/content prefill attempt. Copy controls provide
+the **full repository-relative file path** and Markdown as a safe fallback
+if GitHub ignores URL parameters or the draft exceeds safe URL length.
+The GitHub prefill behavior is not part of an API contract and has not
+been verified in an authenticated GitHub session; review the editor's
+filename and content before committing. Oversized captured URLs/titles
+are rejected rather than silently shortened.
 
 A copyable browser bookmarklet can capture the current tab's title and URL
 into the form after Astro goes live at `www.peroniko.xyz`. The bookmarklet
