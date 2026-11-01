@@ -1,0 +1,58 @@
+name: Astro migration preview (build only)
+
+on:
+  pull_request:
+    branches: [master]
+  push:
+    branches: ["astro-migration/**"]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: astro-preview-${{ github.event.pull_request.number || github.ref }}-${{ github.run_attempt > 1 && github.run_id || 'first' }}
+  cancel-in-progress: true
+
+jobs:
+  astro-preview:
+    name: Astro staging checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up supported Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "24"
+          package-manager-cache: false
+
+      # Bootstrap phase: no lockfile is committed yet. Once a lockfile is
+      # generated and reviewed, replace this with npm ci (mandatory before cutover).
+      - name: Install staging dependencies
+        working-directory: astro
+        run: npm install --no-package-lock --no-audit --no-fund
+
+      - name: Validate legacy bookmark inventory
+        working-directory: astro
+        run: npm test
+
+      - name: Check Astro and TypeScript
+        working-directory: astro
+        run: npm run check
+
+      - name: Build static preview (never deploy)
+        working-directory: astro
+        run: npm run build
+
+      - name: Check staged output routes
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s astro/dist/index.html
+          test -s astro/dist/bookmarks/index.html
+          test -s astro/dist/about/index.html
+          echo "Astro static preview generated; publication disabled."
