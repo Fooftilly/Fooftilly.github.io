@@ -25,7 +25,7 @@ defaultContentLanguageInSubdir: false
 
 languages:
   en:
-    languageName: "English"
+    label: "English"
     weight: 1
     taxonomies:
       category: categories
@@ -53,9 +53,9 @@ languages:
         imageTitle: Avatar
 
   sr:
-    languageName: "Srpski"
+    label: "Srpski"
     languageAltTitle: Serbian
-    languageCode: sr-Latn
+    locale: sr-Latn
     weight: 2
     title: Nikola Perović
     taxonomies:
