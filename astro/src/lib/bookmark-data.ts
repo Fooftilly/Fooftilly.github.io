@@ -1,15 +1,6 @@
 import { getCollection } from "astro:content";
 import type { Bookmark } from "./bookmark-filter.ts";
-
-const categories: Record<string, string> = {
-  Art: "Art",
-  Fun: "Fun",
-  Music: "Music",
-  PaperBookArticle: "Articles & books",
-  Perspectives: "Perspectives",
-  Resource: "Resources",
-  YouTube: "YouTube",
-};
+import { categoryBySection } from "./bookmark-categories.ts";
 
 export interface SourceBookmark extends Bookmark {
   // Only used by the staging parity audit; the public Vue browser receives
@@ -38,7 +29,7 @@ export async function loadBookmarks(): Promise<SourceBookmark[]> {
     return {
       id,
       title: data.title,
-      category: categories[section] ?? section,
+      category: categoryBySection(section)?.label ?? section,
       url,
       rawLink,
       comments: data.comments ?? "",

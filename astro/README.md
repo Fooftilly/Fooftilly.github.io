@@ -25,7 +25,7 @@ The Vue bookmark browser uses the pure `src/lib/bookmark-filter.ts` selector, co
 
 The `bookmarks` Astro Content Collection directly reads `../content/bookmarks/**/*.md` including the original frontmatter. Legacy `_index.md` section files are ignored when rendering bookmark records. No bookmark data has been migrated or modified.
 
-This first slice implements the home shell and a Vue interactive bookmark index as an architectural and content-loading pilot. Category-specific URLs, individual note pages, bilingual routes, full feed/SEO parity, article migration and authenticated bookmark authoring are **remaining roadmap work**, not silently dropped features.
+The staging app now renders the root bookmark browser and all seven legacy category URLs. Static root and category RSS feeds are generated at `/bookmarks/index.xml` and `/bookmarks/<category>/index.xml`, and CI checks XML well-formedness plus source-to-feed parity for all 576 bookmarks. This resolves category and bookmark RSS behavior **in staging only**; public production remains Hugo until the broader migration passes acceptance. Individual bookmark note pages, bilingual routes, home RSS, full SEO/sitemap parity, article migration and authenticated bookmark authoring remain roadmap work.
 
 ## Publishing
 

@@ -22,10 +22,10 @@ function fold(value: string): string {
  * Pure view selector shared by the Vue browser and later bookmark/category views.
  * Do not mutate the supplied collection: Astro content is the source of truth.
  */
-export function filterAndSortBookmarks(
-  items: readonly Bookmark[],
+export function filterAndSortBookmarks<T extends Bookmark>(
+  items: readonly T[],
   filters: BookmarkFilters,
-): Bookmark[] {
+): T[] {
   const terms = fold(filters.query.trim()).split(/\s+/).filter(Boolean);
   const filtered = items.filter((item) => {
     if (filters.category !== "all" && item.category !== filters.category) return false;
