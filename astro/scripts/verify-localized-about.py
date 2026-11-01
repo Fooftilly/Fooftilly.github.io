@@ -18,8 +18,11 @@ class Document(HTMLParser):
         self.links = []
         self.anchors = []
         self.parts = []
+        self.non_text_depth = 0
 
     def handle_starttag(self, tag, attrs):
+        if tag in ("style", "script"):
+            self.non_text_depth += 1
         data = dict(attrs)
         if tag == "html":
             self.lang = data.get("lang", "")
@@ -28,8 +31,13 @@ class Document(HTMLParser):
         if tag == "a":
             self.anchors.append(data)
 
+    def handle_endtag(self, tag):
+        if tag in ("style", "script"):
+            self.non_text_depth -= 1
+
     def handle_data(self, value):
-        self.parts.append(value)
+        if self.non_text_depth == 0:
+            self.parts.append(value)
 
 def shortcode(source):
     hits = re.findall(
