@@ -63,6 +63,12 @@ jobs:
       - name: Verify localized posts and search pages
         run: python3 astro/scripts/verify-posts-search.py
 
+      - name: Smoke-test hydrated search in Chromium
+        working-directory: astro
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: node scripts/smoke-search-browser.mjs
+
       - name: Validate sitemap, SEO metadata and original static assets
         run: python3 astro/scripts/verify-site-seo.py
 
