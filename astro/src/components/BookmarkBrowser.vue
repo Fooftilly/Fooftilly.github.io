@@ -33,9 +33,9 @@ const labels = computed(() => props.lang === "sr" ? {
   showing: "Showing",
   of: "of",
   bookmarks: "bookmarks",
-  clear: "{{ labels.clear }}",
-  none: "{{ labels.none }}",
-  more: "{{ labels.more }}",
+  clear: "Clear filters",
+  none: "No bookmarks match these filters.",
+  more: "Show more",
   notes: "Notes",
 });
 const query = ref("");
@@ -75,7 +75,7 @@ watch([query, category, sort], () => {
 </script>
 
 <template>
-  <section aria-label="Explore bookmarks" class="bookmark-browser">
+  <section :aria-label="lang === 'sr' ? 'Pregled sačuvanih linkova' : 'Explore bookmarks'" class="bookmark-browser">
     <div class="bookmark-controls">
       <label class="search-field">
         <span>{{ labels.search }}</span>
@@ -103,10 +103,10 @@ watch([query, category, sort], () => {
       </p>
       <button v-if="query || category !== 'all' || sort !== 'newest'" type="button"
         @click="query = ''; category = 'all'; sort = 'newest'">
-        Clear filters
+        {{ labels.clear }}
       </button>
     </div>
-    <ul class="bookmark-list" aria-label="Bookmarks">
+    <ul class="bookmark-list" :aria-label="lang === 'sr' ? 'Sačuvani linkovi' : 'Bookmarks'">
       <li v-for="item in visible" :key="item.id" class="bookmark-entry">
         <a v-if="item.url" :href="item.url" target="_blank" rel="noopener noreferrer">{{ item.title }}</a>
         <span v-else>{{ item.title }}</span>
@@ -117,10 +117,10 @@ watch([query, category, sort], () => {
         </div>
       </li>
     </ul>
-    <p v-if="matches.length === 0" class="empty-result">No bookmarks match these filters.</p>
+    <p v-if="matches.length === 0" class="empty-result">{{ labels.none }}</p>
     <button v-if="visible.length < matches.length" class="more-button" type="button"
       @click="limit += 50">
-      Show more
+      {{ labels.more }}
     </button>
   </section>
 </template>
