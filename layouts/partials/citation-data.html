@@ -1,0 +1,19 @@
+{{- /* Compatible with local JSON bibliographies and HTTPS/HTTP sources. */ -}}
+{{- $path := . -}}
+{{- $citations := dict -}}
+{{- if not $path -}}
+  {{- errorf "Citation shortcode requires a bibFile in page front matter" -}}
+{{- else if or (hasPrefix $path "https://") (hasPrefix $path "http://") -}}
+  {{- with try (resources.GetRemote $path) -}}
+    {{- with .Err -}}
+      {{- errorf "Could not retrieve bibliography %q: %s" $path . -}}
+    {{- else with .Value -}}
+      {{- $citations = transform.Unmarshal (dict "format" "json") .Content -}}
+    {{- else -}}
+      {{- errorf "Bibliography not found at %q" $path -}}
+    {{- end -}}
+  {{- end -}}
+{{- else -}}
+  {{- $citations = transform.Unmarshal (dict "format" "json") (os.ReadFile $path) -}}
+{{- end -}}
+{{- return $citations -}}
