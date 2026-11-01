@@ -6,7 +6,7 @@
     <title>{{ .Title }} on {{ site.Title }}</title>
     <link>{{ .Permalink }}</link>
     <description>Recently saved links in {{ .Title }}</description>
-    <language>{{ site.Language.LanguageCode }}</language>
+    <language>{{ site.Language.Locale }}</language>
     {{- with .OutputFormats.Get "RSS" }}
     <atom:link href="{{ .Permalink }}" rel="self" type="application/rss+xml" />
     {{- end }}
