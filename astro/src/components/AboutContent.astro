@@ -1,0 +1,20 @@
+---
+import { getEntry, render } from "astro:content";
+
+interface Props { lang: "en" | "sr" }
+
+const { lang } = Astro.props;
+const id = lang === "sr" ? "about.sr" : "about";
+const entry = await getEntry("sitePages", id);
+if (!entry) throw new Error(`Missing canonical legacy Markdown content: ${id}`);
+const { Content } = await render(entry);
+---
+<article class="about-content">
+  <h1>{entry.data.title}</h1>
+  <Content />
+</article>
+<style>
+  .about-content { max-width: 70ch; margin: 2rem 0; overflow-wrap: anywhere; }
+  .about-content :global(a) { overflow-wrap: anywhere; }
+  .about-content :global(p) { margin: 1.2rem 0; }
+</style>
