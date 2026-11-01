@@ -1,0 +1,39 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Bookmarks, notes, projects and collections." } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} · Nikola Perović</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical.toString()} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <nav class="site-nav" aria-label="Main navigation">
+        <a class="site-brand" href="/">Nikola Perović</a>
+        <div class="site-links">
+          <a href="/bookmarks/">Bookmarks</a>
+          <a href="/about/">About</a>
+        </div>
+      </nav>
+    </header>
+    <main id="main" class="site-main">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <p>Personal links and notes · <a href="https://github.com/Fooftilly">GitHub</a></p>
+    </footer>
+  </body>
+</html>
