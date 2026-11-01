@@ -88,6 +88,8 @@ jobs:
         run: python3 astro/scripts/verify-localized-about.py
 
       - name: Verify localized posts, search pages and legacy archive alias
+        env:
+          LEGACY_HUGO_SITE_DIR: ${{ runner.temp }}/hugo-baseline
         run: python3 astro/scripts/verify-posts-search.py
 
       - name: Validate sitemap, SEO metadata and original static assets
