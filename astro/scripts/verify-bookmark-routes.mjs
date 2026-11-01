@@ -32,7 +32,7 @@ test("all 576 original bookmark detail URLs are generated with correct canonical
     assert.ok(!expectedPaths.has(pathname), `Colliding detail route: ${pathname}`);
     expectedPaths.add(pathname);
 
-    const location = path.join(root, "bookmarks", slug, stem, "index.html");
+    const location = path.join(root, "bookmarks", slug, stem.toLowerCase(), "index.html");
     const html = await readFile(location, "utf8");
     assert.match(html, /class="bookmark-detail"/, `Missing detail markup: ${pathname}`);
     const canonical = new URL(pathname, "https://www.peroniko.xyz").href;
