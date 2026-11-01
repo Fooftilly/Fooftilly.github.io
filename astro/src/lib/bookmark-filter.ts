@@ -6,6 +6,7 @@ export interface Bookmark {
   category: string;
   url: string;
   date: string;
+  notesUrl?: string;
 }
 
 export interface BookmarkFilters {
