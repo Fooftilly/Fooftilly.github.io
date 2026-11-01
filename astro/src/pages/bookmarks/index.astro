@@ -2,16 +2,22 @@
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import BookmarkBrowser from "../../components/BookmarkBrowser.vue";
 import { loadBookmarks } from "../../lib/bookmark-data.ts";
+import { BOOKMARK_CATEGORIES, bookmarkCategoryPath } from "../../lib/bookmark-categories.ts";
 
 const bookmarks = (await loadBookmarks()).map(({ id, title, category, url, date }) =>
   ({ id, title, category, url, date })
 );
 ---
-<SiteLayout title="Bookmarks" description="Browse a curated collection of art, music, web resources and interesting links.">
+<SiteLayout title="Bookmarks" rssHref="/bookmarks/index.xml" description="Browse a curated collection of art, music, web resources and interesting links.">
   <h1>Bookmarks</h1>
   <p class="collection-intro">Find and explore saved links. The source is the original Markdown library; no bookmark records are copied into a database.</p>
+  <nav aria-label="Bookmark categories" class="category-nav">
+    {BOOKMARK_CATEGORIES.map((category) => <a href={bookmarkCategoryPath(category.slug)}>{category.label}</a>)}
+  </nav>
+  <p><a href="/bookmarks/index.xml" type="application/rss+xml">Subscribe to all bookmarks (RSS)</a></p>
   <BookmarkBrowser items={bookmarks} client:load />
 </SiteLayout>
 <style>
   .collection-intro { max-width: 54rem; color: var(--muted); }
+  .category-nav { display: flex; flex-wrap: wrap; gap: .75rem; margin: 1.5rem 0; }
 </style>
