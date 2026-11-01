@@ -19,6 +19,8 @@ npm run dev
 
 The dependency tree is pinned by `package-lock.json`. PR CI runs `npm ci`, tests, Astro/TypeScript validation, and a static build, but has **no deployment permissions**.
 
+The Vue bookmark browser uses the pure `src/lib/bookmark-filter.ts` selector, covered by `tests/bookmark-filter.test.mjs`. After the staging build, CI runs `npm run test:parity`, which independently parses all 576 original Markdown frontmatter records and compares each ID, title, category, date, link destination, and comments with Astro's generated Content Collection output. The temporary `/migration-audit/bookmarks-parity.json` route exists only for this staging check. **Remove it before any public Astro cutover** rather than publishing an internal audit artifact.
+
 ## Content source
 
 The `bookmarks` Astro Content Collection directly reads `../content/bookmarks/**/*.md` including the original frontmatter. Legacy `_index.md` section files are ignored when rendering bookmark records. No bookmark data has been migrated or modified.
