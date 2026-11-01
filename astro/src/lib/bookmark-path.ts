@@ -9,7 +9,7 @@ export function bookmarkDetailPath(id: string): string {
       !/^[\p{L}\p{N}_-]+$/u.test(filename)) {
     throw new Error(`Unsupported legacy bookmark ID: ${id}`);
   }
-  return `/bookmarks/${category.slug}/${encodeURIComponent(filename)}/`;
+  return `/bookmarks/${category.slug}/${encodeURIComponent(filename.toLowerCase())}/`;
 }
 
 /**
