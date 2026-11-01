@@ -1,0 +1,28 @@
+---
+import type { GetStaticPaths } from "astro";
+import SiteLayout from "../../../layouts/SiteLayout.astro";
+import BookmarkBrowser from "../../../components/BookmarkBrowser.vue";
+import { BOOKMARK_CATEGORIES, bookmarkCategoryFeedPath } from "../../../lib/bookmark-categories.ts";
+import { loadBookmarks } from "../../../lib/bookmark-data.ts";
+
+export const getStaticPaths = (() =>
+  BOOKMARK_CATEGORIES.map((category) => ({
+    params: { category: category.slug },
+    props: { category },
+  }))
+) satisfies GetStaticPaths;
+
+const { category } = Astro.props;
+const bookmarks = (await loadBookmarks())
+  .filter((record) => record.id.startsWith(`${category.section}/`))
+  .map(({ id, title, category: categoryName, url, date }) => ({
+    id, title, category: categoryName, url, date,
+  }));
+const feedPath = bookmarkCategoryFeedPath(category.slug);
+---
+<SiteLayout title={`${category.label} bookmarks`} description={`Saved links in ${category.label}`}>
+  <p><a href="/bookmarks/">All bookmarks</a></p>
+  <h1>{category.label} bookmarks</h1>
+  <p>{bookmarks.length} saved links · <a href={feedPath} type="application/rss+xml">RSS feed</a></p>
+  <BookmarkBrowser items={bookmarks} client:load />
+</SiteLayout>
