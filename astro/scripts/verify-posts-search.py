@@ -6,6 +6,7 @@ not silently appear in an archive that cannot link to it.
 """
 from html.parser import HTMLParser
 from pathlib import Path
+import os
 from urllib.parse import urlparse
 import re
 
@@ -97,6 +98,14 @@ def check_pages():
             expected_empty = "Trenutno nema objavljenih tekstova" if route.startswith("sr/") else "There are no published posts yet"
             assert expected_empty in html, ("Missing truthful empty archive", route)
         print(f"Verified /{route}/ from {source}, locale {language}")
+
+    legacy = os.environ.get("LEGACY_HUGO_SITE_DIR")
+    if not legacy:
+        raise RuntimeError("Compiled Hugo baseline is required to verify route parity")
+    for route in ("posts", "sr/posts", "search", "sr/search", "en/posts"):
+        path = Path(legacy) / route / "index.html"
+        assert path.is_file(), f"Legacy Hugo did not generate the expected route: {route}"
+    print("All five Astro page/alias URLs exist in the compiled legacy Hugo output")
 
     redirect, _ = load_page("en/posts")
     assert 'http-equiv="refresh"' in redirect and '0;url=/posts/' in redirect, "Legacy Hugo archive alias missing"
