@@ -20,7 +20,7 @@ const bookmarks = (await loadBookmarks())
   }));
 const feedPath = bookmarkCategoryFeedPath(category.slug);
 ---
-<SiteLayout title={`${category.label} bookmarks`} description={`Saved links in ${category.label}`}>
+<SiteLayout title={`${category.label} bookmarks`} rssHref={feedPath} description={`Saved links in ${category.label}`}>
   <p><a href="/bookmarks/">All bookmarks</a></p>
   <h1>{category.label} bookmarks</h1>
   <p>{bookmarks.length} saved links · <a href={feedPath} type="application/rss+xml">RSS feed</a></p>
