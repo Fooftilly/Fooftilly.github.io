@@ -49,7 +49,12 @@ def validate(lang, source, html_file, alternate):
     assert "{{<" not in html and "cloakemail" not in html, "Raw Hugo shortcode leaked to Astro"
     assert "Creative Commons Attribution-ShareAlike 4.0 International License" in html, source
     assert "Github Repo" in html, source
-    assert ("Moj lični sajt." if lang == "sr" else "My personal website. Made by me.") in html
+    visible_text = " ".join(part.strip() for part in doc.parts if part.strip())
+    expected_intro = "Moj lični sajt." if lang == "sr" else "My personal website. Made by me."
+    assert expected_intro in visible_text, (
+        f"Missing localized original introduction: {expected_intro!r}; "
+        f"rendered text sample: {visible_text[:900]!r}"
+    )
     assert any(item.get("rel") == "alternate" and item.get("hreflang") == ("en" if lang == "sr" else "sr-Latn") and item.get("href") == alternate for item in doc.links), "Missing cross-language alternate"
 
     email, label, query = shortcode(raw)
