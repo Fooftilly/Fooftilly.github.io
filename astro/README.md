@@ -25,7 +25,7 @@ The Vue bookmark browser uses the pure `src/lib/bookmark-filter.ts` selector, co
 
 The `bookmarks` Astro Content Collection directly reads `../content/bookmarks/**/*.md` including the original frontmatter. Legacy `_index.md` section files are ignored when rendering bookmark records. No bookmark data has been migrated or modified.
 
-The staging app now renders the root bookmark browser and all seven legacy category URLs. Static root and category RSS feeds are generated at `/bookmarks/index.xml` and `/bookmarks/<category>/index.xml`, and CI checks XML well-formedness plus source-to-feed parity for all 576 bookmarks. This resolves category and bookmark RSS behavior **in staging only**; public production remains Hugo until the broader migration passes acceptance. Bookmark detail routes are now generated from all original Markdown filenames, and Notes links appear only for entries with body content. A post-build route audit validates all detail pages and their source-derived URLs; the full source-to-output parity audit also checks Notes links against original Markdown bodies. A temporary CI baseline builds Hugo 0.147.3 and compares **all 576 compiled bookmark page paths** against Astro output; the current run confirmed exact parity, including Hugo's lowercase treatment of original mixed-case filenames. The source currently contains no nonempty bookmark Markdown bodies, so conditional Notes links render only for future entries that have body content. Broader site URL and content parity remain cutover requirements. Bilingual routes, home RSS, full SEO/sitemap parity, article migration and authenticated bookmark authoring remain roadmap work.
+The staging app now renders the root bookmark browser and all seven legacy category URLs. Static root and category RSS feeds are generated at `/bookmarks/index.xml` and `/bookmarks/<category>/index.xml`, and CI checks XML well-formedness plus source-to-feed parity for all 576 bookmarks. This resolves category and bookmark RSS behavior **in staging only**; public production remains Hugo until the broader migration passes acceptance. Bookmark detail routes are now generated from all original Markdown filenames, and Notes links appear only for entries with body content. A post-build route audit validates all detail pages and their source-derived URLs; the full source-to-output parity audit also checks Notes links against original Markdown bodies. A temporary CI baseline builds Hugo 0.147.3 and compares **all 576 compiled bookmark page paths** against Astro output; the current run confirmed exact parity, including Hugo's lowercase treatment of original mixed-case filenames. The source currently contains no nonempty bookmark Markdown bodies, so conditional Notes links render only for future entries that have body content. Broader site URL and content parity remain cutover requirements. Existing English/Serbian About pages and posts/search route shells now exist in staging. Home RSS, full-site URL/content parity, future article-detail rendering and authenticated bookmark authoring remain roadmap work.
 
 ## Publishing
 
@@ -40,10 +40,10 @@ images, fonts and the web manifest are copied byte-for-byte during the build.
 No duplicate asset tree is maintained.
 
 The staging build produces `/sitemap.xml` with the routes **actually
-implemented in Astro**: homepage, About placeholder, bookmark root, seven
-categories and 576 detail pages. Future English/Serbian posts and search pages
-must be added to the shared site index when their routes are implemented.
-The sitemap does not claim these future pages exist.
+implemented in Astro**: English and Serbian home/About/posts/search pages,
+bookmark root, seven categories and 576 detail pages (592 canonical URLs).
+The legacy `/en/posts/` redirect is excluded from the sitemap. Future
+published article detail URLs must be added only once they are implemented.
 
 Shared layouts now emit canonical, description, author, icon and social
 metadata, with an explicit language parameter for upcoming translated routes.
@@ -72,8 +72,9 @@ fail the build rather than appear as broken template text.
 
 Both source documents still describe Hugo/PaperMod. Their factual references
 must be refreshed when the Astro cutover is approved, without changing the
-published Hugo About pages prematurely. Other Serbian, posts and search
-routes remain outside this initial bilingual slice.
+published Hugo About pages prematurely. The following posts/search slice adds the localized pages and bookmark
+search. Future article rendering and broader localization still require
+separate parity work.
 
 ## Posts and search route migration (staging only)
 
