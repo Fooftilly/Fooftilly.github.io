@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 import { parse } from "yaml";
 
 const source = fileURLToPath(new URL("../../content/bookmarks/", import.meta.url));
-const manifest = fileURLToPath(new URL("../dist/_migration/bookmarks-parity.json", import.meta.url));
+const manifest = fileURLToPath(new URL("../dist/migration-audit/bookmarks-parity.json", import.meta.url));
 
 const categories = {
   Art: "Art",
