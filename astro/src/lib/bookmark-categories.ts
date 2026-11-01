@@ -1,6 +1,6 @@
 /**
- * Hugo section names and their existing public lowercase URL slugs.
- * These names are content-routing compatibility data, not UI guesses.
+ * Source Markdown category names and canonical lowercase URL slugs.
+ * These shared identifiers power navigation, filtering and feeds.
  */
 export const BOOKMARK_CATEGORIES = [
   { section: "Art", slug: "art", label: "Art", labelSr: "Umjetnost" },
