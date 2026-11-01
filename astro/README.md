@@ -52,3 +52,25 @@ sitemap completeness and representative metadata on generated pages.
 
 This does **not** complete full Hugo URL, localized content, or SEO parity;
 the old site remains published until all roadmap #11 acceptance gates pass.
+
+
+## Bilingual About migration (staging only)
+
+The English `/about/` and Serbian Latin `/sr/about/` pages render the
+original `content/about.md` and `content/about.sr.md` Markdown through an
+Astro Content Collection. The `/sr/` homepage, localized navigation and
+reciprocal `hreflang` links are now generated. There is still no duplication
+of the two About source documents.
+
+The original About documents include a Hugo `cloakemail` shortcode. A
+strict remark transformer maps that known shortcode to an accessible
+`mailto:` link while retaining its localized label and subject. **Unlike the
+original obfuscation shortcode, this exposes the already-public source email
+address in generated HTML**. Restore equivalent email obfuscation or explicitly
+accept the trade-off before production cutover. An unknown shortcode must
+fail the build rather than appear as broken template text.
+
+Both source documents still describe Hugo/PaperMod. Their factual references
+must be refreshed when the Astro cutover is approved, without changing the
+published Hugo About pages prematurely. Other Serbian, posts and search
+routes remain outside this initial bilingual slice.
