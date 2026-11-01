@@ -2,9 +2,9 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { getPublishedPaths, absoluteSiteUrl, renderSitemap } from "../src/lib/site-index.ts";
 
-test("sitemap only includes existing routes with stable Hugo-compatible bookmark case", () => {
+test("sitemap only includes implemented routes with canonical lowercase bookmark paths", () => {
   const paths = getPublishedPaths(["Art/UpperCase", "Perspectives/partII"]);
-  assert.equal(paths.length, 14);
+  assert.equal(paths.length, 18);
   assert.ok(paths.includes("/"));
   assert.ok(paths.includes("/about/"));
   assert.ok(paths.includes("/bookmarks/art/uppercase/"));
@@ -12,7 +12,11 @@ test("sitemap only includes existing routes with stable Hugo-compatible bookmark
   assert.ok(paths.includes("/bookmarks/paperbookarticle/"));
   assert.ok(paths.includes("/sr/"));
   assert.ok(paths.includes("/sr/about/"));
-  assert.ok(!paths.includes("/sr/posts/"), "No unimplemented posts archive should be indexed");
+  assert.ok(paths.includes("/sr/posts/"));
+  assert.ok(paths.includes("/posts/"));
+  assert.ok(paths.includes("/search/"));
+  assert.ok(paths.includes("/sr/search/"));
+  assert.ok(!paths.includes("/en/posts/"), "Do not add compatibility redirects");
 });
 
 test("duplicate URLs and malformed paths fail fast", () => {

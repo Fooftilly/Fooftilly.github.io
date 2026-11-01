@@ -1,0 +1,25 @@
+---
+import { getEntry } from "astro:content";
+import BookmarkBrowser from "./BookmarkBrowser.vue";
+import { loadBookmarks } from "../lib/bookmark-data.ts";
+
+interface Props { lang: "en" | "sr" }
+const { lang } = Astro.props;
+const key = lang === "sr" ? "search.sr" : "search";
+const entry = await getEntry("sitePages", key);
+if (!entry) throw new Error(`Missing original search page metadata: ${key}`);
+const bookmarks = (await loadBookmarks()).map(({ id, title, category, url, date, notesUrl }) =>
+  ({ id, title, category, url, date, notesUrl })
+);
+---
+<section class="search-page">
+  <h1>{entry.data.title}</h1>
+  <p>{lang === "sr"
+    ? "Pretraži 576 sačuvanih linkova po nazivu, kategoriji ili adresi. Tekstovi će biti uključeni kada budu objavljeni."
+    : "Search 576 saved bookmarks by title, category or address. Posts will be included when published."}</p>
+  <BookmarkBrowser items={bookmarks} lang={lang} client:load />
+</section>
+<style>
+  .search-page { margin: 1.5rem 0; }
+  .search-page > p { color: var(--muted); max-width: 65ch; }
+</style>

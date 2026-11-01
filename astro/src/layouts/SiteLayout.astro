@@ -48,7 +48,9 @@ const languageLabel = lang === "sr" ? "English" : "Srpski";
       <nav class="site-nav" aria-label="Main navigation">
         <a class="site-brand" href={lang === "sr" ? "/sr/" : "/"}>Nikola Perović</a>
         <div class="site-links">
+          <a href={lang === "sr" ? "/sr/posts/" : "/posts/"}>{lang === "sr" ? "Objave" : "Posts"}</a>
           <a href="/bookmarks/">{lang === "sr" ? "Sačuvani linkovi" : "Bookmarks"}</a>
+          <a href={lang === "sr" ? "/sr/search/" : "/search/"}>{lang === "sr" ? "Pretraga" : "Search"}</a>
           <a href={lang === "sr" ? "/sr/about/" : "/about/"}>{lang === "sr" ? "O sajtu" : "About"}</a>
           {languageAlternate && <a href={languageAlternate} lang={lang === "sr" ? "en" : "sr-Latn"} hreflang={lang === "sr" ? "en" : "sr-Latn"}>{languageLabel}</a>}
         </div>
