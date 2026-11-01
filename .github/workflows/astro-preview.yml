@@ -50,6 +50,9 @@ jobs:
         working-directory: astro
         run: npm run test:parity
 
+      - name: Verify root and category RSS feed parity
+        run: python3 astro/scripts/verify_bookmark_feeds.py
+
       - name: Check staged output routes
         shell: bash
         run: |
@@ -57,6 +60,9 @@ jobs:
           test -s astro/dist/index.html
           test -s astro/dist/bookmarks/index.html
           test -s astro/dist/about/index.html
+          test -s astro/dist/bookmarks/art/index.html
+          test -s astro/dist/bookmarks/paperbookarticle/index.html
+          test -s astro/dist/bookmarks/index.xml
           # Assert that the generated browser really consumes legacy Markdown,
           # not just that the filesystem inventory test passes.
           grep -Fq '50 Watts' astro/dist/bookmarks/index.html
