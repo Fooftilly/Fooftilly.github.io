@@ -10,14 +10,14 @@ Node.js 24 (or a compatible Node >=22.22.0) is required.
 
 ```sh
 cd astro
-npm install
+npm ci
 npm run check
 npm test
 npm run build
 npm run dev
 ```
 
-> Initial foundation note: `package-lock.json` must be generated with `npm install` in an environment with npm registry access and committed before treating CI as a deterministic release gate. GitHub-hosted validation runs the install; this initial staging PR is **not** production-ready without the lockfile.
+The dependency tree is pinned by `package-lock.json`. PR CI runs `npm ci`, tests, Astro/TypeScript validation, and a static build, but has **no deployment permissions**.
 
 ## Content source
 
