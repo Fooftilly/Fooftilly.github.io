@@ -6,6 +6,7 @@ import hashlib
 import json
 from html.parser import HTMLParser
 from pathlib import Path
+from urllib.parse import quote
 from xml.etree import ElementTree as ET
 
 ASTRO = Path(__file__).resolve().parents[1]
@@ -59,7 +60,7 @@ def check_sitemap():
     expected.update(f"{SITE}/bookmarks/{section}/" for section in SECTIONS)
     for record in records:
         section, stem = record["id"].split("/")
-        expected.add(f"{SITE}/bookmarks/{section.lower()}/{stem.lower()}/")
+        expected.add(f"{SITE}/bookmarks/{section.lower()}/{quote(stem.lower(), safe='-._~')}/")
     assert len(expected) == 586, "Expected 3 root pages + 7 categories + 576 details"
 
     root = ET.parse(DIST / "sitemap.xml").getroot()
