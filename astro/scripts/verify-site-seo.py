@@ -71,7 +71,9 @@ def check_sitemap():
     assert set(locs) == expected, f"Sitemap mismatch: extra {set(locs)-expected}, missing {expected-set(locs)}"
     for link in locs:
         assert link and link.startswith(SITE + "/"), link
-    print(f"Validated sitemap: {len(locs)} unique canonical URLs")
+    assert not (DIST / "migration-audit").exists(), "Private audit data leaked into public output"
+    assert (ASTRO / ".audit/bookmarks-parity.json").is_file(), "CI-only audit manifest missing"
+    print(f"Validated sitemap: {len(locs)} unique canonical URLs; no public audit artifacts")
 
 
 def check_metadata():
@@ -101,6 +103,13 @@ def check_metadata():
         assert any(link.get("rel") == "canonical" and link.get("href") == expected for link in doc.links), urlpath
         for needed in ("/favicon.svg", "/site.webmanifest"):
             assert any(link.get("href") == needed for link in doc.links), (urlpath, needed)
+        if urlpath in ("/", "/sr/", "/posts/", "/sr/posts/"):
+            assert any(
+                link.get("rel") == "alternate"
+                and link.get("type") == "application/rss+xml"
+                and link.get("href") == "/index.xml"
+                for link in doc.links
+            ), ("Missing site-wide RSS discovery", urlpath)
     print(f"Validated SEO and social metadata on {len(pages)} representative pages")
 
 
