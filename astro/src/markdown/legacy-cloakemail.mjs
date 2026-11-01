@@ -43,9 +43,19 @@ export function rewriteCloakEmailNode(node) {
 export function satteriLegacyCloakEmail() {
   return {
     name: "astro-legacy-cloakemail",
-    text(node, ctx) {
-      if (!node.value?.includes("cloakemail")) return;
-      ctx.replaceNode(node, rewriteCloakEmailNode(node));
+    paragraph(node, ctx) {
+      // Sätteri may split {{< ... >}} into multiple text/HTML nodes, so
+      // a text visitor cannot reliably recognize the entire shortcode.
+      if (!ctx.textContent(node).includes("cloakemail")) return;
+      const matches = [...ctx.source.matchAll(CLOAK)];
+      if (matches.length !== 1) {
+        throw new Error("Expected exactly one known cloakemail shortcode");
+      }
+      const links = rewriteCloakEmailNode({ type: "text", value: matches[0][0] });
+      if (links.length !== 1 || links[0].type !== "link") {
+        throw new Error("Unsupported mixed-content email shortcode");
+      }
+      return { type: "paragraph", children: links };
     },
   };
 }
