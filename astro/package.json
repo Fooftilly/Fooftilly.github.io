@@ -10,7 +10,7 @@
     "dev": "astro dev",
     "check": "astro check",
     "test": "node --test tests/*.test.mjs",
-    "build": "astro build",
+    "build": "astro build && node scripts/prepare-public-output.mjs",
     "preview": "astro preview",
     "test:parity": "node --test scripts/verify-bookmark-parity.mjs",
     "test:routes": "node --test scripts/verify-bookmark-routes.mjs"
