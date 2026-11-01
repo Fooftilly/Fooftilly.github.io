@@ -58,7 +58,7 @@ export function satteriLegacyCloakEmail() {
       // A newline without a blank line is part of the same Markdown
       // paragraph. Preserve the sentence preceding the shortcode.
       const precedingLine = ctx.source.slice(0, matches[0].index)
-        .trimEnd().split(/\\r?\\n/).at(-1) ?? "";
+        .trimEnd().split(/\r?\n/).at(-1) ?? "";
       const sameParagraph = precedingLine &&
         ctx.textContent(node).includes(precedingLine);
       const children = sameParagraph
