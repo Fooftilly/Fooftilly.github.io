@@ -16,7 +16,7 @@ const date = ref("");
 const comments = ref("");
 const notes = ref("");
 const status = ref("");
-const editorLimit = 6000;
+const editorLimit = 4000; // Conservative URL length across browsers and GitHub redirects.
 // Paste this as the URL of a browser bookmark to capture the current page.
 // The target only becomes available once Astro is published at the domain.
 const captureBookmarklet = 'javascript:(()=>{const u=new URL("https://www.peroniko.xyz/new-bookmark/");u.searchParams.set("url",location.href);u.searchParams.set("title",document.title);window.open(u.href,"_blank","noopener");})();';
