@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from "vue";
 import { filterAndSortBookmarks, type Bookmark, type BookmarkSort } from "../lib/bookmark-filter.ts";
+import { bookmarkCategoryDisplayLabel } from "../lib/bookmark-categories.ts";
 
 const props = withDefaults(defineProps<{ items: Bookmark[]; lang?: "en" | "sr" }>(), {
   lang: "en",
@@ -85,7 +86,7 @@ watch([query, category, sort], () => {
         <span>{{ labels.category }}</span>
         <select v-model="category">
           <option value="all">{{ labels.all }}</option>
-          <option v-for="name in categories" :key="name" :value="name">{{ name }}</option>
+          <option v-for="name in categories" :key="name" :value="name">{{ bookmarkCategoryDisplayLabel(name, lang) }}</option>
         </select>
       </label>
       <label>
