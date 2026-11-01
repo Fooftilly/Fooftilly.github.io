@@ -109,7 +109,7 @@ def check_pages():
     # output does not actually generate it. Keep an accessible Astro redirect
     # for the declared contract without asserting false live Hugo parity.
     source_alias = (CONTENT / "posts.md").read_text(encoding="utf8")
-    assert re.search(r'^aliases:\\s*["\\x27]?/en/posts/', source_alias, re.MULTILINE), "Declared Hugo posts alias disappeared"
+    assert 'aliases: "/en/posts/"' in source_alias, "Declared Hugo posts alias disappeared"
     print("Four Astro pages match compiled Hugo routes; /en/posts/ restores a source-declared alias")
 
     redirect, _ = load_page("en/posts")
