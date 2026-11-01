@@ -58,10 +58,9 @@ test("all source bookmark metadata survives Astro collection loading and output"
       filename => filename.endsWith(".md") && filename !== "_index.md"
     );
     for (const filename of files) {
-      const frontmatter = parseFrontmatter(
-        await readFile(path.join(source, section, filename), "utf8"),
-        `${section}/${filename}`
-      );
+      const raw = await readFile(path.join(source, section, filename), "utf8");
+      const frontmatter = parseFrontmatter(raw, `${section}/${filename}`);
+      const sourceBody = raw.replace(/^---\r?\n[\s\S]*?\r?\n---(?:\r?\n|$)/, "").trim();
       if (frontmatter.draft === true) continue;
       const id = `${section}/${filename.slice(0, -3)}`;
       const rawLink = frontmatter.link ?? "";
@@ -73,6 +72,7 @@ test("all source bookmark metadata survives Astro collection loading and output"
         rawLink,
         url: safeLink(rawLink),
         comments: frontmatter.comments ?? "",
+        notesUrl: sourceBody ? `/bookmarks/${section.toLowerCase()}/${filename.slice(0, -3)}/` : "",
       };
       assert.ok(!expected.has(id), `Duplicate source ID: ${id}`);
       expected.set(id, normalized);
