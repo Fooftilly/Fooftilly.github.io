@@ -1,0 +1,12 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import NewBookmark from "../../components/NewBookmark.vue";
+import { loadBookmarks } from "../../lib/bookmark-data.ts";
+
+// Only the metadata necessary for duplicate detection and filename collision
+// avoidance is sent to the browser; comments and full Markdown stay server-side.
+const existing = (await loadBookmarks()).map(({ id, url }) => ({ id, url }));
+---
+<SiteLayout title="New bookmark" description="Prepare a bookmark Markdown draft and review it in the GitHub editor.">
+  <NewBookmark existing={existing} client:load />
+</SiteLayout>
