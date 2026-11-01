@@ -11,6 +11,8 @@ export function getPublishedPaths(bookmarkIds: readonly string[]): string[] {
   const paths = [
     "/",
     "/about/",
+    "/sr/",
+    "/sr/about/",
     "/bookmarks/",
     ...BOOKMARK_CATEGORIES.map((category) => bookmarkCategoryPath(category.slug)),
     ...bookmarkIds.map(bookmarkDetailPath),

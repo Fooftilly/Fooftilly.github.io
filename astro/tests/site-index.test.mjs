@@ -4,13 +4,15 @@ import { getPublishedPaths, absoluteSiteUrl, renderSitemap } from "../src/lib/si
 
 test("sitemap only includes existing routes with stable Hugo-compatible bookmark case", () => {
   const paths = getPublishedPaths(["Art/UpperCase", "Perspectives/partII"]);
-  assert.equal(paths.length, 12);
+  assert.equal(paths.length, 14);
   assert.ok(paths.includes("/"));
   assert.ok(paths.includes("/about/"));
   assert.ok(paths.includes("/bookmarks/art/uppercase/"));
   assert.ok(paths.includes("/bookmarks/perspectives/partii/"));
   assert.ok(paths.includes("/bookmarks/paperbookarticle/"));
-  assert.ok(!paths.includes("/sr/about/"), "No unimplemented localized page should be indexed");
+  assert.ok(paths.includes("/sr/"));
+  assert.ok(paths.includes("/sr/about/"));
+  assert.ok(!paths.includes("/sr/posts/"), "No unimplemented posts archive should be indexed");
 });
 
 test("duplicate URLs and malformed paths fail fast", () => {

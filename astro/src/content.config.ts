@@ -18,4 +18,22 @@ const bookmarks = defineCollection({
   }).passthrough(),
 });
 
-export const collections = { bookmarks };
+// Reuse the original English/Serbian Markdown rather than maintaining a
+// second copy of About text in Astro component files.
+const sitePages = defineCollection({
+  loader: glob({
+    pattern: "*.md",
+    base: "../content",
+    generateId: ({ entry }) => entry.replace(/\.md$/i, ""),
+  }),
+  schema: z.object({
+    title: z.string(),
+    translationKey: z.string().optional(),
+    url: z.string().optional(),
+    aliases: z.union([z.array(z.string()), z.string()]).optional(),
+    summary: z.string().optional(),
+    layout: z.string().optional(),
+  }).passthrough(),
+});
+
+export const collections = { bookmarks, sitePages };

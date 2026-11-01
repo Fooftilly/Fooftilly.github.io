@@ -1,5 +1,7 @@
 import { defineConfig } from "astro/config";
 import vue from "@astrojs/vue";
+import { satteri } from "@astrojs/markdown-satteri";
+import { satteriLegacyCloakEmail } from "./src/markdown/legacy-cloakemail.mjs";
 
 // Staging-only build; publication is deliberately disabled until #11 acceptance.
 export default defineConfig({
@@ -9,4 +11,5 @@ export default defineConfig({
   publicDir: "../static",
   output: "static",
   integrations: [vue()],
+  markdown: { processor: satteri({ mdastPlugins: [satteriLegacyCloakEmail()] }) },
 });

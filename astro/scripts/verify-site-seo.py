@@ -56,12 +56,12 @@ def check_assets():
 def check_sitemap():
     records = json.loads((DIST / "migration-audit/bookmarks-parity.json").read_text())
     assert len(records) == 576, "Expected full bookmark parity manifest"
-    expected = {SITE + "/", SITE + "/about/", SITE + "/bookmarks/"}
+    expected = {SITE + "/", SITE + "/about/", SITE + "/sr/", SITE + "/sr/about/", SITE + "/bookmarks/"}
     expected.update(f"{SITE}/bookmarks/{section}/" for section in SECTIONS)
     for record in records:
         section, stem = record["id"].split("/")
         expected.add(f"{SITE}/bookmarks/{section.lower()}/{quote(stem.lower(), safe='-._~')}/")
-    assert len(expected) == 586, "Expected 3 root pages + 7 categories + 576 details"
+    assert len(expected) == 588, "Expected 5 root pages + 7 categories + 576 details"
 
     root = ET.parse(DIST / "sitemap.xml").getroot()
     ns = "{http://www.sitemaps.org/schemas/sitemap/0.9}"
@@ -78,6 +78,8 @@ def check_metadata():
     pages = {
         "/": DIST / "index.html",
         "/about/": DIST / "about/index.html",
+        "/sr/": DIST / "sr/index.html",
+        "/sr/about/": DIST / "sr/about/index.html",
         "/bookmarks/": DIST / "bookmarks/index.html",
         "/bookmarks/art/": DIST / "bookmarks/art/index.html",
         "/bookmarks/art/50_watts___illustrations___/": DIST / "bookmarks/art/50_watts___illustrations___/index.html",
@@ -86,7 +88,7 @@ def check_metadata():
         doc = Metadata()
         doc.feed(filename.read_text(encoding="utf8"))
         expected = SITE + urlpath
-        assert doc.html_lang == "en", (urlpath, doc.html_lang)
+        assert doc.html_lang == ("sr-Latn" if urlpath.startswith("/sr/") else "en"), (urlpath, doc.html_lang)
         assert doc.metas.get("description"), urlpath
         assert doc.metas.get("author") == "Nikola Perović", urlpath
         assert doc.metas.get("og:url") == expected, urlpath

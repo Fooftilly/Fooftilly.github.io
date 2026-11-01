@@ -84,6 +84,9 @@ jobs:
           LEGACY_HUGO_SITE_DIR: ${{ runner.temp }}/hugo-baseline
         run: node --test scripts/verify-hugo-bookmark-urls.mjs
 
+      - name: Validate bilingual About Markdown and language navigation
+        run: python3 astro/scripts/verify-localized-about.py
+
       - name: Validate sitemap, SEO metadata and original static assets
         run: python3 astro/scripts/verify-site-seo.py
 
@@ -94,6 +97,8 @@ jobs:
           test -s astro/dist/index.html
           test -s astro/dist/bookmarks/index.html
           test -s astro/dist/about/index.html
+          test -s astro/dist/sr/index.html
+          test -s astro/dist/sr/about/index.html
           test -s astro/dist/bookmarks/art/index.html
           test -s astro/dist/bookmarks/paperbookarticle/index.html
           test -s astro/dist/bookmarks/index.xml
