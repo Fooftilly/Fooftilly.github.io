@@ -28,7 +28,7 @@ test("all 576 original bookmark detail URLs are generated with correct canonical
     const slug = categories.get(section);
     assert.ok(slug && stem, `Unrecognized content category: ${record.id}`);
     assert.match(stem, /^[\p{L}\p{N}_-]+$/u);
-    const pathname = `/bookmarks/${slug}/${encodeURIComponent(stem)}/`;
+    const pathname = `/bookmarks/${slug}/${encodeURIComponent(stem.toLowerCase())}/`;
     assert.ok(!expectedPaths.has(pathname), `Colliding detail route: ${pathname}`);
     expectedPaths.add(pathname);
 
