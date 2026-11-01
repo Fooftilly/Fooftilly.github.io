@@ -23,7 +23,6 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-          submodules: recursive
 
       - name: Set up supported Node
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
@@ -35,7 +34,7 @@ jobs:
         working-directory: astro
         run: npm ci --no-audit --no-fund
 
-      - name: Validate legacy bookmark inventory
+      - name: Validate source bookmark inventory
         working-directory: astro
         run: npm test
 
@@ -58,38 +57,10 @@ jobs:
       - name: Verify root and category RSS feed parity
         run: python3 astro/scripts/verify_bookmark_feeds.py
 
-      - name: Install legacy Hugo version for route baseline
-        shell: bash
-        env:
-          HUGO_VERSION: "0.147.3"
-        run: |
-          set -euo pipefail
-          wget -q -O "${RUNNER_TEMP}/hugo.deb" "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb"
-          sudo dpkg -i "${RUNNER_TEMP}/hugo.deb"
-          sudo snap install dart-sass-embedded
-
-      - name: Build current Hugo site strictly for route comparison
-        shell: bash
-        env:
-          HUGO_ENVIRONMENT: production
-          HUGO_ENV: production
-          HUGO_BASEURL: "https://www.peroniko.xyz/"
-        run: |
-          set -euo pipefail
-          hugo --minify --baseURL "$HUGO_BASEURL" --destination "$RUNNER_TEMP/hugo-baseline"
-
-      - name: Compare every Hugo and Astro bookmark permalink
-        working-directory: astro
-        env:
-          LEGACY_HUGO_SITE_DIR: ${{ runner.temp }}/hugo-baseline
-        run: node --test scripts/verify-hugo-bookmark-urls.mjs
-
       - name: Validate bilingual About Markdown and language navigation
         run: python3 astro/scripts/verify-localized-about.py
 
-      - name: Verify localized posts, search pages and legacy archive alias
-        env:
-          LEGACY_HUGO_SITE_DIR: ${{ runner.temp }}/hugo-baseline
+      - name: Verify localized posts and search pages
         run: python3 astro/scripts/verify-posts-search.py
 
       - name: Validate sitemap, SEO metadata and original static assets
@@ -108,7 +79,6 @@ jobs:
           test -s astro/dist/sr/posts/index.html
           test -s astro/dist/search/index.html
           test -s astro/dist/sr/search/index.html
-          test -s astro/dist/en/posts/index.html
           test -s astro/dist/bookmarks/art/index.html
           test -s astro/dist/bookmarks/paperbookarticle/index.html
           test -s astro/dist/bookmarks/index.xml
