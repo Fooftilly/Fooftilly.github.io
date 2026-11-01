@@ -7,7 +7,7 @@ Read the relevant code and GitHub state before changing anything. The production
 ## Product and architecture
 
 - Preserve GitHub Pages, the custom domain `https://www.peroniko.xyz/`, Git-managed Markdown, and current publishing boundaries until the corresponding roadmap phase is verified.
-- Current Hugo templates, citation overrides, and bookmark browser are transitional. Do not add long-lived Hugo-specific architecture while migrating to Astro. Coordinate pending PRs #6, #7 and #8; avoid duplicating or discarding implemented behavior.
+- Current Hugo templates, citation overrides, and bookmark browser are transitional. Do not add long-lived Hugo-specific architecture while migrating to Astro. Coordinate content PR #6 and Hugo-specific bookmarks PR #7; PR #8 is superseded by Astro migration and should not be merged. Avoid duplicating or discarding relevant behavior.
 - Astro should generate static content and SEO markup. Use Vue/TypeScript for interactive components only where needed; maintain reusable, testable state/data helpers.
 - Do not introduce a backend, database, SSR service, users/authentication, remote search indexing, or a new deployment provider without a specific accepted feature need.
 - Use dedicated markup/style/script files and components; never embed large HTML, CSS or JavaScript source strings inside Python or another host language.
