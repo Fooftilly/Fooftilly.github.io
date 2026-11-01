@@ -30,22 +30,7 @@ jobs:
           node-version: "24"
           package-manager-cache: false
 
-      # One-time bootstrap; remove the emitted candidate step after committing
-      # the lockfile. This workflow has read-only permissions.
-      - name: Generate npm lockfile candidate
-        working-directory: astro
-        run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund
-
-      - name: Emit lockfile candidate for commit
-        working-directory: astro
-        shell: bash
-        run: |
-          set -euo pipefail
-          printf 'ASTRO_LOCKFILE_BEGIN\\n'
-          base64 -w0 package-lock.json
-          printf '\\nASTRO_LOCKFILE_END\\n'
-
-      - name: Install staging dependencies from generated lock
+      - name: Install pinned dependencies
         working-directory: astro
         run: npm ci --no-audit --no-fund
 
