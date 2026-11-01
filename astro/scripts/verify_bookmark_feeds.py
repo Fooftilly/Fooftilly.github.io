@@ -75,9 +75,10 @@ def verify_feed(feed_path, expected_records, expected_channel_url):
 
 
 def main():
-    manifest = DIST / "migration-audit/bookmarks-parity.json"
+    manifest = ROOT / ".audit/bookmarks-parity.json"
     entries = json.loads(manifest.read_text(encoding="utf-8"))
     assert len(entries) == 576, "Source parity gate requires all 576 bookmark entries"
+    verify_feed(DIST / "index.xml", entries, SITE + "/")
     verify_feed(DIST / "bookmarks/index.xml", entries, SITE + "/bookmarks/")
     for slug, section in CATEGORIES.items():
         subset = [entry for entry in entries if entry["id"].startswith(section + "/")]
@@ -88,7 +89,7 @@ def main():
             SITE + f"/bookmarks/{slug}/",
         )
     assert sum(len([e for e in entries if e["id"].startswith(s + "/")]) for s in CATEGORIES.values()) == len(entries)
-    print("All category routes and RSS feeds match the complete bookmark manifest")
+    print("Site-wide, bookmark and category RSS feeds match the complete bookmark manifest")
 
 
 if __name__ == "__main__":

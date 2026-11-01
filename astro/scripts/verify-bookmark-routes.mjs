@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 import path from "node:path";
 
 const root = fileURLToPath(new URL("../dist/", import.meta.url));
-const manifestPath = path.join(root, "migration-audit/bookmarks-parity.json");
+const manifestPath = fileURLToPath(new URL("../.audit/bookmarks-parity.json", import.meta.url));
 const categories = new Map([
   ["Art", "art"],
   ["Fun", "fun"],

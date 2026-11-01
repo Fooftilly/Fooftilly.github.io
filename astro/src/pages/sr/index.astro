@@ -1,11 +1,12 @@
 ---
 import SiteLayout from "../../layouts/SiteLayout.astro";
 ---
-<SiteLayout title="Početna" description="Lični sajt: sačuvani linkovi, objave i bilješke." lang="sr" languageAlternate="/">
+<SiteLayout title="Početna" description="Lični sajt: sačuvani linkovi, objave i bilješke." lang="sr" languageAlternate="/" rssHref="/index.xml">
   <section class="intro">
     <h1>Nikola Perović</h1>
     <p>Lični prostor za sačuvane linkove, bilješke i projekte.</p>
     <a class="button-link" href="/bookmarks/">Pogledaj sačuvane linkove</a>
+    <p><a href="/index.xml" type="application/rss+xml">Prati nove linkove (RSS)</a></p>
   </section>
   <p>Ovo je pregled sajta tokom prelaska sa Hugo na Astro.</p>
 </SiteLayout>

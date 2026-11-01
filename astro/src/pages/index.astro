@@ -1,11 +1,12 @@
 ---
 import SiteLayout from "../layouts/SiteLayout.astro";
 ---
-<SiteLayout title="Home" languageAlternate="/sr/">
+<SiteLayout title="Home" languageAlternate="/sr/" rssHref="/index.xml">
   <section class="intro">
     <h1>Nikola Perović</h1>
     <p>A personal space for bookmarks, notes, projects and collections.</p>
     <a class="button-link" href="/bookmarks/">Explore bookmarks</a>
+    <p><a href="/index.xml" type="application/rss+xml">Subscribe to updates (RSS)</a></p>
   </section>
   <section aria-labelledby="staging-note">
     <h2 id="staging-note">Astro migration preview</h2>

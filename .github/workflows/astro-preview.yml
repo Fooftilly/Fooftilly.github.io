@@ -34,6 +34,10 @@ jobs:
         working-directory: astro
         run: npm ci --no-audit --no-fund
 
+      - name: Verify development server cannot serve private audit data
+        working-directory: astro
+        run: node scripts/verify-dev-audit.mjs
+
       - name: Validate source bookmark inventory
         working-directory: astro
         run: npm test
@@ -45,6 +49,14 @@ jobs:
       - name: Build static preview (never deploy)
         working-directory: astro
         run: npm run build
+
+      - name: Verify public build has no internal migration audit endpoint
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s astro/.audit/bookmarks-parity.json
+          test ! -e astro/dist/migration-audit
+          test -s astro/dist/index.xml
 
       - name: Verify all Astro-loaded bookmarks against source frontmatter
         working-directory: astro
@@ -88,6 +100,8 @@ jobs:
           test -s astro/dist/bookmarks/art/index.html
           test -s astro/dist/bookmarks/paperbookarticle/index.html
           test -s astro/dist/bookmarks/index.xml
+          test -s astro/dist/index.xml
+          test ! -e astro/dist/migration-audit
           test -s astro/dist/sitemap.xml
           test -s astro/dist/CNAME
           test -s astro/dist/favicon.svg

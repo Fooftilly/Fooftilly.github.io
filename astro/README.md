@@ -33,8 +33,10 @@ to Pages. The old Hugo workflow remains manual-only for the still-published site
   selector. The Vue browser supports incremental rendering and URL query state.
 - Individual bookmark pages render source Markdown body when present; source
   records currently contain no nonempty body notes.
-- Seven category pages and root/category RSS feeds are generated statically.
-  CI checks XML, metadata, links and all 576 feed items.
+- The site-wide `/index.xml` RSS feed, bookmarks root feed and seven category
+  feeds are generated statically from all 576 bookmarks (no published posts
+  currently exist). The home and posts pages advertise the site feed; CI
+  validates all 9 XML feeds, metadata, links and record ordering.
 - `sitePages` uses the original English and Serbian-Latin About, posts and search
   Markdown frontmatter. About content is rendered directly from Markdown;
   posts/search routes use original page titles without inventing articles.
@@ -59,8 +61,11 @@ language alternates.
 `verify_bookmark_feeds.py`, `verify-posts-search.py`,
 `verify-localized-about.py` and `verify-site-seo.py` validate the new
 rendered output against the original Markdown and relevant static assets.
-The `/migration-audit/bookmarks-parity.json` endpoint exists solely for
-staging checks and **must be removed from publicly deployed output**.
+The source-to-Astro parity manifest is generated during `astro build`, but
+`npm run build` immediately moves it to the ignored `.audit/` directory and
+removes `/migration-audit/` from `dist/`. Both CI and unit tests require this
+cleanup to succeed before a release-ready output is accepted. No public build
+contains the internal parity endpoint.
 
 ## Remaining cutover work
 
@@ -71,9 +76,21 @@ staging checks and **must be removed from publicly deployed output**.
   of obfuscating it; restore obfuscation or explicitly accept this difference.
 - Confirm final design, usability, accessibility, article publishing/editing,
   content metadata, home RSS and any planned authenticated bookmark creation.
-- Remove temporary audit output and obsolete Hugo-only runtime/build files
-  **at cutover**, not while they still provide the existing published website.
+- Remove obsolete Hugo-only runtime/build files **at cutover**, not while they
+  still provide the currently published website. The public audit endpoint has
+  already been eliminated from the Astro build output.
 - Introduce a separately reviewed Astro deployment workflow with rollback
   instructions only after staging acceptance.
 
 No database, server or new publishing credentials are introduced here.
+
+## Release-ready build discipline
+
+Run `npm run build`, **not** `npx astro build`, for any deploy candidate.
+The package build script fails if the generated parity manifest is invalid,
+extracts it to ignored `.audit/bookmarks-parity.json` for post-build CI checks,
+and removes the public `dist/migration-audit/` route. The intermediate
+route also returns HTTP 404 on the development server. Tests and CI verify
+both the production output and the live development server cannot expose
+internal audit records. This is a static output
+hardening step; the Astro Pages deployment remains deliberately disabled.
