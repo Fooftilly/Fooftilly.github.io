@@ -1,0 +1,44 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import BookmarkBrowser from "../../components/BookmarkBrowser.vue";
+import { getCollection } from "astro:content";
+
+const categories: Record<string, string> = {
+  Art: "Art", Fun: "Fun", Music: "Music",
+  PaperBookArticle: "Articles & books",
+  Perspectives: "Perspectives",
+  Resource: "Resources",
+  YouTube: "YouTube",
+};
+
+const entries = await getCollection("bookmarks", ({ id, data }) =>
+  !id.endsWith("/_index") && id !== "_index" && !data.draft
+);
+
+const bookmarks = entries.map((entry) => {
+  const section = entry.id.split("/")[0];
+  const rawLink = entry.data.link ?? "";
+  let safeUrl = "";
+  try {
+    const url = new URL(rawLink);
+    if (url.protocol === "http:" || url.protocol === "https:") safeUrl = url.href;
+  } catch {
+    // Do not render unsafe or malformed external links.
+  }
+  return {
+    id: entry.id,
+    title: entry.data.title,
+    category: categories[section] ?? section,
+    url: safeUrl,
+    date: entry.data.date?.toISOString().slice(0, 10) ?? "",
+  };
+});
+---
+<SiteLayout title="Bookmarks" description="Browse a curated collection of art, music, web resources and interesting links.">
+  <h1>Bookmarks</h1>
+  <p class="collection-intro">Find and explore saved links. The source is the original Markdown library; no bookmark records are copied into a database.</p>
+  <BookmarkBrowser items={bookmarks} client:load />
+</SiteLayout>
+<style>
+  .collection-intro { max-width: 54rem; color: var(--muted); }
+</style>
