@@ -3,13 +3,13 @@
  * These names are content-routing compatibility data, not UI guesses.
  */
 export const BOOKMARK_CATEGORIES = [
-  { section: "Art", slug: "art", label: "Art" },
-  { section: "Fun", slug: "fun", label: "Fun" },
-  { section: "Music", slug: "music", label: "Music" },
-  { section: "PaperBookArticle", slug: "paperbookarticle", label: "Articles & books" },
-  { section: "Perspectives", slug: "perspectives", label: "Perspectives" },
-  { section: "Resource", slug: "resource", label: "Resources" },
-  { section: "YouTube", slug: "youtube", label: "YouTube" },
+  { section: "Art", slug: "art", label: "Art", labelSr: "Umjetnost" },
+  { section: "Fun", slug: "fun", label: "Fun", labelSr: "Zabava" },
+  { section: "Music", slug: "music", label: "Music", labelSr: "Muzika" },
+  { section: "PaperBookArticle", slug: "paperbookarticle", label: "Articles & books", labelSr: "Članci i knjige" },
+  { section: "Perspectives", slug: "perspectives", label: "Perspectives", labelSr: "Perspektive" },
+  { section: "Resource", slug: "resource", label: "Resources", labelSr: "Resursi" },
+  { section: "YouTube", slug: "youtube", label: "YouTube", labelSr: "YouTube" },
 ] as const;
 
 export type BookmarkCategory = (typeof BOOKMARK_CATEGORIES)[number];
@@ -28,4 +28,10 @@ export function bookmarkCategoryPath(slug: string): string {
 
 export function bookmarkCategoryFeedPath(slug: string): string {
   return `/bookmarks/${slug}/index.xml`;
+}
+
+/** UI-only translation: never change canonical category keys or URL slugs. */
+export function bookmarkCategoryDisplayLabel(label: string, lang: "en" | "sr"): string {
+  if (lang === "en") return label;
+  return BOOKMARK_CATEGORIES.find((category) => category.label === label)?.labelSr ?? label;
 }
