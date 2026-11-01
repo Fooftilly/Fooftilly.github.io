@@ -87,6 +87,9 @@ jobs:
       - name: Validate bilingual About Markdown and language navigation
         run: python3 astro/scripts/verify-localized-about.py
 
+      - name: Verify localized posts, search pages and legacy archive alias
+        run: python3 astro/scripts/verify-posts-search.py
+
       - name: Validate sitemap, SEO metadata and original static assets
         run: python3 astro/scripts/verify-site-seo.py
 
@@ -99,6 +102,11 @@ jobs:
           test -s astro/dist/about/index.html
           test -s astro/dist/sr/index.html
           test -s astro/dist/sr/about/index.html
+          test -s astro/dist/posts/index.html
+          test -s astro/dist/sr/posts/index.html
+          test -s astro/dist/search/index.html
+          test -s astro/dist/sr/search/index.html
+          test -s astro/dist/en/posts/index.html
           test -s astro/dist/bookmarks/art/index.html
           test -s astro/dist/bookmarks/paperbookarticle/index.html
           test -s astro/dist/bookmarks/index.xml
