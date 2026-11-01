@@ -46,6 +46,10 @@ jobs:
         working-directory: astro
         run: npm run build
 
+      - name: Verify all Astro-loaded bookmarks against source frontmatter
+        working-directory: astro
+        run: npm run test:parity
+
       - name: Check staged output routes
         shell: bash
         run: |
