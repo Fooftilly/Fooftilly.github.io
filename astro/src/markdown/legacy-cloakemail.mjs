@@ -53,9 +53,18 @@ export function satteriLegacyCloakEmail() {
       }
       const links = rewriteCloakEmailNode({ type: "text", value: matches[0][0] });
       if (links.length !== 1 || links[0].type !== "link") {
-        throw new Error("Unsupported mixed-content email shortcode");
+        throw new Error("Unsupported email shortcode");
       }
-      return { type: "paragraph", children: links };
+      // A newline without a blank line is part of the same Markdown
+      // paragraph. Preserve the sentence preceding the shortcode.
+      const precedingLine = ctx.source.slice(0, matches[0].index)
+        .trimEnd().split(/\\r?\\n/).at(-1) ?? "";
+      const sameParagraph = precedingLine &&
+        ctx.textContent(node).includes(precedingLine);
+      const children = sameParagraph
+        ? [{ type: "text", value: precedingLine + " " }, ...links]
+        : links;
+      return { type: "paragraph", children };
     },
   };
 }
