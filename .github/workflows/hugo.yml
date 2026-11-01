@@ -2,8 +2,8 @@
 name: Deploy Hugo site to Pages
 
 on:
-  push:
-    branches: ["master"]
+  # Production deployment intentionally paused during Astro migration (#11).
+  # A manual workflow_dispatch is available for emergency restoration only.
   workflow_dispatch:
 
 permissions:
