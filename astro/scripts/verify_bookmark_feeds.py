@@ -1,0 +1,85 @@
+"""Validate generated RSS as XML and compare all items with the validated Astro manifest.
+
+Runs after npm run test:parity. Only Python stdlib; no packages or network.
+"""
+import json
+from datetime import datetime, timezone
+from email.utils import parsedate_to_datetime
+from pathlib import Path
+from xml.etree import ElementTree as ET
+
+
+ROOT = Path(__file__).resolve().parents[1]
+DIST = ROOT / "dist"
+SITE = "https://www.peroniko.xyz"
+CATEGORIES = {
+    "art": "Art",
+    "fun": "Fun",
+    "music": "Music",
+    "paperbookarticle": "PaperBookArticle",
+    "perspectives": "Perspectives",
+    "resource": "Resource",
+    "youtube": "YouTube",
+}
+
+
+def verify_feed(feed_path, expected_records, expected_channel_url):
+    document = ET.parse(feed_path)
+    root = document.getroot()
+    assert root.tag == "rss" and root.attrib.get("version") == "2.0", feed_path
+    channel = root.find("channel")
+    assert channel is not None, feed_path
+    assert channel.findtext("link") == expected_channel_url, feed_path
+    assert channel.findtext("language") == "en", feed_path
+
+    items = channel.findall("item")
+    assert len(items) == len(expected_records), (feed_path, len(items), len(expected_records))
+    actual = {}
+    for item in items:
+        guid = item.findtext("guid")
+        assert guid is not None and guid.startswith("urn:peroniko:bookmark:"), guid
+        assert guid not in actual, ("duplicate RSS guid", guid)
+        assert item.find("guid").attrib.get("isPermaLink") == "false", guid
+        actual[guid] = item
+
+    dates = []
+    for record in expected_records:
+        guid = "urn:peroniko:bookmark:" + record["id"]
+        assert guid in actual, ("missing RSS item", feed_path, guid)
+        item = actual[guid]
+        assert item.findtext("title") == record["title"], guid
+        assert item.findtext("description") == (record["comments"] or record["title"]), guid
+        assert item.findtext("link") == (record["url"] or SITE + "/bookmarks/"), guid
+        published = item.findtext("pubDate")
+        if record["date"]:
+            assert published is not None, guid
+            expected = datetime.fromisoformat(record["date"]).replace(tzinfo=timezone.utc)
+            assert parsedate_to_datetime(published) == expected, guid
+        else:
+            assert published is None, guid
+        dates.append(record["date"])
+
+    assert set(actual) == {"urn:peroniko:bookmark:" + rec["id"] for rec in expected_records}
+    # Date ordering is tested by the pure bookmark selector unit tests.
+    print(f"{feed_path.relative_to(DIST)}: {len(items)} verified RSS items")
+
+
+def main():
+    manifest = DIST / "migration-audit/bookmarks-parity.json"
+    entries = json.loads(manifest.read_text(encoding="utf-8"))
+    assert len(entries) == 576, "Source parity gate requires all 576 bookmark entries"
+    verify_feed(DIST / "bookmarks/index.xml", entries, SITE + "/bookmarks/")
+    for slug, section in CATEGORIES.items():
+        subset = [entry for entry in entries if entry["id"].startswith(section + "/")]
+        assert subset, section
+        assert (DIST / f"bookmarks/{slug}/index.html").is_file(), slug
+        verify_feed(
+            DIST / f"bookmarks/{slug}/index.xml", subset,
+            SITE + f"/bookmarks/{slug}/",
+        )
+    assert sum(len([e for e in entries if e["id"].startswith(s + "/")]) for s in CATEGORIES.values()) == len(entries)
+    print("All category routes and RSS feeds match the complete bookmark manifest")
+
+
+if __name__ == "__main__":
+    main()
