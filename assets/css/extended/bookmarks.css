@@ -1,0 +1,157 @@
+/* PaperMod automatically includes assets/css/extended/*.css. */
+.bookmark-browser {
+  max-width: 1000px;
+  margin: 0 auto 3rem;
+}
+
+.bookmark-browser p {
+  padding: 0;
+  text-align: left;
+}
+
+.bookmark-browser__header {
+  margin-bottom: 1.25rem;
+}
+
+.bookmark-browser__header h1 {
+  margin-bottom: 0.25rem;
+}
+
+.bookmark-browser__header p,
+.bookmark-item__meta,
+.bookmark-status {
+  color: var(--secondary);
+}
+
+.bookmark-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.bookmark-categories a {
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--tertiary);
+  border-radius: 999px;
+  font-size: 0.875rem;
+}
+
+.bookmark-categories a[aria-current="page"] {
+  color: var(--theme);
+  background: var(--primary);
+  border-color: var(--primary);
+}
+
+.bookmark-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(10rem, 13rem);
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.bookmark-controls label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.bookmark-controls input,
+.bookmark-controls select {
+  width: 100%;
+  min-height: 2.7rem;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--tertiary);
+  border-radius: 0.5rem;
+  background: var(--entry);
+  color: var(--primary);
+  font: inherit;
+}
+
+.bookmark-browser :is(a, input, select, button):focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+
+.bookmark-status {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1rem 0 0.25rem;
+  font-size: 0.875rem;
+}
+
+.bookmark-status button {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+.bookmark-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.bookmark-item {
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--tertiary);
+  overflow-wrap: anywhere;
+}
+
+.bookmark-item__title {
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.bookmark-item__title:hover,
+.bookmark-item__meta a:hover {
+  text-decoration: underline;
+}
+
+.bookmark-item__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.25rem;
+  font-size: 0.78rem;
+}
+
+.bookmark-item__meta a {
+  color: var(--primary);
+}
+
+.bookmark-more {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.bookmark-more button {
+  padding: 0.6rem 1.25rem;
+  border: 1px solid var(--tertiary);
+  border-radius: 0.5rem;
+}
+
+.bookmark-empty {
+  margin: 2rem 0;
+  color: var(--secondary);
+}
+
+.bookmark-browser [hidden] {
+  display: none !important;
+}
+
+@media (max-width: 640px) {
+  .bookmark-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .bookmark-categories {
+    gap: 0.4rem;
+  }
+
+  .bookmark-categories a {
+    font-size: 0.8rem;
+  }
+}
