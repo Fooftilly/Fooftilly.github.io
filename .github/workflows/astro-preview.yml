@@ -50,6 +50,10 @@ jobs:
         working-directory: astro
         run: npm run test:parity
 
+      - name: Verify every bookmark detail URL and notes page
+        working-directory: astro
+        run: npm run test:routes
+
       - name: Verify root and category RSS feed parity
         run: python3 astro/scripts/verify_bookmark_feeds.py
 
