@@ -1,0 +1,17 @@
+---
+import { absoluteSiteUrl } from "../../../lib/site-index.ts";
+const target = "/posts/";
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content={`0;url=${target}`} />
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href={absoluteSiteUrl(target)} />
+    <title>Posts have moved</title>
+  </head>
+  <body>
+    <p>This archive is now at <a href={target}>/posts/</a>.</p>
+  </body>
+</html>
