@@ -25,8 +25,43 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+          fetch-depth: 0
+
+      - name: Select changed workflows (PR) or full workflow set (push/manual)
+        id: scope
+        shell: bash
+        env:
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          set -euo pipefail
+          output="${RUNNER_TEMP}/workflow-files"
+          : > "$output"
+          if [[ "$EVENT_NAME" == "pull_request" ]]; then
+            if [[ ! "$PR_BASE_SHA" =~ ^[0-9a-fA-F]{40}$ ]]; then
+              echo "::error::Missing pull request base SHA"
+              exit 1
+            fi
+            git diff --name-only --diff-filter=ACMR -z "$PR_BASE_SHA" HEAD -- .github/workflows > "${RUNNER_TEMP}/workflow-candidates"
+          else
+            git ls-files -z .github/workflows > "${RUNNER_TEMP}/workflow-candidates"
+          fi
+          while IFS= read -r -d '' path; do
+            case "$path" in
+              .github/workflows/*.yml|.github/workflows/*.yaml)
+                [[ -f "$path" ]] && printf '%s\0' "$path" >> "$output"
+                ;;
+            esac
+          done < "${RUNNER_TEMP}/workflow-candidates"
+          if [[ -s "$output" ]]; then
+            echo "lint=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "lint=false" >> "$GITHUB_OUTPUT"
+            echo "No changed workflows; report a successful check without downloads."
+          fi
 
       - name: Install checksum-verified actionlint
+        if: steps.scope.outputs.lint == 'true'
         shell: bash
         run: |
           set -euo pipefail
@@ -41,6 +76,7 @@ jobs:
           tar -xzf "$archive" -C "$RUNNER_TEMP" actionlint
 
       - name: Install checksum-verified ShellCheck
+        if: steps.scope.outputs.lint == 'true'
         shell: bash
         run: |
           set -euo pipefail
@@ -55,8 +91,11 @@ jobs:
           tar -xJf "$archive" -C "$RUNNER_TEMP" "shellcheck-v${version}/shellcheck"
 
       - name: Validate workflows and shell snippets
+        if: steps.scope.outputs.lint == 'true'
         shell: bash
         run: |
           set -euo pipefail
+          mapfile -d "" -t workflows < "$RUNNER_TEMP/workflow-files"
           "$RUNNER_TEMP/actionlint" -oneline -pyflakes= \
-            -shellcheck="$RUNNER_TEMP/shellcheck-v0.11.0/shellcheck"
+            -shellcheck="$RUNNER_TEMP/shellcheck-v0.11.0/shellcheck" \
+            "${workflows[@]}"
