@@ -2,7 +2,42 @@
 import { computed, onMounted, ref, watch } from "vue";
 import { filterAndSortBookmarks, type Bookmark, type BookmarkSort } from "../lib/bookmark-filter.ts";
 
-const props = defineProps<{ items: Bookmark[] }>();
+const props = withDefaults(defineProps<{ items: Bookmark[]; lang?: "en" | "sr" }>(), {
+  lang: "en",
+});
+const labels = computed(() => props.lang === "sr" ? {
+  search: "Pretraži linkove",
+  placeholder: "Naziv, kategorija ili veb-adresa",
+  category: "Kategorija",
+  all: "Sve kategorije",
+  sort: "Sortiranje",
+  newest: "Prvo najnoviji",
+  oldest: "Prvo najstariji",
+  title: "Naslov (A–Z)",
+  showing: "Prikazano",
+  of: "od",
+  bookmarks: "linkova",
+  clear: "Poništi filtere",
+  none: "Nema linkova koji odgovaraju filterima.",
+  more: "Prikaži još",
+  notes: "Bilješke",
+} : {
+  search: "Search links",
+  placeholder: "Title, category or website",
+  category: "Category",
+  all: "All categories",
+  sort: "Sort by",
+  newest: "Newest first",
+  oldest: "Oldest first",
+  title: "Title (A–Z)",
+  showing: "Showing",
+  of: "of",
+  bookmarks: "bookmarks",
+  clear: "{{ labels.clear }}",
+  none: "{{ labels.none }}",
+  more: "{{ labels.more }}",
+  notes: "Notes",
+});
 const query = ref("");
 const category = ref("all");
 const sort = ref<BookmarkSort>("newest");
@@ -43,28 +78,28 @@ watch([query, category, sort], () => {
   <section aria-label="Explore bookmarks" class="bookmark-browser">
     <div class="bookmark-controls">
       <label class="search-field">
-        <span>Search links</span>
-        <input v-model="query" type="search" placeholder="Title, category or website" autocomplete="off" />
+        <span>{{ labels.search }}</span>
+        <input v-model="query" type="search" :placeholder="labels.placeholder" autocomplete="off" />
       </label>
       <label>
-        <span>Category</span>
+        <span>{{ labels.category }}</span>
         <select v-model="category">
-          <option value="all">All categories</option>
+          <option value="all">{{ labels.all }}</option>
           <option v-for="name in categories" :key="name" :value="name">{{ name }}</option>
         </select>
       </label>
       <label>
-        <span>Sort by</span>
+        <span>{{ labels.sort }}</span>
         <select v-model="sort">
-          <option value="newest">Newest first</option>
-          <option value="oldest">Oldest first</option>
-          <option value="title">Title (A–Z)</option>
+          <option value="newest">{{ labels.newest }}</option>
+          <option value="oldest">{{ labels.oldest }}</option>
+          <option value="title">{{ labels.title }}</option>
         </select>
       </label>
     </div>
     <div class="bookmark-summary">
       <p role="status" aria-live="polite">
-        Showing {{ visible.length }} of {{ matches.length }} bookmarks
+        {{ labels.showing }} {{ visible.length }} {{ labels.of }} {{ matches.length }} {{ labels.bookmarks }}
       </p>
       <button v-if="query || category !== 'all' || sort !== 'newest'" type="button"
         @click="query = ''; category = 'all'; sort = 'newest'">
@@ -78,7 +113,7 @@ watch([query, category, sort], () => {
         <div class="metadata">
           <time v-if="item.date" :datetime="item.date">{{ item.date }}</time>
           <span>{{ item.category }}</span>
-          <a v-if="item.notesUrl" :href="item.notesUrl" :aria-label="`Notes for ${item.title}`">Notes</a>
+          <a v-if="item.notesUrl" :href="item.notesUrl" :aria-label="`${labels.notes}: ${item.title}`">{{ labels.notes }}</a>
         </div>
       </li>
     </ul>
