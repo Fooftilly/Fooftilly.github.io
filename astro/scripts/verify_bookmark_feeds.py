@@ -42,7 +42,18 @@ def verify_feed(feed_path, expected_records, expected_channel_url):
         assert item.find("guid").attrib.get("isPermaLink") == "false", guid
         actual[guid] = item
 
-    dates = []
+    # Validate the sequence subscribers actually receive (not only an
+    # unordered equality of GUID sets). ISO dates sort lexically, with
+    # missing dates sorted last. Title/ID tie-breaking is unit-tested in JS.
+    expected_by_guid = {
+        "urn:peroniko:bookmark:" + rec["id"]: rec for rec in expected_records
+    }
+    published_guids = [item.findtext("guid") for item in items]
+    published_dates = [expected_by_guid[guid]["date"] for guid in published_guids]
+    assert published_dates == sorted(published_dates, reverse=True), (
+        "RSS publication is not ordered newest-first", feed_path
+    )
+
     for record in expected_records:
         guid = "urn:peroniko:bookmark:" + record["id"]
         assert guid in actual, ("missing RSS item", feed_path, guid)
@@ -57,7 +68,6 @@ def verify_feed(feed_path, expected_records, expected_channel_url):
             assert parsedate_to_datetime(published) == expected, guid
         else:
             assert published is None, guid
-        dates.append(record["date"])
 
     assert set(actual) == {"urn:peroniko:bookmark:" + rec["id"] for rec in expected_records}
     # Date ordering is tested by the pure bookmark selector unit tests.
