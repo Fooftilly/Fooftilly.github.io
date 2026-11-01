@@ -1,0 +1,37 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /astro
+    schedule:
+      interval: weekly
+      day: monday
+      time: "02:15"
+      timezone: Europe/Podgorica
+    open-pull-requests-limit: 4
+    cooldown:
+      default-days: 7
+    commit-message:
+      prefix: "build(deps)"
+    groups:
+      astro-stack:
+        applies-to: version-updates
+        patterns:
+          - astro
+          - "@astrojs/*"
+        update-types: [minor, patch]
+      vue-core:
+        applies-to: version-updates
+        patterns:
+          - vue
+        update-types: [minor, patch]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "02:30"
+      timezone: Europe/Podgorica
+    open-pull-requests-limit: 4
+    commit-message:
+      prefix: "build(deps)"
