@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerabilities
+    url: https://github.com/Fooftilly/Fooftilly.github.io/security
+    about: Check the repository security page for private reporting options. Do not post sensitive exploit details in a public issue.
