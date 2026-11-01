@@ -1,0 +1,48 @@
+{{- /* Local compatibility override until hugo-citation replaces removed getJSON. */ -}}
+{{- $citationsPath := .Page.Params.bibFile -}}
+{{- $citations := partial "citation-data.html" $citationsPath -}}
+<ol>
+{{- range $citationKey := .Page.Params.citations -}}
+  {{- $citation := index $citations $citationKey -}}
+  <li>
+    {{- printf "%s. (%s). " $citation.author $citation.year -}}
+    {{- if $citation.chaptertitle -}}
+      {{- printf "\"%s\"" $citation.chaptertitle -}}
+      {{- if $citation.title -}}
+        {{- printf " <em>%s</em>" $citation.title | safeHTML -}}
+      {{- else -}}
+        {{- printf "." -}}
+      {{- end -}}
+    {{- else if $citation.title -}}
+      {{- printf "<em>%s</em>" $citation.title | safeHTML -}}
+    {{- end -}}
+    {{- if $citation.journal -}}
+      {{- printf " %s" $citation.journal -}}
+    {{- end -}}
+    {{- if $citation.translator -}}
+      {{- printf ". Translated by %s" $citation.translator -}}
+    {{- end -}}
+    {{- if $citation.volume -}}
+      {{- printf ". Vol. %s" $citation.volume -}}
+    {{- end -}}
+    {{- if $citation.number -}}
+      {{- printf ", No. %s" $citation.number -}}
+    {{- end -}}
+    {{- if $citation.place -}}
+      {{- printf ". %s" $citation.place -}}
+    {{- end -}}
+    {{- if $citation.publisher -}}
+      {{- printf ": %s" $citation.publisher -}}
+    {{- end -}}
+    {{- if $citation.pages -}}
+      {{- printf ". pp. %s" $citation.pages -}}
+    {{- end -}}
+    {{- if $citation.url -}}
+      {{- printf ". <a href=\"%s\">%s</a>" $citation.url $citation.url | safeHTML -}}
+    {{- end -}}
+    {{- if $citation.notes -}}
+      {{- printf ". %s" $citation.notes -}}
+    {{- end -}}
+  </li>
+{{- end -}}
+</ol>
