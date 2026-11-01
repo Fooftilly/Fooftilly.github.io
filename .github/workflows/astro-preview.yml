@@ -84,6 +84,9 @@ jobs:
           LEGACY_HUGO_SITE_DIR: ${{ runner.temp }}/hugo-baseline
         run: node --test scripts/verify-hugo-bookmark-urls.mjs
 
+      - name: Validate sitemap, SEO metadata and original static assets
+        run: python3 astro/scripts/verify-site-seo.py
+
       - name: Check staged output routes
         shell: bash
         run: |
@@ -94,6 +97,9 @@ jobs:
           test -s astro/dist/bookmarks/art/index.html
           test -s astro/dist/bookmarks/paperbookarticle/index.html
           test -s astro/dist/bookmarks/index.xml
+          test -s astro/dist/sitemap.xml
+          test -s astro/dist/CNAME
+          test -s astro/dist/favicon.svg
           # Assert that the generated browser really consumes legacy Markdown,
           # not just that the filesystem inventory test passes.
           grep -Fq '50 Watts' astro/dist/bookmarks/index.html
