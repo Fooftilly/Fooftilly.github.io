@@ -63,7 +63,7 @@ reciprocal `hreflang` links are now generated. There is still no duplication
 of the two About source documents.
 
 The original About documents include a Hugo `cloakemail` shortcode. A
-strict remark transformer maps that known shortcode to an accessible
+strict native Sätteri MDAST transformer maps that known shortcode to an accessible
 `mailto:` link while retaining its localized label and subject. **Unlike the
 original obfuscation shortcode, this exposes the already-public source email
 address in generated HTML**. Restore equivalent email obfuscation or explicitly
