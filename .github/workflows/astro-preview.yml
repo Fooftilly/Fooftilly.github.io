@@ -81,6 +81,9 @@ jobs:
         working-directory: astro
         run: node scripts/verify-homepage.mjs
 
+      - name: Test internal-link audit rules
+        run: python3 -m unittest discover -s astro/scripts -p 'test_verify_internal_links.py'
+
       - name: Validate sitemap, SEO metadata and original static assets
         run: python3 astro/scripts/verify-site-seo.py
 
