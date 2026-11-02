@@ -97,7 +97,7 @@ hardening step; the Astro Pages deployment remains deliberately disabled.
 
 ## Browser bookmark drafts (no backend)
 
-The `/new-bookmark/` page is a credential-free, static Vue composer. Supply
+The `/new-bookmark/` page is a public, credential-free, static Vue composer. GitHub repository settings restrict pull-request creation to collaborators; this is a GitHub-side permission gate, not authentication for opening the form. Supply
 an HTTP(S) URL, title, category and optional comment/Markdown notes. It
 generates YAML-compatible `content/bookmarks/<category>/<slug>.md` with a
 local date, checks all existing source IDs for filename collisions, warns

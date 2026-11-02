@@ -66,7 +66,7 @@ async function copy(value: string, description: string) {
 <template>
   <section class="new-bookmark" aria-labelledby="draft-heading">
     <h1 id="draft-heading">New bookmark</h1>
-    <p>Prepare a Markdown bookmark from your browser, then review and commit it on GitHub. This page has no GitHub write access, account session, or stored draft.</p>
+    <p>Prepare a Markdown bookmark draft, then review it on GitHub. Anyone can use this form, but only repository collaborators can open pull requests. No changes are saved by this page.</p>
     <details class="capture-help">
       <summary>Capture a page with a browser bookmarklet</summary>
       <p>After Astro launches on this domain, create a browser bookmark and set its URL to the copied bookmarklet. Clicking it on any web page opens this form with its URL and title filled in. It does not save anything automatically.</p>
@@ -124,7 +124,7 @@ async function copy(value: string, description: string) {
         <button type="button" @click="copy(result.draft!.path, 'File path')">Copy full file path</button>
         <a :href="editorHref" target="_blank" rel="noopener noreferrer">Open GitHub new-file editor</a>
       </div>
-      <p class="help">GitHub sign-in is required to create the file. {{ prefilledEditor
+      <p class="help">GitHub sign-in and repository collaborator access are required to open a pull request. {{ prefilledEditor
         ? "GitHub may prefill the filename and content; verify both. If it does not, paste the full file path and Markdown before committing."
         : "The draft is too long for a reliable prefilled link. Copy the full repository-relative file path and Markdown into GitHub manually."
       }} Create a separate branch and submit a pull request when prompted. Nothing is committed automatically.</p>
