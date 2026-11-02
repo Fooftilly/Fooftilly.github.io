@@ -15,7 +15,9 @@ concurrency:
 
 jobs:
   astro-preview:
-    name: Astro staging checks
+    # PR status is the candidate branch-protection context. Keep branch-push
+    # runs visible without producing a second check of the same name/SHA.
+    name: ${{ github.event_name == 'pull_request' && 'Astro staging checks' || 'Astro branch staging checks (non-required)' }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
