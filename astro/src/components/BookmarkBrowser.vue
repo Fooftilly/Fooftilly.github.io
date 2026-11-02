@@ -51,6 +51,7 @@ const matches = computed(() => filterAndSortBookmarks(props.items, {
   query: query.value,
   category: category.value,
   sort: sort.value,
+  lang: props.lang,
 }));
 const visible = computed(() => matches.value.slice(0, limit.value));
 
