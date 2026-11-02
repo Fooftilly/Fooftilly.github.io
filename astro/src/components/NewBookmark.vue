@@ -66,7 +66,7 @@ async function copy(value: string, description: string) {
 <template>
   <section class="new-bookmark" aria-labelledby="draft-heading">
     <h1 id="draft-heading">New bookmark</h1>
-    <p>Prepare a Markdown bookmark from your browser, then review and commit it on GitHub. This public form only prepares a local draft. GitHub restricts pull request creation to repository collaborators; only an authorized GitHub account can submit changes. This page has no GitHub write access, account session, or stored draft.</p>
+    <p>Prepare a Markdown bookmark draft, then review it on GitHub. Anyone can use this form, but only repository collaborators can open pull requests. No changes are saved by this page.</p>
     <details class="capture-help">
       <summary>Capture a page with a browser bookmarklet</summary>
       <p>After Astro launches on this domain, create a browser bookmark and set its URL to the copied bookmarklet. Clicking it on any web page opens this form with its URL and title filled in. It does not save anything automatically.</p>
