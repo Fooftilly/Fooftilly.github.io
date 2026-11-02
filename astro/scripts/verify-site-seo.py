@@ -117,9 +117,25 @@ def check_metadata():
     print(f"Validated SEO and social metadata on {len(pages)} representative pages")
 
 
+def check_not_found_page():
+    page = DIST / "404.html"
+    assert page.is_file(), "Missing GitHub Pages static 404.html"
+    html = page.read_text(encoding="utf8")
+    doc = Metadata()
+    doc.feed(html)
+    assert doc.metas.get("robots") == "noindex, nofollow", "404 page must not be indexed"
+    assert not any(link.get("rel") == "canonical" for link in doc.links), "404 must not claim a canonical page"
+    assert doc.metas.get("og:url") is None, "404 must not advertise a canonical social URL"
+    assert "<h1>Page not found</h1>" in html, "404 page needs an explanatory heading"
+    for path in ('href="/"', 'href="/bookmarks/"', 'href="/search/"', 'href="/sr/"'):
+        assert path in html, f"Missing recovery navigation on 404: {path}"
+    print("Validated non-indexable GitHub Pages 404.html with recovery navigation")
+
+
 if __name__ == "__main__":
     check_assets()
     check_sitemap()
     check_metadata()
     verify_semantic_structure(DIST)
     audit_internal_links(DIST)
+    check_not_found_page()
