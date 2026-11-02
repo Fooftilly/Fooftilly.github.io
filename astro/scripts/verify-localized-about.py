@@ -82,6 +82,9 @@ def validate(lang, source, html_file, alternate):
     print(f"Validated {source.name} rendered from original content ({expected_lang}, contact and hreflang)")
 
 def main():
+    sample = Document()
+    sample.feed('<iframe src="https://example.test"></iframe><embed src="https://example.test"><object data="https://example.test"></object>')
+    assert sample.embeds == ["iframe", "embed", "object"], "Embedded-element detection regressed"
     validate("en", CONTENT / "about.md", DIST / "about/index.html", "https://www.peroniko.xyz/sr/about/")
     validate("sr", CONTENT / "about.sr.md", DIST / "sr/about/index.html", "https://www.peroniko.xyz/about/")
     assert (DIST / "sr/index.html").is_file(), "Missing Serbian homepage"
