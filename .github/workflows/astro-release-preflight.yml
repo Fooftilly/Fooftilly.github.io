@@ -59,6 +59,20 @@ jobs:
           npm run build:admin
           node scripts/release-readiness.mjs
 
+      - name: Verify full content, feed, SEO and browser acceptance
+        working-directory: astro
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: |
+          node scripts/verify-dev-audit.mjs
+          python3 scripts/verify_bookmark_feeds.py
+          python3 scripts/verify-localized-about.py
+          python3 scripts/verify-posts-search.py
+          python3 scripts/verify-site-seo.py
+          node scripts/verify-homepage.mjs
+          node scripts/smoke-search-browser.mjs
+          node scripts/smoke-admin-browser.mjs
+
       - name: Confirm this workflow cannot deploy
         run: |
           test ! -e astro/dist/new-bookmark
