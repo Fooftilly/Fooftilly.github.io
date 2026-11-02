@@ -95,22 +95,34 @@ both the production output and the live development server cannot expose
 internal audit records. This is a static output
 hardening step; the Astro Pages deployment remains deliberately disabled.
 
-## Private bookmark composer
+## Browser bookmark drafts (no backend)
 
-The bookmark composer from PR #27 has been isolated from the public site.
-`astro/dist/` no longer contains `/new-bookmark/`, the composer bundle,
-navigation links or its sitemap entry. The separate `admin.peroniko.xyz`
-application is built with `npm run build:admin` into `astro/admin-dist/`.
-It uses the same source Markdown and validated bookmark-draft helpers
-but has its own entrypoint, configuration, output and no publishing
-workflow. The bookmarklet now targets `admin.peroniko.xyz`.
+The `/new-bookmark/` page is a public, credential-free, static Vue composer. GitHub repository settings restrict pull-request creation to collaborators; this is a GitHub-side permission gate, not authentication for opening the form. Supply
+an HTTP(S) URL, title, category and optional comment/Markdown notes. It
+generates YAML-compatible `content/bookmarks/<category>/<slug>.md` with a
+local date, checks all existing source IDs for filename collisions, warns
+when the URL already exists, and links to GitHub's authenticated new-file
+editor with a filename/content prefill attempt. Copy controls provide
+the **full repository-relative file path** and Markdown as a safe fallback
+if GitHub ignores URL parameters or the draft exceeds safe URL length.
+The GitHub prefill behavior is not part of an API contract and has not
+been verified in an authenticated GitHub session; review the editor's
+filename and content before committing. Oversized captured URLs/titles
+are rejected rather than silently shortened.
 
-**Admin is not authenticated by Astro:** it requires owner-configured
-Cloudflare Access or equivalent identity-aware gateway, and a non-bypassable
-hosting origin, before being published anywhere. See
-[ADMIN.md](ADMIN.md) for exact setup and verification steps. Do not deploy
-admin output without that policy.
+A copyable browser bookmarklet can capture the current tab's title and URL
+into the form after Astro goes live at `www.peroniko.xyz`. The bookmarklet
+does not create a file or send the page to any other service. No GitHub
+write token, OAuth client credentials or public write endpoint exist in
+the browser bundle. A maintainer must review and commit the generated
+Markdown (preferably on a separate branch and PR) in GitHub; until then
+nothing changes on the site.
 
-Public-site CI remains independent and includes a build separation
-assertion; admin CI checks include its static output and Chromium
-hydration, duplication, validation, and GitHub handoff.
+`tests/bookmark-draft.test.mjs` validates source-compatible YAML, unsafe
+protocol/credential rejection, title and date checks, duplicate detection
+and unique filenames. The Chromium smoke verifies real Vue hydration,
+query-parameter capture, duplicate warning and safe GitHub editor handoff.
+The `/new-bookmark/` route is included in the Astro sitemap; the site
+still has no automatic deployment. A future dedicated authenticated
+publishing workflow can improve one-click saving after its trust model
+and user approvals are defined.
