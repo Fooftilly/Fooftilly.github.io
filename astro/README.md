@@ -69,8 +69,9 @@ contains the internal parity endpoint.
 
 ## Remaining cutover work
 
-- The bilingual About Markdown has been updated for Astro/Vue. Confirm the
-  rendered copy during cutover and keep Hugo published until approval.
+- The bilingual About Markdown describes GitHub Pages hosting and the
+  Astro/Vue implementation without claiming production already runs Astro.
+  Confirm the rendered copy at cutover and keep Hugo published until approval.
 - The existing `cloakemail` shortcode is converted through a native Sätteri
   Markdown plugin. The current generated `mailto:` exposes the address instead
   of obfuscating it; restore obfuscation or explicitly accept this difference.
