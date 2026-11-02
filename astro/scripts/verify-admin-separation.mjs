@@ -27,6 +27,14 @@ assert.deepEqual((await readdir(dir)).filter(x => !["index.html", "robots.txt", 
   "Unexpected files shipped with admin site");
 
 const source = await readFile("src/components/NewBookmark.vue", "utf8");
-assert.ok(source.includes("https://admin.peroniko.xyz/"), "Bookmarklet must point to admin host");
-assert.ok(!source.includes('https://www.peroniko.xyz/new-bookmark/'), "Old public bookmarklet target remains");
+const bookmarklet = source.match(/const captureBookmarklet = '([^']+)'/);
+assert.ok(bookmarklet, "Bookmarklet source was not found");
+const destination = bookmarklet[1].match(/new URL\("([^"]+)"\)/);
+assert.ok(destination, "Bookmarklet must instantiate a fixed destination URL");
+const target = new URL(destination[1]);
+assert.equal(target.protocol, "https:", "Bookmarklet must use HTTPS");
+assert.equal(target.hostname, "admin.peroniko.xyz", "Bookmarklet must target admin hostname");
+assert.equal(target.pathname, "/", "Bookmarklet must target the root admin entrypoint");
+assert.equal(target.username, "", "Bookmarklet must not contain credentials");
+assert.equal(target.password, "", "Bookmarklet must not contain credentials");
 console.log("Public and admin static builds isolated; no admin route, credentials, or domain crossover");
