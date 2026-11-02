@@ -29,6 +29,7 @@ class Metadata(HTMLParser):
         self.html_lang = ""
         self.metas = {}
         self.links = []
+        self.anchors = []
 
     def handle_starttag(self, tag, attrs):
         att = dict(attrs)
@@ -38,6 +39,8 @@ class Metadata(HTMLParser):
             self.metas[att.get("property") or att.get("name")] = att.get("content")
         if tag == "link":
             self.links.append(att)
+        if tag == "a":
+            self.anchors.append(att)
 
 
 def check_assets():
@@ -114,6 +117,18 @@ def check_metadata():
                 and link.get("href") == "/index.xml"
                 for link in doc.links
             ), ("Missing site-wide RSS discovery", urlpath)
+        if urlpath in ("/", "/sr/"):
+            profile_urls = {
+                "https://github.com/Fooftilly",
+                "https://bsky.app/profile/peroniko.xyz",
+                "https://letterboxd.com/Peroniko",
+                "https://trakt.tv/users/cobe10",
+                "https://rateyourmusic.com/~Fooftilly",
+                "https://old.reddit.com/r/Peroniko/",
+                "/index.xml",
+            }
+            actual = {item.get("href") for item in doc.anchors}
+            assert profile_urls.issubset(actual), ("Missing social or RSS profile links", urlpath, profile_urls - actual)
     print(f"Validated SEO and social metadata on {len(pages)} representative pages")
 
 
