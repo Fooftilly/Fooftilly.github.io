@@ -65,6 +65,14 @@ class InternalLinksTest(unittest.TestCase):
         })
         audit_internal_links(self.dist)
 
+    def test_special_404_document_links_are_checked_outside_sitemap(self):
+        self.site({"/": '<main id="main"></main>'})
+        (self.dist / "404.html").write_text('<a href="/missing/">Broken recovery</a>', encoding="utf-8")
+        with self.assertRaisesRegex(AssertionError, "Broken internal link"):
+            audit_internal_links(self.dist)
+        (self.dist / "404.html").write_text('<a href="/">Return home</a>', encoding="utf-8")
+        audit_internal_links(self.dist)
+
     def test_missing_page_is_rejected(self):
         self.site({"/": '<a href="/missing/">Broken</a>'})
         with self.assertRaisesRegex(AssertionError, "Broken internal link"):
