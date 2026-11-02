@@ -127,7 +127,7 @@ def check_not_found_page():
     assert doc.metas.get("robots") == "noindex, nofollow", "404 page must not be indexed"
     assert not any(link.get("rel") == "canonical" for link in doc.links), "404 must not claim a canonical page"
     assert doc.metas.get("og:url") is None, "404 must not advertise a canonical social URL"
-    assert re.search(r"<h1\\b[^>]*>\\s*Page not found\\s*</h1>", html), "404 page needs an explanatory heading"
+    assert re.search(r"<h1\b[^>]*>\s*Page not found\s*</h1>", html), "404 page needs an explanatory heading"
     for path in ('href="/"', 'href="/bookmarks/"', 'href="/search/"', 'href="/sr/"'):
         assert path in html, f"Missing recovery navigation on 404: {path}"
     print("Validated non-indexable GitHub Pages 404.html with recovery navigation")
