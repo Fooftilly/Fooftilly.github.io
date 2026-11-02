@@ -89,6 +89,7 @@ jobs:
         run: |
           npm run check:admin
           npm run build:admin
+          node scripts/smoke-admin-browser.mjs
 
       - name: Check staged output routes
         shell: bash
