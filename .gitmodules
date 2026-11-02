@@ -1,9 +1,0 @@
-[submodule "themes/hugo-cloak-email"]
-	path = themes/hugo-cloak-email
-	url = https://github.com/martignoni/hugo-cloak-email.git
-[submodule "themes/hugo-citation"]
-	path = themes/hugo-citation
-	url = https://github.com/Fooftilly/hugo-citation.git
-[submodule "themes/hugo-PaperMod"]
-	path = themes/hugo-PaperMod
-	url = https://github.com/adityatelange/hugo-PaperMod.git
