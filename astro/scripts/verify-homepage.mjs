@@ -21,6 +21,11 @@ for (const [path, language, heading] of [
     assert.ok(html.replaceAll("&amp;", "&").includes(language === "en" ? category.label : category.labelSr),
       "Missing category label " + category.slug + " on " + path);
   }
+  const recentSection = html.match(/<section class="recent-bookmarks"[^>]*>([\\s\\S]*?)<\\/section>/);
+  assert.ok(recentSection, "Recent bookmarks section missing");
+  const localSearchPath = language === "sr-Latn" ? "/sr/search/" : "/search/";
+  assert.ok(recentSection[1].includes('href="' + localSearchPath + '"'),
+    "Recent bookmarks search link must remain in the selected language");
   const latest = html.match(/<ul class="recent-grid"[^>]*>([\s\S]*?)<\/ul>/);
   assert.ok(latest, "Recent list missing: " + path);
   assert.equal((latest[1].match(/<li\b/g) ?? []).length, 8,
