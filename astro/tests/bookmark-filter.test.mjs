@@ -37,3 +37,21 @@ test("empty query returns all items and missing dates stay last", () => {
   assert.equal(filterAndSortBookmarks(items, { ...defaults, query: "   " }).length, items.length);
   assert.equal(filterAndSortBookmarks(items, { ...defaults, sort: "oldest" }).at(-1).id, "5");
 });
+
+test("Serbian category text can be searched without changing canonical filter keys", () => {
+  const articles = [{
+    id: "articles-1", title: "Example page", category: "Articles & books",
+    date: "2026-02-01", url: "https://example.org/article",
+  }];
+  const search = (query, lang) => filterAndSortBookmarks(articles, {
+    ...defaults, query, lang, category: "Articles & books",
+  }).map(item => item.id);
+  assert.deepEqual(search("Članci i knjige", "sr"), ["articles-1"]);
+  assert.deepEqual(search("clanci i knjige", "sr"), ["articles-1"]);
+  assert.deepEqual(search("Articles & books", "sr"), ["articles-1"]);
+  assert.deepEqual(search("Članci i knjige", "en"), []);
+  assert.deepEqual(search("Članci i knjige", "sr"), ["articles-1"]);
+  assert.deepEqual(filterAndSortBookmarks(articles, {
+    ...defaults, lang: "sr", category: "Music", query: "Članci",
+  }), []);
+});
