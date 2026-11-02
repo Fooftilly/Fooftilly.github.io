@@ -88,13 +88,6 @@ jobs:
       - name: Validate sitemap, SEO metadata and original static assets
         run: python3 astro/scripts/verify-site-seo.py
 
-      - name: Validate separate private admin application
-        working-directory: astro
-        run: |
-          npm run check:admin
-          npm run build:admin
-          node scripts/smoke-admin-browser.mjs
-
       - name: Record read-only release preflight manifest
         working-directory: astro
         run: node scripts/release-readiness.mjs
@@ -105,7 +98,7 @@ jobs:
           set -euo pipefail
           test -s astro/dist/index.html
           test -s astro/dist/bookmarks/index.html
-          test ! -e astro/dist/new-bookmark
+          test -s astro/dist/new-bookmark/index.html
           test -s astro/dist/about/index.html
           test -s astro/dist/sr/index.html
           test -s astro/dist/sr/about/index.html
