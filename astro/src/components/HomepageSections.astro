@@ -31,7 +31,7 @@ const { count, recent, categories } = homepageSummary(await loadBookmarks());
       <p class="eyebrow">{sr ? "SAČUVANO" : "RECENTLY SAVED"}</p>
       <h2 id="homepage-recent">{sr ? "Najnoviji linkovi" : "Recent bookmarks"}</h2>
     </div>
-    <a href="/search/">{sr ? "Pretraga" : "Search collection"}</a>
+    <a href={sr ? "/sr/search/" : "/search/"}>{sr ? "Pretraga" : "Search collection"}</a>
   </div>
   <ul class="recent-grid">
     {recent.map((item) => <li>
