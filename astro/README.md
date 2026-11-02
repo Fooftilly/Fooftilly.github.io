@@ -54,7 +54,7 @@ redirects and the compiled-Hugo route comparison have been removed.
 Astro copies the existing repository-level `static/` directory through
 `publicDir`, preserving the domain configuration, icons, robots file and
 other assets. Its sitemap lists only routes Astro actually generates (currently
-592 canonical URLs). Shared layouts provide canonical/social metadata and
+593 canonical URLs). Shared layouts provide canonical/social metadata and
 language alternates.
 
 `scripts/verify-bookmark-parity.mjs`, `verify-bookmark-routes.mjs`,
@@ -69,13 +69,14 @@ contains the internal parity endpoint.
 
 ## Remaining cutover work
 
-- The source About Markdown still mentions Hugo/PaperMod. Refresh that content
-  as part of the approved Astro publication, not as a speculative Hugo patch.
+- The bilingual About Markdown has been updated for Astro/Vue. Confirm the
+  rendered copy during cutover and keep Hugo published until approval.
 - The existing `cloakemail` shortcode is converted through a native Sätteri
   Markdown plugin. The current generated `mailto:` exposes the address instead
   of obfuscating it; restore obfuscation or explicitly accept this difference.
 - Confirm final design, usability, accessibility, article publishing/editing,
-  content metadata, home RSS and any planned authenticated bookmark creation.
+  content metadata, home RSS and the public bookmark composer with
+  GitHub collaborator-only pull request permissions.
 - Remove obsolete Hugo-only runtime/build files **at cutover**, not while they
   still provide the currently published website. The public audit endpoint has
   already been eliminated from the Astro build output.
@@ -97,7 +98,7 @@ hardening step; the Astro Pages deployment remains deliberately disabled.
 
 ## Browser bookmark drafts (no backend)
 
-The `/new-bookmark/` page is a credential-free, static Vue composer. Supply
+The `/new-bookmark/` page is a public, credential-free, static Vue composer. GitHub repository settings restrict pull-request creation to collaborators; this is a GitHub-side permission gate, not authentication for opening the form. Supply
 an HTTP(S) URL, title, category and optional comment/Markdown notes. It
 generates YAML-compatible `content/bookmarks/<category>/<slug>.md` with a
 local date, checks all existing source IDs for filename collisions, warns
