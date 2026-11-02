@@ -154,6 +154,66 @@ try {
     "document.querySelectorAll('li.bookmark-entry').length",
     (value) => value === 1, "English exact search",
   );
+  await navigate("/new-bookmark/?url=https%3A%2F%2F50watts.com%2F&title=50%20Watts");
+  await waitFor(
+    "document.querySelector('.new-bookmark .output code')?.textContent",
+    (value) => typeof value === "string" && value.includes("Resource/50-watts.md"),
+    "new bookmark Vue composer hydration",
+  );
+  await waitFor(
+    "document.querySelector('.new-bookmark .duplicate')?.textContent",
+    (value) => typeof value === "string" && value.includes("already appears"),
+    "duplicate URL warning",
+  );
+  const githubHref = await evaluate(
+    "document.querySelector('.new-bookmark .actions a')?.href",
+  );
+  assert.ok(githubHref.startsWith("https://github.com/Fooftilly/Fooftilly.github.io/new/master?"));
+  const filename = new URL(githubHref).searchParams.get("filename");
+  assert.equal(filename, "content/bookmarks/Resource/50-watts.md");
+  await navigate("/new-bookmark/?url=javascript%3Aalert(1)&title=Unsafe");
+  await waitFor(
+    "document.querySelector('.new-bookmark .validation')?.textContent",
+    (value) => typeof value === "string" && value.includes("Only HTTP and HTTPS"),
+    "unsafe URL rejected",
+  );
+  assert.equal(await evaluate("!!document.querySelector('.new-bookmark .output')"), false);
+  const longUrl = "https://example.org/article?id=" + "x".repeat(2100);
+  await navigate("/new-bookmark/?title=Long%20URL&url=" + encodeURIComponent(longUrl));
+  await waitFor(
+    "document.querySelector('input[type=url]')?.value.length",
+    (value) => value === longUrl.length,
+    "captured long URL preserved without truncation",
+  );
+  await waitFor(
+    "document.querySelector('.new-bookmark .validation')?.textContent",
+    (value) => typeof value === "string" && value.includes("at most 2048"),
+    "long URL rejected rather than silently truncated",
+  );
+  assert.equal(await evaluate("!!document.querySelector('.new-bookmark .output')"), false);
+
+  await navigate("/new-bookmark/?url=https%3A%2F%2Fexample.org%2F&title=Long%20Notes");
+  await waitFor(
+    "document.querySelector('.new-bookmark .output code')?.textContent",
+    (value) => typeof value === "string" && value.includes("Resource/long-notes.md"),
+    "composer ready for long note",
+  );
+  await evaluate("(()=>{const el=document.querySelector('textarea[placeholder=\"Longer personal notes\"]');el.value='a'.repeat(5000);el.dispatchEvent(new Event('input',{bubbles:true}))})()");
+  await waitFor(
+    "document.querySelector('.new-bookmark .actions a')?.href",
+    (value) => value === "https://github.com/Fooftilly/Fooftilly.github.io/new/master",
+    "long draft GitHub link fallback",
+  );
+  assert.equal(
+    await evaluate("document.querySelector('.new-bookmark .actions button:nth-child(2)')?.textContent.trim()"),
+    "Copy full file path",
+  );
+  assert.equal(
+    await evaluate("document.querySelector('.new-bookmark .output code')?.textContent.trim()"),
+    "content/bookmarks/Resource/long-notes.md",
+  );
+  console.log("Browser smoke: long URL not truncated, long draft safe full-path fallback passed");
+  console.log("Browser smoke: bookmark composer URL prefill, duplicate warning, GitHub handoff and unsafe URL rejection passed");
   console.log("Browser search smoke: Serbian labels, Vue input, category filter, URL state, reload and English search passed");
 } finally {
   socket?.close();
