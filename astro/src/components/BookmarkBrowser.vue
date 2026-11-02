@@ -113,7 +113,7 @@ watch([query, category, sort], () => {
         <span v-else>{{ item.title }}</span>
         <div class="metadata">
           <time v-if="item.date" :datetime="item.date">{{ item.date }}</time>
-          <span>{{ item.category }}</span>
+          <span>{{ bookmarkCategoryDisplayLabel(item.category, lang) }}</span>
           <a v-if="item.notesUrl" :href="item.notesUrl" :aria-label="`${labels.notes}: ${item.title}`">{{ labels.notes }}</a>
         </div>
       </li>
