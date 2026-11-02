@@ -1,21 +1,26 @@
 # Peroniko
 
-This website is built in [Hugo](https://gohugo.io/) and hosted on [Github Pages](https://pages.github.com/).\
-Theme [hugo-PaperMod](https://github.com/adityatelange/hugo-PaperMod/) ([Distrubuted under the MIT license](https://github.com/adityatelange/hugo-PaperMod/blob/master/LICENSE))\
-Featured image is an adaptaion of [Attributes of Art and Illustration](https://www.oldbookillustrations.com/illustrations/attributes-art-illustration/) ([Under CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/))
-Language icon by Onur Müştak Çobanlı and Farhat Datta from [languageicon.org](https://www.languageicon.org/) ([Under CC with Relax-Attribution, Share Alike, Semi-Noncommercial ](https://www.languageicon.org/))
+A personal website hosted on [GitHub Pages](https://pages.github.com/), built from Git-managed Markdown with [Astro](https://astro.build/) and [Vue](https://vuejs.org/).
 
-# Shortcodes
+## Development
 
-- giscus · [cdwilson/hugo-coder](https://github.com/cdwilson/hugo-coder/blob/cb3a96da89ef939079b2b66f2e0c2399830f96be/layouts/partials/posts/giscus.html) ([Under MIT License](https://github.com/cdwilson/hugo-coder/blob/main/LICENSE.md))
-- hugo-cloak-email · [martignoni/hugo-cloak-email](https://github.com/martignoni/hugo-cloak-email) ([Under GPL-3.0 license](https://github.com/martignoni/hugo-cloak-email/blob/master/LICENSE))
+Requires Node.js 24 and npm.
 
-# License
+```sh
+cd astro
+npm ci
+npm test
+npm run check
+npm run build
+npm run dev
+```
 
-My posts are licensed under a
-[Creative Commons Attribution-ShareAlike 4.0 International License][cc-by-sa].
+The public site is generated in `astro/dist/`. Source bookmarks and bilingual page content remain under `content/`; static assets, custom-domain configuration and verification files remain under `static/`. Do not commit generated `dist/` or internal `.audit/` records.
 
-[![CC BY-SA 4.0][cc-by-sa-shield]][cc-by-sa]
+Bookmark proposals are prepared at `/new-bookmark/` and reviewed through GitHub. The form is public and contains no write credentials; repository permissions control who can open pull requests. See [Astro documentation](astro/README.md), [cutover and rollback runbook](astro/CUTOVER.md), and [migration roadmap](https://github.com/Fooftilly/Fooftilly.github.io/issues/11).
 
-[cc-by-sa]: http://creativecommons.org/licenses/by-sa/4.0/
-[cc-by-sa-shield]: https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg
+## Credits and licenses
+
+The featured image adapts [Attributes of Art and Illustration](https://www.oldbookillustrations.com/illustrations/attributes-art-illustration/) ([CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)). The language icon is credited to Onur Müştak Çobanlı and Farhat Datta at [languageicon.org](https://www.languageicon.org/), subject to that asset's license.
+
+Published posts are licensed under [Creative Commons Attribution-ShareAlike 4.0 International](https://creativecommons.org/licenses/by-sa/4.0/). Other source assets retain their respective licenses.
