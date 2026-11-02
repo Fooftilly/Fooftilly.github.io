@@ -147,6 +147,10 @@ try {
     "document.querySelectorAll('li.bookmark-entry').length",
     (value) => value === 20, "20 article/book bookmarks",
   );
+  await waitFor(
+    "document.querySelector('li.bookmark-entry .metadata span')?.textContent",
+    (value) => value === "Članci i knjige", "Serbian bookmark result metadata",
+  );
   await command("Page.reload", { ignoreCache: true });
   await waitFor(
     "document.querySelector('select')?.value",
