@@ -57,9 +57,14 @@ def audit_internal_links(dist: Path) -> None:
             resolved = urlsplit(urljoin(page_url, raw))
             if resolved.scheme not in {"http", "https", "mailto", "tel"}:
                 raise AssertionError(f"Unsafe link scheme on {source.path}: {href}")
-            if resolved.scheme in {"mailto", "tel"} or resolved.netloc != HOST:
+            if resolved.scheme in {"mailto", "tel"}:
                 continue
-            if resolved.scheme != "https":
+            # hostname normalizes case; netloc does not and also includes ports.
+            # A different port or URL credentials must not bypass same-origin checks.
+            if not resolved.hostname or resolved.hostname.rstrip(".") != HOST:
+                continue
+            if (resolved.scheme != "https" or resolved.port not in (None, 443)
+                    or resolved.username is not None or resolved.password is not None):
                 raise AssertionError(f"Insecure internal link on {source.path}: {href}")
 
             path = unquote(resolved.path)
