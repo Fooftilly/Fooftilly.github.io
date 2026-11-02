@@ -44,9 +44,9 @@ const languageLabel = lang === "sr" ? "English" : "Srpski";
     {rssHref && <link rel="alternate" type="application/rss+xml" title={title} href={rssHref} />}
   </head>
   <body>
-    <a class="skip-link" href="#main">Skip to content</a>
+    <a class="skip-link" href="#main">{lang === "sr" ? "Preskoči na sadržaj" : "Skip to content"}</a>
     <header class="site-header">
-      <nav class="site-nav" aria-label="Main navigation">
+      <nav class="site-nav" aria-label={lang === "sr" ? "Glavna navigacija" : "Main navigation"}>
         <a class="site-brand" href={lang === "sr" ? "/sr/" : "/"}>Nikola Perović</a>
         <div class="site-links">
           <a href={lang === "sr" ? "/sr/posts/" : "/posts/"}>{lang === "sr" ? "Objave" : "Posts"}</a>
