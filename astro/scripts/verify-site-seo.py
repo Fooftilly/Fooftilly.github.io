@@ -10,6 +10,7 @@ from urllib.parse import quote
 from xml.etree import ElementTree as ET
 
 from verify_semantic_accessibility import verify_semantic_structure
+from verify_internal_links import audit_internal_links
 
 ASTRO = Path(__file__).resolve().parents[1]
 DIST = ASTRO / "dist"
@@ -121,3 +122,4 @@ if __name__ == "__main__":
     check_sitemap()
     check_metadata()
     verify_semantic_structure(DIST)
+    audit_internal_links(DIST)
