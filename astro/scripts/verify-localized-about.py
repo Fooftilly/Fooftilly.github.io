@@ -18,11 +18,14 @@ class Document(HTMLParser):
         self.links = []
         self.anchors = []
         self.parts = []
+        self.embeds = []
         self.non_text_depth = 0
 
     def handle_starttag(self, tag, attrs):
         if tag in ("style", "script"):
             self.non_text_depth += 1
+        if tag in ("iframe", "embed", "object"):
+            self.embeds.append(tag)
         data = dict(attrs)
         if tag == "html":
             self.lang = data.get("lang", "")
@@ -58,6 +61,10 @@ def validate(lang, source, html_file, alternate):
     assert "Creative Commons Attribution-ShareAlike 4.0 International License" in html, source
     assert "Github Repo" in html, source
     visible_text = " ".join(part.strip() for part in doc.parts if part.strip())
+    assert "Astro" in visible_text and "Vue" in visible_text, source
+    assert "Hugo" not in visible_text and "PaperMod" not in visible_text, source
+    assert "img.shields.io" not in html, "Remote license badge was not removed"
+    assert not doc.embeds, f"Unexpected embedded content: {doc.embeds}"
     expected_intro = "Moj lični sajt." if lang == "sr" else "My personal website. Made by me."
     assert expected_intro in visible_text, (
         f"Missing localized original introduction: {expected_intro!r}; "
@@ -75,6 +82,9 @@ def validate(lang, source, html_file, alternate):
     print(f"Validated {source.name} rendered from original content ({expected_lang}, contact and hreflang)")
 
 def main():
+    sample = Document()
+    sample.feed('<iframe src="https://example.test"></iframe><embed src="https://example.test"><object data="https://example.test"></object>')
+    assert sample.embeds == ["iframe", "embed", "object"], "Embedded-element detection regressed"
     validate("en", CONTENT / "about.md", DIST / "about/index.html", "https://www.peroniko.xyz/sr/about/")
     validate("sr", CONTENT / "about.sr.md", DIST / "sr/about/index.html", "https://www.peroniko.xyz/about/")
     assert (DIST / "sr/index.html").is_file(), "Missing Serbian homepage"
