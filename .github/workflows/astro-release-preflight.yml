@@ -1,0 +1,79 @@
+name: Astro cutover preflight (no deployment)
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirmation:
+        description: "Type READ_ONLY_NO_DEPLOY to run the build and static separation audit"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: astro-release-preflight
+  cancel-in-progress: false
+
+jobs:
+  release-audit:
+    name: Build and audit Astro static output (no deployment)
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Require explicit read-only preflight acknowledgement
+        env:
+          CONFIRMATION: ${{ inputs.confirmation }}
+        run: |
+          test "$CONFIRMATION" = "READ_ONLY_NO_DEPLOY"
+
+      - name: Checkout without persisted credentials
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Configure Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "24"
+          package-manager-cache: false
+
+      - name: Deterministic dependencies
+        working-directory: astro
+        run: npm ci --no-audit --no-fund
+
+      - name: Validate source and component types
+        working-directory: astro
+        run: |
+          npm test
+          npm run check
+
+      - name: Build public output and perform release preflight
+        working-directory: astro
+        run: |
+          npm run build
+          npm run test:parity
+          npm run test:routes
+          node scripts/release-readiness.mjs
+
+      - name: Verify full content, feed, SEO and browser acceptance
+        working-directory: astro
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: |
+          node scripts/verify-dev-audit.mjs
+          python3 scripts/verify_bookmark_feeds.py
+          python3 scripts/verify-localized-about.py
+          python3 scripts/verify-posts-search.py
+          python3 scripts/verify-site-seo.py
+          node scripts/verify-homepage.mjs
+          node scripts/smoke-search-browser.mjs
+
+      - name: Confirm this workflow cannot deploy
+        run: |
+          test -s astro/dist/new-bookmark/index.html
+          test ! -e astro/dist/admin
+          test ! -e astro/dist/migration-audit
+          test -s astro/.audit/release-readiness.json
+          echo "READ_ONLY_NO_DEPLOY: no Pages permissions, secrets, deploy action or artifact upload"

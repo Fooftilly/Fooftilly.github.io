@@ -88,6 +88,10 @@ jobs:
       - name: Validate sitemap, SEO metadata and original static assets
         run: python3 astro/scripts/verify-site-seo.py
 
+      - name: Record read-only release preflight manifest
+        working-directory: astro
+        run: node scripts/release-readiness.mjs
+
       - name: Check staged output routes
         shell: bash
         run: |
