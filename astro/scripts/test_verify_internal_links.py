@@ -37,6 +37,26 @@ class InternalLinksTest(unittest.TestCase):
         })
         audit_internal_links(self.dist)
 
+    def test_relative_sibling_routes(self):
+        self.site({
+            "/": '<a href="/nested/entry/">Entry</a>',
+            "/nested/entry/": '<a href="../sibling/#section">Sibling</a>',
+            "/nested/sibling/": '<main id="section"></main>',
+        })
+        audit_internal_links(self.dist)
+
+    def test_same_origin_http_case_and_port_variants_are_rejected(self):
+        for href in (
+            "http://WWW.PERONIKO.XYZ/",
+            "http://www.peroniko.xyz:80/",
+            "https://WWW.PERONIKO.XYZ:8443/",
+            "https://user@www.peroniko.xyz/",
+        ):
+            with self.subTest(href=href):
+                self.site({"/": f'<a href="{href}">Unsafe</a>'})
+                with self.assertRaisesRegex(AssertionError, "Insecure internal link"):
+                    audit_internal_links(self.dist)
+
     def test_percent_encoded_unicode_routes(self):
         slug = "историја"
         self.site({
