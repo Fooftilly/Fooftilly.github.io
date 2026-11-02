@@ -19,7 +19,7 @@ const status = ref("");
 const editorLimit = 4000; // Conservative URL length across browsers and GitHub redirects.
 // Paste this as the URL of a browser bookmark to capture the current page.
 // The target only becomes available once Astro is published at the domain.
-const captureBookmarklet = 'javascript:(()=>{const u=new URL("https://www.peroniko.xyz/new-bookmark/");u.searchParams.set("url",location.href);u.searchParams.set("title",document.title);window.open(u.href,"_blank","noopener");})();';
+const captureBookmarklet = 'javascript:(()=>{const u=new URL("https://admin.peroniko.xyz/");u.searchParams.set("url",location.href);u.searchParams.set("title",document.title);window.open(u.href,"_blank","noopener");})();';
 
 onMounted(() => {
   const parameters = new URLSearchParams(window.location.search);
@@ -69,7 +69,7 @@ async function copy(value: string, description: string) {
     <p>Prepare a Markdown bookmark from your browser, then review and commit it on GitHub. This page has no GitHub write access, account session, or stored draft.</p>
     <details class="capture-help">
       <summary>Capture a page with a browser bookmarklet</summary>
-      <p>After Astro launches on this domain, create a browser bookmark and set its URL to the copied bookmarklet. Clicking it on any web page opens this form with its URL and title filled in. It does not save anything automatically.</p>
+      <p>After the protected admin site launches, create a browser bookmark and set its URL to the copied bookmarklet. Clicking it on any web page opens this form with its URL and title filled in. It does not save anything automatically.</p>
       <button type="button" @click="copy(captureBookmarklet, 'Bookmarklet')">Copy capture bookmarklet</button>
     </details>
 
