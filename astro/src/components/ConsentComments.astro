@@ -1,0 +1,19 @@
+---
+import "../styles/global.css";
+---
+<section class="comments-consent" aria-labelledby="comments-heading" data-comments-consent>
+  <h2 id="comments-heading">Comments</h2>
+  <p>Comments are provided by Giscus and GitHub. Loading them contacts third-party servers and may involve cookies or account information. The rest of this page works without them.</p>
+  <button type="button" data-load-comments aria-controls="comments-container" aria-expanded="false">Load comments from Giscus</button>
+  <div id="comments-container" data-comments-container aria-live="polite"></div>
+</section>
+<script>
+  import { mountConsentComments } from "../lib/consent-comments.ts";
+  mountConsentComments();
+</script>
+<style>
+  .comments-consent { border-top: 1px solid var(--border); margin-top: 2rem; padding-top: 1.25rem; }
+  .comments-consent p { color: var(--muted); max-width: 68ch; }
+  .comments-consent button { font: inherit; padding: .65rem 1rem; min-height: 2.75rem; border: 1px solid var(--border); border-radius: .5rem; background: var(--surface); color: var(--foreground); cursor: pointer; }
+  [data-comments-container] { margin-top: 1.2rem; }
+</style>
