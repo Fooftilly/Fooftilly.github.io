@@ -1,15 +1,25 @@
 ---
 import SiteLayout from "../layouts/SiteLayout.astro";
+import HomepageSections from "../components/HomepageSections.astro";
 ---
-<SiteLayout title="Home" languageAlternate="/sr/" rssHref="/index.xml">
+<SiteLayout title="Home" description="A curated collection of useful links, perspectives and creative discoveries." languageAlternate="/sr/" rssHref="/index.xml">
   <section class="intro">
+    <p class="eyebrow">CURATED LINKS & IDEAS</p>
     <h1>Nikola Perović</h1>
-    <p>A personal space for bookmarks, notes, projects and collections.</p>
-    <a class="button-link" href="/bookmarks/">Explore bookmarks</a>
-    <p><a href="/index.xml" type="application/rss+xml">Subscribe to updates (RSS)</a></p>
+    <p>A personal collection of art, music, ideas and useful corners of the web. Browse what I have saved, or find something specific.</p>
+    <div class="intro-actions">
+      <a class="button-link" href="/bookmarks/">Browse bookmarks</a>
+      <a class="button-link" href="/search/">Search the collection</a>
+    </div>
   </section>
-  <section aria-labelledby="staging-note">
-    <h2 id="staging-note">Astro migration preview</h2>
-    <p>This is an early technical preview. The existing Hugo site remains the published version until the migration acceptance gates are met.</p>
-  </section>
+  <HomepageSections lang="en" />
+  <p class="feed-note"><a href="/index.xml" type="application/rss+xml">Subscribe to new bookmarks (RSS)</a></p>
 </SiteLayout>
+<style>
+  .intro { max-width: 55rem; padding: 2.5rem 0 2rem; }
+  .intro h1 { margin: .4rem 0 1rem; }
+  .intro p { font-size: 1.1rem; max-width: 48rem; }
+  .eyebrow { font-size: .78rem !important; font-weight: 700; letter-spacing: .1em; color: var(--muted); }
+  .intro-actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1.5rem; }
+  .feed-note { margin: 2.5rem 0; }
+</style>
