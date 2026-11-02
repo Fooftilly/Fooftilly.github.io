@@ -18,7 +18,7 @@ for (const [path, language, heading] of [
   for (const category of BOOKMARK_CATEGORIES) {
     assert.ok(html.includes('/bookmarks/' + category.slug + '/'),
       "Missing category " + category.slug + " on " + path);
-    assert.ok(html.includes(language === "en" ? category.label : category.labelSr),
+    assert.ok(html.replaceAll("&amp;", "&").includes(language === "en" ? category.label : category.labelSr),
       "Missing category label " + category.slug + " on " + path);
   }
   const latest = html.match(/<ul class="recent-grid"[^>]*>([\s\S]*?)<\/ul>/);
