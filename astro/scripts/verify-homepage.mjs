@@ -21,7 +21,7 @@ for (const [path, language, heading] of [
     assert.ok(html.replaceAll("&amp;", "&").includes(language === "en" ? category.label : category.labelSr),
       "Missing category label " + category.slug + " on " + path);
   }
-  const recentSection = html.match(/<section class="recent-bookmarks"[^>]*>([\\s\\S]*?)<\\/section>/);
+  const recentSection = html.match(/<section class="recent-bookmarks"[^>]*>([\s\S]*?)<\/section>/);
   assert.ok(recentSection, "Recent bookmarks section missing");
   const localSearchPath = language === "sr-Latn" ? "/sr/search/" : "/search/";
   assert.ok(recentSection[1].includes('href="' + localSearchPath + '"'),
