@@ -1,3 +1,5 @@
+import { bookmarkCategoryDisplayLabel } from "./bookmark-categories.ts";
+
 export type BookmarkSort = "newest" | "oldest" | "title";
 
 export interface Bookmark {
@@ -13,6 +15,7 @@ export interface BookmarkFilters {
   query: string;
   category: string;
   sort: BookmarkSort;
+  lang?: "en" | "sr";
 }
 
 function fold(value: string): string {
@@ -30,7 +33,8 @@ export function filterAndSortBookmarks<T extends Bookmark>(
   const terms = fold(filters.query.trim()).split(/\s+/).filter(Boolean);
   const filtered = items.filter((item) => {
     if (filters.category !== "all" && item.category !== filters.category) return false;
-    const haystack = fold([item.title, item.category, item.url].join(" "));
+    const translatedCategory = filters.lang === "sr" ? bookmarkCategoryDisplayLabel(item.category, "sr") : "";
+    const haystack = fold([item.title, item.category, translatedCategory, item.url].join(" "));
     return terms.every((term) => haystack.includes(term));
   });
 

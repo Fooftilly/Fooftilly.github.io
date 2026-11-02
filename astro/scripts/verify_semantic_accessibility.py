@@ -18,6 +18,8 @@ class Structure(HTMLParser):
         self.headings = 0
         self.ids = Counter()
         self.skip_to_main = False
+        self.skip_link_text = []
+        self.in_skip_link = False
         self.images_without_alt = 0
         self.unsafe_new_window_links = 0
 
@@ -34,12 +36,21 @@ class Structure(HTMLParser):
         if tag == "a":
             if props.get("href") == "#main":
                 self.skip_to_main = True
+                self.in_skip_link = True
             if props.get("target", "").lower() == "_blank":
                 rel = set((props.get("rel") or "").lower().split())
                 if not {"noopener", "noreferrer"}.issubset(rel):
                     self.unsafe_new_window_links += 1
         if tag == "img" and "alt" not in props:
             self.images_without_alt += 1
+
+    def handle_endtag(self, tag):
+        if tag == "a":
+            self.in_skip_link = False
+
+    def handle_data(self, data):
+        if self.in_skip_link:
+            self.skip_link_text.append(data)
 
     handle_startendtag = handle_starttag
 
@@ -71,6 +82,9 @@ def verify_semantic_structure(dist: Path) -> None:
             errors.append(f"expected one h1, got {structure.headings}")
         if not structure.skip_to_main:
             errors.append("missing skip-to-main navigation")
+        expected_skip = "Preskoči na sadržaj" if structure.language == "sr-Latn" else "Skip to content"
+        if " ".join(" ".join(structure.skip_link_text).split()) != expected_skip:
+            errors.append(f"skip-link label does not match page language: {structure.skip_link_text}")
         if structure.images_without_alt:
             errors.append(f"{structure.images_without_alt} images lack alt attributes")
         if structure.unsafe_new_window_links:

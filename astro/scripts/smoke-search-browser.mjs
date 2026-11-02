@@ -147,6 +147,19 @@ try {
     "document.querySelectorAll('li.bookmark-entry').length",
     (value) => value === 20, "20 article/book bookmarks",
   );
+  await waitFor(
+    "document.querySelector('li.bookmark-entry .metadata span')?.textContent",
+    (value) => value === "Članci i knjige", "Serbian bookmark result metadata",
+  );
+  await evaluate("(()=>{const el=document.querySelector('input[type=search]');el.value='Članci i knjige';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
+  await waitFor(
+    "new URL(location.href).searchParams.get('q')",
+    (value) => value === "Članci i knjige", "Serbian category search URL state",
+  );
+  await waitFor(
+    "document.querySelectorAll('li.bookmark-entry').length",
+    (value) => value === 20, "Serbian category label matches bookmarks",
+  );
   await command("Page.reload", { ignoreCache: true });
   await waitFor(
     "document.querySelector('select')?.value",
