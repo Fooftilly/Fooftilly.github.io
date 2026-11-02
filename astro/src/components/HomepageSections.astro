@@ -1,0 +1,63 @@
+---
+import { loadBookmarks } from "../lib/bookmark-data.ts";
+import { homepageSummary } from "../lib/homepage.ts";
+import { bookmarkCategoryPath } from "../lib/bookmark-categories.ts";
+
+interface Props { lang: "en" | "sr" }
+const { lang } = Astro.props;
+const sr = lang === "sr";
+const { count, recent, categories } = homepageSummary(await loadBookmarks());
+---
+<section class="homepage-collections" aria-labelledby="homepage-categories">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">{sr ? "ISTRAŽI" : "EXPLORE"}</p>
+      <h2 id="homepage-categories">{sr ? "Kolekcije linkova" : "Bookmark collections"}</h2>
+    </div>
+    <a href="/bookmarks/">{sr ? "Svih" : "All"} {count} {sr ? "linkova" : "bookmarks"}</a>
+  </div>
+  <ul class="category-grid">
+    {categories.map((category) => <li>
+      <a href={bookmarkCategoryPath(category.slug)}>
+        <span class="category-label">{sr ? category.labelSr : category.label}</span>
+        <span class="category-count">{category.count}</span>
+      </a>
+    </li>)}
+  </ul>
+</section>
+<section class="recent-bookmarks" aria-labelledby="homepage-recent">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">{sr ? "SAČUVANO" : "RECENTLY SAVED"}</p>
+      <h2 id="homepage-recent">{sr ? "Najnoviji linkovi" : "Recent bookmarks"}</h2>
+    </div>
+    <a href="/search/">{sr ? "Pretraga" : "Search collection"}</a>
+  </div>
+  <ul class="recent-grid">
+    {recent.map((item) => <li>
+      {item.url
+        ? <a href={item.url} target="_blank" rel="noopener noreferrer">{item.title}</a>
+        : <strong>{item.title}</strong>}
+      <p>{item.category} {item.date && <><span aria-hidden="true"> · </span><time datetime={item.date}>{item.date}</time></>}</p>
+    </li>)}
+  </ul>
+</section>
+<style>
+  .homepage-collections, .recent-bookmarks { margin: 1.5rem 0 3.5rem; }
+  .section-heading { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: .75rem; margin: 1rem 0; }
+  .section-heading h2 { margin: .2rem 0; font-size: clamp(1.3rem, 3vw, 1.75rem); }
+  .eyebrow { font-size: .75rem; letter-spacing: .11em; font-weight: 750; color: var(--muted); margin: 0; }
+  .category-grid, .recent-grid { list-style: none; margin: 0; padding: 0; display: grid; gap: .8rem; }
+  .category-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr)); }
+  .category-grid a { display: flex; align-items: center; justify-content: space-between; gap: .6rem; padding: 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: .7rem; text-decoration: none; min-height: 4rem; }
+  .category-grid a:hover, .category-grid a:focus-visible { border-color: var(--accent); }
+  .category-label { font-weight: 650; color: var(--foreground); }
+  .category-count { color: var(--muted); font-variant-numeric: tabular-nums; }
+  .recent-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); }
+  .recent-grid li { padding: 1.1rem; border: 1px solid var(--border); border-radius: .7rem; min-width: 0; }
+  .recent-grid a, .recent-grid strong { font-weight: 650; overflow-wrap: anywhere; }
+  .recent-grid p { color: var(--muted); font-size: .84rem; margin: .45rem 0 0; }
+  @media (prefers-reduced-motion: no-preference) {
+    .category-grid a { transition: border-color .15s ease; }
+  }
+</style>
