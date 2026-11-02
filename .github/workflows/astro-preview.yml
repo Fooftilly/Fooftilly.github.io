@@ -81,6 +81,10 @@ jobs:
           CHROME_BIN: /usr/bin/google-chrome
         run: node scripts/smoke-search-browser.mjs
 
+      - name: Verify localized production homepage sections
+        working-directory: astro
+        run: node scripts/verify-homepage.mjs
+
       - name: Validate sitemap, SEO metadata and original static assets
         run: python3 astro/scripts/verify-site-seo.py
 

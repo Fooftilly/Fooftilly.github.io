@@ -1,12 +1,25 @@
 ---
 import SiteLayout from "../../layouts/SiteLayout.astro";
+import HomepageSections from "../../components/HomepageSections.astro";
 ---
-<SiteLayout title="Početna" description="Lični sajt: sačuvani linkovi, objave i bilješke." lang="sr" languageAlternate="/" rssHref="/index.xml">
+<SiteLayout title="Početna" description="Lična kolekcija sačuvanih linkova, muzike, umjetnosti i ideja." lang="sr" languageAlternate="/" rssHref="/index.xml">
   <section class="intro">
+    <p class="eyebrow">LINKOVI I IDEJE</p>
     <h1>Nikola Perović</h1>
-    <p>Lični prostor za sačuvane linkove, bilješke i projekte.</p>
-    <a class="button-link" href="/bookmarks/">Pogledaj sačuvane linkove</a>
-    <p><a href="/index.xml" type="application/rss+xml">Prati nove linkove (RSS)</a></p>
+    <p>Lična zbirka umjetnosti, muzike, zanimljivih ideja i korisnih djelova interneta. Pregledaj sačuvane linkove ili pronađi nešto konkretno.</p>
+    <div class="intro-actions">
+      <a class="button-link" href="/bookmarks/">Pregledaj linkove</a>
+      <a class="button-link" href="/sr/search/">Pretraži kolekciju</a>
+    </div>
   </section>
-  <p>Ovo je pregled sajta tokom prelaska sa Hugo na Astro.</p>
+  <HomepageSections lang="sr" />
+  <p class="feed-note"><a href="/index.xml" type="application/rss+xml">Prati nove linkove (RSS)</a></p>
 </SiteLayout>
+<style>
+  .intro { max-width: 55rem; padding: 2.5rem 0 2rem; }
+  .intro h1 { margin: .4rem 0 1rem; }
+  .intro p { font-size: 1.1rem; max-width: 48rem; }
+  .eyebrow { font-size: .78rem !important; font-weight: 700; letter-spacing: .1em; color: var(--muted); }
+  .intro-actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1.5rem; }
+  .feed-note { margin: 2.5rem 0; }
+</style>
