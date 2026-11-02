@@ -13,9 +13,7 @@
     "build": "astro build && node scripts/prepare-public-output.mjs",
     "preview": "astro preview",
     "test:parity": "node --test scripts/verify-bookmark-parity.mjs",
-    "test:routes": "node --test scripts/verify-bookmark-routes.mjs",
-    "check:admin": "astro check --config astro.admin.config.mjs",
-    "build:admin": "astro build --config astro.admin.config.mjs && node scripts/verify-admin-separation.mjs"
+    "test:routes": "node --test scripts/verify-bookmark-routes.mjs"
   },
   "dependencies": {
     "@astrojs/vue": "7.1.2",
