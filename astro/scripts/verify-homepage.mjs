@@ -13,7 +13,7 @@ for (const [path, language, heading] of [
   assert.ok(html.includes(heading), "Collections missing: " + path);
   assert.ok(!html.includes("Astro migration preview"), "Technical placeholder leaked: " + path);
   assert.ok(!html.includes("Hugo na Astro"), "Serbian preview placeholder leaked: " + path);
-  assert.ok(!html.includes("/new-bookmark/"), "Private admin link leaked: " + path);
+  assert.ok(html.includes('href="/new-bookmark/"'), "Public bookmark composer link missing: " + path);
   assert.ok(html.includes("576"), "Bookmark count missing: " + path);
   for (const category of BOOKMARK_CATEGORIES) {
     assert.ok(html.includes('/bookmarks/' + category.slug + '/'),
@@ -31,4 +31,4 @@ for (const [path, language, heading] of [
   assert.equal((latest[1].match(/<li\b/g) ?? []).length, 8,
     "Homepage must show only the latest eight entries");
 }
-console.log("English/Serbian homepages: seven categories, 576 bookmarks, eight recent items; no preview/admin links");
+console.log("English/Serbian homepages: seven categories, 576 bookmarks, eight recent items; no preview placeholders");
