@@ -17,7 +17,7 @@ concurrency:
 
 jobs:
   release-audit:
-    name: Build and audit both Astro outputs (no deployment)
+    name: Build and audit Astro static output (no deployment)
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     timeout-minutes: 25
@@ -48,15 +48,13 @@ jobs:
         run: |
           npm test
           npm run check
-          npm run check:admin
 
-      - name: Build separate outputs and perform release isolation preflight
+      - name: Build public output and perform release preflight
         working-directory: astro
         run: |
           npm run build
           npm run test:parity
           npm run test:routes
-          npm run build:admin
           node scripts/release-readiness.mjs
 
       - name: Verify full content, feed, SEO and browser acceptance
@@ -71,11 +69,10 @@ jobs:
           python3 scripts/verify-site-seo.py
           node scripts/verify-homepage.mjs
           node scripts/smoke-search-browser.mjs
-          node scripts/smoke-admin-browser.mjs
 
       - name: Confirm this workflow cannot deploy
         run: |
-          test ! -e astro/dist/new-bookmark
+          test -s astro/dist/new-bookmark/index.html
           test ! -e astro/dist/admin
           test ! -e astro/dist/migration-audit
           test -s astro/.audit/release-readiness.json
