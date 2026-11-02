@@ -94,7 +94,10 @@ jobs:
           npm run check:admin
           npm run build:admin
           node scripts/smoke-admin-browser.mjs
-          node scripts/release-readiness.mjs
+
+      - name: Record read-only release preflight manifest
+        working-directory: astro
+        run: node scripts/release-readiness.mjs
 
       - name: Check staged output routes
         shell: bash
