@@ -1,0 +1,25 @@
+---
+import "../../src/styles/global.css";
+const title = "Bookmark administration";
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow,noarchive,nosnippet" />
+    <meta name="referrer" content="no-referrer" />
+    <title>{title} · peroniko.xyz</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <nav class="site-nav" aria-label="Administration">
+        <span class="site-brand">Bookmark administration</span>
+        <a href="https://www.peroniko.xyz/bookmarks/" rel="noopener noreferrer">Public bookmarks</a>
+      </nav>
+    </header>
+    <main id="main" class="site-main"><slot /></main>
+    <footer class="site-footer"><p>Restricted administration · No changes are saved without a GitHub commit.</p></footer>
+  </body>
+</html>
