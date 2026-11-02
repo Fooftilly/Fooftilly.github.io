@@ -39,13 +39,25 @@ try {
     "--headless=new", "--no-sandbox", "--disable-gpu", "--disable-dev-shm-usage",
     "--no-first-run", "--no-default-browser-check", "--remote-allow-origins=*",
     "--remote-debugging-port=0", "--user-data-dir=" + profile, "about:blank",
-  ], { stdio: "ignore" });
+  ], { stdio: ["ignore", "ignore", "pipe"] });
+  let chromeStderr = "";
+  // Keep a bounded tail of diagnostics without flooding Actions logs.
+  chrome.stderr?.on("data", (chunk) => {
+    chromeStderr = (chromeStderr + chunk.toString("utf8")).slice(-8192);
+  });
+  const startupFailure = (reason) => {
+    const exit = chrome.exitCode !== null ? `exit code ${chrome.exitCode}`
+      : chrome.signalCode !== null ? `signal ${chrome.signalCode}` : "process still running";
+    return new Error(`${reason} (${exit})\nChrome stderr:\n${chromeStderr.trim() || "(none captured)"}`);
+  };
   let launchError;
   chrome.on("error", (error) => { launchError = error; });
   let port = 0;
   for (let i = 0; i < 120; i++) {
-    if (launchError) throw launchError;
-    if (chrome.exitCode !== null) throw new Error("Chromium exited on startup");
+    if (launchError) throw startupFailure(`Chromium spawn failed: ${launchError.message}`);
+    if (chrome.exitCode !== null || chrome.signalCode !== null) {
+      throw startupFailure("Chromium exited before DevTools became available");
+    }
     try {
       const active = await readFile(join(profile, "DevToolsActivePort"), "utf8");
       port = Number(active.split("\n")[0]);
@@ -53,7 +65,7 @@ try {
     } catch { /* Chromium is still starting. */ }
     await sleep(100);
   }
-  assert.ok(port, "Chromium DevTools failed to start");
+  if (!port) throw startupFailure("Chromium DevToolsActivePort was not created");
   const opened = await fetch("http://127.0.0.1:" + port + "/json/new?about:blank", { method: "PUT" });
   assert.equal(opened.status, 200, "Unable to open browser target");
   const target = await opened.json();
