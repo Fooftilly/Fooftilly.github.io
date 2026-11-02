@@ -6,7 +6,7 @@ and screen-reader testing. Uses only the Python standard library.
 from collections import Counter
 from html.parser import HTMLParser
 from pathlib import Path
-from urllib.parse import urlsplit
+from urllib.parse import unquote, urlsplit
 from xml.etree import ElementTree as ET
 
 
@@ -55,7 +55,9 @@ def verify_semantic_structure(dist: Path) -> None:
         parsed = urlsplit(url or "")
         assert parsed.scheme == "https" and parsed.netloc == "www.peroniko.xyz", url
         assert parsed.path.endswith("/") and not parsed.query and not parsed.fragment, url
-        path = (dist / parsed.path.lstrip("/") / "index.html").resolve()
+        # URL paths may percent-encode non-ASCII slugs; Astro writes Unicode paths.
+        # Resolve after decoding so any encoded traversal is still rejected.
+        path = (dist / unquote(parsed.path).lstrip("/") / "index.html").resolve()
         assert path.is_relative_to(dist), f"Page escaped public build: {url}"
         assert path.is_file(), f"Missing HTML route from sitemap: {url}"
         structure = Structure()
