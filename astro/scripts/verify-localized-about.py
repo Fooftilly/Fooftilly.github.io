@@ -58,6 +58,10 @@ def validate(lang, source, html_file, alternate):
     assert "Creative Commons Attribution-ShareAlike 4.0 International License" in html, source
     assert "Github Repo" in html, source
     visible_text = " ".join(part.strip() for part in doc.parts if part.strip())
+    assert "Astro" in visible_text and "Vue" in visible_text, source
+    assert "Hugo" not in visible_text and "PaperMod" not in visible_text, source
+    assert "img.shields.io" not in html, "Remote license badge was not removed"
+    assert not re.search(r"<iframe\\b", html, flags=re.IGNORECASE), "Unexpected embedded content"
     expected_intro = "Moj lični sajt." if lang == "sr" else "My personal website. Made by me."
     assert expected_intro in visible_text, (
         f"Missing localized original introduction: {expected_intro!r}; "
