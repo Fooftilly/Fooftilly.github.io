@@ -1,7 +1,7 @@
 ---
 import { loadBookmarks } from "../lib/bookmark-data.ts";
 import { homepageSummary } from "../lib/homepage.ts";
-import { bookmarkCategoryPath } from "../lib/bookmark-categories.ts";
+import { bookmarkCategoryPath, bookmarkCategoryDisplayLabel } from "../lib/bookmark-categories.ts";
 
 interface Props { lang: "en" | "sr" }
 const { lang } = Astro.props;
@@ -38,7 +38,7 @@ const { count, recent, categories } = homepageSummary(await loadBookmarks());
       {item.url
         ? <a href={item.url} target="_blank" rel="noopener noreferrer">{item.title}</a>
         : <strong>{item.title}</strong>}
-      <p>{item.category} {item.date && <><span aria-hidden="true"> · </span><time datetime={item.date}>{item.date}</time></>}</p>
+      <p>{bookmarkCategoryDisplayLabel(item.category, lang)} {item.date && <><span aria-hidden="true"> · </span><time datetime={item.date}>{item.date}</time></>}</p>
     </li>)}
   </ul>
 </section>
