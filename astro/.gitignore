@@ -6,6 +6,3 @@ dist/
 .env.*
 !.env.example
 *.tsbuildinfo
-
-admin-dist/
-admin-src/.astro/
