@@ -1,0 +1,19 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import NewBookmark from "../../components/NewBookmark.vue";
+import { getCollection } from "astro:content";
+import { loadBookmarks } from "../../lib/bookmark-data.ts";
+
+// Reserve every source filename, including drafts, to avoid an accidental
+// overwrite. Only published URLs are sent to the browser for duplicate
+// detection: draft destinations/comments remain private to the build.
+const published = new Map(
+  (await loadBookmarks()).map(({ id, url }) => [id, url])
+);
+const existing = (await getCollection("bookmarks"))
+  .filter(({ id }) => id !== "_index" && !id.endsWith("/_index"))
+  .map(({ id }) => ({ id, url: published.get(id) ?? "" }));
+---
+<SiteLayout title="New bookmark" description="Prepare a bookmark Markdown draft and review it in the GitHub editor.">
+  <NewBookmark existing={existing} client:load />
+</SiteLayout>

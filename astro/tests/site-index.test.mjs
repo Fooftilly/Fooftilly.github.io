@@ -4,7 +4,7 @@ import { getPublishedPaths, absoluteSiteUrl, renderSitemap } from "../src/lib/si
 
 test("sitemap only includes implemented routes with canonical lowercase bookmark paths", () => {
   const paths = getPublishedPaths(["Art/UpperCase", "Perspectives/partII"]);
-  assert.equal(paths.length, 18);
+  assert.equal(paths.length, 19);
   assert.ok(paths.includes("/"));
   assert.ok(paths.includes("/about/"));
   assert.ok(paths.includes("/bookmarks/art/uppercase/"));
@@ -16,6 +16,7 @@ test("sitemap only includes implemented routes with canonical lowercase bookmark
   assert.ok(paths.includes("/posts/"));
   assert.ok(paths.includes("/search/"));
   assert.ok(paths.includes("/sr/search/"));
+  assert.ok(paths.includes("/new-bookmark/"));
   assert.ok(!paths.includes("/en/posts/"), "Do not add compatibility redirects");
 });
 

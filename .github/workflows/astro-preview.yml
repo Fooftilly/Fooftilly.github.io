@@ -90,6 +90,7 @@ jobs:
           set -euo pipefail
           test -s astro/dist/index.html
           test -s astro/dist/bookmarks/index.html
+          test -s astro/dist/new-bookmark/index.html
           test -s astro/dist/about/index.html
           test -s astro/dist/sr/index.html
           test -s astro/dist/sr/about/index.html
