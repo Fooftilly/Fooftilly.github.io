@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import AnalyticsConsent from "../components/AnalyticsConsent.astro";
+import AnalyticsSettings from "../components/AnalyticsSettings.astro";
 
 interface Props {
   title: string;
@@ -56,6 +57,7 @@ const socialLinks = [
   </head>
   <body>
     <a class="skip-link" href="#main">{lang === "sr" ? "Preskoči na sadržaj" : "Skip to content"}</a>
+    <AnalyticsConsent lang={lang} />
     <header class="site-header">
       <nav class="site-nav" aria-label={lang === "sr" ? "Glavna navigacija" : "Main navigation"}>
         <a class="site-brand" href={lang === "sr" ? "/sr/" : "/"}>Nikola Perović</a>
@@ -78,7 +80,7 @@ const socialLinks = [
         {socialLinks.map(({ label, href }) => <a href={href} rel="noopener noreferrer">{label}</a>)}
         <a href="/index.xml" type="application/rss+xml">RSS</a>
       </nav>
-      <AnalyticsConsent lang={lang} />
+      <AnalyticsSettings lang={lang} />
     </footer>
   </body>
 </html>
