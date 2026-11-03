@@ -4,6 +4,7 @@ Uses only the Python standard library. No network or deployment permissions.
 """
 import hashlib
 import json
+import re
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import quote
@@ -29,6 +30,7 @@ class Metadata(HTMLParser):
         self.html_lang = ""
         self.metas = {}
         self.links = []
+        self.anchors = []
 
     def handle_starttag(self, tag, attrs):
         att = dict(attrs)
@@ -38,6 +40,8 @@ class Metadata(HTMLParser):
             self.metas[att.get("property") or att.get("name")] = att.get("content")
         if tag == "link":
             self.links.append(att)
+        if tag == "a":
+            self.anchors.append(att)
 
 
 def check_assets():
@@ -114,7 +118,43 @@ def check_metadata():
                 and link.get("href") == "/index.xml"
                 for link in doc.links
             ), ("Missing site-wide RSS discovery", urlpath)
+        if urlpath in ("/", "/sr/"):
+            profile_urls = {
+                "https://github.com/Fooftilly",
+                "https://bsky.app/profile/peroniko.xyz",
+                "https://letterboxd.com/Peroniko",
+                "https://trakt.tv/users/cobe10",
+                "https://rateyourmusic.com/~Fooftilly",
+                "https://old.reddit.com/r/Peroniko/",
+                "/index.xml",
+            }
+            actual = {item.get("href") for item in doc.anchors}
+            assert profile_urls.issubset(actual), ("Missing social or RSS profile links", urlpath, profile_urls - actual)
     print(f"Validated SEO and social metadata on {len(pages)} representative pages")
+
+
+def check_not_found_page():
+    page = DIST / "404.html"
+    assert page.is_file(), "Missing GitHub Pages static 404.html"
+    html = page.read_text(encoding="utf8")
+    doc = Metadata()
+    doc.feed(html)
+    assert doc.metas.get("robots") == "noindex, nofollow", "404 page must not be indexed"
+    assert not any(link.get("rel") == "canonical" for link in doc.links), "404 must not claim a canonical page"
+    assert doc.metas.get("og:url") is None, "404 must not advertise a canonical social URL"
+    assert re.search(r"<h1\b[^>]*>\s*Page not found\s*</h1>", html), "404 page needs an explanatory heading"
+    for path in ('href="/"', 'href="/bookmarks/"', 'href="/search/"', 'href="/sr/"'):
+        assert path in html, f"Missing recovery navigation on 404: {path}"
+    print("Validated non-indexable GitHub Pages 404.html with recovery navigation")
+
+
+def check_opt_in_comments():
+    page = DIST / "bookmarks/art/50_watts___illustrations___/index.html"
+    html = page.read_text(encoding="utf8")
+    assert "data-comments-consent" in html, "Missing opt-in comment section"
+    assert "data-load-comments" in html and "Load comments from Giscus" in html, "Missing consent control"
+    assert 'src="https://giscus.app/client.js"' not in html, "Giscus may not load automatically"
+    print("Verified bookmark comments require visitor opt-in before loading third-party scripts")
 
 
 if __name__ == "__main__":
@@ -123,3 +163,5 @@ if __name__ == "__main__":
     check_metadata()
     verify_semantic_structure(DIST)
     audit_internal_links(DIST)
+    check_not_found_page()
+    check_opt_in_comments()

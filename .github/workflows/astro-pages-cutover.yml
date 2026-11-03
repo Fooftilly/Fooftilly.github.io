@@ -1,6 +1,5 @@
-# This file creates no automatic deployment. Approval is intentionally two-stage:
-# a maintainer sets ASTRO_CUTOVER_APPROVED=true after reviewing #11 gates and
-# dispatches the workflow from master with the exact confirmation string.
+# Manual-only Pages deployment. Requires approved repository variable and confirmation.
+# No push, pull_request or schedule triggers may publish this site.
 name: Deploy Astro to GitHub Pages (manual approved cutover)
 
 on:
@@ -75,6 +74,7 @@ jobs:
     needs: build
     if: >-
       github.ref == 'refs/heads/master' &&
+      github.event_name == 'workflow_dispatch' &&
       inputs.confirmation == 'PUBLISH_ASTRO_TO_PAGES' &&
       vars.ASTRO_CUTOVER_APPROVED == 'true'
     runs-on: ubuntu-latest
