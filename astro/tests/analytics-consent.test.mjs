@@ -5,9 +5,10 @@ import {
   GA_MEASUREMENT_ID,
   CONSENT_STORAGE_KEY,
   GOOGLE_TAG_URL,
+  mayTrackPage,
 } from "../src/lib/analytics-consent.ts";
 
-function fixture(initialChoice = null, blockStorage = false) {
+function fixture(initialChoice = null, blockStorage = false, href = "https://www.peroniko.xyz/about/") {
   const values = new Map();
   if (initialChoice !== null) values.set(CONSENT_STORAGE_KEY, initialChoice);
   const listeners = new Map();
@@ -27,8 +28,8 @@ function fixture(initialChoice = null, blockStorage = false) {
     },
   };
   const scripts = [];
+  const cookies = new Map([["_ga", "tracking"], ["_ga_123", "tracking"], ["session", "keep"]]);
   const doc = {
-    cookie: "_ga=tracking; _ga_123=tracking",
     querySelector(selector) {
       if (selector === "[data-analytics-consent]") return panel;
       if (selector === "[data-analytics-settings]") return settings;
@@ -41,6 +42,13 @@ function fixture(initialChoice = null, blockStorage = false) {
       return { dataset: {}, async: false, src: "" };
     },
   };
+  Object.defineProperty(doc, "cookie", {
+    get() { return [...cookies].map(([name, value]) => `${name}=${value}`).join("; "); },
+    set(value) {
+      const name = value.split("=")[0].trim();
+      if (value.includes("expires=Thu, 01 Jan 1970")) cookies.delete(name);
+    },
+  });
   let reloadCount = 0;
   const win = {
     localStorage: {
@@ -48,7 +56,7 @@ function fixture(initialChoice = null, blockStorage = false) {
       setItem(key, value) { if (blockStorage) throw Error("storage blocked"); values.set(key, value); },
     },
     location: {
-      href: "https://www.peroniko.xyz/search/?q=secret-term#private",
+      href,
       reload() { reloadCount++; },
     },
   };
@@ -58,7 +66,7 @@ function fixture(initialChoice = null, blockStorage = false) {
     handler();
   };
   initializeAnalyticsConsent(doc, win);
-  return { click, values, panel, settings, scripts, doc, win, get reloadCount() { return reloadCount; } };
+  return { click, values, panel, settings, scripts, cookies, doc, win, get reloadCount() { return reloadCount; } };
 }
 
 test("No Google script, data layer or tracking without a visitor choice", () => {
@@ -95,7 +103,8 @@ test("Opt-in loads the tag once with consent v2, no ad permissions and no search
   });
   const config = f.win.dataLayer.find(x => x[0] === "config");
   assert.equal(config[1], GA_MEASUREMENT_ID);
-  assert.equal(config[2].page_location, "https://www.peroniko.xyz/search/");
+  assert.equal(config[2].page_location, "https://www.peroniko.xyz/about/");
+  assert.equal(config[2].page_referrer, "");
   assert.equal(config[2].allow_google_signals, false);
   assert.equal(config[2].allow_ad_personalization_signals, false);
   f.click("settings");
@@ -126,7 +135,9 @@ test("Withdrawing previously granted consent disables further hits and reloads w
   assert.equal(f.reloadCount, 1);
   assert.equal(f.win.dataLayer.at(-1)[0], "consent");
   assert.equal(f.win.dataLayer.at(-1)[2].analytics_storage, "denied");
-  assert.match(f.doc.cookie, /expires=Thu, 01 Jan 1970/);
+  assert.equal(f.cookies.has("_ga"), false);
+  assert.equal(f.cookies.has("_ga_123"), false);
+  assert.equal(f.cookies.get("session"), "keep");
   const nextPage = fixture(f.values.get(CONSENT_STORAGE_KEY));
   assert.equal(nextPage.scripts.length, 0, "Fresh page must not fetch Google after withdrawal");
 });
@@ -137,4 +148,27 @@ test("Disabled localStorage cannot silently imply analytics consent", () => {
   assert.equal(f.panel.hidden, false);
   f.click("decline");
   assert.equal(f.scripts.length, 0);
+});
+
+test("Never start analytics on draft, search, filter or query-bearing routes even after consent", () => {
+  const excluded = [
+    "https://www.peroniko.xyz/new-bookmark/?url=https%3A%2F%2Fprivate.test&title=Secret",
+    "https://www.peroniko.xyz/new-bookmark/",
+    "https://www.peroniko.xyz/search/",
+    "https://www.peroniko.xyz/sr/search/?q=confidential",
+    "https://www.peroniko.xyz/bookmarks/",
+    "https://www.peroniko.xyz/bookmarks/art/",
+    "https://www.peroniko.xyz/about/?private=1",
+  ];
+  for (const href of excluded) {
+    assert.equal(mayTrackPage(href), false, href);
+    const f = fixture("granted", false, href);
+    assert.equal(f.scripts.length, 0, href);
+    assert.equal(f.win.dataLayer, undefined, href);
+    f.click("settings");
+    f.click("decline");
+    assert.equal(f.reloadCount, 0, "No tag was running");
+  }
+  assert.equal(mayTrackPage("https://www.peroniko.xyz/bookmarks/art/some-public-bookmark/"), true);
+  assert.equal(mayTrackPage("https://www.peroniko.xyz/"), true);
 });
