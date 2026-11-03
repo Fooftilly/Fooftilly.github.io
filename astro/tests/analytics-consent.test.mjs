@@ -168,6 +168,9 @@ test("Never start analytics on draft, search, filter or query-bearing routes eve
     f.click("settings");
     f.click("decline");
     assert.equal(f.reloadCount, 0, "No tag was running");
+    assert.equal(f.cookies.has("_ga"), false, "Previously set GA cookie must be cleared");
+    assert.equal(f.cookies.has("_ga_123"), false, "Previously set GA4 cookie must be cleared");
+    assert.equal(f.cookies.get("session"), "keep", "Unrelated cookies must survive");
   }
   assert.equal(mayTrackPage("https://www.peroniko.xyz/bookmarks/art/some-public-bookmark/"), true);
   assert.equal(mayTrackPage("https://www.peroniko.xyz/"), true);
