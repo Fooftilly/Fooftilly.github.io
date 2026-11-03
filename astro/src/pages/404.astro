@@ -1,0 +1,19 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+---
+<SiteLayout title="Page not found" description="This address does not correspond to a published page." errorPage>
+  <section class="missing-page">
+    <h1>Page not found</h1>
+    <p>This link does not lead to a published page. You can return to the homepage or browse the bookmark collection.</p>
+    <nav aria-label="Page not found navigation" class="missing-links">
+      <a href="/">Homepage</a>
+      <a href="/bookmarks/">Bookmarks</a>
+      <a href="/search/">Search bookmarks</a>
+      <a href="/sr/" lang="sr-Latn">Početna na srpskom</a>
+    </nav>
+  </section>
+</SiteLayout>
+<style>
+  .missing-page { max-width: 46rem; padding: 3rem 0; }
+  .missing-links { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1.5rem; }
+</style>

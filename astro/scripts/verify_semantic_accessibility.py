@@ -61,14 +61,18 @@ def verify_semantic_structure(dist: Path) -> None:
     ns = "{http://www.sitemaps.org/schemas/sitemap/0.9}"
     links = [node.text for node in sitemap.findall(f"{ns}url/{ns}loc")]
     assert links, "Sitemap has no pages to audit"
+    # The special GitHub Pages error document is not a canonical sitemap route.
+    if (dist / "404.html").is_file():
+        links.append("https://www.peroniko.xyz/404.html")
     checked = 0
     for url in links:
         parsed = urlsplit(url or "")
         assert parsed.scheme == "https" and parsed.netloc == "www.peroniko.xyz", url
-        assert parsed.path.endswith("/") and not parsed.query and not parsed.fragment, url
+        assert (parsed.path.endswith("/") or parsed.path == "/404.html") and not parsed.query and not parsed.fragment, url
         # URL paths may percent-encode non-ASCII slugs; Astro writes Unicode paths.
         # Resolve after decoding so any encoded traversal is still rejected.
-        path = (dist / unquote(parsed.path).lstrip("/") / "index.html").resolve()
+        path = ((dist / "404.html") if parsed.path == "/404.html"
+                else (dist / unquote(parsed.path).lstrip("/") / "index.html")).resolve()
         assert path.is_relative_to(dist), f"Page escaped public build: {url}"
         assert path.is_file(), f"Missing HTML route from sitemap: {url}"
         structure = Structure()

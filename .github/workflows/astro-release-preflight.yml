@@ -74,7 +74,16 @@ jobs:
       - name: Confirm this workflow cannot deploy
         run: |
           test -s astro/dist/new-bookmark/index.html
+          test -s astro/dist/404.html
           test ! -e astro/dist/admin
           test ! -e astro/dist/migration-audit
           test -s astro/.audit/release-readiness.json
-          echo "READ_ONLY_NO_DEPLOY: no Pages permissions, secrets, deploy action or artifact upload"
+          echo "READ_ONLY_NO_DEPLOY: no Pages permissions, secrets or deploy action"
+
+      - name: Upload only validated public site for manual inspection
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: astro-preflight-public-output
+          path: astro/dist/
+          if-no-files-found: error
+          retention-days: 7
