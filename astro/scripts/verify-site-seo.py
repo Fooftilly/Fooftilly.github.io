@@ -148,6 +148,15 @@ def check_not_found_page():
     print("Validated non-indexable GitHub Pages 404.html with recovery navigation")
 
 
+def check_opt_in_comments():
+    page = DIST / "bookmarks/art/50_watts___illustrations___/index.html"
+    html = page.read_text(encoding="utf8")
+    assert "data-comments-consent" in html, "Missing opt-in comment section"
+    assert "data-load-comments" in html and "Load comments from Giscus" in html, "Missing consent control"
+    assert 'src="https://giscus.app/client.js"' not in html, "Giscus may not load automatically"
+    print("Verified bookmark comments require visitor opt-in before loading third-party scripts")
+
+
 if __name__ == "__main__":
     check_assets()
     check_sitemap()
@@ -155,3 +164,4 @@ if __name__ == "__main__":
     verify_semantic_structure(DIST)
     audit_internal_links(DIST)
     check_not_found_page()
+    check_opt_in_comments()
