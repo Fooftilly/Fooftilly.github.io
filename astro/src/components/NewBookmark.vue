@@ -18,7 +18,7 @@ const notes = ref("");
 const status = ref("");
 const editorLimit = 4000; // Conservative URL length across browsers and GitHub redirects.
 // Paste this as the URL of a browser bookmark to capture the current page.
-// The target only becomes available once Astro is published at the domain.
+// The capture bookmarklet opens the deployed public bookmark draft editor.
 const captureBookmarklet = 'javascript:(()=>{const u=new URL("https://www.peroniko.xyz/new-bookmark/");u.searchParams.set("url",location.href);u.searchParams.set("title",document.title);window.open(u.href,"_blank","noopener");})();';
 
 onMounted(() => {
@@ -69,7 +69,7 @@ async function copy(value: string, description: string) {
     <p>Prepare a Markdown bookmark draft, then review it on GitHub. Anyone can use this form, but only repository collaborators can open pull requests. No changes are saved by this page.</p>
     <details class="capture-help">
       <summary>Capture a page with a browser bookmarklet</summary>
-      <p>After Astro launches on this domain, create a browser bookmark and set its URL to the copied bookmarklet. Clicking it on any web page opens this form with its URL and title filled in. It does not save anything automatically.</p>
+      <p>Create a browser bookmark and set its URL to the copied bookmarklet. Clicking it on any web page opens this form with its URL and title filled in. It does not save anything automatically.</p>
       <button type="button" @click="copy(captureBookmarklet, 'Bookmarklet')">Copy capture bookmarklet</button>
     </details>
 
