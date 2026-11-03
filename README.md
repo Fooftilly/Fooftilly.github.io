@@ -17,7 +17,11 @@ npm run dev
 
 The public site is generated in `astro/dist/`. Source bookmarks and bilingual page content remain under `content/`; static assets, custom-domain configuration and verification files remain under `static/`. Do not commit generated `dist/` or internal `.audit/` records.
 
-Bookmark proposals are prepared at `/new-bookmark/` and reviewed through GitHub. The form is public and contains no write credentials; repository permissions control who can open pull requests. See [Astro documentation](astro/README.md), [cutover and rollback runbook](astro/CUTOVER.md), and [migration roadmap](https://github.com/Fooftilly/Fooftilly.github.io/issues/11).
+Bookmark proposals are prepared at `/new-bookmark/` and reviewed through GitHub. The form is public and contains no write credentials; repository permissions control who can open pull requests. See [Astro documentation](astro/README.md) and the [publishing and rollback guide](astro/CUTOVER.md).
+
+## Publish a new version
+
+After merging tested changes, open [Actions → Publish website to GitHub Pages (manual)](https://github.com/Fooftilly/Fooftilly.github.io/actions/workflows/astro-pages-cutover.yml), select `master`, tick the confirmation checkbox, and run the workflow. It rebuilds and validates the site before deployment. **Merges do not publish automatically.**
 
 ## Credits and licenses
 
