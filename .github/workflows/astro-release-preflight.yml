@@ -74,6 +74,7 @@ jobs:
       - name: Confirm this workflow cannot deploy
         run: |
           test -s astro/dist/new-bookmark/index.html
+          test -s astro/dist/404.html
           test ! -e astro/dist/admin
           test ! -e astro/dist/migration-audit
           test -s astro/.audit/release-readiness.json

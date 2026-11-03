@@ -7,9 +7,10 @@ interface Props {
   rssHref?: string;
   lang?: "en" | "sr";
   languageAlternate?: string;
+  errorPage?: boolean;
 }
 
-const { title, description = "Bookmarks, notes, projects and collections.", rssHref, lang = "en", languageAlternate } = Astro.props;
+const { title, description = "Bookmarks, notes, projects and collections.", rssHref, lang = "en", languageAlternate, errorPage = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const socialImage = new URL("/avatar-full.webp", Astro.site);
 const alternateUrl = languageAlternate ? new URL(languageAlternate, Astro.site).href : undefined;
@@ -31,6 +32,7 @@ const socialLinks = [
     <title>{title} · Nikola Perović</title>
     <meta name="description" content={description} />
     <meta name="author" content="Nikola Perović" />
+    {errorPage && <meta name="robots" content="noindex, nofollow" />}
     <meta name="referrer" content="no-referrer" />
     <meta name="theme-color" content="#ffffff" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -41,12 +43,12 @@ const socialLinks = [
     <meta property="og:site_name" content="Nikola Perović" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonical.toString()} />
+    {!errorPage && <meta property="og:url" content={canonical.toString()} />}
     <meta property="og:image" content={socialImage.toString()} />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <link rel="canonical" href={canonical.toString()} />
+    {!errorPage && <link rel="canonical" href={canonical.toString()} />}
     {alternateUrl && <link rel="alternate" hreflang={lang === "sr" ? "en" : "sr-Latn"} href={alternateUrl} />}
     {alternateUrl && <link rel="alternate" hreflang={lang === "sr" ? "sr-Latn" : "en"} href={canonical.toString()} />}
     {rssHref && <link rel="alternate" type="application/rss+xml" title={title} href={rssHref} />}
