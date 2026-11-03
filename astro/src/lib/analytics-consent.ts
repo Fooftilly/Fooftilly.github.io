@@ -40,8 +40,21 @@ function analyticsCommand(win: AnalyticsWindow, ...args: unknown[]): void {
   win.dataLayer.push(args);
 }
 
+/** Skip draft/query-driven routes entirely: GA enhanced measurement could
+ * otherwise transmit outbound link URLs or site-search query parameters.
+ */
+export function mayTrackPage(href: string): boolean {
+  const url = new URL(href);
+  const path = url.pathname;
+  if (url.search) return false;
+  if (path === "/new-bookmark/" || path === "/new-bookmark") return false;
+  if (path === "/search/" || path === "/sr/search/") return false;
+  if (path === "/bookmarks/" || /^\/bookmarks\/[^/]+\/$/.test(path)) return false;
+  return true;
+}
+
 function enableAnalytics(doc: Document, win: AnalyticsWindow): void {
-  if (doc.querySelector("[data-ga-loader]")) return;
+  if (!mayTrackPage(win.location.href) || doc.querySelector("[data-ga-loader]")) return;
   setAnalyticsDisabled(win, false);
   // Set Consent Mode v2 defaults before the tag is fetched or configured.
   analyticsCommand(win, "consent", "default", denied);
@@ -51,6 +64,7 @@ function enableAnalytics(doc: Document, win: AnalyticsWindow): void {
   const pageUrl = new URL(win.location.href);
   analyticsCommand(win, "config", GA_MEASUREMENT_ID, {
     page_location: pageUrl.origin + pageUrl.pathname,
+    page_referrer: "",
     allow_google_signals: false,
     allow_ad_personalization_signals: false,
   });
@@ -96,7 +110,7 @@ export function initializeAnalyticsConsent(doc: Document = document, win: Window
     enableAnalytics(doc, aw);
   });
   decline.addEventListener("click", () => {
-    const wasEnabled = choice === "granted" || Boolean(doc.querySelector("[data-ga-loader]"));
+    const wasEnabled = Boolean(doc.querySelector("[data-ga-loader]"));
     choice = "denied";
     saveChoice(win, choice);
     showPanel(false);
