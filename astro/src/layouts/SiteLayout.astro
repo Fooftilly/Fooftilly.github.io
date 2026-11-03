@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import AnalyticsConsent from "../components/AnalyticsConsent.astro";
 
 interface Props {
   title: string;
@@ -77,6 +78,7 @@ const socialLinks = [
         {socialLinks.map(({ label, href }) => <a href={href} rel="noopener noreferrer">{label}</a>)}
         <a href="/index.xml" type="application/rss+xml">RSS</a>
       </nav>
+      <AnalyticsConsent lang={lang} />
     </footer>
   </body>
 </html>
