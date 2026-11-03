@@ -93,6 +93,16 @@ jobs:
           CHROME_BIN: /usr/bin/google-chrome
         run: node scripts/smoke-search-browser.mjs
 
+      - name: Validate production revision stamp without publishing
+        working-directory: astro
+        env:
+          ASTRO_RELEASE_INTENT: publish
+        run: |
+          set -euo pipefail
+          printf '%s\n' "$GITHUB_SHA" > dist/deploy-revision.txt
+          node scripts/release-readiness.mjs
+          rm dist/deploy-revision.txt
+
       - name: Record read-only release preflight manifest
         working-directory: astro
         run: node scripts/release-readiness.mjs

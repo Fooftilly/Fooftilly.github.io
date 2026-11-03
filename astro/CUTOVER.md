@@ -9,7 +9,7 @@ Neither merging a PR nor pushing to `master` starts a Pages deployment.
 1. Merge the intended changes to `master` after reviewing their PR checks, security findings and site behavior. Only committed `master` content is eligible.
 2. Open **[Actions → Publish website to GitHub Pages (manual)](https://github.com/Fooftilly/Fooftilly.github.io/actions/workflows/astro-pages-cutover.yml)**.
 3. Select **Run workflow**, choose branch **master**, check **Publish the validated master branch to the live website**, and click **Run workflow**.
-4. Wait for both jobs: **Validate and package Astro site for manual publication**, then **Publish validated site to GitHub Pages**. A failed validation stops deployment.
+4. Watch the build and deploy jobs. The build validates and stamps the artifact with the current Git commit, then the deploy job publishes and checks that the live domain serves that **exact commit** and the required routes. A build failure blocks publication; a post-deployment verification failure means the upload may have succeeded but the public result needs investigation.
 5. Verify the deployed [homepage](https://www.peroniko.xyz/), [Serbian homepage](https://www.peroniko.xyz/sr/), [bookmark composer](https://www.peroniko.xyz/new-bookmark/), search, feeds, sitemap, custom domain and [404 page](https://www.peroniko.xyz/404.html). For changes to analytics or comments, also verify consent and third-party network behavior.
 
 The workflow uses a single unchecked-by-default confirmation box. It cannot deploy
@@ -25,7 +25,12 @@ source, validates TypeScript, builds `astro/dist/`, checks content and route
 parity, bilingual pages, feeds, SEO, internal links, accessibility and browser
 behavior. It verifies that internal audit files are absent from the public output,
 uploads **only** `astro/dist/`, and deploys that artifact using narrowly scoped
-Pages and OIDC permissions in the `github-pages` environment.
+Pages and OIDC permissions in the `github-pages` environment. Before upload,
+it writes a public `deploy-revision.txt` containing the source Git commit and
+includes it in the private SHA-256 release manifest. After deployment, it
+checks the revision at `www.peroniko.xyz` and probes the homepages, bookmark
+editor, search, feeds, sitemap and 404. A post-deploy check failure does not
+undo a Pages publication; review the deployed URL and Actions logs.
 
 The separate **Astro cutover preflight (no deployment)** workflow can still be
 run to download a public-output preview for visual inspection without publishing.
