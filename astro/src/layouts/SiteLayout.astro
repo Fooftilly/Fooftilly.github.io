@@ -15,6 +15,14 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
 const socialImage = new URL("/avatar-full.webp", Astro.site);
 const alternateUrl = languageAlternate ? new URL(languageAlternate, Astro.site).href : undefined;
 const languageLabel = lang === "sr" ? "English" : "Srpski";
+const socialLinks = [
+  { label: "GitHub", href: "https://github.com/Fooftilly" },
+  { label: "Bluesky", href: "https://bsky.app/profile/peroniko.xyz" },
+  { label: "Letterboxd", href: "https://letterboxd.com/Peroniko" },
+  { label: "Trakt", href: "https://trakt.tv/users/cobe10" },
+  { label: "Rate Your Music", href: "https://rateyourmusic.com/~Fooftilly" },
+  { label: "Reddit", href: "https://old.reddit.com/r/Peroniko/" },
+] as const;
 ---
 <!doctype html>
 <html lang={lang === "sr" ? "sr-Latn" : "en"}>
@@ -64,7 +72,16 @@ const languageLabel = lang === "sr" ? "English" : "Srpski";
       <slot />
     </main>
     <footer class="site-footer">
-      <p>{lang === "sr" ? "Lični linkovi i bilješke" : "Personal links and notes"} · <a href="https://github.com/Fooftilly">GitHub</a></p>
+      <p>{lang === "sr" ? "Lični linkovi i bilješke" : "Personal links and notes"}</p>
+      <nav aria-label={lang === "sr" ? "Profili i RSS" : "Social profiles and RSS"} class="social-links">
+        {socialLinks.map(({ label, href }) => <a href={href} rel="noopener noreferrer">{label}</a>)}
+        <a href="/index.xml" type="application/rss+xml">RSS</a>
+      </nav>
     </footer>
   </body>
 </html>
+
+<style>
+  .social-links { display: flex; flex-wrap: wrap; gap: .55rem 1rem; margin-top: .65rem; }
+  .social-links a { overflow-wrap: anywhere; }
+</style>
