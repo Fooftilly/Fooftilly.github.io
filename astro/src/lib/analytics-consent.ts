@@ -115,10 +115,11 @@ export function initializeAnalyticsConsent(doc: Document = document, win: Window
     saveChoice(win, choice);
     showPanel(false);
     setAnalyticsDisabled(win, true);
+    // Previously set cookies must be cleared even on routes where GA is not loaded.
+    expireAnalyticsCookies(doc);
     if (wasEnabled) {
-      // Stop further hits and purge first-party GA cookies; reload unloads the running tag.
+      // Stop further hits and reload to unload the running tag.
       analyticsCommand(aw, "consent", "update", denied);
-      expireAnalyticsCookies(doc);
       win.location.reload();
     }
   });
