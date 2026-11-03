@@ -153,9 +153,13 @@ try {
       left:rect.left, right:rect.right, top:rect.top, bottom:rect.bottom,
       viewportWidth:innerWidth, viewportHeight:innerHeight,
       position:getComputedStyle(el).position,
+      actionDirection:getComputedStyle(document.querySelector('.consent-actions')).flexDirection,
+      actionOrder:Array.from(document.querySelectorAll('.consent-actions button')).map(button=>button.textContent.trim()),
     };
   })()`);
   assert.equal(mobileConsent.position, "fixed");
+  assert.equal(mobileConsent.actionDirection, "column", "Visual and keyboard order must agree on narrow screens");
+  assert.deepEqual(mobileConsent.actionOrder, ["Reject optional cookies", "Allow analytics"]);
   assert.ok(mobileConsent.left >= 0 && mobileConsent.right <= mobileConsent.viewportWidth + 1, "Mobile cookie notice must fit viewport width");
   assert.ok(mobileConsent.top >= 0 && mobileConsent.bottom <= mobileConsent.viewportHeight + 1, "Mobile cookie notice must fit viewport height");
   await command("Emulation.clearDeviceMetricsOverride");
