@@ -88,7 +88,7 @@ export function initializeAnalyticsConsent(doc: Document = document, win: Window
   showPanel(choice === null);
   if (choice === "granted") enableAnalytics(doc, aw);
 
-  settings.addEventListener("click", () => showPanel(panel.hidden));
+  settings.addEventListener("click", () => showPanel(Boolean(panel.hidden)));
   allow.addEventListener("click", () => {
     choice = "granted";
     saveChoice(win, choice);
