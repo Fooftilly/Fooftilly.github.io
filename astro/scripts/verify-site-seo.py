@@ -157,6 +157,19 @@ def check_opt_in_comments():
     print("Verified bookmark comments require visitor opt-in before loading third-party scripts")
 
 
+def check_analytics_privacy():
+    for page in (DIST / "index.html", DIST / "sr/index.html", DIST / "404.html"):
+        html = page.read_text(encoding="utf8")
+        for required in ("data-analytics-consent", "data-analytics-settings", "data-analytics-allow", "data-analytics-decline"):
+            assert required in html, f"Missing analytics privacy control {required}: {page}"
+        assert 'src="https://www.googletagmanager.com/' not in html, (
+            f"GA must not preload before visitor consent: {page}"
+        )
+    print("Verified bilingual privacy controls and no eager Google tracking script")
+
+
+
+
 if __name__ == "__main__":
     check_assets()
     check_sitemap()
@@ -164,4 +177,5 @@ if __name__ == "__main__":
     verify_semantic_structure(DIST)
     audit_internal_links(DIST)
     check_not_found_page()
+    check_analytics_privacy()
     check_opt_in_comments()
