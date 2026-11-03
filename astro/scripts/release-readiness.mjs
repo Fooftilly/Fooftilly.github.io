@@ -52,31 +52,39 @@ function digest(files, root) {
   });
 }
 
+// This report runs both in read-only CI and immediately before a manually
+// approved publish. It records the intended operation, not a deployed status.
+const releaseIntent = process.env.ASTRO_RELEASE_INTENT || "validate-only";
+assert.ok(["validate-only", "publish"].includes(releaseIntent), "Invalid release intent");
+if (releaseIntent === "publish") {
+  const revision = (await readFile(join(publicDir, "deploy-revision.txt"), "utf8")).trim();
+  assert.match(revision, /^[0-9a-f]{40}$/, "Invalid public deployment revision");
+  assert.equal(revision, process.env.GITHUB_SHA, "Published revision differs from workflow SHA");
+}
 const summary = {
-  schema: 1,
+  schema: 2,
   status: "build-validated-not-deployed",
+  releaseIntent,
   publicHostname: "www.peroniko.xyz",
   publicFileCount: publicFiles.length,
   bookmarkCount: bookmarks.length,
   publicSha256: await digest(publicFiles, publicDir),
-  deploymentEnabled: false,
-  ownerCutoverAccepted: false,
 };
 const out = join(cwd, ".audit", "release-readiness.json");
 await mkdir(dirname(out), { recursive: true });
 await writeFile(out, JSON.stringify(summary, null, 2) + "\n", { mode: 0o600 });
 const report = [
-  "## Astro migration release preflight (no deployment)",
+  "## Astro static release validation",
   "",
+  "- Operation: **" + (releaseIntent === "publish" ? "MANUAL PUBLICATION REQUESTED" : "READ-ONLY VALIDATION") + "**",
   "- Public static files: " + summary.publicFileCount,
   "- Bookmarks: " + summary.bookmarkCount,
   "- Public build SHA-256: `" + summary.publicSha256 + "`",
   "- Public bookmark composer route: **PRESENT**",
   "- GitHub collaborator-only PR restriction: **OWNER-CONFIGURED; NOT VERIFIED BY THIS BUILD**",
-  "- Public production cutover approval: **NOT GIVEN**",
-  "- Deployment: **DISABLED**",
+  "- Deployment at this step: **" + (releaseIntent === "publish" ? "PENDING (validate, upload and verify live site next)" : "NOT REQUESTED") + "**",
   "",
-  "The public composer has no write credentials. Validate collaborator-only PR settings separately before cutover.",
+  "This validates the static artifact only. A successful Pages deployment and live revision verification must be checked separately.",
 ];
 console.log(report.join("\n"));
 if (process.env.GITHUB_STEP_SUMMARY) {
