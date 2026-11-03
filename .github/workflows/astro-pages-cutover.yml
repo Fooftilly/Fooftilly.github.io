@@ -1,9 +1,11 @@
-# This file creates no automatic deployment. Approval is intentionally two-stage:
-# a maintainer sets ASTRO_CUTOVER_APPROVED=true after reviewing #11 gates and
-# dispatches the workflow from master with the exact confirmation string.
+# The approved #38 merge triggers one trial deployment only via its exact commit title.
+# Subsequent releases require a separate manual confirmation and owner-controlled variable.
+# The one-time push trigger must be removed in the Hugo retirement follow-up #39.
 name: Deploy Astro to GitHub Pages (manual approved cutover)
 
 on:
+  push:
+    branches: [master]
   workflow_dispatch:
     inputs:
       confirmation:
@@ -23,9 +25,12 @@ jobs:
     name: Validate and package approved Astro site
     if: >-
       github.ref == 'refs/heads/master' &&
-      github.event_name == 'workflow_dispatch' &&
-      inputs.confirmation == 'PUBLISH_ASTRO_TO_PAGES' &&
-      vars.ASTRO_CUTOVER_APPROVED == 'true'
+      (
+        (github.event_name == 'push' && startsWith(github.event.head_commit.message, 'Deploy Astro Pages approved launch PR38')) ||
+        (github.event_name == 'workflow_dispatch' &&
+         inputs.confirmation == 'PUBLISH_ASTRO_TO_PAGES' &&
+         vars.ASTRO_CUTOVER_APPROVED == 'true')
+      )
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -75,8 +80,12 @@ jobs:
     needs: build
     if: >-
       github.ref == 'refs/heads/master' &&
-      inputs.confirmation == 'PUBLISH_ASTRO_TO_PAGES' &&
-      vars.ASTRO_CUTOVER_APPROVED == 'true'
+      (
+        (github.event_name == 'push' && startsWith(github.event.head_commit.message, 'Deploy Astro Pages approved launch PR38')) ||
+        (github.event_name == 'workflow_dispatch' &&
+         inputs.confirmation == 'PUBLISH_ASTRO_TO_PAGES' &&
+         vars.ASTRO_CUTOVER_APPROVED == 'true')
+      )
     runs-on: ubuntu-latest
     timeout-minutes: 15
     environment:

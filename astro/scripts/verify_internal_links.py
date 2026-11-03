@@ -35,6 +35,9 @@ def audit_internal_links(dist: Path) -> None:
     namespace = "{http://www.sitemaps.org/schemas/sitemap/0.9}"
     pages = [loc.text for loc in sitemap.findall(f"{namespace}url/{namespace}loc")]
     assert pages, "No sitemap pages to inspect"
+    # GitHub Pages serves this special file for unknown routes; it is not in the sitemap.
+    if (dist / "404.html").is_file():
+        pages.append(ORIGIN + "/404.html")
 
     @lru_cache(maxsize=None)
     def parse_html(path: Path) -> Anchors:
@@ -46,8 +49,9 @@ def audit_internal_links(dist: Path) -> None:
     for page_url in pages:
         source = urlsplit(page_url or "")
         assert source.scheme == "https" and source.netloc == HOST, page_url
-        assert source.path.endswith("/"), page_url
-        source_path = (dist / unquote(source.path).lstrip("/") / "index.html").resolve()
+        assert source.path.endswith("/") or source.path == "/404.html", page_url
+        source_path = ((dist / "404.html") if source.path == "/404.html"
+                       else (dist / unquote(source.path).lstrip("/") / "index.html")).resolve()
         assert source_path.is_relative_to(dist) and source_path.is_file(), page_url
 
         for href in parse_html(source_path).hrefs:

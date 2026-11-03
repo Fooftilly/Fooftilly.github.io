@@ -29,7 +29,7 @@ assert.equal(bookmarks.length, 576, "Source bookmark inventory changed; reassess
 assert.equal(new Set(bookmarks.map((b) => b.id)).size, bookmarks.length);
 const publicFiles = await fileList(publicDir);
 for (const file of [
-  "index.html", "sitemap.xml", "CNAME", "robots.txt", "index.xml",
+  "index.html", "404.html", "sitemap.xml", "CNAME", "robots.txt", "index.xml",
   "bookmarks/index.html", "bookmarks/index.xml",
   "sr/index.html", "sr/about/index.html", "posts/index.html", "search/index.html",
   "new-bookmark/index.html",
