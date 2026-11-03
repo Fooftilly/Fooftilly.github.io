@@ -1,0 +1,49 @@
+---
+interface Props { lang?: "en" | "sr"; }
+const { lang = "en" } = Astro.props;
+const sr = lang === "sr";
+---
+<section data-analytics-privacy aria-label={sr ? "Podešavanja privatnosti" : "Privacy settings"}>
+  <button type="button" data-analytics-settings aria-controls="analytics-consent-panel" aria-expanded="false">
+    {sr ? "Privatnost i analitika" : "Privacy & analytics"}
+  </button>
+  <div id="analytics-consent-panel" data-analytics-consent hidden>
+    <h2>{sr ? "Opciona analitika" : "Optional analytics"}</h2>
+    <p>
+      {sr
+        ? "Google Analytics koristi kolačiće i šalje podatke o posjećenim stranicama kompaniji Google samo ako dozvolite. Bez pristanka Google skripta se ne učitava."
+        : "Google Analytics may set cookies and send page visit information to Google, but only if you choose to allow it. Without consent, the Google tracking script is not loaded."}
+    </p>
+    <p>
+      {sr
+        ? "Analitika nije neophodna za rad sajta. Izbor se čuva u vašem pregledaču i može se promijeniti u bilo kom trenutku."
+        : "Analytics is not required to use this site. Your choice is saved in this browser and can be changed at any time."}
+    </p>
+    <details>
+      <summary>{sr ? "Detalji obrade podataka" : "Data and provider details"}</summary>
+      <p>
+        {sr
+          ? "Provajder je Google (Google Analytics 4). Ako date pristanak, obrađuju se podaci o posjećenim stranicama i pregledaču. Oglašivačka personalizacija i Google Signals ostaju isključeni. Trajanje čuvanja podataka zavisi od podešavanja naloga Google Analytics."
+          : "Provider: Google (Google Analytics 4). With consent, page visits and browser information can be processed. Advertising personalization and Google Signals remain disabled. Google Analytics data retention depends on the property's settings."}
+      </p>
+      <p><a href="https://policies.google.com/privacy" rel="noopener noreferrer">{sr ? "Pravila privatnosti kompanije Google" : "Google privacy policy"}</a></p>
+    </details>
+    <div class="consent-actions">
+      <button type="button" data-analytics-allow>{sr ? "Dozvoli analitiku" : "Allow analytics"}</button>
+      <button type="button" data-analytics-decline>{sr ? "Odbij analitiku" : "Decline analytics"}</button>
+    </div>
+  </div>
+</section>
+<script>
+  import { initializeAnalyticsConsent } from "../lib/analytics-consent.ts";
+  initializeAnalyticsConsent();
+</script>
+<style>
+  [data-analytics-privacy] { margin-top: 1rem; }
+  [data-analytics-privacy] button { min-height: 2.75rem; padding: .55rem .85rem; color: var(--foreground); background: var(--surface); border: 1px solid var(--border); border-radius: .4rem; font: inherit; cursor: pointer; }
+  [data-analytics-consent] { max-width: 46rem; margin-top: .75rem; padding: 1rem; border: 1px solid var(--border); border-radius: .5rem; background: var(--surface); }
+  [data-analytics-consent] h2 { margin: 0 0 .6rem; font-size: 1.1rem; }
+  [data-analytics-consent] p { margin: .45rem 0; }
+  .consent-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1rem; }
+  [data-analytics-consent][hidden] { display: none; }
+</style>
