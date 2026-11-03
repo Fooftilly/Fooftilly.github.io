@@ -23,6 +23,11 @@ function fixture(initialChoice = null, blockStorage = false, href = "https://www
   const decline = button("decline");
   const panel = {
     hidden: true,
+    focusCalls: 0,
+    focus(options) {
+      assert.deepEqual(options, { preventScroll: true });
+      this.focusCalls++;
+    },
     querySelector(selector) {
       return { "[data-analytics-allow]": allow, "[data-analytics-decline]": decline }[selector] ?? null;
     },
@@ -73,6 +78,7 @@ test("No Google script, data layer or tracking without a visitor choice", () => 
   const f = fixture();
   assert.equal(f.panel.hidden, false);
   assert.equal(f.settings.attributes["aria-expanded"], "true");
+  assert.equal(f.panel.focusCalls, 1, "New visitors should receive focus on the cookie notice");
   assert.deepEqual(f.scripts, []);
   assert.equal(f.win.dataLayer, undefined);
   f.click("decline");
@@ -119,6 +125,7 @@ test("Declined preference stays opt-out and settings can be reopened", () => {
   f.click("settings");
   assert.equal(f.panel.hidden, false);
   assert.equal(f.settings.attributes["aria-expanded"], "true");
+  assert.equal(f.panel.focusCalls, 1, "Reopening settings should focus the banner");
   f.click("decline");
   assert.equal(f.reloadCount, 0);
   assert.equal(f.scripts.length, 0);

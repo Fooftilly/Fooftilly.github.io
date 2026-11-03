@@ -1,0 +1,27 @@
+---
+interface Props { lang?: "en" | "sr"; }
+const { lang = "en" } = Astro.props;
+---
+<button
+  type="button"
+  data-analytics-settings
+  aria-controls="analytics-consent-panel"
+  aria-expanded="false"
+>
+  {lang === "sr" ? "Privatnost i analitika" : "Privacy & analytics"}
+</button>
+<style>
+  [data-analytics-settings] {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    margin-top: .75rem;
+    padding: .5rem .75rem;
+    font: inherit;
+    color: var(--foreground);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: .5rem;
+    cursor: pointer;
+  }
+</style>

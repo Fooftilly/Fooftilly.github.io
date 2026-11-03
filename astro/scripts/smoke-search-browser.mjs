@@ -112,6 +112,60 @@ try {
   await command("Page.enable");
   await command("Runtime.enable");
 
+  // Consent must appear as a fixed cookie overlay, not as an inline footer.
+  await navigate("/");
+  await waitFor(
+    "document.querySelector('[data-analytics-consent]')?.hidden === false",
+    Boolean, "first-visit cookie banner",
+  );
+  const desktopConsent = await evaluate(`(()=>{
+    const el=document.querySelector('[data-analytics-consent]');
+    const rect=el.getBoundingClientRect();
+    return {
+      position:getComputedStyle(el).position,
+      left:rect.left, right:rect.right, top:rect.top, bottom:rect.bottom,
+      viewportWidth:innerWidth, viewportHeight:innerHeight,
+      settings:!!document.querySelector('[data-analytics-settings]'),
+      focused:document.activeElement===el,
+      gaLoaded:!!document.querySelector('[data-ga-loader]'),
+    };
+  })()`);
+  assert.equal(desktopConsent.position, "fixed");
+  assert.equal(desktopConsent.settings, true);
+  assert.equal(desktopConsent.focused, true, "Cookie banner should be discoverable to keyboard users");
+  assert.equal(desktopConsent.gaLoaded, false, "No Google tag without opt-in");
+  assert.ok(desktopConsent.left >= 0 && desktopConsent.right <= desktopConsent.viewportWidth + 1);
+  assert.ok(desktopConsent.top >= 0 && desktopConsent.bottom <= desktopConsent.viewportHeight + 1);
+  await evaluate("document.querySelector('[data-analytics-decline]').click()");
+  assert.equal(await evaluate("document.querySelector('[data-analytics-consent]').hidden"), true);
+  await evaluate("document.querySelector('[data-analytics-settings]').click()");
+  assert.equal(await evaluate("document.querySelector('[data-analytics-consent]').hidden"), false);
+  assert.equal(await evaluate("document.querySelector('[data-analytics-settings]').getAttribute('aria-expanded')"), "true");
+
+  // Mobile-sized windows keep the cookie notice inside the viewport.
+  await command("Emulation.setDeviceMetricsOverride", {
+    width: 375, height: 667, deviceScaleFactor: 1, mobile: true,
+  });
+  const mobileConsent = await evaluate(`(()=>{
+    const el=document.querySelector('[data-analytics-consent]');
+    const rect=el.getBoundingClientRect();
+    return {
+      left:rect.left, right:rect.right, top:rect.top, bottom:rect.bottom,
+      viewportWidth:innerWidth, viewportHeight:innerHeight,
+      position:getComputedStyle(el).position,
+      actionDirection:getComputedStyle(document.querySelector('.consent-actions')).flexDirection,
+      actionOrder:Array.from(document.querySelectorAll('.consent-actions button')).map(button=>button.textContent.trim()),
+    };
+  })()`);
+  assert.equal(mobileConsent.position, "fixed");
+  assert.equal(mobileConsent.actionDirection, "column", "Visual and keyboard order must agree on narrow screens");
+  assert.deepEqual(mobileConsent.actionOrder, ["Reject optional cookies", "Allow analytics"]);
+  assert.ok(mobileConsent.left >= 0 && mobileConsent.right <= mobileConsent.viewportWidth + 1, "Mobile cookie notice must fit viewport width");
+  assert.ok(mobileConsent.top >= 0 && mobileConsent.bottom <= mobileConsent.viewportHeight + 1, "Mobile cookie notice must fit viewport height");
+  await command("Emulation.clearDeviceMetricsOverride");
+  await evaluate("document.querySelector('[data-analytics-decline]').click()");
+  console.log("Browser consent smoke: fixed desktop/mobile cookie overlay, settings reopening, keyboard focus and no eager Google tag passed");
+
   await navigate("/sr/search/");
   await waitFor(
     "document.querySelector('input[type=search]')?.placeholder",

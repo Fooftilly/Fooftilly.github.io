@@ -3,35 +3,40 @@ interface Props { lang?: "en" | "sr"; }
 const { lang = "en" } = Astro.props;
 const sr = lang === "sr";
 ---
-<section data-analytics-privacy aria-label={sr ? "Podešavanja privatnosti" : "Privacy settings"}>
-  <button type="button" data-analytics-settings aria-controls="analytics-consent-panel" aria-expanded="false">
-    {sr ? "Privatnost i analitika" : "Privacy & analytics"}
-  </button>
-  <div id="analytics-consent-panel" data-analytics-consent hidden>
-    <h2>{sr ? "Opciona analitika" : "Optional analytics"}</h2>
+<section
+  id="analytics-consent-panel"
+  data-analytics-consent
+  role="region"
+  aria-labelledby="analytics-consent-heading"
+  aria-describedby="analytics-consent-summary"
+  tabindex="-1"
+  hidden
+>
+  <h2 id="analytics-consent-heading">{sr ? "Podešavanja kolačića" : "Cookie preferences"}</h2>
+  <p id="analytics-consent-summary">
+    {sr
+      ? "Koristimo opcione Google Analytics kolačiće za statistiku posjeta. Učitavaju se samo uz vaš pristanak."
+      : "We use optional Google Analytics cookies to understand site visits. They load only if you agree."}
+  </p>
+  <p class="consent-note">
+    {sr
+      ? "Izbor nije neophodan za korišćenje sajta i možete ga promijeniti kasnije putem opcije Privatnost i analitika."
+      : "Analytics is not required to use the site. You can change your choice anytime through Privacy & analytics."}
+  </p>
+  <details>
+    <summary>{sr ? "Detalji privatnosti" : "Privacy details"}</summary>
     <p>
       {sr
-        ? "Google Analytics koristi kolačiće i šalje podatke o posjećenim stranicama kompaniji Google samo ako dozvolite. Bez pristanka Google skripta se ne učitava."
-        : "Google Analytics may set cookies and send page visit information to Google, but only if you choose to allow it. Without consent, the Google tracking script is not loaded."}
+        ? "Ako dozvolite, Google Analytics 4 može koristiti kolačiće i obrađivati podatke o posjećenim stranicama i pregledaču. Google Signals i personalizacija oglasa su isključeni. Trajanje čuvanja podataka zavisi od podešavanja Google Analytics naloga."
+        : "If allowed, Google Analytics 4 may use cookies and process page-visit and browser data. Google Signals and ad personalization are disabled. Retention depends on the Google Analytics property settings."}
     </p>
-    <p>
-      {sr
-        ? "Analitika nije neophodna za rad sajta. Izbor se čuva u vašem pregledaču i može se promijeniti u bilo kom trenutku."
-        : "Analytics is not required to use this site. Your choice is saved in this browser and can be changed at any time."}
-    </p>
-    <details>
-      <summary>{sr ? "Detalji obrade podataka" : "Data and provider details"}</summary>
-      <p>
-        {sr
-          ? "Provajder je Google (Google Analytics 4). Ako date pristanak, obrađuju se podaci o posjećenim stranicama i pregledaču. Oglašivačka personalizacija i Google Signals ostaju isključeni. Trajanje čuvanja podataka zavisi od podešavanja naloga Google Analytics."
-          : "Provider: Google (Google Analytics 4). With consent, page visits and browser information can be processed. Advertising personalization and Google Signals remain disabled. Google Analytics data retention depends on the property's settings."}
-      </p>
-      <p><a href="https://policies.google.com/privacy" rel="noopener noreferrer">{sr ? "Pravila privatnosti kompanije Google" : "Google privacy policy"}</a></p>
-    </details>
-    <div class="consent-actions">
-      <button type="button" data-analytics-allow>{sr ? "Dozvoli analitiku" : "Allow analytics"}</button>
-      <button type="button" data-analytics-decline>{sr ? "Odbij analitiku" : "Decline analytics"}</button>
-    </div>
+    <a href="https://policies.google.com/privacy" rel="noopener noreferrer">
+      {sr ? "Google pravila privatnosti" : "Google privacy policy"}
+    </a>
+  </details>
+  <div class="consent-actions">
+    <button type="button" data-analytics-decline>{sr ? "Odbij opcione kolačiće" : "Reject optional cookies"}</button>
+    <button type="button" data-analytics-allow>{sr ? "Dozvoli analitiku" : "Allow analytics"}</button>
   </div>
 </section>
 <script>
@@ -39,11 +44,56 @@ const sr = lang === "sr";
   initializeAnalyticsConsent();
 </script>
 <style>
-  [data-analytics-privacy] { margin-top: 1rem; }
-  [data-analytics-privacy] button { min-height: 2.75rem; padding: .55rem .85rem; color: var(--foreground); background: var(--surface); border: 1px solid var(--border); border-radius: .4rem; font: inherit; cursor: pointer; }
-  [data-analytics-consent] { max-width: 46rem; margin-top: .75rem; padding: 1rem; border: 1px solid var(--border); border-radius: .5rem; background: var(--surface); }
-  [data-analytics-consent] h2 { margin: 0 0 .6rem; font-size: 1.1rem; }
-  [data-analytics-consent] p { margin: .45rem 0; }
-  .consent-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1rem; }
+  [data-analytics-consent] {
+    position: fixed;
+    z-index: 1200;
+    inset-inline-end: max(1rem, env(safe-area-inset-right));
+    bottom: max(1rem, env(safe-area-inset-bottom));
+    width: min(38rem, calc(100vw - 2rem));
+    max-height: calc(100dvh - 2rem - env(safe-area-inset-bottom));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    margin: 0;
+    padding: clamp(1rem, 2.5vw, 1.5rem);
+    color: var(--foreground);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: .9rem;
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, .24);
+  }
   [data-analytics-consent][hidden] { display: none; }
+  [data-analytics-consent] h2 { margin: 0 0 .5rem; font-size: 1.3rem; line-height: 1.3; }
+  [data-analytics-consent] p { margin: .4rem 0 .65rem; }
+  .consent-note { color: var(--muted); font-size: .92rem; }
+  [data-analytics-consent] details { margin-top: .7rem; }
+  [data-analytics-consent] summary { cursor: pointer; font-weight: 600; }
+  [data-analytics-consent] details p { margin-top: .55rem; }
+  .consent-actions { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: .65rem; margin-top: 1.25rem; }
+  .consent-actions button {
+    min-height: 2.75rem;
+    padding: .6rem .9rem;
+    font: inherit;
+    font-weight: 600;
+    color: var(--foreground);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: .55rem;
+    cursor: pointer;
+  }
+  .consent-actions [data-analytics-allow] {
+    color: var(--background);
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  @media (max-width: 600px) {
+    [data-analytics-consent] {
+      inset-inline: .75rem;
+      bottom: max(.75rem, env(safe-area-inset-bottom));
+      width: auto;
+      max-height: calc(100dvh - 1.5rem - env(safe-area-inset-bottom));
+      padding: 1rem;
+    }
+    .consent-actions { flex-direction: column; }
+    .consent-actions button { width: 100%; }
+  }
 </style>

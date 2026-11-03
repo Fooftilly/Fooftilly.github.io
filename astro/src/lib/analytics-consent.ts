@@ -98,6 +98,9 @@ export function initializeAnalyticsConsent(doc: Document = document, win: Window
   const showPanel = (visible: boolean) => {
     panel.hidden = !visible;
     settings.setAttribute("aria-expanded", String(visible));
+    // The notice appears before page navigation in document order. Give
+    // keyboard and screen-reader users an immediate route to its controls.
+    if (visible) panel.focus({ preventScroll: true });
   };
   showPanel(choice === null);
   if (choice === "granted") enableAnalytics(doc, aw);
