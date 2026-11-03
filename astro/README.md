@@ -1,12 +1,6 @@
-# Astro + Vue staging application
+# Astro + Vue public site
 
-This directory contains the unpublished Astro 7, Vue 3 and TypeScript implementation
-tracked in [migration roadmap #11](https://github.com/Fooftilly/Fooftilly.github.io/issues/11).
-
-The existing Hugo website remains publicly hosted until the new Astro site is
-accepted. Automatic GitHub Pages publishing is disabled. **The Astro site does not
-promise backward compatibility with Hugo pages, permalinks or aliases.** Do not
-restore Hugo comparison tests, redirects or a parallel Hugo build dependency.
+This directory implements the Astro 7, Vue 3 and TypeScript site tracked in [migration roadmap #11](https://github.com/Fooftilly/Fooftilly.github.io/issues/11). Publication uses a separately approved, **manual-only** GitHub Pages workflow. There is no automatic Pages deployment and no compatibility promise for old Hugo paths or aliases.
 
 ## Local development
 
@@ -22,7 +16,7 @@ npm run dev
 ```
 
 The lockfile is committed. CI runs read-only build validation and cannot deploy
-to Pages. The old Hugo workflow remains manual-only for the still-published site.
+to Pages. The old Hugo rollback workflow has been retired only after the accepted rollback window.
 
 ## Data and content
 
@@ -51,7 +45,7 @@ redirects and the compiled-Hugo route comparison have been removed.
 
 ## Static output and SEO
 
-Astro copies the existing repository-level `static/` directory through
+Astro copies the repository-level `static/` directory through
 `publicDir`, preserving the domain configuration, icons, robots file and
 other assets. Its sitemap lists only routes Astro actually generates (currently
 593 canonical URLs). Shared layouts provide canonical/social metadata and
@@ -67,22 +61,9 @@ removes `/migration-audit/` from `dist/`. Both CI and unit tests require this
 cleanup to succeed before a release-ready output is accepted. No public build
 contains the internal parity endpoint.
 
-## Remaining cutover work
+## Release and maintenance
 
-- The bilingual About Markdown describes GitHub Pages hosting and the
-  Astro/Vue implementation without claiming production already runs Astro.
-  Confirm the rendered copy at cutover and keep Hugo published until approval.
-- The existing `cloakemail` shortcode is converted through a native Sätteri
-  Markdown plugin. The current generated `mailto:` exposes the address instead
-  of obfuscating it; restore obfuscation or explicitly accept this difference.
-- Confirm final design, usability, accessibility, article publishing/editing,
-  content metadata, home RSS and the public bookmark composer with
-  GitHub collaborator-only pull request permissions.
-- Remove obsolete Hugo-only runtime/build files **at cutover**, not while they
-  still provide the currently published website. The public audit endpoint has
-  already been eliminated from the Astro build output.
-- Introduce a separately reviewed Astro deployment workflow with rollback
-  instructions only after staging acceptance.
+The production site is Astro and Vue. A maintainer explicitly approves each GitHub Pages deployment. The old Hugo build, theme submodules and templates have been retired after cutover and the rollback period. The existing `cloakemail` content shortcode is translated by a native Sätteri plugin into a `mailto:` link; it does not retain bot obfuscation. Reassess this privacy behavior with issue #3 if required. Preserve audit checks, source parity, 404 recovery behavior and all bookmark content on future releases.
 
 No database, server or new publishing credentials are introduced here.
 
@@ -94,8 +75,7 @@ extracts it to ignored `.audit/bookmarks-parity.json` for post-build CI checks,
 and removes the public `dist/migration-audit/` route. The intermediate
 route also returns HTTP 404 on the development server. Tests and CI verify
 both the production output and the live development server cannot expose
-internal audit records. This is a static output
-hardening step; the Astro Pages deployment remains deliberately disabled.
+internal audit records. Publishing remains gated by a separate manual-only workflow.
 
 ## Browser bookmark drafts (no backend)
 
@@ -113,7 +93,7 @@ filename and content before committing. Oversized captured URLs/titles
 are rejected rather than silently shortened.
 
 A copyable browser bookmarklet can capture the current tab's title and URL
-into the form after Astro goes live at `www.peroniko.xyz`. The bookmarklet
+into the form at `www.peroniko.xyz`. The bookmarklet
 does not create a file or send the page to any other service. No GitHub
 write token, OAuth client credentials or public write endpoint exist in
 the browser bundle. A maintainer must review and commit the generated
@@ -125,6 +105,4 @@ protocol/credential rejection, title and date checks, duplicate detection
 and unique filenames. The Chromium smoke verifies real Vue hydration,
 query-parameter capture, duplicate warning and safe GitHub editor handoff.
 The `/new-bookmark/` route is included in the Astro sitemap; the site
-still has no automatic deployment. A future dedicated authenticated
-publishing workflow can improve one-click saving after its trust model
-and user approvals are defined.
+still has no automatic deployment. Any future one-click publishing workflow requires a separately reviewed trust model and maintainer approval.

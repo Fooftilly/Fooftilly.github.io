@@ -3,7 +3,7 @@ import vue from "@astrojs/vue";
 import { satteri } from "@astrojs/markdown-satteri";
 import { satteriLegacyCloakEmail } from "./src/markdown/legacy-cloakemail.mjs";
 
-// Staging-only build; publication is deliberately disabled until #11 acceptance.
+// Public static Astro build; only reviewed, manually approved GitHub Pages workflows may publish.
 export default defineConfig({
   site: "https://www.peroniko.xyz",
   // Preserve the authoritative Hugo static files (CNAME, robots, favicons,

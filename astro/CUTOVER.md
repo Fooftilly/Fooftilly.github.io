@@ -1,28 +1,20 @@
-# Astro Pages release and rollback runbook
+# Astro GitHub Pages release and rollback
 
-**Trial cutover authorized by the maintainer.** This guide describes the release workflow; the presence of the workflow alone does not prove that a Pages deployment ran or succeeded.
+**Post-cutover procedure.** This document is updated by the Hugo-retirement PR and must not be used to infer that a production cutover has happened. Merge that PR only after the Astro release has been verified in production and the maintainer has approved retiring the Hugo rollback path.
 
-## Preflight
+## Routine manual Astro release
 
-1. Review merged Astro changes, security findings and CI. Verify 576 source bookmark entries, all RSS feeds, bilingual pages, SEO, navigation and browser interactions.
-2. Run `cd astro && npm ci && npm test && npm run check && npm run build && node scripts/release-readiness.mjs`. Verify the generated `astro/dist/` tree, including `new-bookmark/index.html`, and save the checksum manifest from `astro/.audit/release-readiness.json`.
-3. For a downloadable staging artifact, run **Astro cutover preflight (no deployment)** manually from `master` with confirmation `READ_ONLY_NO_DEPLOY`. Download the `astro-preflight-public-output` Actions artifact (retained seven days) and serve the extracted files locally, e.g. `python3 -m http.server 8000 --directory <extracted-folder>`. Only public `astro/dist/` output is included; `.audit/` is excluded. Review responsive layout and navigation without publishing anything to GitHub Pages.
-4. Confirm GitHub repository setting **Pull requests → Collaborators only** remains enabled and review actual collaborator permissions. This GitHub-side setting is not checked or enforced by the Astro static build.
-5. Confirm that the public bookmark composer does not contain GitHub tokens or mutation endpoints. **Any visitor can open or use the composer locally**; only authorized collaborators can propose changes through GitHub.
-6. Review custom domain, TLS, CNAME, robots, sitemap, RSS and verification assets. Do not assume the DNS or hosting configuration is correct.
-7. For the **first approved trial**, merging PR #38 on `master` with the exact squash commit title `Deploy Astro Pages approved launch PR38` triggers a **single** production build and deployment. No repository Actions variable is required for that one-time release. Review the Actions run; a green PR check does not mean deployment succeeded.
-8. Normal later releases are manual: set repository Actions variable `ASTRO_CUTOVER_APPROVED=true`, then dispatch **Deploy Astro to GitHub Pages (manual approved cutover)** from `master` with `PUBLISH_ASTRO_TO_PAGES`. Set the variable back to `false` afterward. The `github-pages` environment and GitHub Pages publishing source must permit Actions deployments.
-9. Verify that the live site responds correctly at `https://www.peroniko.xyz/`: TLS, homepages, `/new-bookmark/`, 404, browser search, bilingual content, RSS, sitemap, canonical URLs and GitHub draft handoff.
-10. Merge the Hugo-removal PR #39 after the trial (as separately authorized); its changes must also remove the narrow one-shot push trigger, keeping the deployment workflow manual-only.
+1. Review source changes, CI, CodeQL and outstanding security findings. Check the protected `master` branch and the current live Pages configuration.
+2. Confirm expected bookmark inventory, all RSS feeds, bilingual routes, static 404, SEO, internal links, accessibility, privacy boundaries and live interactive bookmark search.
+3. Run the separate read-only **Astro cutover preflight (no deployment)** on `master` with `READ_ONLY_NO_DEPLOY`. Its output does not authorize a release.
+4. Obtain explicit maintainer approval for publishing. Set the repository Actions variable `ASTRO_CUTOVER_APPROVED` to `true`.
+5. Dispatch **Deploy Astro to GitHub Pages (manual approved cutover)** from `master` with `PUBLISH_ASTRO_TO_PAGES`. The workflow rebuilds and audits `astro/dist/`, uploads only that directory and deploys via the `github-pages` environment.
+6. Verify the final live deployment at `https://www.peroniko.xyz/`: TLS/domain, 404, sitemap/robots, English/Serbian navigation, feeds, bookmarks and GitHub draft handoff. Restore `ASTRO_CUTOVER_APPROVED=false` after the run.
 
-## Rollback
+No push, pull-request or schedule event publishes production; no client-side publishing token exists. The `/new-bookmark/` form is public but GitHub collaborator-only PR creation is the authorization gate.
 
-If the trial fails, inspect the deployment job before changing settings. The maintainer has authorized removing the Hugo build from the working tree; the original Hugo release remains recoverable in Git history. After switching to Astro-only, roll back by redeploying a known-good Astro commit through the approved manual workflow. Verify HTTPS, the custom domain, sitemap and key routes.
+## Rollback after Hugo retirement
 
-## Scope
+Retain a tag or commit for the last known-good Astro release and its deployment metadata. If the new deployment fails, restore that commit using a reviewed rollback PR, validate the known-good build, then run the same explicit manual Astro deployment approval sequence. Re-verify the custom domain, RSS, sitemap and critical routes.
 
-- One public Astro output: `astro/dist/` hosted at `www.peroniko.xyz`.
-- Public bookmark composer: `/new-bookmark/`.
-- No separate admin hostname, authentication service or backend.
-- Internal audit output: `astro/.audit/`, never published.
-- Preflight Actions remain read-only and cannot deploy. The PR #38 merge is the explicitly authorized one-time publishing event; subsequent deployments remain manual. Release success must be verified from the Actions run and live site.
+This rollback no longer depends on Hugo tooling, old theme submodules or Hugo URL compatibility. The legacy Hugo emergency workflow is removed **only after** the production Astro site has been accepted and the rollback window is closed.
