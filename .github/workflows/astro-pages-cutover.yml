@@ -1,0 +1,101 @@
+# The approved #38 merge triggers one trial deployment only via its exact commit title.
+# Subsequent releases require a separate manual confirmation and owner-controlled variable.
+# The one-time push trigger must be removed in the Hugo retirement follow-up #39.
+name: Deploy Astro to GitHub Pages (manual approved cutover)
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+    inputs:
+      confirmation:
+        description: "Type PUBLISH_ASTRO_TO_PAGES after approved cutover"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Validate and package approved Astro site
+    if: >-
+      github.ref == 'refs/heads/master' &&
+      (
+        (github.event_name == 'push' && startsWith(github.event.head_commit.message, 'Deploy Astro Pages approved launch PR38')) ||
+        (github.event_name == 'workflow_dispatch' &&
+         inputs.confirmation == 'PUBLISH_ASTRO_TO_PAGES' &&
+         vars.ASTRO_CUTOVER_APPROVED == 'true')
+      )
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout without persisted credentials
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Configure Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "24"
+          package-manager-cache: false
+      - name: Install deterministic dependencies
+        working-directory: astro
+        run: npm ci --no-audit --no-fund
+      - name: Validate every source and generated route
+        working-directory: astro
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: |
+          set -euo pipefail
+          node scripts/verify-dev-audit.mjs
+          npm test
+          npm run check
+          npm run build
+          npm run test:parity
+          npm run test:routes
+          python3 scripts/verify_bookmark_feeds.py
+          python3 scripts/verify-localized-about.py
+          python3 scripts/verify-posts-search.py
+          python3 -m unittest discover -s scripts -p 'test_verify_internal_links.py'
+          python3 scripts/verify-site-seo.py
+          node scripts/verify-homepage.mjs
+          node scripts/smoke-search-browser.mjs
+          node scripts/release-readiness.mjs
+          test -s dist/404.html
+          test -s dist/new-bookmark/index.html
+          test ! -e dist/migration-audit
+          test ! -e dist/admin
+      - name: Upload validated Astro build only
+        uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4
+        with:
+          path: astro/dist
+
+  deploy:
+    name: Deploy approved static Astro artifact
+    needs: build
+    if: >-
+      github.ref == 'refs/heads/master' &&
+      (
+        (github.event_name == 'push' && startsWith(github.event.head_commit.message, 'Deploy Astro Pages approved launch PR38')) ||
+        (github.event_name == 'workflow_dispatch' &&
+         inputs.confirmation == 'PUBLISH_ASTRO_TO_PAGES' &&
+         vars.ASTRO_CUTOVER_APPROVED == 'true')
+      )
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    steps:
+      - name: Deploy reviewed Astro artifact
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
