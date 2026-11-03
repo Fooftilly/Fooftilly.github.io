@@ -3,6 +3,7 @@ import type { GetStaticPaths } from "astro";
 import type { CollectionEntry } from "astro:content";
 import { getCollection, render } from "astro:content";
 import SiteLayout from "../../../../layouts/SiteLayout.astro";
+import ConsentComments from "../../../../components/ConsentComments.astro";
 import { bookmarkDetailParams } from "../../../../lib/bookmark-path.ts";
 import { categoryBySection, bookmarkCategoryPath } from "../../../../lib/bookmark-categories.ts";
 
@@ -46,6 +47,7 @@ const categoryPath = bookmarkCategoryPath(category.slug);
     {entry.data.comments && <p class="bookmark-comment">{entry.data.comments}</p>}
     {hasBody && <section class="bookmark-notes" aria-label="Bookmark notes"><Content /></section>}
   </article>
+  <ConsentComments />
 </SiteLayout>
 <style>
   .breadcrumb { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; color: var(--muted); }
