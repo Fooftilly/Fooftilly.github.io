@@ -1,14 +1,15 @@
-# Manual-only Pages deployment. Requires approved repository variable and confirmation.
-# No push, pull_request or schedule triggers may publish this site.
-name: Deploy Astro to GitHub Pages (manual approved cutover)
+# Production publishing is explicitly manual and restricted to master.
+# No push, pull_request or schedule triggers may deploy this site.
+name: Publish website to GitHub Pages (manual)
 
 on:
   workflow_dispatch:
     inputs:
-      confirmation:
-        description: "Type PUBLISH_ASTRO_TO_PAGES after approved cutover"
+      publish:
+        description: "Publish the validated master branch to the live website"
         required: true
-        type: string
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -19,12 +20,11 @@ concurrency:
 
 jobs:
   build:
-    name: Validate and package approved Astro site
+    name: Validate and package Astro site for manual publication
     if: >-
       github.ref == 'refs/heads/master' &&
       github.event_name == 'workflow_dispatch' &&
-      inputs.confirmation == 'PUBLISH_ASTRO_TO_PAGES' &&
-      vars.ASTRO_CUTOVER_APPROVED == 'true'
+      inputs.publish == true
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -70,13 +70,12 @@ jobs:
           path: astro/dist
 
   deploy:
-    name: Deploy approved static Astro artifact
+    name: Publish validated site to GitHub Pages
     needs: build
     if: >-
       github.ref == 'refs/heads/master' &&
       github.event_name == 'workflow_dispatch' &&
-      inputs.confirmation == 'PUBLISH_ASTRO_TO_PAGES' &&
-      vars.ASTRO_CUTOVER_APPROVED == 'true'
+      inputs.publish == true
     runs-on: ubuntu-latest
     timeout-minutes: 15
     environment:
