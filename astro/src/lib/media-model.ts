@@ -89,6 +89,17 @@ export function validateMediaRecord(raw: unknown, expectedKind?: MediaKind): Med
   }
   return result;
 }
+/** Astro glob's entry IDs must omit .json; share this with the unit tests.
+ * Invalid paths are rejected before any media entry reaches the public build.
+ */
+export function mediaEntryId(entry: string): string {
+  const normalized = entry.replaceAll("\\", "/");
+  if (!/^(?:music|films|tv)\/[\p{L}\p{N}-]+\.json$/u.test(normalized)) {
+    throw new Error("Invalid media source path: " + entry);
+  }
+  return normalized.slice(0, -5);
+}
+
 /** Source-agnostic filename derived from visible metadata, never a provider key. */
 export function mediaSlug(record: Pick<MediaRecord,"title"|"year"|"creator">): string {
   const parts=[record.title,record.year?.toString()??"",record.creator??""].filter(Boolean);
