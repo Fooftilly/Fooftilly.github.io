@@ -5,7 +5,7 @@ import { readdir, readFile, writeFile, unlink, mkdir } from "node:fs/promises";
 import { join, resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseMediaCsv } from "../src/lib/media-import.ts";
-import { mediaPath, sameMedia, validateMediaRecord } from "../src/lib/media-model.ts";
+import { mediaPath, mediaMatchKey, sameMedia, validateMediaRecord } from "../src/lib/media-model.ts";
 
 const ROOT=fileURLToPath(new URL("../../",import.meta.url));
 const [kind,sourcePath,provider,...flags]=process.argv.slice(2);
@@ -30,19 +30,33 @@ if(!["music","films"].includes(kind)||!sourcePath||!["rym","letterboxd"].include
       previous.push({path,record});
     }
   }
+  const previousPaths=new Map();
+  const previousIdentities=new Map();
+  const previousUrls=new Map();
+  for(const item of previous){
+    previousPaths.set(item.path.toLowerCase(),item);
+    const key=mediaMatchKey(item.record);
+    const group=previousIdentities.get(key)??[];
+    group.push(item);
+    previousIdentities.set(key,group);
+    for(const link of item.record.links??[])previousUrls.set(link.url,item);
+  }
   const queue=[];
+  const newPaths=new Set();
   let unchanged=0;
   for(const record of imported){
     const path=mediaPath(record);
     const expected=JSON.stringify(record,null,2)+"\n";
-    const conflict=previous.find(item=>item.path.toLowerCase()===path.toLowerCase()||sameMedia(item.record,record)||
-      Boolean(item.record.links?.some(a=>record.links?.some(b=>a.url===b.url))));
+    const conflict=previousPaths.get(path.toLowerCase()) ||
+      (previousIdentities.get(mediaMatchKey(record))??[]).find(item=>sameMedia(item.record,record)) ||
+      (record.links??[]).map(link=>previousUrls.get(link.url)).find(Boolean);
     if(conflict){
       const existingText=await readFile(join(ROOT,conflict.path),"utf8");
       if(conflict.path===path && existingText===expected){unchanged++;continue;}
       throw Error("Existing media record needs manual review: "+conflict.path+" (import: "+path+"). No files have been written.");
     }
-    if(queue.some(item=>item.path.toLowerCase()===path.toLowerCase()))throw Error("Duplicate generated path "+path);
+    if(newPaths.has(path.toLowerCase()))throw Error("Duplicate generated path "+path);
+    newPaths.add(path.toLowerCase());
     queue.push({path,content:expected});
   }
   console.log(imported.length+" rated export rows, "+unchanged+" already present, "+queue.length+" new records");
