@@ -69,6 +69,7 @@ jobs:
           python3 -m unittest discover -s scripts -p 'test_verify_internal_links.py'
           python3 scripts/verify-site-seo.py
           node scripts/verify-homepage.mjs
+          node scripts/verify-ratings.mjs
           node scripts/smoke-search-browser.mjs
 
       - name: Confirm this workflow cannot deploy
