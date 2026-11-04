@@ -5,6 +5,12 @@ export interface MediaListing { title: string; id: string; year?: number; rating
 export const normalizeMediaSearch = (value: string): string => value.normalize("NFKD")
   .replace(/\p{M}/gu, "").toLocaleLowerCase("en").replace(/\s+/gu, " ").trim();
 
+/** Index only media fields; external link labels are not metadata. */
+export function searchableMediaText(item: {
+  title:string;creator?:string;year?:number;status?:string;notes?:string
+}):string {
+  return [item.title,item.creator??"",item.year?.toString()??"",item.status??"",item.notes??""].join(" ");
+}
 /** All search terms may occur in different table cells, including public notes. */
 export function matchesMediaSearch(rowText: string, query: string): boolean {
   const terms = normalizeMediaSearch(query).split(" ").filter(Boolean);

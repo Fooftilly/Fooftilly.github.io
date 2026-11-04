@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { normalizeMediaSearch, matchesMediaSearch, compareMediaListings } from "../src/lib/media-browser.ts";
+import { normalizeMediaSearch, matchesMediaSearch, compareMediaListings, searchableMediaText } from "../src/lib/media-browser.ts";
 
 test("media search is case- and accent-insensitive across visible table fields",()=>{
   assert.equal(normalizeMediaSearch("  CAFÉ\t Émilie "), "cafe emilie");
@@ -21,4 +21,13 @@ test("rating and year sort leave unlisted values last and tie-break by title",()
   assert.deepEqual(order("rating"),["A Film","Beta","Café","Zero"]);
   assert.deepEqual(order("year"),["Beta","A Film","Café","Zero"]);
   assert.deepEqual(order("title"),["A Film","Beta","Café","Zero"]);
+});
+
+test("search indexes public media fields, not unrelated external reference labels",()=>{
+  const item={title:"Moonrise",creator:"Émilie",year:2005,status:"finished",
+    notes:"Watched after sunset.",links:[{label:"Jazz reviews",url:"https://example.org/"}]};
+  const text=searchableMediaText(item);
+  assert.equal(matchesMediaSearch(text,"jazz"),false);
+  assert.equal(matchesMediaSearch(text,"emilie sunset"),true);
+  assert.equal(matchesMediaSearch(text,"2005 moonrise"),true);
 });
