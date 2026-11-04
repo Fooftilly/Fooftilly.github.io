@@ -1,5 +1,6 @@
 import { defineCollection, z } from "astro:content";
 import { glob } from "astro/loaders";
+import { mediaEntryId } from "./lib/media-model.ts";
 
 // Load the authoritative legacy Markdown in place; no mass content rewrite.
 // Folder _index.md files are section metadata, not bookmark records.
@@ -42,7 +43,7 @@ const media = defineCollection({
   loader: glob({
     pattern: "**/*.json",
     base: "../content/media",
-    generateId: ({ entry }) => entry.replace(/\.json$/i, "").replaceAll("\\", "/"),
+    generateId: ({ entry }) => mediaEntryId(entry),
   }),
   schema: z.object({
     schema: z.literal(1),
