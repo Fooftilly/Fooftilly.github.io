@@ -367,10 +367,10 @@ try {
   assert.equal(await evaluate("document.querySelectorAll('.media-editor select').length"),0,
     "Media type and status must be visible button groups, not dropdowns");
   assert.equal(await evaluate("document.querySelector('[data-media-kind=films]')?.getAttribute('aria-pressed')"),"true");
-  assert.equal(await evaluate("document.querySelector('[data-media-status=\\\"\\\"]')?.getAttribute('aria-pressed')"),"true");
+  assert.equal(await evaluate("document.querySelector('[data-media-status]')?.getAttribute('aria-pressed')"),"true");
   assert.equal(await evaluate("document.querySelector('[data-media-rating]')?.getAttribute('step')"),"0.5");
   assert.equal(await evaluate("document.querySelector('[data-media-rating]')?.getAttribute('aria-valuetext')"),"Not rated");
-  assert.equal(await evaluate("getComputedStyle(document.querySelector('.media-editor input[placeholder=\\\"Title\\\"]')).borderRadius"),"0px");
+  assert.equal(await evaluate("getComputedStyle(document.querySelector('.media-editor input[placeholder=Title]')).borderRadius"),"0px");
   assert.equal(await evaluate("getComputedStyle(document.querySelector('[data-media-kind=films]')).borderRadius"),"0px");
   await evaluate(`(()=>{
     const edit=(selector,value,event="input")=>{
@@ -405,7 +405,7 @@ try {
     value=>value==="planned","status button updates drafted record",
   );
   assert.equal(await evaluate("document.querySelector('[data-media-status=planned]')?.getAttribute('aria-pressed')"),"true");
-  await evaluate("document.querySelector('[data-media-status=\\\"\\\"]').click()");
+  await evaluate("document.querySelector('[data-media-status]').click()");
   await waitFor(
     "(()=>{const json=document.querySelector('.media-editor .preview textarea[readonly]')?.value;return json?JSON.parse(json).status===undefined:false})()",
     Boolean,"clearing status removes optional metadata",
