@@ -19,8 +19,11 @@ export function getPublishedPaths(bookmarkIds: readonly string[]): string[] {
     "/sr/search/",
     "/bookmarks/",
     "/new-bookmark/",
+    "/media/",
     "/music/",
     "/films/",
+    "/tv/",
+    "/new-media/",
     ...BOOKMARK_CATEGORIES.map((category) => bookmarkCategoryPath(category.slug)),
     ...bookmarkIds.map(bookmarkDetailPath),
   ];
