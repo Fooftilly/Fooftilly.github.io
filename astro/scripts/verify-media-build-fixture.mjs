@@ -84,7 +84,9 @@ try {
   assert.match(audit, /Verified \d+ independent media records/);
   // Run the real browser against the fixture build, then delete every fixture.
   // The existing clean build/browser gate still runs afterward.
-  run(process.execPath, ["scripts/smoke-search-browser.mjs", "--media-fixtures"]);
+  const browserOutput = run(process.execPath, ["scripts/smoke-search-browser.mjs", "--media-fixtures"]);
+  assert.match(browserOutput, /Media fixture Chromium smoke: Vue hydration, search, live count and sort passed/);
+  console.log(browserOutput.trim());
   console.log("Actual Astro rendering and source-to-output audit passed for film, TV and music fixtures.");
 } finally {
   // CI's next step rebuilds the real public artifact from source after cleanup.
