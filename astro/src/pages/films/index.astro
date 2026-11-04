@@ -1,0 +1,11 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import RatingsTable from "../../components/RatingsTable.astro";
+import catalogData from "../../data/films-ratings.json";
+import { validateRatingsCatalog } from "../../lib/ratings.ts";
+const catalog = validateRatingsCatalog(catalogData, "films");
+---
+<SiteLayout title="Film ratings" description="A personal table of rated films.">
+  <h1>Film ratings</h1>
+  <RatingsTable kind="films" catalog={catalog} />
+</SiteLayout>
