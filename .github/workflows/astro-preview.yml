@@ -121,6 +121,9 @@ jobs:
           test -s astro/dist/new-bookmark/index.html
           test -s astro/dist/music/index.html
           test -s astro/dist/films/index.html
+          test -s astro/dist/tv/index.html
+          test -s astro/dist/media/index.html
+          test -s astro/dist/new-media/index.html
           test -s astro/dist/about/index.html
           test -s astro/dist/sr/index.html
           test -s astro/dist/sr/about/index.html
