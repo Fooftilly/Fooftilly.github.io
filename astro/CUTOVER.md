@@ -10,7 +10,7 @@ Neither merging a PR nor pushing to `master` starts a Pages deployment.
 2. Open **[Actions → Publish website to GitHub Pages (manual)](https://github.com/Fooftilly/Fooftilly.github.io/actions/workflows/astro-pages-cutover.yml)**.
 3. Select **Run workflow**, choose branch **master**, check **Publish the validated master branch to the live website**, and click **Run workflow**.
 4. Watch the build and deploy jobs. The build validates and stamps the artifact with the current Git commit, then the deploy job publishes and checks that the live domain serves that **exact commit** and the required routes. A build failure blocks publication; a post-deployment verification failure means the upload may have succeeded but the public result needs investigation.
-5. Verify the deployed [homepage](https://www.peroniko.xyz/), [Serbian homepage](https://www.peroniko.xyz/sr/), [bookmark composer](https://www.peroniko.xyz/new-bookmark/), search, feeds, sitemap, custom domain and [404 page](https://www.peroniko.xyz/404.html). For changes to analytics or comments, also verify consent and third-party network behavior.
+5. Verify the deployed [homepage](https://www.peroniko.xyz/), [Serbo-Croatian homepage](https://www.peroniko.xyz/sh/), [bookmark composer](https://www.peroniko.xyz/new-bookmark/), search, feeds, sitemap, custom domain and [404 page](https://www.peroniko.xyz/404.html). For changes to analytics or comments, also verify consent and third-party network behavior.
 
 The workflow uses a single unchecked-by-default confirmation box. It cannot deploy
 from a branch other than `master`. There is **no** repository variable or second

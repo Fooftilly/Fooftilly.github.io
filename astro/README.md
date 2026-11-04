@@ -31,13 +31,13 @@ to Pages. The old Hugo rollback workflow has been retired only after the accepte
   feeds are generated statically from all 576 bookmarks (no published posts
   currently exist). The home and posts pages advertise the site feed; CI
   validates all 9 XML feeds, metadata, links and record ordering.
-- `sitePages` uses the original English and Serbian-Latin About, posts and search
+- `sitePages` uses the original English and Serbo-Croatian (Latin) About, posts and search
   Markdown frontmatter. About content is rendered directly from Markdown;
   posts/search routes use original page titles without inventing articles.
 - There are no individual published posts in `content/posts/`. CI rejects
   new post Markdown until article pages have been implemented, rather than
   silently omitting content.
-- `/posts/`, `/sr/posts/`, `/search/` and `/sr/search/` are Astro routes.
+- `/posts/`, `/sh/posts/`, `/search/` and `/sh/search/` are Astro routes.
   Search pages use the full bookmark collection and localized controls.
 
 These are **Astro-owned routes**, not legacy Hugo URL promises. Compatibility
@@ -149,8 +149,8 @@ manual GitHub Pages publication.
 
 ## Privacy disclosure and visitor controls
 
-The bilingual `/privacy/` and `/sr/privacy/` pages use canonical
-`content/privacy.md` and `content/privacy.sr.md` Markdown, rendered through the
+The bilingual `/privacy/` and `/sh/privacy/` pages use canonical
+`content/privacy.md` and `content/privacy.sh.md` Markdown, rendered through the
 existing Astro `sitePages` collection. They explain GitHub Pages
 hosting, the optional Google Analytics opt-in, the browser-local consent
 preference, click-to-load Giscus comments, third-party destinations, and
