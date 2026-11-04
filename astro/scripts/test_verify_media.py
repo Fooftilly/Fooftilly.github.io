@@ -184,6 +184,31 @@ class MediaOutputTests(unittest.TestCase):
         with self.assertRaisesRegex(AssertionError, "rendered data mismatch"):
             verify_media_output(self.astro)
 
+    def test_decomposed_unicode_matches_nfc_rendered_record(self):
+        record = {
+            "schema": 1, "kind": "films", "title": "Cafe\u0301 & Friends",
+            "creator": "E\u0301mile", "year": 2001, "rating": 3.5,
+            "status": "finished", "notes": "Re\u0301sume\u0301",
+            "links": [{"label": "Cafe\u0301",
+                       "url": "https://example.org/cafe\u0301?name=E\u0301mile"}],
+        }
+        row = (
+            '<tr><th scope="row">Café &amp; Friends'
+            '<details><summary>Notes</summary><p class="notes">Résumé</p></details>'
+            '</th><td>Émile</td><td>2001</td>'
+            '<td aria-label="3.5 out of 5 stars">3.5 / 5</td>'
+            '<td>finished</td>'
+            '<td><a href="https://example.org/caf%C3%A9?name=%C3%89mile">Café</a></td></tr>'
+        )
+        self.put_film(record=record, row=row)
+        self.assertEqual(verify_media_output(self.astro), 1)
+
+        page = self.astro / "dist" / "films" / "index.html"
+        html = page.read_text(encoding="utf-8")
+        page.write_text(html.replace("Résumé", "Different note"), encoding="utf-8")
+        with self.assertRaisesRegex(AssertionError, "rendered data mismatch"):
+            verify_media_output(self.astro)
+
     def test_substituted_record_with_same_count_is_rejected(self):
         self.put_film()
         page = self.astro / "dist" / "films" / "index.html"
