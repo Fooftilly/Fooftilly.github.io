@@ -55,6 +55,21 @@ class MediaOutputTests(unittest.TestCase):
         self.put_film()
         self.assertEqual(verify_media_output(self.astro), 1)
 
+    def test_valid_url_without_explicit_path_renders_with_trailing_slash(self):
+        record = {
+            "schema": 1, "kind": "films", "title": "A  Film & You",
+            "creator": "Émilie", "year": 2001, "rating": 3.5,
+            "status": "finished", "notes": "A  personal note",
+            "links": [{"label": "Letterboxd", "url": "https://example.org"}],
+        }
+        original = self.put_film(record=record)
+        page = self.astro / "dist" / "films" / "index.html"
+        page.write_text(
+            page.read_text().replace("https://letterboxd.com/film/example/", "https://example.org/"),
+            encoding="utf-8",
+        )
+        self.assertEqual(verify_media_output(self.astro), 1)
+
     def test_substituted_record_with_same_count_is_rejected(self):
         self.put_film()
         page = self.astro / "dist" / "films" / "index.html"
