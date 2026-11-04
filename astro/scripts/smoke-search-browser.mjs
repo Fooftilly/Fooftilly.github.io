@@ -138,6 +138,38 @@ try {
   await command("Page.enable");
   await command("Runtime.enable");
 
+  if (process.argv.includes("--media-fixtures")) {
+    await navigate("/films/");
+    await waitFor(
+      "(()=>{const el=document.querySelector('.media-collection');const island=el?.closest('astro-island');const controls=el?.querySelector('[data-media-controls]');return Boolean(el && island && !island.hasAttribute('ssr') && controls && getComputedStyle(controls).display!=='none');})()",
+      Boolean, "media Vue island hydrated with visible controls",
+    );
+    assert.equal(await evaluate("document.querySelectorAll('[data-media-row]').length"), 2);
+    // A link labeled Jazz reviews is a reference, not a searchable media tag.
+    await evaluate("(()=>{const el=document.querySelector('[data-media-search]');el.value='jazz';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
+    await waitFor(
+      "document.querySelector('[data-media-count]')?.textContent.trim()",
+      value => value === "0 of 2 entries", "unrelated link label excluded",
+    );
+    assert.equal(await evaluate("document.querySelectorAll('[data-media-row]').length"),0);
+    await evaluate("(()=>{const el=document.querySelector('[data-media-search]');el.value='emilie';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
+    await waitFor(
+      "document.querySelector('[data-media-count]')?.textContent.trim()",
+      value => value === "1 of 2 entries", "accent-insensitive metadata search",
+    );
+    await evaluate("(()=>{const el=document.querySelector('[data-media-search]');el.value='';el.dispatchEvent(new Event('input',{bubbles:true}));document.querySelector('[data-media-sort=year]').click()})()");
+    await waitFor(
+      "document.querySelector('[data-media-row] th[scope=row]')?.textContent.includes('Zebra CI synthetic film')",
+      Boolean, "newest film first",
+    );
+    assert.equal(await evaluate("document.querySelector('[data-media-sort=year]')?.getAttribute('aria-pressed')"),"true");
+    await evaluate("document.querySelector('[data-media-sort=rating]').click()");
+    await waitFor(
+      "document.querySelector('[data-media-row] th[scope=row]')?.textContent.includes('CI synthetic film (not for publication)')",
+      Boolean, "highest rated film first",
+    );
+    console.log("Media fixture Chromium smoke: Vue hydration, search, live count and sort passed");
+  } else {
   // Consent must appear as a fixed cookie overlay, not as an inline footer.
   await navigate("/");
   await waitFor(
@@ -414,6 +446,7 @@ try {
   console.log("Browser smoke: long URL not truncated, long draft safe full-path fallback passed");
   console.log("Browser smoke: bookmark composer URL prefill, duplicate warning, GitHub handoff and unsafe URL rejection passed");
   console.log("Browser search smoke: Serbian labels, Vue input, category filter, URL state, reload and English search passed");
+  }
 } finally {
   socket?.close();
   if (chrome && chrome.exitCode === null) chrome.kill();

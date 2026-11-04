@@ -50,6 +50,8 @@ jobs:
 
       - name: Verify real media rendering with disposable CI-only records
         working-directory: astro
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
         run: node scripts/verify-media-build-fixture.mjs
 
       - name: Build static preview (never deploy)

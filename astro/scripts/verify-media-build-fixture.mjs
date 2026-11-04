@@ -23,7 +23,16 @@ const fixtures = [
       links: [
         { label: " First ", url: "https://faß.de/" },
         { label: " Second ", url: "https://example.org/reviews/%2e%2e/film" },
+        { label: "Jazz reviews", url: "https://example.org/jazz" },
       ],
+    },
+  },
+  {
+    folder: "films",
+    record: {
+      schema: 1, kind: "films", title: "Zebra CI synthetic film",
+      year: 2024, rating: 1.5, status: "planned",
+      links: [{ label: "Source", url: "https://example.org/zebra-film" }],
     },
   },
   {
@@ -58,8 +67,8 @@ function run(file, args) {
 }
 
 try {
-  for (const {folder, record} of fixtures) {
-    const path = join(source, folder, "zz-ci-synthetic-media-fixture.json");
+  for (const [index, {folder, record}] of fixtures.entries()) {
+    const path = join(source, folder, "zz-ci-synthetic-media-fixture-" + index + ".json");
     // Exclusive creation: never overwrite or accidentally delete a real entry.
     await writeFile(path, JSON.stringify(record, null, 2) + "\n", { flag: "wx" });
     created.push(path);
@@ -73,6 +82,9 @@ try {
     assert.ok(html.includes("data-media-controls"), "Media search/sort controls were not rendered: " + folder);
   }
   assert.match(audit, /Verified \d+ independent media records/);
+  // Run the real browser against the fixture build, then delete every fixture.
+  // The existing clean build/browser gate still runs afterward.
+  run(process.execPath, ["scripts/smoke-search-browser.mjs", "--media-fixtures"]);
   console.log("Actual Astro rendering and source-to-output audit passed for film, TV and music fixtures.");
 } finally {
   // CI's next step rebuilds the real public artifact from source after cleanup.
