@@ -42,6 +42,16 @@ function optionalText(raw: unknown, label: string, max: number): string | undefi
   if (raw === undefined || raw === "") return undefined;
   return safeText(raw,label,max);
 }
+/** Notes may contain paragraphs; titles, URLs and labels may not contain controls. */
+function publicNotes(raw: unknown): string | undefined {
+  if (raw === undefined || raw === "") return undefined;
+  if (typeof raw !== "string") throw new Error("Notes must be text");
+  const notes = raw.replace(/\r\n?/g, "\n").trim().normalize("NFC");
+  if (!notes || notes.length > 5000 || /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/u.test(notes)) {
+    throw new Error("Notes must be 1–5000 public characters without unsafe control codes");
+  }
+  return notes;
+}
 export function validateMediaLink(raw: unknown): MediaLink {
   if (!raw || typeof raw !== "object" || Array.isArray(raw)) throw new Error("Invalid external link");
   const obj = raw as Record<string,unknown>;
@@ -79,7 +89,7 @@ export function validateMediaRecord(raw: unknown, expectedKind?: MediaKind): Med
     if(!MEDIA_STATUSES.includes(obj.status as MediaStatus)) throw new Error("Invalid media status");
     result.status=obj.status as MediaStatus;
   }
-  const notes=optionalText(obj.notes,"Public notes",5000);
+  const notes=publicNotes(obj.notes);
   if(notes) result.notes=notes;
   if(obj.links!==undefined){
     if(!Array.isArray(obj.links)||obj.links.length>8) throw new Error("Up to eight external links are supported");
