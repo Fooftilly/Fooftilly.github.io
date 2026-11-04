@@ -20,7 +20,7 @@ export interface RatingsCatalog {
 
 const MAX_ROWS = 50000;
 const MAX_CHARS = 15_000_000;
-const MAX_FIELD = 4096;
+const MAX_FIELD = 100000;
 
 export function parseCsv(text: string): string[][] {
   if (text.length > MAX_CHARS) throw new Error("CSV exceeds 15 MB safety limit");
@@ -54,7 +54,7 @@ export function parseCsv(text: string): string[][] {
     } else if (justClosed) {
       if (char !== " " && char !== "\t") throw new Error("Unexpected character after CSV quote at row " + (rows.length + 1));
     } else field += char;
-    if (field.length > MAX_FIELD) throw new Error("CSV field exceeds 4096 characters");
+    if (field.length > MAX_FIELD) throw new Error("CSV field exceeds 100000 characters");
   }
   if (quoted) throw new Error("Unterminated quoted CSV field");
   if (field || row.length || justClosed) line();
@@ -112,7 +112,7 @@ export function validateRatingsCatalog(raw: unknown, kind: RatingsKind): Ratings
   const items = obj.items.map((item, index) => {
     if (!item || typeof item !== "object") throw new Error("Invalid rating item " + index);
     const value = item as Record<string, unknown>;
-    const id = clampText(String(value.id ?? ""), "Rating identifier", 400);
+    const id = clampText(String(value.id ?? ""), "Rating identifier", 800);
     if (seen.has(id)) throw new Error("Duplicate rating identifier: " + id);
     seen.add(id);
     const title = clampText(String(value.title ?? ""), "Rating title", 300);
