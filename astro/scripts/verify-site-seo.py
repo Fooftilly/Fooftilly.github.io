@@ -116,6 +116,30 @@ def check_metadata():
         assert doc.metas.get("og:image") == SITE + "/avatar-full.webp", urlpath
         assert doc.metas.get("twitter:card") == "summary", urlpath
         assert any(link.get("rel") == "canonical" and link.get("href") == expected for link in doc.links), urlpath
+        # Require short language labels and matching BCP-47 metadata on all
+        # paired public pages, not just the homepage.
+        alternate_routes = {
+            "/": ("/sh/", "SH", "sh"),
+            "/sh/": ("/", "EN", "en"),
+            "/about/": ("/sh/about/", "SH", "sh"),
+            "/sh/about/": ("/about/", "EN", "en"),
+            "/posts/": ("/sh/posts/", "SH", "sh"),
+            "/sh/posts/": ("/posts/", "EN", "en"),
+            "/search/": ("/sh/search/", "SH", "sh"),
+            "/sh/search/": ("/search/", "EN", "en"),
+            "/privacy/": ("/sh/privacy/", "SH", "sh"),
+            "/sh/privacy/": ("/privacy/", "EN", "en"),
+        }
+        if urlpath in alternate_routes:
+            target, label, locale = alternate_routes[urlpath]
+            markup = filename.read_text(encoding="utf8")
+            pattern = (r'<a\\b(?=[^>]*href="' + re.escape(target)
+                       + r'")(?=[^>]*hreflang="' + locale
+                       + r'")[^>]*>\\s*' + label + r'\\s*</a>')
+            assert re.search(pattern, markup), ("Missing SH/EN language switch", urlpath)
+            assert 'href="/sr/' not in markup and 'hreflang="sr' not in markup, (
+                "Old locale leaked into public markup", urlpath
+            )
         for needed in ("/favicon.svg", "/site.webmanifest"):
             assert any(link.get("href") == needed for link in doc.links), (urlpath, needed)
         if urlpath in ("/", "/sh/", "/posts/", "/sh/posts/"):
