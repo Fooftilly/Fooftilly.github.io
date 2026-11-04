@@ -66,10 +66,10 @@ async function copy(value: string, description: string) {
 <template>
   <section class="new-bookmark" aria-labelledby="draft-heading">
     <h1 id="draft-heading">New bookmark</h1>
-    <p>Prepare a Markdown bookmark draft, then review it on GitHub. Anyone can use this form, but only repository collaborators can open pull requests. No changes are saved by this page.</p>
+    <p>Create a bookmark draft for GitHub review. Nothing is saved here.</p>
     <details class="capture-help">
       <summary>Capture a page with a browser bookmarklet</summary>
-      <p>Create a browser bookmark and set its URL to the copied bookmarklet. Clicking it on any web page opens this form with its URL and title filled in. It does not save anything automatically.</p>
+      <p>Save the bookmarklet in your browser to fill in the URL and title from any page.</p>
       <button type="button" @click="copy(captureBookmarklet, 'Bookmarklet')">Copy capture bookmarklet</button>
     </details>
 
@@ -106,7 +106,7 @@ async function copy(value: string, description: string) {
       </label>
     </div>
 
-    <p class="privacy-note">Bookmarks committed to this public repository are publicly visible. Do not enter passwords, access tokens, private addresses, or confidential notes.</p>
+    <p class="privacy-note">Entries are public. Do not include passwords, private addresses or confidential notes.</p>
     <p v-if="result.error" class="validation" role="status">{{ result.error }}</p>
 
     <div v-if="result.draft" class="output">
@@ -124,10 +124,10 @@ async function copy(value: string, description: string) {
         <button type="button" @click="copy(result.draft!.path, 'File path')">Copy full file path</button>
         <a :href="editorHref" target="_blank" rel="noopener noreferrer">Open GitHub new-file editor</a>
       </div>
-      <p class="help">GitHub sign-in and repository collaborator access are required to open a pull request. {{ prefilledEditor
-        ? "GitHub may prefill the filename and content; verify both. If it does not, paste the full file path and Markdown before committing."
-        : "The draft is too long for a reliable prefilled link. Copy the full repository-relative file path and Markdown into GitHub manually."
-      }} Create a separate branch and submit a pull request when prompted. Nothing is committed automatically.</p>
+      <p class="help">Only repository collaborators can submit pull requests. {{ prefilledEditor
+        ? "Check the filename and content in GitHub. Copy them manually if prefill fails."
+        : "Copy the file path and Markdown into GitHub."
+      }} Create a branch and open a pull request.</p>
     </div>
     <p role="status" aria-live="polite" class="copy-status">{{ status }}</p>
   </section>
