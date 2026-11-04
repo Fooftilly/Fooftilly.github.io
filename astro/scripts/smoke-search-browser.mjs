@@ -451,7 +451,7 @@ try {
       Boolean, "media draft hydration for " + kind,
     );
     await waitFor(
-      "document.querySelector('[data-media-kind=' + kind + ']')?.getAttribute('aria-pressed')",
+      "document.querySelector('[data-media-kind=" + kind + "]')?.getAttribute('aria-pressed')",
       (value) => value === "true", "media category button preselected for " + kind,
     );
     await evaluate("(()=>{const el=document.querySelector('.media-editor input[type=text]');el.value='A New Entry';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
