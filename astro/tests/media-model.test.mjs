@@ -51,6 +51,12 @@ test("duplicate checks include existing files, normalized titles and matching UR
   assert.equal(sameMedia(film,{...film,kind:"tv"}),false);
 });
 
+test("multiline public notes are preserved for real media reviews", () => {
+  const item = validateMediaRecord({...film, notes:"First paragraph.\r\nSecond paragraph."});
+  assert.equal(item.notes, "First paragraph.\nSecond paragraph.");
+  assert.throws(() => validateMediaRecord({...film,notes:"Unsafe\u0002note"}),/unsafe control codes/);
+});
+
 test("reject unsafe URLs, unexpected private fields and invalid metadata before GitHub handoff",()=>{
   assert.throws(()=>validateMediaRecord({...film,privateReview:"sensitive"}),/Unexpected public media field/);
   assert.throws(()=>validateMediaRecord({...film,year:2023.5}),/Year must be an integer/);
