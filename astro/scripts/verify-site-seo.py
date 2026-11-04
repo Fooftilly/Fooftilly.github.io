@@ -63,7 +63,7 @@ def check_assets():
 def check_sitemap():
     records = json.loads((ASTRO / ".audit/bookmarks-parity.json").read_text())
     assert len(records) == 576, "Expected full bookmark parity manifest"
-    expected = {SITE + "/", SITE + "/about/", SITE + "/sr/", SITE + "/sr/about/", SITE + "/posts/", SITE + "/sr/posts/", SITE + "/search/", SITE + "/sr/search/", SITE + "/bookmarks/", SITE + "/new-bookmark/", SITE + "/media/", SITE + "/music/", SITE + "/films/", SITE + "/tv/", SITE + "/new-media/", SITE + "/privacy/", SITE + "/sr/privacy/"}
+    expected = {SITE + "/", SITE + "/about/", SITE + "/sh/", SITE + "/sh/about/", SITE + "/posts/", SITE + "/sh/posts/", SITE + "/search/", SITE + "/sh/search/", SITE + "/bookmarks/", SITE + "/new-bookmark/", SITE + "/media/", SITE + "/music/", SITE + "/films/", SITE + "/tv/", SITE + "/new-media/", SITE + "/privacy/", SITE + "/sh/privacy/"}
     expected.update(f"{SITE}/bookmarks/{section}/" for section in SECTIONS)
     for record in records:
         section, stem = record["id"].split("/")
@@ -87,12 +87,12 @@ def check_metadata():
     pages = {
         "/": DIST / "index.html",
         "/about/": DIST / "about/index.html",
-        "/sr/": DIST / "sr/index.html",
-        "/sr/about/": DIST / "sr/about/index.html",
+        "/sh/": DIST / "sh/index.html",
+        "/sh/about/": DIST / "sh/about/index.html",
         "/posts/": DIST / "posts/index.html",
-        "/sr/posts/": DIST / "sr/posts/index.html",
+        "/sh/posts/": DIST / "sh/posts/index.html",
         "/search/": DIST / "search/index.html",
-        "/sr/search/": DIST / "sr/search/index.html",
+        "/sh/search/": DIST / "sh/search/index.html",
         "/bookmarks/": DIST / "bookmarks/index.html",
         "/new-bookmark/": DIST / "new-bookmark/index.html",
         "/music/": DIST / "music/index.html",
@@ -101,7 +101,7 @@ def check_metadata():
         "/media/": DIST / "media/index.html",
         "/new-media/": DIST / "new-media/index.html",
         "/privacy/": DIST / "privacy/index.html",
-        "/sr/privacy/": DIST / "sr/privacy/index.html",
+        "/sh/privacy/": DIST / "sh/privacy/index.html",
         "/bookmarks/art/": DIST / "bookmarks/art/index.html",
         "/bookmarks/art/50_watts___illustrations___/": DIST / "bookmarks/art/50_watts___illustrations___/index.html",
     }
@@ -109,7 +109,7 @@ def check_metadata():
         doc = Metadata()
         doc.feed(filename.read_text(encoding="utf8"))
         expected = SITE + urlpath
-        assert doc.html_lang == ("sr-Latn" if urlpath.startswith("/sr/") else "en"), (urlpath, doc.html_lang)
+        assert doc.html_lang == ("sh" if urlpath.startswith("/sh/") else "en"), (urlpath, doc.html_lang)
         assert doc.metas.get("description"), urlpath
         assert doc.metas.get("author") == "Nikola Perović", urlpath
         assert doc.metas.get("og:url") == expected, urlpath
@@ -118,14 +118,14 @@ def check_metadata():
         assert any(link.get("rel") == "canonical" and link.get("href") == expected for link in doc.links), urlpath
         for needed in ("/favicon.svg", "/site.webmanifest"):
             assert any(link.get("href") == needed for link in doc.links), (urlpath, needed)
-        if urlpath in ("/", "/sr/", "/posts/", "/sr/posts/"):
+        if urlpath in ("/", "/sh/", "/posts/", "/sh/posts/"):
             assert any(
                 link.get("rel") == "alternate"
                 and link.get("type") == "application/rss+xml"
                 and link.get("href") == "/index.xml"
                 for link in doc.links
             ), ("Missing site-wide RSS discovery", urlpath)
-        if urlpath in ("/", "/sr/"):
+        if urlpath in ("/", "/sh/"):
             profile_urls = {
                 "https://github.com/Fooftilly",
                 "https://bsky.app/profile/peroniko.xyz",
@@ -150,7 +150,7 @@ def check_not_found_page():
     assert not any(link.get("rel") == "canonical" for link in doc.links), "404 must not claim a canonical page"
     assert doc.metas.get("og:url") is None, "404 must not advertise a canonical social URL"
     assert re.search(r"<h1\b[^>]*>\s*Page not found\s*</h1>", html), "404 page needs an explanatory heading"
-    for path in ('href="/"', 'href="/bookmarks/"', 'href="/search/"', 'href="/sr/"'):
+    for path in ('href="/"', 'href="/bookmarks/"', 'href="/search/"', 'href="/sh/"'):
         assert path in html, f"Missing recovery navigation on 404: {path}"
     print("Validated non-indexable GitHub Pages 404.html with recovery navigation")
 
@@ -167,14 +167,14 @@ def check_opt_in_comments():
 def check_privacy_disclosure():
     """Ensure both localized privacy notices are reachable and match source behavior."""
     for path, other, language, markers in (
-        ("/privacy/", "/sr/privacy/", "en",
+        ("/privacy/", "/sh/privacy/", "en",
          ("Privacy and cookies", "GitHub Pages", "Google Analytics", "Giscus",
           "localStorage", "unverified")),
-        ("/sr/privacy/", "/privacy/", "sr-Latn",
+        ("/sh/privacy/", "/privacy/", "sh",
          ("Privatnost i kolačići", "GitHub Pages", "Google Analytics", "Giscus",
-          "localStorage", "nije potvrđen")),
+          "localStorage", "nijesu provjerena")),
     ):
-        source = ASTRO.parent / "content" / ("privacy.sr.md" if language == "sr-Latn" else "privacy.md")
+        source = ASTRO.parent / "content" / ("privacy.sh.md" if language == "sh" else "privacy.md")
         original = source.read_text(encoding="utf8")
         assert original.startswith('---\n') and 'translationKey: "privacy"' in original, source
         assert all(marker in original for marker in ("GitHub Pages", "Google Analytics", "Giscus")), source
@@ -187,7 +187,7 @@ def check_privacy_disclosure():
         expected_alternate = SITE + other
         assert any(link.get("rel") == "alternate" and
                    link.get("href") == expected_alternate for link in doc.links), path
-        assert any(a.get("href") == ("/sr/privacy/" if path == "/privacy/" else "/privacy/")
+        assert any(a.get("href") == ("/sh/privacy/" if path == "/privacy/" else "/privacy/")
                    for a in doc.anchors), (path, "Missing language navigation")
         assert any(a.get("href") == "https://policies.google.com/privacy"
                    for a in doc.anchors), (path, "Missing Google policy reference")
@@ -196,15 +196,15 @@ def check_privacy_disclosure():
                    for a in doc.anchors), (path, "Missing GitHub privacy reference")
         assert 'src="https://www.googletagmanager.com/' not in html, path
         assert 'src="https://giscus.app/' not in html, path
-    for page in (DIST / "index.html", DIST / "sr/index.html"):
+    for page in (DIST / "index.html", DIST / "sh/index.html"):
         html = page.read_text(encoding="utf8")
-        expected = "/sr/privacy/" if page.parts[-2] == "sr" else "/privacy/"
+        expected = "/sh/privacy/" if page.parts[-2] == "sh" else "/privacy/"
         assert f'href="{expected}"' in html, ("Missing visible footer privacy link", page)
     print("Verified bilingual privacy notice, provider references, footer navigation and opt-in loading")
 
 
 def check_analytics_privacy():
-    for page in (DIST / "index.html", DIST / "sr/index.html", DIST / "404.html"):
+    for page in (DIST / "index.html", DIST / "sh/index.html", DIST / "404.html"):
         html = page.read_text(encoding="utf8")
         for required in ("data-analytics-consent", "data-analytics-settings", "data-analytics-allow", "data-analytics-decline"):
             assert required in html, f"Missing analytics privacy control {required}: {page}"

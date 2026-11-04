@@ -1,4 +1,4 @@
-"""Verify English/Serbian About pages preserve original Markdown content and SEO.
+"""Verify English/Serbo-Croatian About pages preserve original Markdown content and SEO.
 
 Uses only Python standard library. No external requests or site publication.
 """
@@ -55,7 +55,7 @@ def validate(lang, source, html_file, alternate):
     html = html_file.read_text(encoding="utf8")
     doc = Document()
     doc.feed(html)
-    expected_lang = "sr-Latn" if lang == "sr" else "en"
+    expected_lang = "sh" if lang == "sh" else "en"
     assert doc.lang == expected_lang, doc.lang
     assert "{{<" not in html and "cloakemail" not in html, "Raw Hugo shortcode leaked to Astro"
     assert "Creative Commons Attribution-ShareAlike 4.0 International License" in html, source
@@ -65,12 +65,12 @@ def validate(lang, source, html_file, alternate):
     assert "Hugo" not in visible_text and "PaperMod" not in visible_text, source
     assert "img.shields.io" not in html, "Remote license badge was not removed"
     assert not doc.embeds, f"Unexpected embedded content: {doc.embeds}"
-    expected_intro = "Moj lični sajt." if lang == "sr" else "My personal website. Made by me."
+    expected_intro = "Moj lični sajt." if lang == "sh" else "My personal website. Made by me."
     assert expected_intro in visible_text, (
         f"Missing localized original introduction: {expected_intro!r}; "
         f"rendered text sample: {visible_text[:900]!r}"
     )
-    assert any(item.get("rel") == "alternate" and item.get("hreflang") == ("en" if lang == "sr" else "sr-Latn") and item.get("href") == alternate for item in doc.links), "Missing cross-language alternate"
+    assert any(item.get("rel") == "alternate" and item.get("hreflang") == ("en" if lang == "sh" else "sh") and item.get("href") == alternate for item in doc.links), "Missing cross-language alternate"
 
     email, label, query = shortcode(raw)
     mailto = [a.get("href") for a in doc.anchors if a.get("href", "").startswith("mailto:")]
@@ -85,9 +85,9 @@ def main():
     sample = Document()
     sample.feed('<iframe src="https://example.test"></iframe><embed src="https://example.test"><object data="https://example.test"></object>')
     assert sample.embeds == ["iframe", "embed", "object"], "Embedded-element detection regressed"
-    validate("en", CONTENT / "about.md", DIST / "about/index.html", "https://www.peroniko.xyz/sr/about/")
-    validate("sr", CONTENT / "about.sr.md", DIST / "sr/about/index.html", "https://www.peroniko.xyz/about/")
-    assert (DIST / "sr/index.html").is_file(), "Missing Serbian homepage"
+    validate("en", CONTENT / "about.md", DIST / "about/index.html", "https://www.peroniko.xyz/sh/about/")
+    validate("sh", CONTENT / "about.sh.md", DIST / "sh/about/index.html", "https://www.peroniko.xyz/about/")
+    assert (DIST / "sh/index.html").is_file(), "Missing Serbo-Croatian homepage"
 
 if __name__ == "__main__":
     main()

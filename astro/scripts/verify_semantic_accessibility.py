@@ -78,7 +78,7 @@ def verify_semantic_structure(dist: Path) -> None:
         structure = Structure()
         structure.feed(path.read_text(encoding="utf-8"))
         errors = []
-        if structure.language not in {"en", "sr-Latn"}:
+        if structure.language not in {"en", "sh"}:
             errors.append(f"missing or unsupported language {structure.language!r}")
         if structure.main_count != 1 or structure.ids["main"] != 1:
             errors.append("expected one main landmark with id=main")
@@ -86,7 +86,7 @@ def verify_semantic_structure(dist: Path) -> None:
             errors.append(f"expected one h1, got {structure.headings}")
         if not structure.skip_to_main:
             errors.append("missing skip-to-main navigation")
-        expected_skip = "Preskoči na sadržaj" if structure.language == "sr-Latn" else "Skip to content"
+        expected_skip = "Preskoči na sadržaj" if structure.language == "sh" else "Skip to content"
         if " ".join(" ".join(structure.skip_link_text).split()) != expected_skip:
             errors.append(f"skip-link label does not match page language: {structure.skip_link_text}")
         if structure.images_without_alt:

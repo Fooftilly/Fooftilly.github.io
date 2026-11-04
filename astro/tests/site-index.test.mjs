@@ -10,12 +10,12 @@ test("sitemap only includes implemented routes with canonical lowercase bookmark
   assert.ok(paths.includes("/bookmarks/art/uppercase/"));
   assert.ok(paths.includes("/bookmarks/perspectives/partii/"));
   assert.ok(paths.includes("/bookmarks/paperbookarticle/"));
-  assert.ok(paths.includes("/sr/"));
-  assert.ok(paths.includes("/sr/about/"));
-  assert.ok(paths.includes("/sr/posts/"));
+  assert.ok(paths.includes("/sh/"));
+  assert.ok(paths.includes("/sh/about/"));
+  assert.ok(paths.includes("/sh/posts/"));
   assert.ok(paths.includes("/posts/"));
   assert.ok(paths.includes("/search/"));
-  assert.ok(paths.includes("/sr/search/"));
+  assert.ok(paths.includes("/sh/search/"));
   assert.ok(paths.includes("/new-bookmark/"));
   assert.ok(paths.includes("/music/"));
   assert.ok(paths.includes("/films/"));
@@ -23,7 +23,7 @@ test("sitemap only includes implemented routes with canonical lowercase bookmark
   assert.ok(paths.includes("/tv/"));
   assert.ok(paths.includes("/new-media/"));
   assert.ok(paths.includes("/privacy/"));
-  assert.ok(paths.includes("/sr/privacy/"));
+  assert.ok(paths.includes("/sh/privacy/"));
   assert.ok(!paths.includes("/en/posts/"), "Do not add compatibility redirects");
 });
 
