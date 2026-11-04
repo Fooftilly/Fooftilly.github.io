@@ -87,25 +87,6 @@ class MediaParser(HTMLParser):
             self.in_body = False
 
 
-# Node is already required for Astro builds and is the authority on WHATWG URL
-# serialization. Reimplementing its IDNA/IPv6/percent-encoding rules in Python
-# produced false publication failures for otherwise valid first-party records.
-NODE_URL_AUDIT = r"""
-const values = JSON.parse(require("node:fs").readFileSync(0, "utf8"));
-if (!Array.isArray(values)) throw new Error("Expected URL array");
-const canonical = values.map(value => {
-  if (typeof value !== "string") throw new Error("Invalid media URL");
-  const url = new URL(value.trim().normalize("NFC"));
-  if (!["http:", "https:"].includes(url.protocol) ||
-      !url.hostname || url.username || url.password) {
-    throw new Error("Invalid public media URL");
-  }
-  return url.href;
-});
-process.stdout.write(JSON.stringify(canonical));
-"""
-
-
 def normalize_external_urls(values):
     """Canonicalize all links in one Node process, independently of rendered HTML.
 
@@ -116,7 +97,7 @@ def normalize_external_urls(values):
         return {}
     try:
         result = subprocess.run(
-            ["node", "-e", NODE_URL_AUDIT],
+            ["node", str(Path(__file__).with_name("canonicalize-media-urls.mjs"))],
             input=json.dumps(values, ensure_ascii=False),
             capture_output=True, text=True, check=False, timeout=15,
         )
@@ -135,6 +116,17 @@ def normalize_external_url(value):
     """Canonicalize a single public HTTP(S) URL; used by regression tests."""
     return normalize_external_urls([value])[value]
 
+def rendered_year(record):
+    """Match the JS model's integral year validation and table formatting."""
+    if "year" not in record:
+        return "—"
+    year = record["year"]
+    if (isinstance(year, bool) or not isinstance(year, (int, float))
+            or not 1800 <= year <= 2200 or int(year) != year):
+        raise AssertionError("Invalid year in public record")
+    return str(int(year))
+
+
 def expected_row(record, canonical_urls=None):
     if record["schema"] != 1 or record["kind"] not in KINDS:
         raise AssertionError("Invalid media record schema")
@@ -149,7 +141,7 @@ def expected_row(record, canonical_urls=None):
         "cells": [
             normalized(record["title"]),
             normalized(record.get("creator") or "—"),
-            str(record["year"]) if "year" in record else "—",
+            rendered_year(record),
             f"{rating:.1f} / 5" if rating is not None else "—",
             normalized(record.get("status") or "—"),
             normalized("".join(normalized(link["label"]) for link in links)) if links else "—",

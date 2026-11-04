@@ -259,6 +259,40 @@ class MediaOutputTests(unittest.TestCase):
         with self.assertRaisesRegex(AssertionError, "rendered data mismatch"):
             verify_media_output(self.astro)
 
+    def test_decimal_and_exponent_integral_years_match_js_rendering(self):
+        for source_year, rendered in (("2001.0", "2001"), ("2e3", "2000")):
+            with self.subTest(source_year=source_year):
+                self.put_film()
+                source = self.root / "content" / "media" / "films" / "a-film.json"
+                data = source.read_text(encoding="utf-8")
+                self.assertIn('"year": 2001', data)
+                source.write_text(
+                    data.replace('"year": 2001', f'"year": {source_year}'),
+                    encoding="utf-8",
+                )
+                if rendered != "2001":
+                    page = self.astro / "dist" / "films" / "index.html"
+                    page.write_text(
+                        page.read_text(encoding="utf-8").replace(
+                            "<td>2001</td>", f"<td>{rendered}</td>"
+                        ),
+                        encoding="utf-8",
+                    )
+                self.assertEqual(verify_media_output(self.astro), 1)
+
+    def test_invalid_years_do_not_pass_output_audit(self):
+        for source_year in ("2001.5", "true", '"2001"', "null"):
+            with self.subTest(source_year=source_year):
+                self.put_film()
+                source = self.root / "content" / "media" / "films" / "a-film.json"
+                data = source.read_text(encoding="utf-8")
+                source.write_text(
+                    data.replace('"year": 2001', f'"year": {source_year}'),
+                    encoding="utf-8",
+                )
+                with self.assertRaisesRegex(AssertionError, "Invalid year"):
+                    verify_media_output(self.astro)
+
     def test_substituted_record_with_same_count_is_rejected(self):
         self.put_film()
         page = self.astro / "dist" / "films" / "index.html"
