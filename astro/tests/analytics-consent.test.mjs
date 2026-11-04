@@ -149,6 +149,19 @@ test("Withdrawing previously granted consent disables further hits and reloads w
   assert.equal(nextPage.scripts.length, 0, "Fresh page must not fetch Google after withdrawal");
 });
 
+test("Opting in on the private media composer still cannot load analytics", () => {
+  for (const href of [
+    "https://www.peroniko.xyz/new-media/",
+    "https://www.peroniko.xyz/new-media",
+  ]) {
+    const f = fixture(null, false, href);
+    f.click("allow");
+    assert.equal(f.values.get(CONSENT_STORAGE_KEY), "granted");
+    assert.deepEqual(f.scripts, [], "Draft form must never fetch the GA script");
+    assert.equal(f.win.dataLayer, undefined, "Draft form must not create analytics events");
+  }
+});
+
 test("Disabled localStorage cannot silently imply analytics consent", () => {
   const f = fixture("granted", true);
   assert.equal(f.scripts.length, 0);
