@@ -65,6 +65,8 @@ jobs:
           node scripts/release-readiness.mjs
           test -s dist/404.html
           test -s dist/new-bookmark/index.html
+          test -s dist/music/index.html
+          test -s dist/films/index.html
           test ! -e dist/migration-audit
           test ! -e dist/admin
       - name: Upload validated Astro build only
@@ -118,7 +120,7 @@ jobs:
 
           # These are required public routes and release artifacts, checked
           # independently after the exact revision is confirmed.
-          for route in / /sr/ /new-bookmark/ /bookmarks/ /search/ /404.html /index.xml /sitemap.xml; do
+          for route in / /sr/ /new-bookmark/ /bookmarks/ /search/ /music/ /films/ /404.html /index.xml /sitemap.xml; do
             curl --fail --location --silent --show-error --max-time 12 \
               --output /dev/null "$base$route"
             echo "Verified $route"
