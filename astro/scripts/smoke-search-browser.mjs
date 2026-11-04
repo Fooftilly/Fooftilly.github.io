@@ -293,8 +293,8 @@ try {
   );
   await navigate("/new-media/");
   await waitFor(
-    "document.querySelector('.media-editor input[placeholder=\\\"Title\\\"]') !== null",
-    Boolean, "new media Vue form hydration",
+    "(()=>{const editor=document.querySelector('.media-editor');const island=editor?.closest('astro-island');return Boolean(editor && island && !island.hasAttribute('ssr') && editor.querySelector('input[placeholder=\\\"Title\\\"]'));})()",
+    Boolean, "new media Vue component hydration completed",
   );
   await evaluate(`(()=>{
     const edit=(selector,value,event="input")=>{
