@@ -68,6 +68,10 @@ test("importers reject invalid scores, unsafe source links, duplicates, empty ca
     {id:"1",title:"A",rating:6},
   ]}, "music"), /Rating outside/);
   assert.throws(() => validateRatingsCatalog({schema: 1,kind:"films",source:"Rate Your Music",items: []}, "music"), /Invalid ratings catalog/);
+  assert.throws(() => validateRatingsCatalog({schema: 1,kind:"music",source:"Rate Your Music",items: [
+    {id:"1",title:"A",rating:4,review:"Private note"},
+  ]}, "music"), /Unexpected public rating field/);
+  assert.throws(() => validateRatingsCatalog({schema: 1,kind:"music",source:"Rate Your Music",items: [],ownership:"Private"}, "music"), /Unexpected public ratings catalog field/);
 });
 
 test("empty published catalogs are explicit and valid until the owner exports actual ratings", () => {
