@@ -3,7 +3,7 @@ title: "About"
 translationKey: "about"
 ---
 
-Bookmarks, notes and media collected in one place.
+Bookmarks, films, music and notes.
 
 {{< cloakemail address="nikolaperovicccc@gmail.com" display="Email" query="subject=Peroniko: Mail from contact form on the website" >}}
 

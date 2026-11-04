@@ -65,8 +65,8 @@ def validate(lang, source, html_file, alternate):
     assert "Hugo" not in visible_text and "PaperMod" not in visible_text, source
     assert "img.shields.io" not in html, "Remote license badge was not removed"
     assert not doc.embeds, f"Unexpected embedded content: {doc.embeds}"
-    expected_intro = ("Linkovi, bilješke i mediji na jednom mjestu." if lang == "sh"
-                      else "Bookmarks, notes and media collected in one place.")
+    expected_intro = ("Linkovi, filmovi, muzika i bilješke." if lang == "sh"
+                      else "Bookmarks, films, music and notes.")
     assert expected_intro in visible_text, (
         f"Missing localized original introduction: {expected_intro!r}; "
         f"rendered text sample: {visible_text[:900]!r}"
