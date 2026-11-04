@@ -29,43 +29,69 @@ const server = createServer(async (req, res) => {
     res.end("Not found");
   }
 });
-const profile = await mkdtemp(join(tmpdir(), "astro-search-"));
+const profiles = [];
 let chrome;
 let socket;
 try {
   await new Promise((done) => server.listen(0, "127.0.0.1", done));
   const origin = "http://127.0.0.1:" + server.address().port;
-  chrome = spawn(process.env.CHROME_BIN || "google-chrome", [
-    "--headless=new", "--no-sandbox", "--disable-gpu", "--disable-dev-shm-usage",
-    "--no-first-run", "--no-default-browser-check", "--remote-allow-origins=*",
-    "--remote-debugging-port=0", "--user-data-dir=" + profile, "about:blank",
-  ], { stdio: ["ignore", "ignore", "pipe"] });
-  let chromeStderr = "";
-  // Keep a bounded tail of diagnostics without flooding Actions logs.
-  chrome.stderr?.on("data", (chunk) => {
-    chromeStderr = (chromeStderr + chunk.toString("utf8")).slice(-8192);
-  });
-  const startupFailure = (reason) => {
-    const exit = chrome.exitCode !== null ? `exit code ${chrome.exitCode}`
-      : chrome.signalCode !== null ? `signal ${chrome.signalCode}` : "process still running";
-    return new Error(`${reason} (${exit})\nChrome stderr:\n${chromeStderr.trim() || "(none captured)"}`);
-  };
-  let launchError;
-  chrome.on("error", (error) => { launchError = error; });
   let port = 0;
-  for (let i = 0; i < 120; i++) {
-    if (launchError) throw startupFailure(`Chromium spawn failed: ${launchError.message}`);
-    if (chrome.exitCode !== null || chrome.signalCode !== null) {
-      throw startupFailure("Chromium exited before DevTools became available");
+  let lastStartupError;
+  // Retry browser *startup* once on a fresh profile. Never retry UI assertions:
+  // an actual application failure must still fail the required browser smoke.
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    const profile = await mkdtemp(join(tmpdir(), "astro-search-"));
+    profiles.push(profile);
+    const chromeEnv = { ...process.env };
+    // GitHub runners can expose a malformed desktop session bus address.
+    // Headless Chrome needs no desktop session, and can otherwise stall here.
+    delete chromeEnv.DBUS_SESSION_BUS_ADDRESS;
+    chrome = spawn(process.env.CHROME_BIN || "google-chrome", [
+      "--headless=new", "--no-sandbox", "--disable-gpu", "--disable-dev-shm-usage",
+      "--no-first-run", "--no-default-browser-check", "--remote-allow-origins=*",
+      "--remote-debugging-port=0", "--user-data-dir=" + profile, "about:blank",
+    ], { stdio: ["ignore", "ignore", "pipe"], env: chromeEnv });
+    let chromeStderr = "";
+    chrome.stderr?.on("data", (chunk) => {
+      chromeStderr = (chromeStderr + chunk.toString("utf8")).slice(-8192);
+    });
+    const startupFailure = (reason) => {
+      const exit = chrome.exitCode !== null ? `exit code ${chrome.exitCode}`
+        : chrome.signalCode !== null ? `signal ${chrome.signalCode}` : "process still running";
+      return new Error(`${reason} (${exit})\nChrome stderr:\n${chromeStderr.trim() || "(none captured)"}`);
+    };
+    let launchError;
+    chrome.on("error", (error) => { launchError = error; });
+    let failureReason = "Chromium DevToolsActivePort was not created";
+    for (let i = 0; i < 120; i++) {
+      if (launchError) {
+        failureReason = "Chromium spawn failed: " + launchError.message;
+        break;
+      }
+      if (chrome.exitCode !== null || chrome.signalCode !== null) {
+        failureReason = "Chromium exited before DevTools became available";
+        break;
+      }
+      try {
+        const active = await readFile(join(profile, "DevToolsActivePort"), "utf8");
+        port = Number(active.split("\n")[0]);
+        if (port > 0) break;
+      } catch { /* Chromium is still starting. */ }
+      await sleep(100);
     }
-    try {
-      const active = await readFile(join(profile, "DevToolsActivePort"), "utf8");
-      port = Number(active.split("\n")[0]);
-      if (port > 0) break;
-    } catch { /* Chromium is still starting. */ }
-    await sleep(100);
+    if (port) break;
+    lastStartupError = startupFailure(failureReason);
+    if (!launchError && chrome.exitCode === null && chrome.signalCode === null) {
+      // Fully stop a hung launch before using a new isolated user-data-dir.
+      const exited = new Promise((done) => chrome.once("exit", done));
+      chrome.kill("SIGKILL");
+      await Promise.race([exited, sleep(1000)]);
+    }
+    if (attempt === 1) {
+      console.warn("Chromium startup failed; retrying once with a fresh profile:\n" + lastStartupError.message);
+    }
   }
-  if (!port) throw startupFailure("Chromium DevToolsActivePort was not created");
+  if (!port) throw lastStartupError;
   const opened = await fetch("http://127.0.0.1:" + port + "/json/new?about:blank", { method: "PUT" });
   assert.equal(opened.status, 200, "Unable to open browser target");
   const target = await opened.json();
@@ -346,5 +372,5 @@ try {
   socket?.close();
   if (chrome && chrome.exitCode === null) chrome.kill();
   await new Promise((done) => server.close(done));
-  await rm(profile, { recursive: true, force: true, maxRetries: 3 });
+  await Promise.all(profiles.map((profile) => rm(profile, { recursive: true, force: true, maxRetries: 3 })));
 }
