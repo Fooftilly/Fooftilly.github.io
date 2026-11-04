@@ -5,12 +5,14 @@ import { BOOKMARK_CATEGORIES } from "../src/lib/bookmark-categories.ts";
 const records = JSON.parse(await readFile(".audit/bookmarks-parity.json", "utf8"));
 assert.equal(records.length, 576);
 for (const [path, language, heading] of [
-  ["dist/index.html", "en", "Bookmark collections"],
-  ["dist/sh/index.html", "sh", "Kolekcije linkova"],
+  ["dist/index.html", "en", "Categories"],
+  ["dist/sh/index.html", "sh", "Kategorije"],
 ]) {
   const html = await readFile(path, "utf8");
   assert.ok(html.includes('lang="' + language + '"'), "Language missing: " + path);
-  assert.ok(html.includes(heading), "Collections missing: " + path);
+  assert.ok(html.includes(heading), "Categories missing: " + path);
+  assert.ok(html.includes("<h1>Peroniko</h1>"), "Peroniko homepage brand missing: " + path);
+  assert.ok(!html.includes("Nikola Perović"), "Old personal name leaked onto homepage: " + path);
   assert.ok(!html.includes("Astro migration preview"), "Technical placeholder leaked: " + path);
   assert.ok(!html.includes("Hugo na Astro"), "Serbo-Croatian preview placeholder leaked: " + path);
   assert.ok(html.includes('href="/new-bookmark/"'), "Public bookmark composer link missing: " + path);

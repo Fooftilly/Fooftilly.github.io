@@ -111,7 +111,11 @@ def check_metadata():
         expected = SITE + urlpath
         assert doc.html_lang == ("sh" if urlpath.startswith("/sh/") else "en"), (urlpath, doc.html_lang)
         assert doc.metas.get("description"), urlpath
-        assert doc.metas.get("author") == "Nikola Perović", urlpath
+        assert doc.metas.get("author") == "Peroniko", urlpath
+        assert doc.metas.get("og:site_name") == "Peroniko", urlpath
+        markup = filename.read_text(encoding="utf8")
+        assert "· Peroniko</title>" in markup, ("Old page title branding", urlpath)
+        assert '>Peroniko</a>' in markup, ("Old navigation branding", urlpath)
         assert doc.metas.get("og:url") == expected, urlpath
         assert doc.metas.get("og:image") == SITE + "/avatar-full.webp", urlpath
         assert doc.metas.get("twitter:card") == "summary", urlpath

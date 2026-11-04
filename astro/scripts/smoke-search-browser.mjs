@@ -217,7 +217,7 @@ try {
   })()`);
   assert.equal(mobileConsent.position, "fixed");
   assert.equal(mobileConsent.actionDirection, "column", "Visual and keyboard order must agree on narrow screens");
-  assert.deepEqual(mobileConsent.actionOrder, ["Reject optional cookies", "Allow analytics"]);
+  assert.deepEqual(mobileConsent.actionOrder, ["Reject analytics", "Allow analytics"]);
   assert.ok(mobileConsent.left >= 0 && mobileConsent.right <= mobileConsent.viewportWidth + 1, "Mobile cookie notice must fit viewport width");
   assert.ok(mobileConsent.top >= 0 && mobileConsent.bottom <= mobileConsent.viewportHeight + 1, "Mobile cookie notice must fit viewport height");
   await command("Emulation.clearDeviceMetricsOverride");
@@ -233,7 +233,7 @@ try {
   );
   await waitFor(
     "document.querySelector('input[type=search]')?.placeholder",
-    (value) => value === "Naziv, kategorija ili veb-adresa",
+    (value) => value === "Naziv, kategorija ili adresa",
     "Serbo-Croatian Vue search controls",
   );
   const options = await evaluate(
@@ -253,7 +253,7 @@ try {
   );
   assert.equal(
     await evaluate("document.querySelector('.empty-result')?.textContent.trim()"),
-    "Nema linkova koji odgovaraju filterima.",
+    "Nema rezultata.",
   );
 
   await evaluate("(()=>{const el=document.querySelector('input[type=search]');el.value='';el.dispatchEvent(new Event('input',{bubbles:true}));const select=document.querySelector('select');select.value='Articles & books';select.dispatchEvent(new Event('change',{bubbles:true}))})()");

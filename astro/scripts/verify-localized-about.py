@@ -59,13 +59,14 @@ def validate(lang, source, html_file, alternate):
     assert doc.lang == expected_lang, doc.lang
     assert "{{<" not in html and "cloakemail" not in html, "Raw Hugo shortcode leaked to Astro"
     assert "Creative Commons Attribution-ShareAlike 4.0 International License" in html, source
-    assert "Github Repo" in html, source
+    assert ("Izvorni kod" if lang == "sh" else "Source code") in html, source
     visible_text = " ".join(part.strip() for part in doc.parts if part.strip())
     assert "Astro" in visible_text and "Vue" in visible_text, source
     assert "Hugo" not in visible_text and "PaperMod" not in visible_text, source
     assert "img.shields.io" not in html, "Remote license badge was not removed"
     assert not doc.embeds, f"Unexpected embedded content: {doc.embeds}"
-    expected_intro = "Moj lični sajt." if lang == "sh" else "My personal website. Made by me."
+    expected_intro = ("Linkovi, bilješke i mediji na jednom mjestu." if lang == "sh"
+                      else "Bookmarks, notes and media collected in one place.")
     assert expected_intro in visible_text, (
         f"Missing localized original introduction: {expected_intro!r}; "
         f"rendered text sample: {visible_text[:900]!r}"
