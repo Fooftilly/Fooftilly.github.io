@@ -1,11 +1,11 @@
 ---
 import SiteLayout from "../../layouts/SiteLayout.astro";
-import RatingsTable from "../../components/RatingsTable.astro";
-import catalogData from "../../data/music-ratings.json";
-import { validateRatingsCatalog } from "../../lib/ratings.ts";
-const catalog = validateRatingsCatalog(catalogData, "music");
+import MediaTable from "../../components/MediaTable.astro";
+import { loadMedia } from "../../lib/media-store.ts";
+const entries=await loadMedia("music");
 ---
-<SiteLayout title="Music ratings" description="A personal table of rated music releases.">
-  <h1>Music ratings</h1>
-  <RatingsTable kind="music" catalog={catalog} />
+<SiteLayout title="Music" description="A personal collection of music, with optional ratings and independent links.">
+  <h1>Music</h1>
+  <p><a href="/new-media/">Add a music release</a> through a reviewed GitHub pull request.</p>
+  <MediaTable kind="music" entries={entries}/>
 </SiteLayout>
