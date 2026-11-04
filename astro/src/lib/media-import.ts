@@ -1,5 +1,5 @@
 /** Optional bulk import adapters. RYM/Letterboxd never own the website IDs. */
-import { mediaPath, sameMedia, validateMediaLink, validateMediaRecord,
+import { mediaPath, mediaMatchKey, sameMedia, validateMediaLink, validateMediaRecord,
          type MediaKind, type MediaRecord } from "./media-model.ts";
 const MAX_ROWS=50000;
 const MAX_CHARS=15_000_000;
@@ -113,11 +113,19 @@ export function parseMediaCsv(text:string,kind:MediaKind,provider:MediaProvider)
   }
   if(!items.length)throw Error("Export contains no rated items");
   const paths=new Set<string>();
+  const byTitleYear=new Map<string,MediaRecord[]>();
   const unique:MediaRecord[]=[];
   for(const item of items){
     const path=mediaPath(item).toLowerCase();
-    if(paths.has(path)||unique.some(other=>sameMedia(other,item))) throw Error("Duplicate media entry in export: "+item.title);
-    paths.add(path);unique.push(item);
+    const key=mediaMatchKey(item);
+    const matches=byTitleYear.get(key)??[];
+    if(paths.has(path)||matches.some(other=>sameMedia(other,item))) {
+      throw Error("Duplicate media entry in export: "+item.title);
+    }
+    paths.add(path);
+    matches.push(item);
+    byTitleYear.set(key,matches);
+    unique.push(item);
   }
   return unique.sort((a,b)=>a.kind.localeCompare(b.kind)||a.title.localeCompare(b.title)||((a.year??0)-(b.year??0)));
 }
