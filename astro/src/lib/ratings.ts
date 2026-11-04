@@ -107,11 +107,19 @@ export function validateRatingsCatalog(raw: unknown, kind: RatingsKind): Ratings
   if (obj.schema !== 1 || obj.kind !== kind ||
     !["Rate Your Music", "Letterboxd"].includes(String(obj.source)) ||
     !Array.isArray(obj.items)) throw new Error("Invalid ratings catalog schema or kind");
+  const catalogFields = new Set(["schema", "kind", "source", "items"]);
+  if (Object.keys(obj).some(field => !catalogFields.has(field))) {
+    throw new Error("Unexpected public ratings catalog field; raw export metadata may not be published");
+  }
   if (obj.items.length > MAX_ROWS) throw new Error("Too many published ratings");
   const seen = new Set<string>();
   const items = obj.items.map((item, index) => {
     if (!item || typeof item !== "object") throw new Error("Invalid rating item " + index);
     const value = item as Record<string, unknown>;
+    const publicFields = new Set(["id", "title", "rating", "artist", "year", "url"]);
+    if (Object.keys(value).some(field => !publicFields.has(field))) {
+      throw new Error("Unexpected public rating field at item " + index + "; private reviews/ownership must not be published");
+    }
     const id = clampText(String(value.id ?? ""), "Rating identifier", 800);
     if (seen.has(id)) throw new Error("Duplicate rating identifier: " + id);
     seen.add(id);
