@@ -26,7 +26,7 @@ test("browser smoke retries startup once and reports the final Chrome failure", 
     });
     assert.equal(result.signal, null, "Browser test did not terminate");
     assert.equal(result.status, 1);
-    assert.equal((await readFile(attempts, "utf8")).trim().split("\\n").length, 2, "Only one startup retry");
+    assert.equal((await readFile(attempts, "utf8")).trim().split("\n").length, 2, "Only one startup retry");
     assert.match(result.stderr, /Chromium exited before DevTools became available \(exit code 71\)/);
     assert.match(result.stderr, /synthetic Chrome startup failure/);
   } finally {
