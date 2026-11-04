@@ -176,7 +176,7 @@ def check_privacy_disclosure():
     ):
         source = ASTRO.parent / "content" / ("privacy.sr.md" if language == "sr-Latn" else "privacy.md")
         original = source.read_text(encoding="utf8")
-        assert original.startswith("---\\n") and "translationKey: \\"privacy\\"" in original, source
+        assert original.startswith('---\n') and 'translationKey: "privacy"' in original, source
         assert all(marker in original for marker in ("GitHub Pages", "Google Analytics", "Giscus")), source
         html = (DIST / path.lstrip("/") / "index.html").read_text(encoding="utf8")
         doc = Metadata()
