@@ -112,7 +112,24 @@ def normalize_external_url(value):
         )
         return quote(component, safe=safe)
 
-    path = encode(parts.path or "/", '"#<>?`{}')
+    # WHATWG resolves literal and percent-encoded dot segments before encoding.
+    # A final dot segment denotes a trailing slash.
+    path_parts = (parts.path or "/").split("/")
+    resolved_parts = []
+    for index, part in enumerate(path_parts):
+        segment = part.lower()
+        is_last = index == len(path_parts) - 1
+        if segment in (".", "%2e"):
+            if is_last:
+                resolved_parts.append("")
+        elif segment in ("..", ".%2e", "%2e.", "%2e%2e"):
+            if resolved_parts:
+                resolved_parts.pop()
+            if is_last:
+                resolved_parts.append("")
+        else:
+            resolved_parts.append(part)
+    path = encode("/".join(resolved_parts) or "/", '"#<>?`{}')
     query = encode(parts.query, '"#\'<>')
     fragment = encode(parts.fragment, '"<>`')
     # urlunsplit() drops a trailing empty '?' or '#', unlike new URL().href.
