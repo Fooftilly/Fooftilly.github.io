@@ -118,8 +118,8 @@ git diff -- ../content/media
 ```
 
 Invalid UTF-8, unsupported CSV formats, unsafe external URLs, title/path
-collisions and conflicts with existing entries are rejected rather than
-silently changing data. A reimport of an **unchanged** file is idempotent;
+collisions, repeated canonical source URLs across export rows, and conflicts
+with existing entries are rejected rather than silently changing data. A reimport of an **unchanged** file is idempotent;
 changed ratings or enriched metadata require editing the existing entry.
 Only explicitly selected public fields are stored: title, creator/year,
 rating, status and permitted links. Source reviews, ownership and private
