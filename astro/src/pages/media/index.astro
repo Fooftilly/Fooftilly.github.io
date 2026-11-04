@@ -1,0 +1,30 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import { loadMedia } from "../../lib/media-store.ts";
+const all=await loadMedia();
+const links=[
+  {kind:"films",title:"Films",description:"Films watched, rated or planned."},
+  {kind:"tv",title:"TV series",description:"Shows and series, independent of any media service."},
+  {kind:"music",title:"Music",description:"Albums and music releases."},
+] as const;
+---
+<SiteLayout title="Media collection" description="Personal films, television and music catalog stored as Git-managed data.">
+  <section class="media-home">
+    <h1>Media collection</h1>
+    <p>Films, TV series and music maintained directly on this website. RYM, Letterboxd and other services are optional links or import sources, not required accounts.</p>
+    <p><a class="button-link" href="/new-media/">Add or update a media entry</a></p>
+    <div class="media-groups">
+      {links.map(link=><article>
+        <h2><a href={"/"+link.kind+"/"}>{link.title}</a></h2>
+        <p>{link.description}</p>
+        <p>{all.filter(entry=>entry.kind===link.kind).length} records</p>
+      </article>)}
+    </div>
+  </section>
+</SiteLayout>
+<style>
+.media-home{max-width:68rem}.media-home>p{max-width:65ch}
+.media-groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));gap:1rem;margin:2rem 0}
+.media-groups article{background:var(--surface);border:1px solid var(--border);border-radius:.75rem;padding:1.1rem}
+.media-groups h2{margin-top:0}.media-groups p{color:var(--muted)}
+</style>
