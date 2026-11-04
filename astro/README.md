@@ -111,7 +111,10 @@ npm test
 npm run check
 npm run build
 python3 scripts/verify_media.py
-git diff -- content/media
+git status --short -- ../content/media
+# New files are untracked and omitted from git diff until marked intent-to-add:
+git add -N -- ../content/media
+git diff -- ../content/media
 ```
 
 Invalid UTF-8, unsupported CSV formats, unsafe external URLs, title/path
