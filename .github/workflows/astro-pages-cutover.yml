@@ -59,7 +59,7 @@ jobs:
           python3 -m unittest discover -s scripts -p 'test_verify_internal_links.py'
           python3 scripts/verify-site-seo.py
           node scripts/verify-homepage.mjs
-          node scripts/verify-ratings.mjs
+          python3 scripts/verify_media.py
           node scripts/smoke-search-browser.mjs
           # Keep the public revision marker inside the release SHA-256 audit.
           printf '%s\n' "$GITHUB_SHA" > dist/deploy-revision.txt
