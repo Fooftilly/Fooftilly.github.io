@@ -9,6 +9,7 @@ from pathlib import Path
 from urllib.parse import urlsplit, quote
 import json
 import re
+import unicodedata
 
 
 KINDS = {"music": "Music", "films": "Films", "tv": "TV series"}
@@ -16,7 +17,7 @@ KINDS = {"music": "Music", "films": "Films", "tv": "TV series"}
 
 def normalized(text):
     """Apply the same whitespace normalization to both HTML and source."""
-    return re.sub(r"\s+", " ", str(text).replace("\u00a0", " ")).strip()
+    return unicodedata.normalize("NFC", re.sub(r"\s+", " ", str(text).replace("\u00a0", " ")).strip())
 
 
 class MediaParser(HTMLParser):
@@ -92,6 +93,8 @@ def normalize_external_url(value):
     Astro validates links with new URL() and emits canonical hrefs. A source
     URL with no path, e.g. https://example.org, is rendered with a trailing /.
     """
+    # validateMediaLink first trims and NFC-normalizes the URL text.
+    value = unicodedata.normalize("NFC", value.strip())
     parts = urlsplit(value)
     if parts.scheme.lower() not in ("https", "http") or not parts.hostname:
         raise AssertionError("Invalid public media URL")
