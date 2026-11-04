@@ -2,18 +2,18 @@
 import SiteLayout from "../layouts/SiteLayout.astro";
 import HomepageSections from "../components/HomepageSections.astro";
 ---
-<SiteLayout title="Home" description="A curated collection of useful links, perspectives and creative discoveries." languageAlternate="/sh/" rssHref="/index.xml">
+<SiteLayout title="Home" description="Links, notes and media." languageAlternate="/sh/" rssHref="/index.xml">
   <section class="intro">
-    <p class="eyebrow">CURATED LINKS & IDEAS</p>
-    <h1>Nikola Perović</h1>
-    <p>A personal collection of art, music, ideas and useful corners of the web. Browse what I have saved, or find something specific.</p>
+    <p class="eyebrow">BOOKMARKS & MORE</p>
+    <h1>Peroniko</h1>
+    <p>Bookmarks, music, films and notes.</p>
     <div class="intro-actions">
       <a class="button-link" href="/bookmarks/">Browse bookmarks</a>
-      <a class="button-link" href="/search/">Search the collection</a>
+      <a class="button-link" href="/search/">Search</a>
     </div>
   </section>
   <HomepageSections lang="en" />
-  <p class="feed-note"><a href="/index.xml" type="application/rss+xml">Subscribe to new bookmarks (RSS)</a></p>
+  <p class="feed-note"><a href="/index.xml" type="application/rss+xml">RSS feed</a></p>
 </SiteLayout>
 <style>
   .intro { max-width: 55rem; padding: 2.5rem 0 2rem; }

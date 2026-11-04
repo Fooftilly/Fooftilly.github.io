@@ -3,14 +3,12 @@ title: "O sajtu"
 translationKey: "about"
 ---
 
-Moj lični sajt.
-{{< cloakemail address="nikolaperovicccc@gmail.com" display="Klikni ovdje da mi pošalješ mejl!" query="subject=Peroniko: Mail iz kontakt forme sajta" >}}
+Linkovi, bilješke i mediji na jednom mjestu.
 
-Ovaj sajt je objavljen na [GitHub Pages](https://pages.github.com/). Njegov izvorni kod sadrži implementaciju napravljenu pomoću [Astro](https://astro.build/) i [Vue](https://vuejs.org/) tehnologija.
-Ovdje je [Github Repo](https://github.com/Fooftilly/Fooftilly.github.io), ako želiš da pogledaš kod.
-Istaknuta slika je adaptacija [Attributes of Art and Illustration](https://www.oldbookillustrations.com/illustrations/attributes-art-illustration/) ([CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)).
+{{< cloakemail address="nikolaperovicccc@gmail.com" display="Piši mi" query="subject=Peroniko: Mail iz kontakt forme sajta" >}}
 
-Objave su pod
-[Creative Commons Attribution-ShareAlike 4.0 International License][cc-by-sa].
+Sajt je napravljen u [Astro](https://astro.build/) i [Vue](https://vuejs.org/), a objavljen preko [GitHub Pages](https://pages.github.com/). [Izvorni kod](https://github.com/Fooftilly/Fooftilly.github.io).
 
-[cc-by-sa]: https://creativecommons.org/licenses/by-sa/4.0/
+Ilustracija na sajtu je prilagođena iz [Attributes of Art and Illustration](https://www.oldbookillustrations.com/illustrations/attributes-art-illustration/) ([CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)).
+
+Objave su dostupne pod licencom [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/).

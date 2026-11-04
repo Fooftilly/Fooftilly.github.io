@@ -2,18 +2,18 @@
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import HomepageSections from "../../components/HomepageSections.astro";
 ---
-<SiteLayout title="Početna" description="Lična kolekcija sačuvanih linkova, muzike, umjetnosti i ideja." lang="sh" languageAlternate="/" rssHref="/index.xml">
+<SiteLayout title="Početna" description="Linkovi, bilješke i mediji." lang="sh" languageAlternate="/" rssHref="/index.xml">
   <section class="intro">
-    <p class="eyebrow">LINKOVI I IDEJE</p>
-    <h1>Nikola Perović</h1>
-    <p>Lična zbirka umjetnosti, muzike, zanimljivih ideja i korisnih djelova interneta. Pregledaj sačuvane linkove ili pronađi nešto konkretno.</p>
+    <p class="eyebrow">LINKOVI I OSTALO</p>
+    <h1>Peroniko</h1>
+    <p>Linkovi, muzika, filmovi i bilješke.</p>
     <div class="intro-actions">
-      <a class="button-link" href="/bookmarks/">Pregledaj linkove</a>
-      <a class="button-link" href="/sh/search/">Pretraži kolekciju</a>
+      <a class="button-link" href="/bookmarks/">Svi linkovi</a>
+      <a class="button-link" href="/sh/search/">Pretraga</a>
     </div>
   </section>
   <HomepageSections lang="sh" />
-  <p class="feed-note"><a href="/index.xml" type="application/rss+xml">Prati nove linkove (RSS)</a></p>
+  <p class="feed-note"><a href="/index.xml" type="application/rss+xml">RSS</a></p>
 </SiteLayout>
 <style>
   .intro { max-width: 55rem; padding: 2.5rem 0 2rem; }

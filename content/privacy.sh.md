@@ -3,38 +3,30 @@ title: "Privatnost i kolačići"
 translationKey: "privacy"
 ---
 
-Posljednje ažuriranje: 4. novembra 2026.
+Ažurirano 4. novembra 2026.
 
-Ovo je lični sajt objavljen preko GitHub Pages. U nastavku možete pročitati koji se podaci obrađuju prilikom posjete sajtu, koje spoljne usluge koristim i kako možete upravljati analitičkim kolačićima.
+## Hosting
 
-## Gdje je sajt smješten
-
-Stranice se posjetiocima isporučuju putem GitHub Pages. GitHub navodi da iz bezbjednosnih razloga bilježi IP adrese posjetilaca, čak i kada nijesu prijavljeni na GitHub. To je dio usluge hostinga i ne zavisi od vaše odluke o Google Analytics kolačićima.
+Peroniko je objavljen preko GitHub Pages. GitHub bilježi IP adrese posjetilaca radi bezbjednosti, bez obzira na to da li ste dozvolili analitiku.
 
 [O GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages) · [GitHubova pravila privatnosti](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement)
 
-## Analitika je vaš izbor
+## Analitika
 
-Google Analytics 4 koristim samo ako pristanete na analitičke kolačiće. Dok ne date pristanak, Googleova analitička skripta se ne učitava. Ako je uključite, Google može da koristi kolačiće i obrađuje podatke o posjećenim stranicama i vašem pregledaču. Podešavanja sajta isključuju Google Signals i personalizaciju oglasa.
+Google Analytics 4 se uključuje samo uz vaš pristanak. Može koristiti kolačiće i bilježiti posjete. Google Signals i personalizacija oglasa su isključeni. Analitika ne radi na stranicama za pretragu i dodavanje sadržaja, niti na adresama sa parametrima.
 
-Analitika se ne pokreće na stranicama za dodavanje linkova i medijskih stavki, na stranicama za pretragu niti na adresama sa parametrima upita. Koliko dugo se podaci čuvaju zavisi i od podešavanja Google Analytics naloga. Ta podešavanja još nijesu provjerena, pa ovdje ne navodim rok čuvanja.
+Podešavanja čuvanja podataka na Google Analytics nalogu još nijesu provjerena.
 
-[Googleova pravila privatnosti](https://policies.google.com/privacy) · [Kako Google Analytics čuva podatke](https://support.google.com/analytics/answer/7667196)
+[Googleova pravila privatnosti](https://policies.google.com/privacy) · [Čuvanje podataka](https://support.google.com/analytics/answer/7667196)
 
-## Kako se pamti vaš izbor
+## Vaš izbor
 
-Vaša odluka da prihvatite ili odbijete analitiku čuva se u lokalnoj memoriji pregledača (localStorage), pod ključem `peroniko.analytics.consent.v1`. Odluku možete promijeniti kad god želite, preko dugmeta **Privatnost i analitika** u podnožju sajta.
+Izbor se čuva u pregledaču (localStorage). Možete ga promijeniti preko opcije **Privatnost i analitika** u podnožju sajta. Povlačenjem pristanka zaustavlja se dalja analitika, a sajt pokušava da izbriše njene kolačiće. Ako je analitika već učitana, stranica se osvježava.
 
-Ako odbijete analitiku, sajt onemogućava njen dalji rad i pokušava da izbriše postojeće analitičke kolačiće. Ako je Googleova skripta već bila učitana, stranica će se osvježiti kako bi se prekinuo njen rad.
+## Komentari i linkovi
 
-## Komentari i linkovi ka drugim sajtovima
-
-Za komentare koristim Giscus. Njegova skripta se učitava tek kada sami kliknete da prikažete komentare.
-
-Linkovi ka YouTubeu, Rate Your Musicu, Letterboxdu, GitHubu i drugim servisima vode na njihove sajtove, na kojima važe zasebna pravila privatnosti. Samo otvaranje ove stranice ne znači da ste otvorili i te linkove.
-
-Obrasci za dodavanje linkova i medijskih stavki služe za pripremu predloga koji možete poslati preko GitHuba. Samim popunjavanjem obrasca ništa se ne objavljuje. Ako nastavite na GitHub, primjenjuju se njegova pravila privatnosti.
+Giscus komentari se učitavaju samo ako ih sami otvorite. Za spoljne sajtove važe njihova pravila privatnosti. Obrasci za dodavanje linkova i medija pripremaju predloge; sami odlučujete hoćete li nastaviti na GitHub.
 
 ## Kontakt
 
-Za pitanja o privatnosti možete mi pisati preko kontakt podataka na stranici [O sajtu](/sh/about/).
+Za pitanja o privatnosti pogledajte [O sajtu](/sh/about/).
