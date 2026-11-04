@@ -42,7 +42,7 @@ const media = defineCollection({
   loader: glob({
     pattern: "**/*.json",
     base: "../content/media",
-    generateId: ({ entry }) => entry.replace(/\\.json$/i,"").replaceAll("\\\\","/"),
+    generateId: ({ entry }) => entry.replace(/\.json$/i, "").replaceAll("\\", "/"),
   }),
   schema: z.object({
     schema: z.literal(1),
