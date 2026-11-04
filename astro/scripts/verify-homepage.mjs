@@ -11,7 +11,7 @@ for (const [path, language, heading] of [
   const html = await readFile(path, "utf8");
   assert.ok(html.includes('lang="' + language + '"'), "Language missing: " + path);
   assert.ok(html.includes(heading), "Categories missing: " + path);
-  assert.ok(html.includes("<h1>Peroniko</h1>"), "Peroniko homepage brand missing: " + path);
+  assert.match(html, /<h1\b[^>]*>\s*Peroniko\s*<\/h1>/, "Peroniko homepage brand missing: " + path);
   assert.ok(!html.includes("Nikola Perović"), "Old personal name leaked onto homepage: " + path);
   assert.ok(!html.includes("Astro migration preview"), "Technical placeholder leaked: " + path);
   assert.ok(!html.includes("Hugo na Astro"), "Serbo-Croatian preview placeholder leaked: " + path);
