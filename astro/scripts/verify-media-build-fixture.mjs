@@ -69,6 +69,8 @@ try {
   for (const {folder, record} of fixtures) {
     const html = await readFile(join(dist, folder, "index.html"), "utf8");
     assert.ok(html.includes(record.title), "Astro omitted synthetic " + folder + " record");
+    assert.ok(html.includes("data-media-row"), "Media table lost static source rows: " + folder);
+    assert.ok(html.includes("data-media-controls"), "Media search/sort controls were not rendered: " + folder);
   }
   assert.match(audit, /Verified \d+ independent media records/);
   console.log("Actual Astro rendering and source-to-output audit passed for film, TV and music fixtures.");

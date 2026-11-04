@@ -75,6 +75,12 @@ case-insensitive duplicate paths and matching media identities, including
 hand-edited JSON records. Generic external references (such as an artist's
 homepage) may be shared by distinct entries.
 
+When records exist, the film, TV and music tables offer local title/creator/notes
+search and rating, title or year sorting. Search is accent-insensitive. Every
+record remains present in the static HTML for indexing and accessibility;
+controls enhance the table only after JavaScript loads. The site does not
+send search text or personal catalog data to any third-party service.
+
 ### Add or edit one item
 
 Use the public `/new-media/` form. It validates a draft, checks existing
