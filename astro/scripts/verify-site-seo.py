@@ -168,6 +168,45 @@ def check_metadata():
     print(f"Validated SEO and social metadata on {len(pages)} representative pages")
 
 
+def check_public_branding():
+    """Protect Peroniko branding across every generated page and RSS feed.
+
+    Representative-page SEO checks are not enough: any new detail or category
+    route could otherwise reintroduce personal-name metadata unnoticed.
+    """
+    pages = sorted(DIST.rglob("*.html"))
+    assert pages, "No generated HTML pages to audit"
+    for page in pages:
+        html = page.read_text(encoding="utf-8")
+        doc = Metadata()
+        doc.feed(html)
+        assert doc.metas.get("author") == "Peroniko", (
+            "Public author metadata differs from Peroniko", page
+        )
+        assert doc.metas.get("og:site_name") == "Peroniko", (
+            "Open Graph site name differs from Peroniko", page
+        )
+        assert re.search(r"<title>[^<]* · Peroniko</title>", html), (
+            "Public page title does not use Peroniko", page
+        )
+
+    rss = sorted(DIST.rglob("index.xml"))
+    assert len(rss) == 9, ("Expected nine site and category RSS feeds", rss)
+    for feed in rss:
+        channel = ET.parse(feed).getroot().find("channel")
+        assert channel is not None, ("Missing RSS channel", feed)
+        title = channel.findtext("title")
+        assert title and title.startswith("Peroniko — "), (
+            "RSS feed still uses different site branding", feed, title
+        )
+
+    manifest = json.loads((DIST / "site.webmanifest").read_text(encoding="utf-8"))
+    assert manifest.get("name") == manifest.get("short_name") == "Peroniko", (
+        "Web app identity must remain Peroniko"
+    )
+    print(f"Verified Peroniko branding on {len(pages)} pages, {len(rss)} RSS feeds and manifest")
+
+
 def check_not_found_page():
     page = DIST / "404.html"
     assert page.is_file(), "Missing GitHub Pages static 404.html"
@@ -248,6 +287,7 @@ if __name__ == "__main__":
     check_assets()
     check_sitemap()
     check_metadata()
+    check_public_branding()
     verify_semantic_structure(DIST)
     audit_internal_links(DIST)
     check_not_found_page()
