@@ -3,10 +3,10 @@ import { computed, onMounted, ref, watch } from "vue";
 import { filterAndSortBookmarks, type Bookmark, type BookmarkSort } from "../lib/bookmark-filter.ts";
 import { bookmarkCategoryDisplayLabel } from "../lib/bookmark-categories.ts";
 
-const props = withDefaults(defineProps<{ items: Bookmark[]; lang?: "en" | "sr" }>(), {
+const props = withDefaults(defineProps<{ items: Bookmark[]; lang?: "en" | "sh" }>(), {
   lang: "en",
 });
-const labels = computed(() => props.lang === "sr" ? {
+const labels = computed(() => props.lang === "sh" ? {
   search: "Pretraži linkove",
   placeholder: "Naziv, kategorija ili veb-adresa",
   category: "Kategorija",
@@ -77,7 +77,7 @@ watch([query, category, sort], () => {
 </script>
 
 <template>
-  <section :aria-label="lang === 'sr' ? 'Pregled sačuvanih linkova' : 'Explore bookmarks'" class="bookmark-browser">
+  <section :aria-label="lang === 'sh' ? 'Pregled sačuvanih linkova' : 'Explore bookmarks'" class="bookmark-browser">
     <div class="bookmark-controls">
       <label class="search-field">
         <span>{{ labels.search }}</span>
@@ -108,7 +108,7 @@ watch([query, category, sort], () => {
         {{ labels.clear }}
       </button>
     </div>
-    <ul class="bookmark-list" :aria-label="lang === 'sr' ? 'Sačuvani linkovi' : 'Bookmarks'">
+    <ul class="bookmark-list" :aria-label="lang === 'sh' ? 'Sačuvani linkovi' : 'Bookmarks'">
       <li v-for="item in visible" :key="item.id" class="bookmark-entry">
         <a v-if="item.url" :href="item.url" target="_blank" rel="noopener noreferrer">{{ item.title }}</a>
         <span v-else>{{ item.title }}</span>

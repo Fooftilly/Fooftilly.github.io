@@ -1,8 +1,8 @@
 ---
 import { getEntry, render } from "astro:content";
-interface Props { lang: "en" | "sr" }
+interface Props { lang: "en" | "sh" }
 const { lang } = Astro.props;
-const id = lang === "sr" ? "privacy.sr" : "privacy";
+const id = lang === "sh" ? "privacy.sh" : "privacy";
 const entry = await getEntry("sitePages", id);
 if (!entry) throw new Error(`Missing canonical privacy Markdown: ${id}`);
 const { Content } = await render(entry);

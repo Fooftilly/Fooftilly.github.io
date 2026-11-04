@@ -1,18 +1,18 @@
 ---
 import { getEntry } from "astro:content";
-interface Props { lang: "en" | "sr" }
+interface Props { lang: "en" | "sh" }
 const { lang } = Astro.props;
-const key = lang === "sr" ? "posts.sr" : "posts";
+const key = lang === "sh" ? "posts.sh" : "posts";
 const entry = await getEntry("sitePages", key);
 if (!entry) throw new Error(`Missing original posts archive metadata: ${key}`);
 const title = entry.data.title;
 ---
 <section class="posts-archive" aria-label={title}>
   <h1>{title}</h1>
-  <p>{lang === "sr"
+  <p>{lang === "sh"
     ? "Trenutno nema objavljenih tekstova. Sačuvani linkovi su dostupni u zbirci."
     : "There are no published posts yet. You can explore the bookmark collection instead."}</p>
-  <a href="/bookmarks/">{lang === "sr" ? "Sačuvani linkovi" : "Explore bookmarks"}</a>
+  <a href="/bookmarks/">{lang === "sh" ? "Sačuvani linkovi" : "Explore bookmarks"}</a>
 </section>
 <style>
   .posts-archive { max-width: 65ch; padding: 1.5rem 0; }
