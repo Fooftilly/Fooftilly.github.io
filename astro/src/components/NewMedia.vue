@@ -6,8 +6,8 @@ const props=defineProps<{existing:ExistingMediaRef[]}>();
 const kind=ref<MediaKind>("films");
 const title=ref("");
 const creator=ref("");
-const year=ref("");
-const rating=ref("");
+const year=ref<string|number>("");
+const rating=ref<string|number>("");
 const status=ref<""|"finished"|"in-progress"|"planned">("");
 const notes=ref("");
 const primaryUrl=ref("");
@@ -19,11 +19,13 @@ const drafted=computed(()=>{
   try {
     const input:MediaRecord={schema:1,kind:kind.value,title:title.value.trim()};
     if(creator.value.trim()) input.creator=creator.value.trim();
-    if(year.value.trim()){
-      if(!/^\d{4}$/.test(year.value.trim())) throw new Error("Year must be exactly four digits.");
-      input.year=Number(year.value);
+    const yearText=String(year.value ?? "").trim();
+    if(yearText){
+      if(!/^\d{4}$/.test(yearText)) throw new Error("Year must be exactly four digits.");
+      input.year=Number(yearText);
     }
-    if(rating.value.trim()) input.rating=Number(rating.value);
+    const ratingText=String(rating.value ?? "").trim();
+    if(ratingText) input.rating=Number(ratingText);
     if(status.value) input.status=status.value;
     if(notes.value.trim()) input.notes=notes.value.trim();
     const links=[];
