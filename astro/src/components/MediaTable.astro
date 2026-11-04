@@ -1,56 +1,7 @@
 ---
+import MediaBrowser from "./MediaBrowser.vue";
 import type { MediaKind, StoredMedia } from "../lib/media-model.ts";
-interface Props { kind:MediaKind; entries:StoredMedia[] }
+interface Props { kind: MediaKind; entries: StoredMedia[] }
 const {kind,entries}=Astro.props;
-const title=kind==="music"?"Music":kind==="films"?"Films":"TV series";
-const creatorLabel=kind==="music"?"Artist":kind==="films"?"Director":"Creator";
 ---
-<section aria-label={title+" collection"} class="media-collection">
-  <p class="media-description">
-    Your independently maintained media collection. External links are optional references,
-    not dependencies. Entries are reviewed in Git before publication.
-  </p>
-  {entries.length===0?(
-    <p class="empty-media" role="status">No {title.toLowerCase()} entries have been published yet.</p>
-  ):(
-    <div class="media-scroll">
-      <table>
-        <caption>{entries.length} {title.toLowerCase()} entries</caption>
-        <thead>
-          <tr><th scope="col">Title</th><th scope="col">{creatorLabel}</th><th scope="col">Year</th>
-              <th scope="col">My rating</th><th scope="col">Status</th><th scope="col">Links</th></tr>
-        </thead>
-        <tbody>
-          {entries.map(item=>(
-            <tr>
-              <th scope="row">{item.title}{item.notes&&<details><summary>Notes</summary><p class="notes">{item.notes}</p></details>}</th>
-              <td>{item.creator??"—"}</td>
-              <td>{item.year??"—"}</td>
-              <td aria-label={item.rating!==undefined?item.rating+" out of 5 stars":"Not rated"}>{item.rating!==undefined?item.rating.toFixed(1)+" / 5":"—"}</td>
-              <td>{item.status??"—"}</td>
-              <td>
-                {item.links?.length?item.links.map(link=><a href={link.url} target="_blank" rel="noopener noreferrer">{link.label}</a>):"—"}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  )}
-</section>
-<style>
-  .media-collection{margin-top:1.25rem;max-width:76rem}
-  .media-description{max-width:60rem;color:var(--muted)}
-  .empty-media{padding:1.5rem;background:var(--surface);border:1px solid var(--border);border-radius:.65rem}
-  .media-scroll{overflow-x:auto;margin:1rem 0 2rem}
-  table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
-  caption{text-align:start;color:var(--muted);padding:.6rem 0}
-  th,td{padding:.8rem .65rem;text-align:start;vertical-align:top;border-bottom:1px solid var(--border)}
-  tbody th{max-width:25rem;overflow-wrap:anywhere}
-  td{overflow-wrap:anywhere}
-  td:last-child a{display:block;min-width:4rem;margin-bottom:.35rem}
-  details{margin-top:.5rem;font-size:.88rem;font-weight:400}
-  details summary{cursor:pointer;color:var(--accent)}
-  .notes{max-width:55ch;white-space:pre-wrap}
-  @media(max-width:700px){th,td{padding:.65rem .45rem;font-size:.88rem}}
-</style>
+<MediaBrowser kind={kind} entries={entries} client:load />
