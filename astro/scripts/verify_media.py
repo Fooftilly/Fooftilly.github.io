@@ -6,9 +6,9 @@ This independent Python check runs after static build on PRs and manual releases
 from collections import Counter
 from html.parser import HTMLParser
 from pathlib import Path
-from urllib.parse import urlsplit, quote
 import json
 import re
+import subprocess
 import unicodedata
 
 
@@ -87,69 +87,55 @@ class MediaParser(HTMLParser):
             self.in_body = False
 
 
-def normalize_external_url(value):
-    """Mirror WHATWG URL's normal HTTPS host/path formatting for static hrefs.
+# Node is already required for Astro builds and is the authority on WHATWG URL
+# serialization. Reimplementing its IDNA/IPv6/percent-encoding rules in Python
+# produced false publication failures for otherwise valid first-party records.
+NODE_URL_AUDIT = r"""
+const values = JSON.parse(require("node:fs").readFileSync(0, "utf8"));
+if (!Array.isArray(values)) throw new Error("Expected URL array");
+const canonical = values.map(value => {
+  if (typeof value !== "string") throw new Error("Invalid media URL");
+  const url = new URL(value.trim().normalize("NFC"));
+  if (!["http:", "https:"].includes(url.protocol) ||
+      !url.hostname || url.username || url.password) {
+    throw new Error("Invalid public media URL");
+  }
+  return url.href;
+});
+process.stdout.write(JSON.stringify(canonical));
+"""
 
-    Astro validates links with new URL() and emits canonical hrefs. A source
-    URL with no path, e.g. https://example.org, is rendered with a trailing /.
+
+def normalize_external_urls(values):
+    """Canonicalize all links in one Node process, independently of rendered HTML.
+
+    The source records and actual anchor hrefs are still audited by Python.
+    Browser URL semantics must come from the same WHATWG implementation as Astro.
     """
-    # validateMediaLink first trims and NFC-normalizes the URL text.
-    value = unicodedata.normalize("NFC", value.strip())
-    parts = urlsplit(value)
-    if parts.scheme.lower() not in ("https", "http") or not parts.hostname:
-        raise AssertionError("Invalid public media URL")
-    if parts.username or parts.password:
-        raise AssertionError("Credential-bearing media URL")
-    host = parts.hostname.encode("idna").decode("ascii").lower()
-    if ":" in host and not host.startswith("["):
-        host = "[" + host + "]"
-    if parts.port and parts.port not in (80 if parts.scheme == "http" else 443,):
-        host += ":" + str(parts.port)
-    # Match WHATWG's path, special-query, and fragment percent-encode sets.
-    # In particular, &/$/| and other valid ASCII punctuation are preserved;
-    # apostrophes are encoded only in HTTP(S) queries.
-    def encode(component, excluded):
-        safe = "".join(
-            chr(code) for code in range(0x21, 0x7F)
-            if chr(code) not in excluded
+    if not values:
+        return {}
+    try:
+        result = subprocess.run(
+            ["node", "-e", NODE_URL_AUDIT],
+            input=json.dumps(values, ensure_ascii=False),
+            capture_output=True, text=True, check=False, timeout=15,
         )
-        return quote(component, safe=safe)
-
-    # WHATWG resolves literal and percent-encoded dot segments before encoding.
-    # A final dot segment denotes a trailing slash.
-    path_parts = (parts.path or "/").split("/")
-    resolved_parts = []
-    for index, part in enumerate(path_parts):
-        segment = part.lower()
-        is_last = index == len(path_parts) - 1
-        if segment in (".", "%2e"):
-            if is_last:
-                resolved_parts.append("")
-        elif segment in ("..", ".%2e", "%2e.", "%2e%2e"):
-            # The first empty component is the immutable URL path root.
-            # Popping it collapses a following // into / after /../.
-            if len(resolved_parts) > 1:
-                resolved_parts.pop()
-            if is_last:
-                resolved_parts.append("")
-        else:
-            resolved_parts.append(part)
-    resolved_path = "/".join(resolved_parts)
-    if not resolved_path.startswith("/"):
-        resolved_path = "/" + resolved_path
-    path = encode(resolved_path, '"#<>?`{}')
-    query = encode(parts.query, '"#\'<>')
-    fragment = encode(parts.fragment, '"<>`')
-    # urlunsplit() drops a trailing empty '?' or '#', unlike new URL().href.
-    result = parts.scheme.lower() + "://" + host + path
-    if "?" in value.split("#", 1)[0]:
-        result += "?" + query
-    if "#" in value:
-        result += "#" + fragment
-    return result
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        raise AssertionError("Unable to run the Node.js URL serializer") from exc
+    if result.returncode:
+        raise AssertionError("Invalid public media URL: " + result.stderr.strip())
+    canonical = json.loads(result.stdout)
+    assert isinstance(canonical, list) and len(canonical) == len(values), (
+        "URL serializer returned an invalid result"
+    )
+    return dict(zip(values, canonical))
 
 
-def expected_row(record):
+def normalize_external_url(value):
+    """Canonicalize a single public HTTP(S) URL; used by regression tests."""
+    return normalize_external_urls([value])[value]
+
+def expected_row(record, canonical_urls=None):
     if record["schema"] != 1 or record["kind"] not in KINDS:
         raise AssertionError("Invalid media record schema")
     rating = record.get("rating")
@@ -166,9 +152,11 @@ def expected_row(record):
             str(record["year"]) if "year" in record else "—",
             f"{rating:.1f} / 5" if rating is not None else "—",
             normalized(record.get("status") or "—"),
-            normalized("".join(link["label"] for link in links)) if links else "—",
+            normalized("".join(normalized(link["label"]) for link in links)) if links else "—",
         ],
-        "links": [(normalized(link["label"]), normalize_external_url(link["url"])) for link in links],
+        "links": [(normalized(link["label"]),
+                   canonical_urls[link["url"]] if canonical_urls is not None
+                   else normalize_external_url(link["url"])) for link in links],
         "notes": normalized(record.get("notes") or ""),
         "rating_label": (
             f"{rating:g} out of 5 stars" if rating is not None else "Not rated"
@@ -206,7 +194,13 @@ def verify_media_output(root: Path):
             **row,
             "notes": normalized("".join(row["notes"])),
         }, ensure_ascii=False, sort_keys=True) for row in parsed.rows)
-        wanted = Counter(json.dumps(expected_row(data), ensure_ascii=False, sort_keys=True)
+        # Batch URL canonicalization once per catalog, not once per record.
+        source_urls = list(dict.fromkeys(
+            link["url"] for data in records for link in data.get("links", [])
+        ))
+        canonical_urls = normalize_external_urls(source_urls)
+        wanted = Counter(json.dumps(expected_row(data, canonical_urls),
+                                    ensure_ascii=False, sort_keys=True)
                          for data in records)
         assert actual == wanted, (
             f"{kind} rendered data mismatch: missing {list((wanted-actual).elements())[:3]}, "
