@@ -132,13 +132,15 @@ jobs:
           test -s astro/dist/tv/index.html
           test -s astro/dist/media/index.html
           test -s astro/dist/new-media/index.html
+          test -s astro/dist/privacy/index.html
+          test -s astro/dist/sh/privacy/index.html
           test -s astro/dist/about/index.html
-          test -s astro/dist/sr/index.html
-          test -s astro/dist/sr/about/index.html
+          test -s astro/dist/sh/index.html
+          test -s astro/dist/sh/about/index.html
           test -s astro/dist/posts/index.html
-          test -s astro/dist/sr/posts/index.html
+          test -s astro/dist/sh/posts/index.html
           test -s astro/dist/search/index.html
-          test -s astro/dist/sr/search/index.html
+          test -s astro/dist/sh/search/index.html
           test -s astro/dist/bookmarks/art/index.html
           test -s astro/dist/bookmarks/paperbookarticle/index.html
           test -s astro/dist/bookmarks/index.xml

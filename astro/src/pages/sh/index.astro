@@ -1,0 +1,23 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import HomepageSections from "../../components/HomepageSections.astro";
+---
+<SiteLayout title="Početna" description="Linkovi, bilješke i mediji." lang="sh" languageAlternate="/" rssHref="/index.xml">
+  <section class="intro">
+    <h1>Peroniko</h1>
+    <p>Linkovi, filmovi, serije, muzika i bilješke.</p>
+    <div class="intro-actions">
+      <a class="button-link" href="/bookmarks/">Svi linkovi</a>
+      <a class="button-link" href="/sh/search/">Pretraga</a>
+    </div>
+  </section>
+  <HomepageSections lang="sh" />
+  <p class="feed-note"><a href="/index.xml" type="application/rss+xml">RSS</a></p>
+</SiteLayout>
+<style>
+  .intro { max-width: 55rem; padding: 2.5rem 0 2rem; }
+  .intro h1 { margin: .4rem 0 1rem; }
+  .intro p { font-size: 1.1rem; max-width: 48rem; }
+  .intro-actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1.5rem; }
+  .feed-note { margin: 2.5rem 0; }
+</style>

@@ -8,14 +8,14 @@ const bookmarks = (await loadBookmarks()).map(({ id, title, category, url, date,
   ({ id, title, category, url, date, notesUrl })
 );
 ---
-<SiteLayout title="Bookmarks" rssHref="/bookmarks/index.xml" description="Browse a curated collection of art, music, web resources and interesting links.">
+<SiteLayout title="Bookmarks" rssHref="/bookmarks/index.xml" description="Saved links by category.">
   <h1>Bookmarks</h1>
-  <p><a href="/new-bookmark/">Add a new bookmark</a></p>
-  <p class="collection-intro">Find and explore saved links. The source is the original Markdown library; no bookmark records are copied into a database.</p>
+  <p><a href="/new-bookmark/">Add bookmark</a></p>
+  <p class="collection-intro">Browse saved links by category.</p>
   <nav aria-label="Bookmark categories" class="category-nav">
     {BOOKMARK_CATEGORIES.map((category) => <a href={bookmarkCategoryPath(category.slug)}>{category.label}</a>)}
   </nav>
-  <p><a href="/bookmarks/index.xml" type="application/rss+xml">Subscribe to all bookmarks (RSS)</a></p>
+  <p><a href="/bookmarks/index.xml" type="application/rss+xml">RSS</a></p>
   <BookmarkBrowser items={bookmarks} client:load />
 </SiteLayout>
 <style>

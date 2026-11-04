@@ -31,13 +31,13 @@ to Pages. The old Hugo rollback workflow has been retired only after the accepte
   feeds are generated statically from all 576 bookmarks (no published posts
   currently exist). The home and posts pages advertise the site feed; CI
   validates all 9 XML feeds, metadata, links and record ordering.
-- `sitePages` uses the original English and Serbian-Latin About, posts and search
+- `sitePages` uses the original English and Serbo-Croatian (Latin) About, posts and search
   Markdown frontmatter. About content is rendered directly from Markdown;
   posts/search routes use original page titles without inventing articles.
 - There are no individual published posts in `content/posts/`. CI rejects
   new post Markdown until article pages have been implemented, rather than
   silently omitting content.
-- `/posts/`, `/sr/posts/`, `/search/` and `/sr/search/` are Astro routes.
+- `/posts/`, `/sh/posts/`, `/search/` and `/sh/search/` are Astro routes.
   Search pages use the full bookmark collection and localized controls.
 
 These are **Astro-owned routes**, not legacy Hugo URL promises. Compatibility
@@ -48,7 +48,7 @@ redirects and the compiled-Hugo route comparison have been removed.
 Astro copies the repository-level `static/` directory through
 `publicDir`, preserving the domain configuration, icons, robots file and
 other assets. Its sitemap lists only routes Astro actually generates (currently
-598 canonical URLs). Shared layouts provide canonical/social metadata and
+600 canonical URLs). Shared layouts provide canonical/social metadata and
 language alternates.
 
 `scripts/verify-bookmark-parity.mjs`, `verify-bookmark-routes.mjs`,
@@ -146,6 +146,35 @@ show empty states, not placeholder personal ratings. Before the first bulk
 import, check representative rows and the exporter-specific column names.
 All changes go through Git PR review and a deliberately triggered
 manual GitHub Pages publication.
+
+## Privacy disclosure and visitor controls
+
+The bilingual `/privacy/` and `/sh/privacy/` pages use canonical
+`content/privacy.md` and `content/privacy.sh.md` Markdown, rendered through the
+existing Astro `sitePages` collection. They explain GitHub Pages
+hosting, the optional Google Analytics opt-in, the browser-local consent
+preference, click-to-load Giscus comments, third-party destinations, and
+contact via the existing About pages. The footer and cookie overlay link to
+the disclosure in each language. The independent static SEO audit checks
+both routes, canonical/language metadata, provider-policy links, and absence
+of eager third-party tracking scripts. The manual Pages publish verifies
+the new public routes after deployment.
+
+The **Google Analytics property-level data-retention setting is not
+verified** by this repository. The disclosure does not invent a retention
+period or claim legal compliance. The owner still needs to verify and
+document the actual setting, revisit the disclosure and third-party
+service settings, and determine applicable legal requirements under #3.
+
+### SH locale and URL changes
+
+The English/Serbo-Croatian language switch displays **EN** and **SH**. The
+Serbo-Croatian pages now use the `sh` locale, `/sh/` URL prefix and
+`*.sh.md` content filenames. This deliberately removes earlier `/sr/`
+routes without redirects, per the owner's explicit migration decision.
+Already shared links with the old prefix will result in a 404 after manual
+publication; references should be updated to `/sh/`. CI verifies the new
+canonical URLs and switch labels. See `CUTOVER.md` for the release impact.
 
 ## Release and maintenance
 

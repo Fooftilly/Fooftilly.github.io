@@ -1,7 +1,7 @@
 ---
-interface Props { lang?: "en" | "sr"; }
+interface Props { lang?: "en" | "sh"; }
 const { lang = "en" } = Astro.props;
-const sr = lang === "sr";
+const sh = lang === "sh";
 ---
 <section
   id="analytics-consent-panel"
@@ -12,31 +12,35 @@ const sr = lang === "sr";
   tabindex="-1"
   hidden
 >
-  <h2 id="analytics-consent-heading">{sr ? "Podešavanja kolačića" : "Cookie preferences"}</h2>
+  <h2 id="analytics-consent-heading">{sh ? "Podešavanja kolačića" : "Cookie preferences"}</h2>
   <p id="analytics-consent-summary">
-    {sr
-      ? "Koristimo opcione Google Analytics kolačiće za statistiku posjeta. Učitavaju se samo uz vaš pristanak."
-      : "We use optional Google Analytics cookies to understand site visits. They load only if you agree."}
+    {sh
+      ? "Google Analytics se uključuje samo ako dozvolite."
+      : "Google Analytics loads only with your consent."}
   </p>
   <p class="consent-note">
-    {sr
-      ? "Izbor nije neophodan za korišćenje sajta i možete ga promijeniti kasnije putem opcije Privatnost i analitika."
-      : "Analytics is not required to use the site. You can change your choice anytime through Privacy & analytics."}
+    {sh
+      ? "Odluku možete promijeniti u podnožju sajta."
+      : "You can change your choice in the footer."}
   </p>
   <details>
-    <summary>{sr ? "Detalji privatnosti" : "Privacy details"}</summary>
+    <summary>{sh ? "Više informacija" : "Details"}</summary>
     <p>
-      {sr
-        ? "Ako dozvolite, Google Analytics 4 može koristiti kolačiće i obrađivati podatke o posjećenim stranicama i pregledaču. Google Signals i personalizacija oglasa su isključeni. Trajanje čuvanja podataka zavisi od podešavanja Google Analytics naloga."
-        : "If allowed, Google Analytics 4 may use cookies and process page-visit and browser data. Google Signals and ad personalization are disabled. Retention depends on the Google Analytics property settings."}
+      {sh
+        ? "Ako pristanete, Google može koristiti kolačiće i podatke o posjetama. Personalizacija oglasa i Google Signals su isključeni. Rok čuvanja zavisi od podešavanja Google Analytics naloga."
+        : "If allowed, Google may use cookies and visit data. Google Signals and ad personalization are disabled. Retention depends on the Google Analytics settings."}
     </p>
+    <a href={sh ? "/sh/privacy/" : "/privacy/"}>
+      {sh ? "Politika privatnosti" : "Privacy notice"}
+    </a>
+    {" · "}
     <a href="https://policies.google.com/privacy" rel="noopener noreferrer">
-      {sr ? "Google pravila privatnosti" : "Google privacy policy"}
+      {sh ? "Google pravila privatnosti" : "Google privacy policy"}
     </a>
   </details>
   <div class="consent-actions">
-    <button type="button" data-analytics-decline>{sr ? "Odbij opcione kolačiće" : "Reject optional cookies"}</button>
-    <button type="button" data-analytics-allow>{sr ? "Dozvoli analitiku" : "Allow analytics"}</button>
+    <button type="button" data-analytics-decline>{sh ? "Odbij analitiku" : "Reject analytics"}</button>
+    <button type="button" data-analytics-allow>{sh ? "Dozvoli analitiku" : "Allow analytics"}</button>
   </div>
 </section>
 <script>

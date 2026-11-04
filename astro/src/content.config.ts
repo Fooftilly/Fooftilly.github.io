@@ -19,7 +19,7 @@ const bookmarks = defineCollection({
   }).passthrough(),
 });
 
-// Reuse the original English/Serbian Markdown rather than maintaining a
+// Reuse the original English/Serbo-Croatian Markdown rather than maintaining a
 // second copy of About text in Astro component files.
 const sitePages = defineCollection({
   loader: glob({

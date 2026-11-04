@@ -1,5 +1,5 @@
 ---
-interface Props { lang?: "en" | "sr"; }
+interface Props { lang?: "en" | "sh"; }
 const { lang = "en" } = Astro.props;
 ---
 <button
@@ -8,7 +8,7 @@ const { lang = "en" } = Astro.props;
   aria-controls="analytics-consent-panel"
   aria-expanded="false"
 >
-  {lang === "sr" ? "Privatnost i analitika" : "Privacy & analytics"}
+  {lang === "sh" ? "Privatnost i analitika" : "Privacy & analytics"}
 </button>
 <style>
   [data-analytics-settings] {

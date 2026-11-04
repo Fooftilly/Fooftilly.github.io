@@ -1,6 +1,6 @@
 ---
 title: "Objave"
 layout: "archives"
-url: "/sr/posts/"
+url: "/sh/posts/"
 summary: "Archives"
 ---

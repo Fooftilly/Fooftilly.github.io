@@ -67,9 +67,7 @@ async function copy(value:string,label:string){
 <template>
   <section class="media-editor" aria-labelledby="media-editor-heading">
     <h1 id="media-editor-heading">Add a media entry</h1>
-    <p>Add films, TV series, or music directly to this website's catalog. RYM and Letterboxd links are optional.
-       This form prepares a public JSON entry; only GitHub collaborators can commit it in a pull request.
-       Nothing is uploaded or saved automatically.</p>
+    <p>Create a film, series or album draft for GitHub review. Nothing is saved here.</p>
 
     <div class="fields">
       <label>Media type
@@ -111,7 +109,7 @@ async function copy(value:string,label:string){
         <textarea v-model="notes" rows="4" maxlength="5000" placeholder="What should visitors know?"></textarea>
       </label>
     </div>
-    <p class="privacy-note">All submitted fields become publicly visible in the repository and on this website. Do not include private information.</p>
+    <p class="privacy-note">Entries are public. Do not include private information.</p>
     <p v-if="title.trim() && drafted.error" class="error" role="alert">{{ drafted.error }}</p>
 
     <section v-if="drafted.value" class="preview" aria-label="Generated media entry">
@@ -136,11 +134,10 @@ async function copy(value:string,label:string){
       </div>
       <p class="help">
         {{ drafted.value.duplicatePaths.length
-          ? "Review the existing entry first. If it is the same item, edit the existing JSON file using the link above."
+          ? "Check the existing entry before adding another."
           : prefilled
-            ? "GitHub may prefill the path and content. Verify them, commit on a separate branch and create a pull request."
-            : "The draft is too long to prefill safely. Copy the file path and JSON to the new-file editor, then create a branch and pull request." }}
-        The site does not contain GitHub write credentials.
+            ? "Check the file in GitHub, then open a pull request."
+            : "Copy the file path and JSON into GitHub, then open a pull request." }}
       </p>
     </section>
     <p class="copy-status" role="status" aria-live="polite">{{ outputStatus }}</p>

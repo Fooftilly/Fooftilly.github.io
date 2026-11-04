@@ -34,7 +34,7 @@ try {
 const date = entry.data.date?.toISOString().slice(0, 10) ?? "";
 const categoryPath = bookmarkCategoryPath(category.slug);
 ---
-<SiteLayout title={entry.data.title} description={`Bookmark in ${category.label}`}>
+<SiteLayout title={entry.data.title} description={`${category.label} bookmark`}>
   <nav aria-label="Bookmark context" class="breadcrumb">
     <a href="/bookmarks/">Bookmarks</a>
     <span aria-hidden="true">/</span>

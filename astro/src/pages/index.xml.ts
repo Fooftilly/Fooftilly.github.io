@@ -7,7 +7,7 @@ import { renderBookmarkRss, rssResponse } from "../lib/bookmark-rss.ts";
  * records; bookmarks are the entire available public activity stream.
  */
 export const GET: APIRoute = async () => rssResponse(renderBookmarkRss({
-  title: "Nikola Perović — Latest bookmarks",
+  title: "Peroniko — Latest bookmarks",
   description: "Recently saved links from every bookmark category",
   path: "/index.xml",
   bookmarks: await loadBookmarks(),

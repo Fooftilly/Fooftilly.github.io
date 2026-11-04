@@ -72,10 +72,10 @@ def check_pages():
         ", ".join(str(item) for item in articles)
     )
     sources = {
-        "posts": ("posts.md", "en", "/sr/posts/", False),
-        "sr/posts": ("posts.sr.md", "sr-Latn", "/posts/", False),
-        "search": ("search.md", "en", "/sr/search/", True),
-        "sr/search": ("search.sr.md", "sr-Latn", "/search/", True),
+        "posts": ("posts.md", "en", "/sh/posts/", False),
+        "sh/posts": ("posts.sh.md", "sh", "/posts/", False),
+        "search": ("search.md", "en", "/sh/search/", True),
+        "sh/search": ("search.sh.md", "sh", "/search/", True),
     }
     for route, (source, language, alternate, is_search) in sources.items():
         html, page = load_page(route)
@@ -91,9 +91,9 @@ def check_pages():
         if is_search:
             assert "astro-island" in html, ("Missing hydrated search browser", route)
             assert "50 Watts" in html and "2048 by Gabriele Cirulli" in html, ("Missing bookmark search data", route)
-            assert ("Pretraži linkove" if route.startswith("sr/") else "Search links") in html, ("Search not localized", route)
+            assert ("Pretraga" if route.startswith("sh/") else "Search links") in html, ("Search not localized", route)
         else:
-            expected_empty = "Trenutno nema objavljenih tekstova" if route.startswith("sr/") else "There are no published posts yet"
+            expected_empty = "Još nema objava." if route.startswith("sh/") else "No posts yet."
             assert expected_empty in html, ("Missing truthful empty archive", route)
         print(f"Verified /{route}/ from {source}, locale {language}")
 

@@ -176,12 +176,12 @@ def verify_media_output(root: Path):
             assert data["kind"] == kind, f"Media kind/path mismatch in {path}"
             records.append(data)
         if not records:
-            assert f"No {heading.lower()} entries have been published yet." in html, (
+            assert f"No {heading.lower()} yet." in html, (
                 f"Missing truthful {kind} empty state"
             )
             assert not parsed.rows, "Empty media collection contains unexpected table rows"
         else:
-            assert "No " + heading.lower() + " entries have been published yet." not in html
+            assert f"No {heading.lower()} yet." not in html
         actual = Counter(json.dumps({
             **row,
             "notes": normalized("".join(row["notes"])),

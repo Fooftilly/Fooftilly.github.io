@@ -7,16 +7,16 @@ interface Props {
   title: string;
   description?: string;
   rssHref?: string;
-  lang?: "en" | "sr";
+  lang?: "en" | "sh";
   languageAlternate?: string;
   errorPage?: boolean;
 }
 
-const { title, description = "Bookmarks, notes, projects and collections.", rssHref, lang = "en", languageAlternate, errorPage = false } = Astro.props;
+const { title, description = "Bookmarks, notes and media.", rssHref, lang = "en", languageAlternate, errorPage = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const socialImage = new URL("/avatar-full.webp", Astro.site);
 const alternateUrl = languageAlternate ? new URL(languageAlternate, Astro.site).href : undefined;
-const languageLabel = lang === "sr" ? "English" : "Srpski";
+const languageLabel = lang === "sh" ? "EN" : "SH";
 const socialLinks = [
   { label: "GitHub", href: "https://github.com/Fooftilly" },
   { label: "Bluesky", href: "https://bsky.app/profile/peroniko.xyz" },
@@ -27,13 +27,13 @@ const socialLinks = [
 ] as const;
 ---
 <!doctype html>
-<html lang={lang === "sr" ? "sr-Latn" : "en"}>
+<html lang={lang === "sh" ? "sh" : "en"}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title} · Nikola Perović</title>
+    <title>{title} · Peroniko</title>
     <meta name="description" content={description} />
-    <meta name="author" content="Nikola Perović" />
+    <meta name="author" content="Peroniko" />
     {errorPage && <meta name="robots" content="noindex, nofollow" />}
     <meta name="referrer" content="no-referrer" />
     <meta name="theme-color" content="#ffffff" />
@@ -42,7 +42,7 @@ const socialLinks = [
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Nikola Perović" />
+    <meta property="og:site_name" content="Peroniko" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     {!errorPage && <meta property="og:url" content={canonical.toString()} />}
@@ -51,24 +51,24 @@ const socialLinks = [
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     {!errorPage && <link rel="canonical" href={canonical.toString()} />}
-    {alternateUrl && <link rel="alternate" hreflang={lang === "sr" ? "en" : "sr-Latn"} href={alternateUrl} />}
-    {alternateUrl && <link rel="alternate" hreflang={lang === "sr" ? "sr-Latn" : "en"} href={canonical.toString()} />}
+    {alternateUrl && <link rel="alternate" hreflang={lang === "sh" ? "en" : "sh"} href={alternateUrl} />}
+    {alternateUrl && <link rel="alternate" hreflang={lang === "sh" ? "sh" : "en"} href={canonical.toString()} />}
     {rssHref && <link rel="alternate" type="application/rss+xml" title={title} href={rssHref} />}
   </head>
   <body>
-    <a class="skip-link" href="#main">{lang === "sr" ? "Preskoči na sadržaj" : "Skip to content"}</a>
+    <a class="skip-link" href="#main">{lang === "sh" ? "Preskoči na sadržaj" : "Skip to content"}</a>
     <AnalyticsConsent lang={lang} />
     <header class="site-header">
-      <nav class="site-nav" aria-label={lang === "sr" ? "Glavna navigacija" : "Main navigation"}>
-        <a class="site-brand" href={lang === "sr" ? "/sr/" : "/"}>Nikola Perović</a>
+      <nav class="site-nav" aria-label={lang === "sh" ? "Glavna navigacija" : "Main navigation"}>
+        <a class="site-brand" href={lang === "sh" ? "/sh/" : "/"}>Peroniko</a>
         <div class="site-links">
-          <a href={lang === "sr" ? "/sr/posts/" : "/posts/"}>{lang === "sr" ? "Objave" : "Posts"}</a>
-          <a href="/bookmarks/">{lang === "sr" ? "Sačuvani linkovi" : "Bookmarks"}</a>
-          <a href="/media/">{lang === "sr" ? "Medijska kolekcija" : "Media"}</a>
-          <a href={lang === "sr" ? "/sr/search/" : "/search/"}>{lang === "sr" ? "Pretraga" : "Search"}</a>
-          <a href="/new-bookmark/">{lang === "sr" ? "Dodaj link" : "Add bookmark"}</a>
-          <a href={lang === "sr" ? "/sr/about/" : "/about/"}>{lang === "sr" ? "O sajtu" : "About"}</a>
-          {languageAlternate && <a href={languageAlternate} lang={lang === "sr" ? "en" : "sr-Latn"} hreflang={lang === "sr" ? "en" : "sr-Latn"}>{languageLabel}</a>}
+          <a href={lang === "sh" ? "/sh/posts/" : "/posts/"}>{lang === "sh" ? "Objave" : "Posts"}</a>
+          <a href="/bookmarks/">{lang === "sh" ? "Linkovi" : "Bookmarks"}</a>
+          <a href="/media/">{lang === "sh" ? "Mediji" : "Media"}</a>
+          <a href={lang === "sh" ? "/sh/search/" : "/search/"}>{lang === "sh" ? "Pretraga" : "Search"}</a>
+          <a href="/new-bookmark/">{lang === "sh" ? "Dodaj link" : "Add bookmark"}</a>
+          <a href={lang === "sh" ? "/sh/about/" : "/about/"}>{lang === "sh" ? "O sajtu" : "About"}</a>
+          {languageAlternate && <a href={languageAlternate} lang={lang === "sh" ? "en" : "sh"} hreflang={lang === "sh" ? "en" : "sh"}>{languageLabel}</a>}
         </div>
       </nav>
     </header>
@@ -76,11 +76,12 @@ const socialLinks = [
       <slot />
     </main>
     <footer class="site-footer">
-      <p>{lang === "sr" ? "Lični linkovi i bilješke" : "Personal links and notes"}</p>
-      <nav aria-label={lang === "sr" ? "Profili i RSS" : "Social profiles and RSS"} class="social-links">
+      <p>{lang === "sh" ? "Linkovi i bilješke" : "Links and notes"}</p>
+      <nav aria-label={lang === "sh" ? "Profili i RSS" : "Social profiles and RSS"} class="social-links">
         {socialLinks.map(({ label, href }) => <a href={href} rel="noopener noreferrer">{label}</a>)}
         <a href="/index.xml" type="application/rss+xml">RSS</a>
       </nav>
+      <p class="footer-privacy"><a href={lang === "sh" ? "/sh/privacy/" : "/privacy/"}>{lang === "sh" ? "Obavještenje o privatnosti" : "Privacy notice"}</a></p>
       <AnalyticsSettings lang={lang} />
     </footer>
   </body>
@@ -89,4 +90,5 @@ const socialLinks = [
 <style>
   .social-links { display: flex; flex-wrap: wrap; gap: .55rem 1rem; margin-top: .65rem; }
   .social-links a { overflow-wrap: anywhere; }
+  .footer-privacy { margin: .65rem 0 0; }
 </style>

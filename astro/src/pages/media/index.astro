@@ -3,16 +3,15 @@ import SiteLayout from "../../layouts/SiteLayout.astro";
 import { loadMedia } from "../../lib/media-store.ts";
 const all=await loadMedia();
 const links=[
-  {kind:"films",title:"Films",description:"Films watched, rated or planned."},
-  {kind:"tv",title:"TV series",description:"Shows and series, independent of any media service."},
-  {kind:"music",title:"Music",description:"Albums and music releases."},
+  {kind:"films",title:"Films",description:"Films and ratings."},
+  {kind:"tv",title:"TV series",description:"Series and ratings."},
+  {kind:"music",title:"Music",description:"Albums and ratings."},
 ] as const;
 ---
-<SiteLayout title="Media collection" description="Personal films, television and music catalog stored as Git-managed data.">
+<SiteLayout title="Media" description="Films, TV and music.">
   <section class="media-home">
-    <h1>Media collection</h1>
-    <p>Films, TV series and music maintained directly on this website. RYM, Letterboxd and other services are optional links or import sources, not required accounts.</p>
-    <p><a class="button-link" href="/new-media/">Add or update a media entry</a></p>
+    <h1>Media</h1>
+    <p><a class="button-link" href="/new-media/">Add media</a></p>
     <div class="media-groups">
       {links.map(link=><article>
         <h2><a href={"/"+link.kind+"/"}>{link.title}</a></h2>

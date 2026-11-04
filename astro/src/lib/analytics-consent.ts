@@ -49,7 +49,7 @@ export function mayTrackPage(href: string): boolean {
   if (url.search) return false;
   if (path === "/new-bookmark/" || path === "/new-bookmark" ||
       path === "/new-media/" || path === "/new-media") return false;
-  if (path === "/search/" || path === "/sr/search/") return false;
+  if (path === "/search/" || path === "/sh/search/") return false;
   if (path === "/bookmarks/" || /^\/bookmarks\/[^/]+\/$/.test(path)) return false;
   return true;
 }

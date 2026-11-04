@@ -1,0 +1,19 @@
+---
+import { getEntry, render } from "astro:content";
+interface Props { lang: "en" | "sh" }
+const { lang } = Astro.props;
+const id = lang === "sh" ? "privacy.sh" : "privacy";
+const entry = await getEntry("sitePages", id);
+if (!entry) throw new Error(`Missing canonical privacy Markdown: ${id}`);
+const { Content } = await render(entry);
+---
+<article class="privacy-notice">
+  <h1>{entry.data.title}</h1>
+  <Content />
+</article>
+<style>
+  .privacy-notice { max-width: 74ch; padding: 1.25rem 0 2.5rem; overflow-wrap: anywhere; }
+  .privacy-notice :global(h2) { font-size: 1.35rem; margin: 1.8rem 0 .5rem; }
+  .privacy-notice :global(p) { margin: 1.15rem 0; }
+  .privacy-notice :global(a) { overflow-wrap: anywhere; }
+</style>

@@ -4,8 +4,8 @@ import MediaTable from "../../components/MediaTable.astro";
 import { loadMedia } from "../../lib/media-store.ts";
 const entries=await loadMedia("music");
 ---
-<SiteLayout title="Music" description="A personal collection of music, with optional ratings and independent links.">
+<SiteLayout title="Music" description="Music and ratings.">
   <h1>Music</h1>
-  <p><a href="/new-media/?kind=music">Add a music release</a> through a reviewed GitHub pull request.</p>
+  <p><a href="/new-media/?kind=music">Add a music release</a>.</p>
   <MediaTable kind="music" entries={entries}/>
 </SiteLayout>

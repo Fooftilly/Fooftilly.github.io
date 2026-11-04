@@ -217,24 +217,24 @@ try {
   })()`);
   assert.equal(mobileConsent.position, "fixed");
   assert.equal(mobileConsent.actionDirection, "column", "Visual and keyboard order must agree on narrow screens");
-  assert.deepEqual(mobileConsent.actionOrder, ["Reject optional cookies", "Allow analytics"]);
+  assert.deepEqual(mobileConsent.actionOrder, ["Reject analytics", "Allow analytics"]);
   assert.ok(mobileConsent.left >= 0 && mobileConsent.right <= mobileConsent.viewportWidth + 1, "Mobile cookie notice must fit viewport width");
   assert.ok(mobileConsent.top >= 0 && mobileConsent.bottom <= mobileConsent.viewportHeight + 1, "Mobile cookie notice must fit viewport height");
   await command("Emulation.clearDeviceMetricsOverride");
   await evaluate("document.querySelector('[data-analytics-decline]').click()");
   console.log("Browser consent smoke: fixed desktop/mobile cookie overlay, settings reopening, keyboard focus and no eager Google tag passed");
 
-  await navigate("/sr/search/");
+  await navigate("/sh/search/");
   // The SSR input is already present before Vue attaches event handlers.
   // Only interact after Astro marks this island as fully hydrated.
   await waitFor(
     "(()=>{const browser=document.querySelector('.bookmark-browser');const island=browser?.closest('astro-island');return Boolean(browser && island && !island.hasAttribute('ssr') && browser.querySelector('input[type=search]'));})()",
-    Boolean, "Serbian bookmark search Vue hydration",
+    Boolean, "Serbo-Croatian bookmark search Vue hydration",
   );
   await waitFor(
     "document.querySelector('input[type=search]')?.placeholder",
-    (value) => value === "Naziv, kategorija ili veb-adresa",
-    "Serbian Vue search controls",
+    (value) => value === "Naziv, kategorija ili adresa",
+    "Serbo-Croatian Vue search controls",
   );
   const options = await evaluate(
     "Array.from(document.querySelector('select').options).map(o=>({label:o.textContent.trim(),value:o.value}))",
@@ -253,7 +253,7 @@ try {
   );
   assert.equal(
     await evaluate("document.querySelector('.empty-result')?.textContent.trim()"),
-    "Nema linkova koji odgovaraju filterima.",
+    "Nema rezultata.",
   );
 
   await evaluate("(()=>{const el=document.querySelector('input[type=search]');el.value='';el.dispatchEvent(new Event('input',{bubbles:true}));const select=document.querySelector('select');select.value='Articles & books';select.dispatchEvent(new Event('change',{bubbles:true}))})()");
@@ -267,16 +267,16 @@ try {
   );
   await waitFor(
     "document.querySelector('li.bookmark-entry .metadata span')?.textContent",
-    (value) => value === "Članci i knjige", "Serbian bookmark result metadata",
+    (value) => value === "Članci i knjige", "Serbo-Croatian bookmark result metadata",
   );
   await evaluate("(()=>{const el=document.querySelector('input[type=search]');el.value='Članci i knjige';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
   await waitFor(
     "new URL(location.href).searchParams.get('q')",
-    (value) => value === "Članci i knjige", "Serbian category search URL state",
+    (value) => value === "Članci i knjige", "Serbo-Croatian category search URL state",
   );
   await waitFor(
     "document.querySelectorAll('li.bookmark-entry').length",
-    (value) => value === 20, "Serbian category label matches bookmarks",
+    (value) => value === 20, "Serbo-Croatian category label matches bookmarks",
   );
   await command("Page.reload", { ignoreCache: true });
   await waitFor(
@@ -445,7 +445,7 @@ try {
 
   console.log("Browser smoke: long URL not truncated, long draft safe full-path fallback passed");
   console.log("Browser smoke: bookmark composer URL prefill, duplicate warning, GitHub handoff and unsafe URL rejection passed");
-  console.log("Browser search smoke: Serbian labels, Vue input, category filter, URL state, reload and English search passed");
+  console.log("Browser search smoke: Serbo-Croatian labels, Vue input, category filter, URL state, reload and English search passed");
   }
 } finally {
   socket?.close();

@@ -15,7 +15,7 @@ export interface BookmarkFilters {
   query: string;
   category: string;
   sort: BookmarkSort;
-  lang?: "en" | "sr";
+  lang?: "en" | "sh";
 }
 
 function fold(value: string): string {
@@ -33,7 +33,7 @@ export function filterAndSortBookmarks<T extends Bookmark>(
   const terms = fold(filters.query.trim()).split(/\s+/).filter(Boolean);
   const filtered = items.filter((item) => {
     if (filters.category !== "all" && item.category !== filters.category) return false;
-    const translatedCategory = filters.lang === "sr" ? bookmarkCategoryDisplayLabel(item.category, "sr") : "";
+    const translatedCategory = filters.lang === "sh" ? bookmarkCategoryDisplayLabel(item.category, "sh") : "";
     const haystack = fold([item.title, item.category, translatedCategory, item.url].join(" "));
     return terms.every((term) => haystack.includes(term));
   });

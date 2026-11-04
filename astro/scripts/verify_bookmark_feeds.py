@@ -31,6 +31,7 @@ def verify_feed(feed_path, expected_records, expected_channel_url):
     assert channel is not None, feed_path
     assert channel.findtext("link") == expected_channel_url, feed_path
     assert channel.findtext("language") == "en", feed_path
+    assert (channel.findtext("title") or "").startswith("Peroniko"), ("Old RSS branding", feed_path)
 
     items = channel.findall("item")
     assert len(items) == len(expected_records), (feed_path, len(items), len(expected_records))
