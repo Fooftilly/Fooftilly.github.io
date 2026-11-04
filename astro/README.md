@@ -166,6 +166,16 @@ period or claim legal compliance. The owner still needs to verify and
 document the actual setting, revisit the disclosure and third-party
 service settings, and determine applicable legal requirements under #3.
 
+### SH locale and URL changes
+
+The English/Serbo-Croatian language switch displays **EN** and **SH**. The
+Serbo-Croatian pages now use the `sh` locale, `/sh/` URL prefix and
+`*.sh.md` content filenames. This deliberately removes earlier `/sr/`
+routes without redirects, per the owner's explicit migration decision.
+Already shared links with the old prefix will result in a 404 after manual
+publication; references should be updated to `/sh/`. CI verifies the new
+canonical URLs and switch labels. See `CUTOVER.md` for the release impact.
+
 ## Release and maintenance
 
 The production site is Astro and Vue. A maintainer explicitly approves each GitHub Pages deployment. The old Hugo build, theme submodules and templates have been retired after cutover and the rollback period. The existing `cloakemail` content shortcode is translated by a native Sätteri plugin into a `mailto:` link; it does not retain bot obfuscation. Reassess this privacy behavior with issue #3 if required. Preserve audit checks, source parity, 404 recovery behavior and all bookmark content on future releases.
