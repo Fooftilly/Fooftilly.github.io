@@ -149,7 +149,9 @@ manual GitHub Pages publication.
 
 ## Privacy disclosure and visitor controls
 
-The bilingual `/privacy/` and `/sr/privacy/` pages explain GitHub Pages
+The bilingual `/privacy/` and `/sr/privacy/` pages use canonical
+`content/privacy.md` and `content/privacy.sr.md` Markdown, rendered through the
+existing Astro `sitePages` collection. They explain GitHub Pages
 hosting, the optional Google Analytics opt-in, the browser-local consent
 preference, click-to-load Giscus comments, third-party destinations, and
 contact via the existing About pages. The footer and cookie overlay link to

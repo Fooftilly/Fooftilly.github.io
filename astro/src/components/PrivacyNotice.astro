@@ -1,69 +1,19 @@
 ---
+import { getEntry, render } from "astro:content";
 interface Props { lang: "en" | "sr" }
 const { lang } = Astro.props;
-const sr = lang === "sr";
+const id = lang === "sr" ? "privacy.sr" : "privacy";
+const entry = await getEntry("sitePages", id);
+if (!entry) throw new Error(`Missing canonical privacy Markdown: ${id}`);
+const { Content } = await render(entry);
 ---
 <article class="privacy-notice">
-  <h1>{sr ? "Privatnost i kolačići" : "Privacy and cookies"}</h1>
-  <p class="reviewed">{sr ? "Posljednji pregled: 4. novembar 2026." : "Last reviewed: 4 November 2026."}</p>
-  <p>{sr
-    ? "Ovaj lični sajt koristi GitHub Pages za objavljivanje statičkog sadržaja. Objašnjenje u nastavku odnosi se na funkcionalnosti trenutno implementirane u sajtu."
-    : "This personal website is served through GitHub Pages as a static site. This notice describes the privacy behavior currently implemented in the website."}</p>
-
-  <section>
-    <h2>{sr ? "Hosting sajta" : "Website hosting"}</h2>
-    <p>{sr
-      ? "GitHub Pages isporučuje stranice posjetiocima. Prema dokumentaciji GitHuba, IP adrese posjetilaca evidentiraju se radi bezbjednosti, čak i kada posjetilac nije prijavljen na GitHub. To je dio hostinga i ne zavisi od izbora za Google Analytics."
-      : "GitHub Pages serves the website. According to GitHub's documentation, visitors' IP addresses are logged for security purposes even if they are not signed in to GitHub. This happens as part of hosting and is separate from the Google Analytics choice."}</p>
-    <p><a href="https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages" rel="noopener noreferrer">{sr ? "Dokumentacija GitHub Pages" : "GitHub Pages documentation"}</a>
-      {" · "}
-      <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener noreferrer">{sr ? "GitHub pravila privatnosti" : "GitHub privacy statement"}</a></p>
-  </section>
-
-  <section>
-    <h2>{sr ? "Opciona analitika" : "Optional analytics"}</h2>
-    <p>{sr
-      ? "Google Analytics 4 je opcion. Google skripta se ne učitava prije izričitog pristanka. Ako pristanete, Google može koristiti analitičke kolačiće i obrađivati informacije o posjetama stranica i pregledaču. Kod sajta zahtijeva isključivanje oglasne personalizacije i Google Signals funkcija."
-      : "Google Analytics 4 is optional. Its script is not loaded before you explicitly opt in. If you consent, Google may use analytics cookies and process page-visit and browser information. The site's tracking configuration requests Google Signals and advertising personalization to remain disabled."}</p>
-    <p>{sr
-      ? "Kod sajta ne pokreće analitiku na obrascima za dodavanje linkova i medija, na stranicama pretrage ili na adresama koje sadrže parametre upita. Precizno trajanje čuvanja podataka podešeno u Google Analytics nalogu nije potvrđen podatak i zato nije navedeno."
-      : "The site does not start analytics on its bookmark/media draft forms, search pages, or URLs with query parameters. The precise retention period configured in the Google Analytics property is unverified and therefore is not stated here."}</p>
-    <p><a href="https://policies.google.com/privacy" rel="noopener noreferrer">{sr ? "Google pravila privatnosti" : "Google privacy policy"}</a>
-      {" · "}
-      <a href="https://support.google.com/analytics/answer/7667196" rel="noopener noreferrer">{sr ? "Podešavanja čuvanja podataka u Google Analytics" : "Google Analytics data-retention controls"}</a></p>
-  </section>
-
-  <section>
-    <h2>{sr ? "Vaš izbor i njegovo čuvanje" : "Your choice and local storage"}</h2>
-    <p>{sr
-      ? "Pristanak ili odbijanje analitike čuva se u lokalnom skladištu pregledača (localStorage), pod ključem peroniko.analytics.consent.v1. Odabir možete promijeniti u bilo kom trenutku preko dugmeta „Privatnost i analitika“ u podnožju sajta. Odbijanje zaustavlja dalje učitavanje analitike, pokušava ukloniti analitičke kolačiće sajta i, ako je skripta bila učitana, osvježava stranicu."
-      : "Your choice to allow or reject analytics is stored in your browser's localStorage under peroniko.analytics.consent.v1. You can change it at any time using the Privacy & analytics button in the footer. Rejection prevents further analytics loading, attempts to remove the site's analytics cookies, and reloads the page if the tag was already running."}</p>
-  </section>
-
-  <section>
-    <h2>{sr ? "Komentari i spoljni servisi" : "Comments and external services"}</h2>
-    <p>{sr
-      ? "Komentari koriste Giscus, ali se njegova skripta učitava samo kada izaberete učitavanje komentara. Spoljni linkovi (uključujući YouTube, Rate Your Music, Letterboxd i GitHub) vode na nezavisne sajtove koji imaju sopstvena pravila privatnosti. Pregledanje ovog sajta samo po sebi ne otvara te spoljne linkove."
-      : "Comments use Giscus, but its script loads only after you choose to load comments. External links (including YouTube, Rate Your Music, Letterboxd and GitHub) lead to independent websites with their own privacy policies. Simply browsing this website does not open those external destinations."}</p>
-    <p>{sr
-      ? "Obrasci za dodavanje linkova i medija pripremaju nacrt za GitHub; sami obrasci ne objavljuju podatke na sajtu. Ako odlučite da nastavite na GitHub, primjenjuju se GitHubova pravila."
-      : "The bookmark and media forms prepare drafts for GitHub; the forms do not themselves publish data. If you proceed to GitHub to submit a change, GitHub's terms and privacy rules apply."}</p>
-  </section>
-
-  <section>
-    <h2>{sr ? "Kontakt" : "Contact"}</h2>
-    <p>{sr
-      ? "Za pitanja o sajtu ili privatnosti možete koristiti kontakt naveden na stranici"
-      : "For questions about this site or its privacy practices, use the contact information on the"}
-      {" "}
-      <a href={sr ? "/sr/about/" : "/about/"}>{sr ? "O sajtu" : "About page"}</a>.
-    </p>
-  </section>
+  <h1>{entry.data.title}</h1>
+  <Content />
 </article>
 <style>
-  .privacy-notice{max-width:74ch;padding:1.25rem 0 2.5rem}
-  .privacy-notice .reviewed{color:var(--muted);font-size:.95rem}
-  .privacy-notice section{margin-top:1.8rem}
-  .privacy-notice h2{font-size:1.35rem;margin-bottom:.5rem}
-  .privacy-notice p{overflow-wrap:anywhere}
+  .privacy-notice { max-width: 74ch; padding: 1.25rem 0 2.5rem; overflow-wrap: anywhere; }
+  .privacy-notice :global(h2) { font-size: 1.35rem; margin: 1.8rem 0 .5rem; }
+  .privacy-notice :global(p) { margin: 1.15rem 0; }
+  .privacy-notice :global(a) { overflow-wrap: anywhere; }
 </style>
