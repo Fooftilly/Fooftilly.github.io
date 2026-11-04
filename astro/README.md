@@ -48,7 +48,7 @@ redirects and the compiled-Hugo route comparison have been removed.
 Astro copies the repository-level `static/` directory through
 `publicDir`, preserving the domain configuration, icons, robots file and
 other assets. Its sitemap lists only routes Astro actually generates (currently
-593 canonical URLs). Shared layouts provide canonical/social metadata and
+595 canonical URLs). Shared layouts provide canonical/social metadata and
 language alternates.
 
 `scripts/verify-bookmark-parity.mjs`, `verify-bookmark-routes.mjs`,
@@ -60,6 +60,38 @@ The source-to-Astro parity manifest is generated during `astro build`, but
 removes `/migration-audit/` from `dist/`. Both CI and unit tests require this
 cleanup to succeed before a release-ready output is accepted. No public build
 contains the internal parity endpoint.
+
+## Music and film ratings (owner-provided CSV)
+
+The static `/music/` and `/films/` pages read reviewed JSON catalogs from
+`src/data/music-ratings.json` and `src/data/films-ratings.json`. Both start
+empty: no personal ratings are invented or fetched from third parties.
+
+Export your catalog to CSV from the bottom of your Rate Your Music profile.
+The RYM music CSV columns include `RYM Album`, `First Name`, `Last Name`,
+`Title`, `Release_Date`, and `Rating`. RYM exports integer scores from
+0–10; the importer converts these to 0.5–5-star ratings (7 → 3.5).
+Film exports may use a different header layout: validate your actual CSV
+before importing. Letterboxd film `ratings.csv` is an alternative if needed.
+
+```sh
+cd astro
+node scripts/import-ratings.mjs music ~/Downloads/rym-music.csv
+node scripts/import-ratings.mjs films ~/Downloads/rym-films.csv
+# Or for a Letterboxd ratings.csv export:
+node scripts/import-ratings.mjs films ~/Downloads/ratings.csv letterboxd
+npm test
+npm run check
+npm run build
+```
+
+The import is strictly offline: it keeps only rated titles, year, artist or
+director, normalized stars and safe links. It discards reviews, ownership,
+purchase dates and other source fields. Inspect the generated JSON and
+`git diff` **before committing**, because committed ratings are public.
+Malformed exports fail instead of silently publishing fabricated records.
+No new backend or browser upload endpoint is introduced. A regular manual
+Pages release is required after merging the JSON data.
 
 ## Release and maintenance
 
