@@ -126,6 +126,11 @@ rating, status and permitted links. Source reviews, ownership and private
 metadata are not copied. Never commit the raw exports without reviewing their
 privacy implications; raw CSVs are not automatically uploaded anywhere.
 
+CI also runs one disposable Astro build with synthetic film, TV and music JSON
+records to exercise the **actual content loader, static table renderer and
+source-to-HTML audit**. Those records are deleted before the next clean build;
+the release candidate and the manual Pages workflow never use CI fixtures.
+
 The **actual owner exports have not been supplied**; the pages initially
 show empty states, not placeholder personal ratings. Before the first bulk
 import, check representative rows and the exporter-specific column names.
