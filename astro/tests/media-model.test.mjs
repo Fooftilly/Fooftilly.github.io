@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   validateMediaRecord, mediaSlug, mediaPath, composeMediaDraft,
-  sameMedia, githubMediaEditorUrl, mediaEntryId,
+  sameMedia, githubMediaEditorUrl, mediaEntryId, assertUniqueMediaCatalog,
 } from "../src/lib/media-model.ts";
 
 const film = {
@@ -49,6 +49,51 @@ test("duplicate checks include existing files, normalized titles and matching UR
   ]);
   assert.equal(sameMedia(film,{...film,title:"An Important Film"}),true);
   assert.equal(sameMedia(film,{...film,kind:"tv"}),false);
+});
+
+test("catalog rejects duplicate identities across hand-edited records before publication", () => {
+  const stored = (path, record) => ({
+    ...validateMediaRecord(record),
+    id: path.slice("content/media/".length, -".json".length),
+    path,
+  });
+  const original = stored("content/media/films/a-film.json", film);
+  const sameItem = stored("content/media/films/a-different-slug.json", {
+    ...film, title: "An Important Film",
+  });
+  assert.throws(() => assertUniqueMediaCatalog([original, sameItem]),
+    /Duplicate media identity: content\/media\/films\/a-film\.json and content\/media\/films\/a-different-slug\.json/);
+
+  const alternateCase = stored("content/media/films/A-FILM.json", {
+    ...film, title: "Different film",
+  });
+  assert.throws(() => assertUniqueMediaCatalog([original, alternateCase]),
+    /Duplicate media path/);
+
+  const anotherCreator = stored("content/media/films/another-director.json", {
+    ...film, creator: "Another director",
+  });
+  assert.doesNotThrow(() => assertUniqueMediaCatalog([original, anotherCreator]));
+
+  const tv = stored("content/media/tv/a-series.json", {
+    schema: 1, kind: "tv", title: film.title, year: film.year,
+  });
+  assert.doesNotThrow(() => assertUniqueMediaCatalog([original, tv]));
+});
+
+test("multiple media items may share a generic external reference URL", () => {
+  const record = (path, title) => ({
+    ...validateMediaRecord({
+      schema: 1, kind: "music", title, year: 2020,
+      links: [{label: "Artist website", url: "https://example.org/artist/"}],
+    }),
+    id: path.slice("content/media/".length, -".json".length),
+    path,
+  });
+  assert.doesNotThrow(() => assertUniqueMediaCatalog([
+    record("content/media/music/first-album.json", "First album"),
+    record("content/media/music/second-album.json", "Second album"),
+  ]));
 });
 
 test("multiline public notes are preserved for real media reviews", () => {

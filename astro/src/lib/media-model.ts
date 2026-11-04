@@ -131,6 +131,32 @@ export function sameMedia(a: Pick<MediaRecord,"kind"|"title"|"year"|"creator">,
   const norm=(s:string)=>ascii(s).replace(/[^\p{L}\p{N}]+/gu,"");
   return !a.creator||!b.creator||norm(a.creator)===norm(b.creator);
 }
+/** Publication gate for reviewed JSON records, including hand-edited files.
+ * Check the full collection, not just the category selected for one page.
+ * Shared generic reference URLs are allowed (e.g. multiple albums linking to
+ * the same artist homepage); only identical media identities are hard errors.
+ */
+export function assertUniqueMediaCatalog(entries: readonly StoredMedia[]): void {
+  const byPath = new Map<string, StoredMedia>();
+  const byIdentity = new Map<string, StoredMedia[]>();
+  for (const entry of entries) {
+    const pathKey = entry.path.toLowerCase();
+    const previousPath = byPath.get(pathKey);
+    if (previousPath) {
+      throw new Error("Duplicate media path: " + previousPath.path + " and " + entry.path);
+    }
+    const identity = mediaMatchKey(entry);
+    const matches = byIdentity.get(identity) ?? [];
+    const duplicate = matches.find(previous => sameMedia(previous, entry));
+    if (duplicate) {
+      throw new Error("Duplicate media identity: " + duplicate.path + " and " + entry.path);
+    }
+    byPath.set(pathKey, entry);
+    matches.push(entry);
+    byIdentity.set(identity, matches);
+  }
+}
+
 export function composeMediaDraft(raw: unknown, existing: readonly ExistingMediaRef[]): MediaDraft {
   const record=validateMediaRecord(raw);
   const path=mediaPath(record);
