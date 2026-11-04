@@ -115,22 +115,51 @@ class MediaOutputTests(unittest.TestCase):
 
     def test_url_components_match_whatwg_encoding_of_valid_punctuation(self):
         examples = (
-            ("https://example.org/path    def test_substituted_record_with_same_count_is_rejected(self):+;=@[]|^!?a=1&b=2#x?z",
-             "https://example.org/path    def test_substituted_record_with_same_count_is_rejected(self):+;=@[]|^!?a=1&b=2#x?z"),
+            ("https://example.org/path$&+;=@[]|^!?a=1&b=2#x?z",
+             "https://example.org/path$&+;=@[]|^!?a=1&b=2#x?z"),
             ("https://example.org/a%20b?q=A B#A B",
              "https://example.org/a%20b?q=A%20B#A%20B"),
-            ("https://example.org/some^path/~_!    def test_substituted_record_with_same_count_is_rejected(self):'()+,:;=@[]|?a=%26&b=%2520#foo`bar",
-             "https://example.org/some^path/~_!    def test_substituted_record_with_same_count_is_rejected(self):'()+,:;=@[]|?a=%26&b=%2520#foo%60bar"),
+            ("https://example.org/some^path/~_!$&'()+,:;=@[]|?a=%26&b=%2520#foo`bar",
+             "https://example.org/some^path/~_!$&'()+,:;=@[]|?a=%26&b=%2520#foo%60bar"),
             ("https://example.org/mañana?name=João&name2=Émile#té",
              "https://example.org/ma%C3%B1ana?name=Jo%C3%A3o&name2=%C3%89mile#t%C3%A9"),
             ("https://EXAMPLE.org:443/path", "https://example.org/path"),
             ("https://example.org/?", "https://example.org/?"),
             ("https://example.org/#", "https://example.org/#"),
             ("https://example.org/?#", "https://example.org/?#"),
+            ("https://example.org/reviews/../film", "https://example.org/film"),
+            ("https://example.org/reviews/%2E%2e/film", "https://example.org/film"),
+            ("https://example.org/reviews/.%2e/film", "https://example.org/film"),
+            ("https://example.org/reviews/%2e./film", "https://example.org/film"),
+            ("https://example.org/reviews/%2e/film", "https://example.org/reviews/film"),
+            ("https://example.org/reviews/..", "https://example.org/"),
+            ("https://example.org/reviews/%2e", "https://example.org/reviews/"),
+            ("https://example.org/a/../../b", "https://example.org/b"),
+            ("https://example.org/a//../b", "https://example.org/a/b"),
         )
         for raw, expected in examples:
             with self.subTest(raw=raw):
                 self.assertEqual(normalize_external_url(raw), expected)
+
+    def test_rendered_media_accepts_canonicalized_dot_segments(self):
+        record = {
+            "schema": 1, "kind": "films", "title": "A  Film & You",
+            "creator": "Émilie", "year": 2001, "rating": 3.5,
+            "status": "finished", "notes": "A  personal note",
+            "links": [{"label": "Letterboxd", "url": "https://example.org/reviews/%2E%2e/film"}],
+        }
+        self.put_film(record=record)
+        page = self.astro / "dist" / "films" / "index.html"
+        html = page.read_text(encoding="utf-8").replace(
+            "https://letterboxd.com/film/example/", "https://example.org/film"
+        )
+        page.write_text(html, encoding="utf-8")
+        self.assertEqual(verify_media_output(self.astro), 1)
+
+        page.write_text(html.replace("https://example.org/film",
+                                     "https://example.org/reviews/../film"), encoding="utf-8")
+        with self.assertRaisesRegex(AssertionError, "rendered data mismatch"):
+            verify_media_output(self.astro)
 
     def test_substituted_record_with_same_count_is_rejected(self):
         self.put_film()
