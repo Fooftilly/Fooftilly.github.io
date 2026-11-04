@@ -104,7 +104,8 @@ def normalize_external_url(value):
         host += ":" + str(parts.port)
     # Mirror the URL serialization of the validated first-party records.
     path = quote(parts.path or "/", safe="/%:@!'()*+,;=-._~")
-    query = quote(parts.query, safe="/?%:@!'()*+,;=-._~")
+    # WHATWG special-scheme queries percent-encode apostrophes (unlike paths/fragments).
+    query = quote(parts.query, safe="/?%:@!()*+,;=-._~")
     fragment = quote(parts.fragment, safe="/?%:@!'()*+,;=-._~")
     return urlunsplit((parts.scheme.lower(), host, path, query, fragment))
 
