@@ -136,6 +136,9 @@ class MediaOutputTests(unittest.TestCase):
             ("https://example.org/reviews/%2e", "https://example.org/reviews/"),
             ("https://example.org/a/../../b", "https://example.org/b"),
             ("https://example.org/a//../b", "https://example.org/a/b"),
+            ("https://example.org/..//film", "https://example.org//film"),
+            ("https://example.org/%2e%2E//film", "https://example.org//film"),
+            ("https://example.org/a/../../../..//film", "https://example.org//film"),
         )
         for raw, expected in examples:
             with self.subTest(raw=raw):
@@ -158,6 +161,26 @@ class MediaOutputTests(unittest.TestCase):
 
         page.write_text(html.replace("https://example.org/film",
                                      "https://example.org/reviews/../film"), encoding="utf-8")
+        with self.assertRaisesRegex(AssertionError, "rendered data mismatch"):
+            verify_media_output(self.astro)
+
+    def test_rendered_media_preserves_root_level_double_slash(self):
+        record = {
+            "schema": 1, "kind": "films", "title": "A  Film & You",
+            "creator": "Émilie", "year": 2001, "rating": 3.5,
+            "status": "finished", "notes": "A  personal note",
+            "links": [{"label": "Letterboxd", "url": "https://example.org/%2e%2e//film"}],
+        }
+        self.put_film(record=record)
+        page = self.astro / "dist" / "films" / "index.html"
+        html = page.read_text(encoding="utf-8").replace(
+            "https://letterboxd.com/film/example/", "https://example.org//film"
+        )
+        page.write_text(html, encoding="utf-8")
+        self.assertEqual(verify_media_output(self.astro), 1)
+
+        page.write_text(html.replace("https://example.org//film",
+                                     "https://example.org/film"), encoding="utf-8")
         with self.assertRaisesRegex(AssertionError, "rendered data mismatch"):
             verify_media_output(self.astro)
 
