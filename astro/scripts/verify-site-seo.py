@@ -133,9 +133,9 @@ def check_metadata():
         if urlpath in alternate_routes:
             target, label, locale = alternate_routes[urlpath]
             markup = filename.read_text(encoding="utf8")
-            pattern = (r'<a\\b(?=[^>]*href="' + re.escape(target)
+            pattern = (r'<a\b(?=[^>]*href="' + re.escape(target)
                        + r'")(?=[^>]*hreflang="' + locale
-                       + r'")[^>]*>\\s*' + label + r'\\s*</a>')
+                       + r'")[^>]*>\\s*' + label + r'\s*</a>')
             assert re.search(pattern, markup), ("Missing SH/EN language switch", urlpath)
             assert 'href="/sr/' not in markup and 'hreflang="sr' not in markup, (
                 "Old locale leaked into public markup", urlpath
