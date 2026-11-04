@@ -21,7 +21,7 @@ class MediaOutputTests(unittest.TestCase):
             page = self.astro / "dist" / kind / "index.html"
             page.parent.mkdir(parents=True)
             page.write_text(
-                f"<h1>{title}</h1><p>No {title.lower()} entries have been published yet.</p>",
+                f"<h1>{title}</h1><p>No {title.lower()} yet.</p>",
                 encoding="utf-8",
             )
 
