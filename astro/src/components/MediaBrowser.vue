@@ -22,12 +22,8 @@ const visible=computed(()=>props.entries
 </script>
 <template>
   <section class="media-collection" data-media-collection :aria-label="title+' collection'">
-    <p class="media-description">
-      Your independently maintained media collection. External links are optional references,
-      not dependencies. Entries are reviewed in Git before publication.
-    </p>
     <p v-if="!entries.length" class="empty-media" role="status">
-      No {{ title.toLowerCase() }} entries have been published yet.
+      No {{ title.toLowerCase() }} yet.
     </p>
     <template v-else>
       <div v-show="hydrated" class="media-controls" data-media-controls>
@@ -86,7 +82,6 @@ const visible=computed(()=>props.entries
 </template>
 <style scoped>
 .media-collection{margin-top:1.25rem;max-width:76rem}
-.media-description{max-width:60rem;color:var(--muted)}
 .empty-media{padding:1.5rem;background:var(--surface);border:1px solid var(--border);border-radius:.65rem}
 .media-controls{display:flex;flex-wrap:wrap;align-items:end;gap:.75rem 1.25rem;margin:1rem 0}
 .media-controls label{display:grid;gap:.25rem;font-weight:600;min-width:min(100%,18rem)}

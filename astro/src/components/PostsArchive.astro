@@ -10,9 +10,9 @@ const title = entry.data.title;
 <section class="posts-archive" aria-label={title}>
   <h1>{title}</h1>
   <p>{lang === "sh"
-    ? "Trenutno nema objavljenih tekstova. Sačuvani linkovi su dostupni u zbirci."
-    : "There are no published posts yet. You can explore the bookmark collection instead."}</p>
-  <a href="/bookmarks/">{lang === "sh" ? "Sačuvani linkovi" : "Explore bookmarks"}</a>
+    ? "Još nema objava."
+    : "No posts yet."}</p>
+  <a href="/bookmarks/">{lang === "sh" ? "Pogledaj linkove" : "Browse bookmarks"}</a>
 </section>
 <style>
   .posts-archive { max-width: 65ch; padding: 1.5rem 0; }

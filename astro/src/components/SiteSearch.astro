@@ -15,8 +15,8 @@ const bookmarks = (await loadBookmarks()).map(({ id, title, category, url, date,
 <section class="search-page">
   <h1>{entry.data.title}</h1>
   <p>{lang === "sh"
-    ? "Pretraži 576 sačuvanih linkova po nazivu, kategoriji ili adresi. Tekstovi će biti uključeni kada budu objavljeni."
-    : "Search 576 saved bookmarks by title, category or address. Posts will be included when published."}</p>
+    ? "Pretraži sačuvane linkove."
+    : "Search saved bookmarks."}</p>
   <BookmarkBrowser items={bookmarks} lang={lang} client:load />
 </section>
 <style>

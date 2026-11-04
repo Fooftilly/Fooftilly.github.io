@@ -15,23 +15,23 @@ const sh = lang === "sh";
   <h2 id="analytics-consent-heading">{sh ? "Podešavanja kolačića" : "Cookie preferences"}</h2>
   <p id="analytics-consent-summary">
     {sh
-      ? "Koristimo opcione Google Analytics kolačiće za statistiku posjeta. Učitavaju se samo uz vaš pristanak."
-      : "We use optional Google Analytics cookies to understand site visits. They load only if you agree."}
+      ? "Google Analytics se uključuje samo ako dozvolite."
+      : "Google Analytics loads only with your consent."}
   </p>
   <p class="consent-note">
     {sh
-      ? "Izbor nije neophodan za korišćenje sajta i možete ga promijeniti kasnije putem opcije Privatnost i analitika."
-      : "Analytics is not required to use the site. You can change your choice anytime through Privacy & analytics."}
+      ? "Odluku možete promijeniti u podnožju sajta."
+      : "You can change your choice in the footer."}
   </p>
   <details>
-    <summary>{sh ? "Detalji privatnosti" : "Privacy details"}</summary>
+    <summary>{sh ? "Više informacija" : "Details"}</summary>
     <p>
       {sh
-        ? "Ako dozvolite, Google Analytics 4 može koristiti kolačiće i obrađivati podatke o posjećenim stranicama i pregledaču. Google Signals i personalizacija oglasa su isključeni. Trajanje čuvanja podataka zavisi od podešavanja Google Analytics naloga."
-        : "If allowed, Google Analytics 4 may use cookies and process page-visit and browser data. Google Signals and ad personalization are disabled. Retention depends on the Google Analytics property settings."}
+        ? "Ako pristanete, Google može koristiti kolačiće i podatke o posjetama. Personalizacija oglasa i Google Signals su isključeni. Rok čuvanja zavisi od podešavanja Google Analytics naloga."
+        : "If allowed, Google may use cookies and visit data. Google Signals and ad personalization are disabled. Retention depends on the Google Analytics settings."}
     </p>
     <a href={sh ? "/sh/privacy/" : "/privacy/"}>
-      {sh ? "Pročitajte obavještenje o privatnosti sajta" : "Read this site's privacy notice"}
+      {sh ? "Politika privatnosti" : "Privacy notice"}
     </a>
     {" · "}
     <a href="https://policies.google.com/privacy" rel="noopener noreferrer">
@@ -39,7 +39,7 @@ const sh = lang === "sh";
     </a>
   </details>
   <div class="consent-actions">
-    <button type="button" data-analytics-decline>{sh ? "Odbij opcione kolačiće" : "Reject optional cookies"}</button>
+    <button type="button" data-analytics-decline>{sh ? "Odbij analitiku" : "Reject analytics"}</button>
     <button type="button" data-analytics-allow>{sh ? "Dozvoli analitiku" : "Allow analytics"}</button>
   </div>
 </section>
