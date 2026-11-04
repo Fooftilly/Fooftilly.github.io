@@ -72,7 +72,7 @@ test("reject unsafe URLs, unexpected private fields and invalid metadata before 
 
 test("Astro media collection IDs omit extension for the first real JSON file", () => {
   assert.equal(mediaEntryId("films/a-film.json"), "films/a-film");
-  assert.equal(mediaEntryId("music\\\\a-release.json"), "music/a-release");
+  assert.equal(mediaEntryId("music\\a-release.json"), "music/a-release");
   assert.equal(mediaEntryId("tv/čudni-naslovi.json"), "tv/čudni-naslovi");
   assert.throws(() => mediaEntryId("films/a-film.json.json"), /Invalid media source path/);
   assert.throws(() => mediaEntryId("films/../secret.json"), /Invalid media source path/);
