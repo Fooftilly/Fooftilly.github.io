@@ -115,6 +115,8 @@ jobs:
           test -s astro/dist/404.html
           test -s astro/dist/bookmarks/index.html
           test -s astro/dist/new-bookmark/index.html
+          test -s astro/dist/music/index.html
+          test -s astro/dist/films/index.html
           test -s astro/dist/about/index.html
           test -s astro/dist/sr/index.html
           test -s astro/dist/sr/about/index.html
