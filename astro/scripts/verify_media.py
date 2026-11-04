@@ -6,7 +6,7 @@ This independent Python check runs after static build on PRs and manual releases
 from collections import Counter
 from html.parser import HTMLParser
 from pathlib import Path
-from urllib.parse import urlsplit, urlunsplit, quote
+from urllib.parse import urlsplit, quote
 import json
 import re
 
@@ -102,18 +102,26 @@ def normalize_external_url(value):
         host = "[" + host + "]"
     if parts.port and parts.port not in (80 if parts.scheme == "http" else 443,):
         host += ":" + str(parts.port)
-    # Mirror the URL serialization of the validated first-party records.
-    path = quote(parts.path or "/", safe="/%:@!'()*+,;=-._~")
-    # WHATWG special-scheme queries percent-encode apostrophes (unlike paths/fragments).
-    # WHATWG special-query encoding preserves ASCII punctuation such as & and |
-    # but escapes spaces, double/single quotes, #, <, > and non-ASCII.
-    query_safe = "".join(
-        chr(code) for code in range(0x21, 0x7F)
-        if chr(code) not in "\"#'<>"
-    )
-    query = quote(parts.query, safe=query_safe)
-    fragment = quote(parts.fragment, safe="/?%:@!'()*+,;=-._~")
-    return urlunsplit((parts.scheme.lower(), host, path, query, fragment))
+    # Match WHATWG's path, special-query, and fragment percent-encode sets.
+    # In particular, &/$/| and other valid ASCII punctuation are preserved;
+    # apostrophes are encoded only in HTTP(S) queries.
+    def encode(component, excluded):
+        safe = "".join(
+            chr(code) for code in range(0x21, 0x7F)
+            if chr(code) not in excluded
+        )
+        return quote(component, safe=safe)
+
+    path = encode(parts.path or "/", '"#<>?`{}')
+    query = encode(parts.query, '"#\'<>')
+    fragment = encode(parts.fragment, '"<>`')
+    # urlunsplit() drops a trailing empty '?' or '#', unlike new URL().href.
+    result = parts.scheme.lower() + "://" + host + path
+    if "?" in value.split("#", 1)[0]:
+        result += "?" + query
+    if "#" in value:
+        result += "#" + fragment
+    return result
 
 
 def expected_row(record):
