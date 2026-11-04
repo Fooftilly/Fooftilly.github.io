@@ -6,6 +6,6 @@ const entries=await loadMedia("films");
 ---
 <SiteLayout title="Films" description="A personal collection of films, with optional ratings and independent links.">
   <h1>Films</h1>
-  <p><a href="/new-media/">Add a film</a> through a reviewed GitHub pull request.</p>
+  <p><a href="/new-media/?kind=films">Add a film</a> through a reviewed GitHub pull request.</p>
   <MediaTable kind="films" entries={entries}/>
 </SiteLayout>
