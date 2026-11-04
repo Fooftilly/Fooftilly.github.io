@@ -123,7 +123,9 @@ def normalize_external_url(value):
             if is_last:
                 resolved_parts.append("")
         elif segment in ("..", ".%2e", "%2e.", "%2e%2e"):
-            if resolved_parts:
+            # The first empty component is the immutable URL path root.
+            # Popping it collapses a following // into / after /../.
+            if len(resolved_parts) > 1:
                 resolved_parts.pop()
             if is_last:
                 resolved_parts.append("")
