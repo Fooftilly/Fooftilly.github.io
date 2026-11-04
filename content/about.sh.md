@@ -4,7 +4,7 @@ translationKey: "about"
 ---
 
 Moj lični sajt.
-{{< cloakemail address="nikolaperovicccc@gmail.com" display="Klikni ovdje na mi pošalješ mail!" query="subject=Peroniko: Mail iz kontakt forme sajta" >}}
+{{< cloakemail address="nikolaperovicccc@gmail.com" display="Klikni ovdje da mi pošalješ mejl!" query="subject=Peroniko: Mail iz kontakt forme sajta" >}}
 
 Ovaj sajt je objavljen na [GitHub Pages](https://pages.github.com/). Njegov izvorni kod sadrži implementaciju napravljenu pomoću [Astro](https://astro.build/) i [Vue](https://vuejs.org/) tehnologija.
 Ovdje je [Github Repo](https://github.com/Fooftilly/Fooftilly.github.io), ako želiš da pogledaš kod.
