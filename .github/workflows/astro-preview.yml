@@ -87,6 +87,10 @@ jobs:
       - name: Validate sitemap, SEO metadata and original static assets
         run: python3 astro/scripts/verify-site-seo.py
 
+      - name: Validate generated film and music rating pages
+        working-directory: astro
+        run: node scripts/verify-ratings.mjs
+
       - name: Smoke-test hydrated search in Chromium
         working-directory: astro
         env:
