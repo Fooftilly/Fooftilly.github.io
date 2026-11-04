@@ -105,7 +105,13 @@ def normalize_external_url(value):
     # Mirror the URL serialization of the validated first-party records.
     path = quote(parts.path or "/", safe="/%:@!'()*+,;=-._~")
     # WHATWG special-scheme queries percent-encode apostrophes (unlike paths/fragments).
-    query = quote(parts.query, safe="/?%:@!()*+,;=-._~")
+    # WHATWG special-query encoding preserves ASCII punctuation such as & and |
+    # but escapes spaces, double/single quotes, #, <, > and non-ASCII.
+    query_safe = "".join(
+        chr(code) for code in range(0x21, 0x7F)
+        if chr(code) not in "\"#'<>"
+    )
+    query = quote(parts.query, safe=query_safe)
     fragment = quote(parts.fragment, safe="/?%:@!'()*+,;=-._~")
     return urlunsplit((parts.scheme.lower(), host, path, query, fragment))
 
