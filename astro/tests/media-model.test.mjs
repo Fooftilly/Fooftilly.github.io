@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   validateMediaRecord, mediaSlug, mediaPath, composeMediaDraft,
-  sameMedia, githubMediaEditorUrl,
+  sameMedia, githubMediaEditorUrl, mediaEntryId,
 } from "../src/lib/media-model.ts";
 
 const film = {
@@ -62,4 +62,13 @@ test("reject unsafe URLs, unexpected private fields and invalid metadata before 
   assert.throws(()=>validateMediaRecord({...film,title:"Invalid\nTitle"}),/printable/);
   assert.throws(()=>githubMediaEditorUrl("content/media/films/../evil.json","{}"),/Invalid media draft path/);
   assert.throws(()=>githubMediaEditorUrl("content/bookmarks/a.md","{}"),/Invalid media draft path/);
+});
+
+test("Astro media collection IDs omit extension for the first real JSON file", () => {
+  assert.equal(mediaEntryId("films/a-film.json"), "films/a-film");
+  assert.equal(mediaEntryId("music\\\\a-release.json"), "music/a-release");
+  assert.equal(mediaEntryId("tv/čudni-naslovi.json"), "tv/čudni-naslovi");
+  assert.throws(() => mediaEntryId("films/a-film.json.json"), /Invalid media source path/);
+  assert.throws(() => mediaEntryId("films/../secret.json"), /Invalid media source path/);
+  assert.throws(() => mediaEntryId("film/a-film.json"), /Invalid media source path/);
 });
