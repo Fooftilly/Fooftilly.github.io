@@ -11,7 +11,7 @@ const creatorLabel=kind==="music"?"Artist":kind==="films"?"Director":"Creator";
     not dependencies. Entries are reviewed in Git before publication.
   </p>
   {entries.length===0?(
-    <p class="empty-media" role="status">No entries have been published in this collection yet.</p>
+    <p class="empty-media" role="status">No {title.toLowerCase()} entries have been published yet.</p>
   ):(
     <div class="media-scroll">
       <table>
