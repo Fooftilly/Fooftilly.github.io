@@ -129,7 +129,10 @@ def normalize_external_url(value):
                 resolved_parts.append("")
         else:
             resolved_parts.append(part)
-    path = encode("/".join(resolved_parts) or "/", '"#<>?`{}')
+    resolved_path = "/".join(resolved_parts)
+    if not resolved_path.startswith("/"):
+        resolved_path = "/" + resolved_path
+    path = encode(resolved_path, '"#<>?`{}')
     query = encode(parts.query, '"#\'<>')
     fragment = encode(parts.fragment, '"<>`')
     # urlunsplit() drops a trailing empty '?' or '#', unlike new URL().href.
