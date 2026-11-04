@@ -70,6 +70,28 @@ class MediaOutputTests(unittest.TestCase):
         )
         self.assertEqual(verify_media_output(self.astro), 1)
 
+    def test_query_apostrophe_matches_browser_serialization(self):
+        # WHATWG encodes apostrophes in HTTPS queries but keeps them in paths/fragments.
+        record = {
+            "schema": 1, "kind": "films", "title": "A  Film & You",
+            "creator": "Émilie", "year": 2001, "rating": 3.5,
+            "status": "finished", "notes": "A  personal note",
+            "links": [{"label": "Letterboxd", "url": "https://example.org/a'path?q=O'Reilly&ref=library#it's"}],
+        }
+        self.put_film(record=record)
+        page = self.astro / "dist" / "films" / "index.html"
+        html = page.read_text(encoding="utf-8").replace(
+            "https://letterboxd.com/film/example/",
+            "https://example.org/a'path?q=O%27Reilly&amp;ref=library#it's",
+        )
+        page.write_text(html, encoding="utf-8")
+        self.assertEqual(verify_media_output(self.astro), 1)
+
+        # Reject a rendered URL that did not follow browser serialization.
+        page.write_text(html.replace("O%27Reilly", "O'Reilly"), encoding="utf-8")
+        with self.assertRaisesRegex(AssertionError, "rendered data mismatch"):
+            verify_media_output(self.astro)
+
     def test_substituted_record_with_same_count_is_rejected(self):
         self.put_film()
         page = self.astro / "dist" / "films" / "index.html"
