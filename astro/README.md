@@ -84,7 +84,13 @@ text or personal catalog data to any third-party service.
 
 ### Add or edit one item
 
-Use the public `/new-media/` form. It validates a draft, checks existing
+Use the public `/new-media/` form. Media type and status use keyboard-accessible,
+single-selected button groups rather than dropdowns. The five-star slider
+accepts **half-star increments** (0.5–5); its zero position and Clear button
+remove the optional rating entirely. The controls and cards use the site's
+square-edge styling in both light and dark mode.
+
+The form validates a draft, checks existing
 media records for likely duplicates, previews the JSON and links to GitHub's
 authenticated editor. GitHub may prefill the proposed filename and content;
 **verify both before committing**. If the URL is too long, use the built-in
