@@ -110,12 +110,16 @@ export function mediaSlug(record: Pick<MediaRecord,"title"|"year"|"creator">): s
 export function mediaPath(record: MediaRecord): string {
   return "content/media/" + record.kind + "/" + mediaSlug(record) + ".json";
 }
+/** Stable identity bucket for large imports; not a provider identifier. */
+export function mediaMatchKey(record:Pick<MediaRecord,"kind"|"title"|"year">):string {
+  const title=ascii(record.title).replace(/[^\p{L}\p{N}]+/gu,"");
+  return record.kind+"|"+title+"|"+(record.year??0);
+}
 export function sameMedia(a: Pick<MediaRecord,"kind"|"title"|"year"|"creator">,
                            b: Pick<MediaRecord,"kind"|"title"|"year"|"creator">): boolean {
-  if(a.kind!==b.kind) return false;
-  const norm=(s:string)=>ascii(s).replace(/[^\p{L}\p{N}]+/gu,"").trim();
-  return norm(a.title)===norm(b.title) && (a.year??0)===(b.year??0) &&
-    (!a.creator||!b.creator||norm(a.creator)===norm(b.creator));
+  if(mediaMatchKey(a)!==mediaMatchKey(b))return false;
+  const norm=(s:string)=>ascii(s).replace(/[^\p{L}\p{N}]+/gu,"");
+  return !a.creator||!b.creator||norm(a.creator)===norm(b.creator);
 }
 export function composeMediaDraft(raw: unknown, existing: readonly ExistingMediaRef[]): MediaDraft {
   const record=validateMediaRecord(raw);
