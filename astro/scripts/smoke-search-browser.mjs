@@ -193,6 +193,12 @@ try {
   console.log("Browser consent smoke: fixed desktop/mobile cookie overlay, settings reopening, keyboard focus and no eager Google tag passed");
 
   await navigate("/sr/search/");
+  // The SSR input is already present before Vue attaches event handlers.
+  // Only interact after Astro marks this island as fully hydrated.
+  await waitFor(
+    "(()=>{const browser=document.querySelector('.bookmark-browser');const island=browser?.closest('astro-island');return Boolean(browser && island && !island.hasAttribute('ssr') && browser.querySelector('input[type=search]'));})()",
+    Boolean, "Serbian bookmark search Vue hydration",
+  );
   await waitFor(
     "document.querySelector('input[type=search]')?.placeholder",
     (value) => value === "Naziv, kategorija ili veb-adresa",
