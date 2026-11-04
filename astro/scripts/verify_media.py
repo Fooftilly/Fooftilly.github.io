@@ -102,12 +102,10 @@ def normalize_external_url(value):
         host = "[" + host + "]"
     if parts.port and parts.port not in (80 if parts.scheme == "http" else 443,):
         host += ":" + str(parts.port)
-    path = quote(parts.path or "/", safe="/%:@!def expected_row(record):
-'()*+,;=-._~")
-    query = quote(parts.query, safe="/?%:@!def expected_row(record):
-'()*+,;=-._~")
-    fragment = quote(parts.fragment, safe="/?%:@!def expected_row(record):
-'()*+,;=-._~")
+    # Mirror the URL serialization of the validated first-party records.
+    path = quote(parts.path or "/", safe="/%:@!'()*+,;=-._~")
+    query = quote(parts.query, safe="/?%:@!'()*+,;=-._~")
+    fragment = quote(parts.fragment, safe="/?%:@!'()*+,;=-._~")
     return urlunsplit((parts.scheme.lower(), host, path, query, fragment))
 
 
