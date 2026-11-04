@@ -19,7 +19,10 @@ if (extra.length || !["music", "films"].includes(kind) || !path ||
   const input = resolve(path);
   const data = await readFile(input);
   if (data.length > 15_000_000) throw new Error("CSV file exceeds 15 MB safety limit");
-  const catalog = parseRatingsCsv(data.toString("utf8"), kind, source);
+  // Buffer.toString silently replaces invalid UTF-8 with U+FFFD, corrupting titles.
+  // Reject non-UTF-8 exports rather than publishing altered names.
+  const text = new TextDecoder("utf-8", { fatal: true }).decode(data);
+  const catalog = parseRatingsCsv(text, kind, source);
   const dest = fileURLToPath(new URL("../src/data/" + kind + "-ratings.json", import.meta.url));
   await writeFile(dest, JSON.stringify(catalog, null, 2) + "\n", { encoding: "utf8" });
   console.log("Imported " + catalog.items.length + " rated " + kind + " items.");
