@@ -114,6 +114,9 @@ export function parseMediaCsv(text:string,kind:MediaKind,provider:MediaProvider)
   if(!items.length)throw Error("Export contains no rated items");
   const paths=new Set<string>();
   const byTitleYear=new Map<string,MediaRecord[]>();
+  // Different titles or editions must not silently claim the same source item.
+  // Link URLs have already been canonicalized by validateMediaLink().
+  const byReferenceUrl=new Map<string,string>();
   const unique:MediaRecord[]=[];
   for(const item of items){
     const path=mediaPath(item).toLowerCase();
@@ -122,9 +125,16 @@ export function parseMediaCsv(text:string,kind:MediaKind,provider:MediaProvider)
     if(paths.has(path)||matches.some(other=>sameMedia(other,item))) {
       throw Error("Duplicate media entry in export: "+item.title);
     }
+    for(const link of item.links??[]){
+      const previous=byReferenceUrl.get(link.url);
+      if(previous){
+        throw Error("Duplicate external media URL in export: "+previous+" and "+item.title);
+      }
+    }
     paths.add(path);
     matches.push(item);
     byTitleYear.set(key,matches);
+    for(const link of item.links??[])byReferenceUrl.set(link.url,item.title);
     unique.push(item);
   }
   return unique.sort((a,b)=>a.kind.localeCompare(b.kind)||a.title.localeCompare(b.title)||((a.year??0)-(b.year??0)));

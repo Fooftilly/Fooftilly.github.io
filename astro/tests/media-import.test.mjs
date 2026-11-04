@@ -48,6 +48,21 @@ test("RYM film CSV handles ratings and optional metadata",()=>{
   assert.deepEqual(items.map(x=>x.rating),[4,2.5]);
 });
 
+test("offline import rejects different media records referring to the same canonical URL",()=>{
+  const csv=[
+    "Name,Year,Rating,Letterboxd URI",
+    "Film Alpha,2001,4.0,https://LETTERBOXD.com:443/film/shared/",
+    "Film Beta,2002,4.5,https://letterboxd.com/film/shared/",
+  ].join("\n");
+  assert.throws(
+    ()=>parseMediaCsv(csv,"films","letterboxd"),
+    /Duplicate external media URL in export: Film Alpha and Film Beta/,
+  );
+  // Distinct sources must remain valid even when titles share some words.
+  const valid=csv.replace("/film/shared/\n", "/film/alpha/\n");
+  assert.equal(parseMediaCsv(valid,"films","letterboxd").length,2);
+});
+
 test("CSV quotes, malformed encoding, collisions and external URL injections fail closed",()=>{
   assert.deepEqual(parseCsv('a,b\n"One, Two","Text\nwith ""quotes"""'),[
     ["a","b"],["One, Two",'Text\nwith "quotes"']
