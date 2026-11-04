@@ -1,5 +1,6 @@
 import { defineCollection, z } from "astro:content";
 import { glob } from "astro/loaders";
+import { mediaEntryId } from "./lib/media-model.ts";
 
 // Load the authoritative legacy Markdown in place; no mass content rewrite.
 // Folder _index.md files are section metadata, not bookmark records.
@@ -36,4 +37,25 @@ const sitePages = defineCollection({
   }).passthrough(),
 });
 
-export const collections = { bookmarks, sitePages };
+// Media records belong to this repository, not to any ratings provider.
+// One reviewed JSON file per film, TV series or music release enables small PRs.
+const media = defineCollection({
+  loader: glob({
+    pattern: "**/*.json",
+    base: "../content/media",
+    generateId: ({ entry }) => mediaEntryId(entry),
+  }),
+  schema: z.object({
+    schema: z.literal(1),
+    kind: z.enum(["music","films","tv"]),
+    title: z.string().min(1).max(250),
+    creator: z.string().min(1).max(220).optional(),
+    year: z.number().int().min(1800).max(2200).optional(),
+    rating: z.number().min(0.5).max(5).refine(n => Number.isInteger(n*2)).optional(),
+    status: z.enum(["finished","in-progress","planned"]).optional(),
+    notes: z.string().min(1).max(5000).optional(),
+    links: z.array(z.object({label:z.string().min(1).max(48),url:z.string().url()}).strict()).max(8).optional(),
+  }).strict(),
+});
+
+export const collections = { bookmarks, sitePages, media };

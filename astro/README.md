@@ -48,7 +48,7 @@ redirects and the compiled-Hugo route comparison have been removed.
 Astro copies the repository-level `static/` directory through
 `publicDir`, preserving the domain configuration, icons, robots file and
 other assets. Its sitemap lists only routes Astro actually generates (currently
-593 canonical URLs). Shared layouts provide canonical/social metadata and
+598 canonical URLs). Shared layouts provide canonical/social metadata and
 language alternates.
 
 `scripts/verify-bookmark-parity.mjs`, `verify-bookmark-routes.mjs`,
@@ -60,6 +60,77 @@ The source-to-Astro parity manifest is generated during `astro build`, but
 removes `/migration-audit/` from `dist/`. Both CI and unit tests require this
 cleanup to succeed before a release-ready output is accepted. No public build
 contains the internal parity endpoint.
+
+## First-party media collection (films, TV and music)
+
+The website owns the media data. Each entry is a reviewed Git-managed JSON file
+in `content/media/films/`, `content/media/tv/` or `content/media/music/`.
+RYM, Letterboxd and other services are **optional links or import sources**;
+the site works without their accounts, APIs or continued availability.
+The static `/media/`, `/films/`, `/tv/` and `/music/` routes read only
+these files, with no fabricated ratings. Ratings are optional (0.5–5 stars).
+A record can contain a title, creator/artist, year, progress status, public
+notes and up to eight external links.
+
+### Add or edit one item
+
+Use the public `/new-media/` form. It validates a draft, checks existing
+media records for likely duplicates, previews the JSON and links to GitHub's
+authenticated editor. GitHub may prefill the proposed filename and content;
+**verify both before committing**. If the URL is too long, use the built-in
+Copy JSON and Copy file path controls. If a matching record already exists,
+use its GitHub **edit existing file** link instead of making a duplicate.
+The browser cannot write to the repository, open PRs without GitHub access,
+or store GitHub credentials. Collaborator-only PR permissions are enforced
+by GitHub, not by the public form. After editing on a separate branch, open
+a PR and wait for CI/review before merging. Production publication remains
+a separate manual GitHub Actions workflow.
+
+### Import an existing collection offline
+
+Export music ratings from RYM, or film ratings from RYM/Letterboxd. The
+current adapters support **rated entries only**; unrated/watchlist entries
+can be added individually. RYM integer ratings use 0–10, normalized to
+0.5–5 stars (7 → 3.5). Letterboxd ratings already use 0.5–5 stars.
+Data fields are mapped into the same first-party per-item JSON schema as
+the manual form; **no source-specific identifier is required**.
+
+```sh
+cd astro
+# Preview only. The CSV stays local, and no files change:
+node scripts/import-media.mjs music ~/Downloads/rym-music.csv rym
+node scripts/import-media.mjs films ~/Downloads/rym-films.csv rym
+node scripts/import-media.mjs films ~/Downloads/letterboxd-ratings.csv letterboxd
+
+# After reviewing the preview, create NEW files only:
+node scripts/import-media.mjs music ~/Downloads/rym-music.csv rym --write
+# Run one importer per exported collection; imports fail on existing
+# conflicting records and never overwrite public media automatically.
+
+npm test
+npm run check
+npm run build
+python3 scripts/verify_media.py
+git status --short -- ../content/media
+# New files are untracked and omitted from git diff until marked intent-to-add:
+git add -N -- ../content/media
+git diff -- ../content/media
+```
+
+Invalid UTF-8, unsupported CSV formats, unsafe external URLs, title/path
+collisions and conflicts with existing entries are rejected rather than
+silently changing data. A reimport of an **unchanged** file is idempotent;
+changed ratings or enriched metadata require editing the existing entry.
+Only explicitly selected public fields are stored: title, creator/year,
+rating, status and permitted links. Source reviews, ownership and private
+metadata are not copied. Never commit the raw exports without reviewing their
+privacy implications; raw CSVs are not automatically uploaded anywhere.
+
+The **actual owner exports have not been supplied**; the pages initially
+show empty states, not placeholder personal ratings. Before the first bulk
+import, check representative rows and the exporter-specific column names.
+All changes go through Git PR review and a deliberately triggered
+manual GitHub Pages publication.
 
 ## Release and maintenance
 
@@ -104,5 +175,6 @@ nothing changes on the site.
 protocol/credential rejection, title and date checks, duplicate detection
 and unique filenames. The Chromium smoke verifies real Vue hydration,
 query-parameter capture, duplicate warning and safe GitHub editor handoff.
-The `/new-bookmark/` route is included in the Astro sitemap; the site
-still has no automatic deployment. Any future one-click publishing workflow requires a separately reviewed trust model and maintainer approval.
+The `/new-bookmark/` and `/new-media/` routes are included in the sitemap.
+Publishing remains manual-only through the existing validated GitHub Pages
+workflow; merging PRs cannot deploy to production.

@@ -1,0 +1,9 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import NewMedia from "../../components/NewMedia.vue";
+import { loadMedia } from "../../lib/media-store.ts";
+const existing=(await loadMedia()).map(({path,kind,title,year,creator,links})=>({path,kind,title,year,creator,links}));
+---
+<SiteLayout title="Add media" description="Prepare a film, TV, or music entry for review in GitHub.">
+  <NewMedia existing={existing} client:load />
+</SiteLayout>

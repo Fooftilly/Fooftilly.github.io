@@ -87,6 +87,12 @@ jobs:
       - name: Validate sitemap, SEO metadata and original static assets
         run: python3 astro/scripts/verify-site-seo.py
 
+      - name: Validate rendered first-party film, music and TV media records
+        working-directory: astro
+        run: |
+          python3 -m unittest discover -s scripts -p 'test_verify_media.py'
+          python3 scripts/verify_media.py
+
       - name: Smoke-test hydrated search in Chromium
         working-directory: astro
         env:
@@ -115,6 +121,11 @@ jobs:
           test -s astro/dist/404.html
           test -s astro/dist/bookmarks/index.html
           test -s astro/dist/new-bookmark/index.html
+          test -s astro/dist/music/index.html
+          test -s astro/dist/films/index.html
+          test -s astro/dist/tv/index.html
+          test -s astro/dist/media/index.html
+          test -s astro/dist/new-media/index.html
           test -s astro/dist/about/index.html
           test -s astro/dist/sr/index.html
           test -s astro/dist/sr/about/index.html

@@ -29,43 +29,69 @@ const server = createServer(async (req, res) => {
     res.end("Not found");
   }
 });
-const profile = await mkdtemp(join(tmpdir(), "astro-search-"));
+const profiles = [];
 let chrome;
 let socket;
 try {
   await new Promise((done) => server.listen(0, "127.0.0.1", done));
   const origin = "http://127.0.0.1:" + server.address().port;
-  chrome = spawn(process.env.CHROME_BIN || "google-chrome", [
-    "--headless=new", "--no-sandbox", "--disable-gpu", "--disable-dev-shm-usage",
-    "--no-first-run", "--no-default-browser-check", "--remote-allow-origins=*",
-    "--remote-debugging-port=0", "--user-data-dir=" + profile, "about:blank",
-  ], { stdio: ["ignore", "ignore", "pipe"] });
-  let chromeStderr = "";
-  // Keep a bounded tail of diagnostics without flooding Actions logs.
-  chrome.stderr?.on("data", (chunk) => {
-    chromeStderr = (chromeStderr + chunk.toString("utf8")).slice(-8192);
-  });
-  const startupFailure = (reason) => {
-    const exit = chrome.exitCode !== null ? `exit code ${chrome.exitCode}`
-      : chrome.signalCode !== null ? `signal ${chrome.signalCode}` : "process still running";
-    return new Error(`${reason} (${exit})\nChrome stderr:\n${chromeStderr.trim() || "(none captured)"}`);
-  };
-  let launchError;
-  chrome.on("error", (error) => { launchError = error; });
   let port = 0;
-  for (let i = 0; i < 120; i++) {
-    if (launchError) throw startupFailure(`Chromium spawn failed: ${launchError.message}`);
-    if (chrome.exitCode !== null || chrome.signalCode !== null) {
-      throw startupFailure("Chromium exited before DevTools became available");
+  let lastStartupError;
+  // Retry browser *startup* once on a fresh profile. Never retry UI assertions:
+  // an actual application failure must still fail the required browser smoke.
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    const profile = await mkdtemp(join(tmpdir(), "astro-search-"));
+    profiles.push(profile);
+    const chromeEnv = { ...process.env };
+    // GitHub runners can expose a malformed desktop session bus address.
+    // Headless Chrome needs no desktop session, and can otherwise stall here.
+    delete chromeEnv.DBUS_SESSION_BUS_ADDRESS;
+    chrome = spawn(process.env.CHROME_BIN || "google-chrome", [
+      "--headless=new", "--no-sandbox", "--disable-gpu", "--disable-dev-shm-usage",
+      "--no-first-run", "--no-default-browser-check", "--remote-allow-origins=*",
+      "--remote-debugging-port=0", "--user-data-dir=" + profile, "about:blank",
+    ], { stdio: ["ignore", "ignore", "pipe"], env: chromeEnv });
+    let chromeStderr = "";
+    chrome.stderr?.on("data", (chunk) => {
+      chromeStderr = (chromeStderr + chunk.toString("utf8")).slice(-8192);
+    });
+    const startupFailure = (reason) => {
+      const exit = chrome.exitCode !== null ? `exit code ${chrome.exitCode}`
+        : chrome.signalCode !== null ? `signal ${chrome.signalCode}` : "process still running";
+      return new Error(`${reason} (${exit})\nChrome stderr:\n${chromeStderr.trim() || "(none captured)"}`);
+    };
+    let launchError;
+    chrome.on("error", (error) => { launchError = error; });
+    let failureReason = "Chromium DevToolsActivePort was not created";
+    for (let i = 0; i < 120; i++) {
+      if (launchError) {
+        failureReason = "Chromium spawn failed: " + launchError.message;
+        break;
+      }
+      if (chrome.exitCode !== null || chrome.signalCode !== null) {
+        failureReason = "Chromium exited before DevTools became available";
+        break;
+      }
+      try {
+        const active = await readFile(join(profile, "DevToolsActivePort"), "utf8");
+        port = Number(active.split("\n")[0]);
+        if (port > 0) break;
+      } catch { /* Chromium is still starting. */ }
+      await sleep(100);
     }
-    try {
-      const active = await readFile(join(profile, "DevToolsActivePort"), "utf8");
-      port = Number(active.split("\n")[0]);
-      if (port > 0) break;
-    } catch { /* Chromium is still starting. */ }
-    await sleep(100);
+    if (port) break;
+    lastStartupError = startupFailure(failureReason);
+    if (!launchError && chrome.exitCode === null && chrome.signalCode === null) {
+      // Fully stop a hung launch before using a new isolated user-data-dir.
+      const exited = new Promise((done) => chrome.once("exit", done));
+      chrome.kill("SIGKILL");
+      await Promise.race([exited, sleep(1000)]);
+    }
+    if (attempt === 1) {
+      console.warn("Chromium startup failed; retrying once with a fresh profile:\n" + lastStartupError.message);
+    }
   }
-  if (!port) throw startupFailure("Chromium DevToolsActivePort was not created");
+  if (!port) throw lastStartupError;
   const opened = await fetch("http://127.0.0.1:" + port + "/json/new?about:blank", { method: "PUT" });
   assert.equal(opened.status, 200, "Unable to open browser target");
   const target = await opened.json();
@@ -167,6 +193,12 @@ try {
   console.log("Browser consent smoke: fixed desktop/mobile cookie overlay, settings reopening, keyboard focus and no eager Google tag passed");
 
   await navigate("/sr/search/");
+  // The SSR input is already present before Vue attaches event handlers.
+  // Only interact after Astro marks this island as fully hydrated.
+  await waitFor(
+    "(()=>{const browser=document.querySelector('.bookmark-browser');const island=browser?.closest('astro-island');return Boolean(browser && island && !island.hasAttribute('ssr') && browser.querySelector('input[type=search]'));})()",
+    Boolean, "Serbian bookmark search Vue hydration",
+  );
   await waitFor(
     "document.querySelector('input[type=search]')?.placeholder",
     (value) => value === "Naziv, kategorija ili veb-adresa",
@@ -291,6 +323,54 @@ try {
     await evaluate("document.querySelector('.new-bookmark .output code')?.textContent.trim()"),
     "content/bookmarks/Resource/long-notes.md",
   );
+  await navigate("/new-media/");
+  await waitFor(
+    "(()=>{const editor=document.querySelector('.media-editor');const island=editor?.closest('astro-island');return Boolean(editor && island && !island.hasAttribute('ssr') && editor.querySelector('input[placeholder=\\\"Title\\\"]'));})()",
+    Boolean, "new media Vue component hydration completed",
+  );
+  await evaluate(`(()=>{
+    const edit=(selector,value,event="input")=>{
+      const el=document.querySelector(selector);
+      el.value=value;
+      el.dispatchEvent(new Event(event,{bubbles:true}));
+    };
+    edit('.media-editor input[placeholder="Title"]',"A Test Film");
+    edit('.media-editor input[step="1"]',"2024");
+    edit('.media-editor input[step="0.5"]',"4.5");
+    edit('.media-editor input[placeholder="https://..."]',"https://letterboxd.com/film/test/");
+  })()`);
+  await waitFor(
+    "document.querySelector('.media-editor .preview code')?.textContent",
+    (value) => typeof value === "string" && value.includes("content/media/films/a-test-film-2024.json"),
+    "media form generated first-party Git JSON",
+  );
+  const mediaDraft = await evaluate(
+    "document.querySelector('.media-editor .preview textarea[readonly]')?.value",
+  );
+  const parsedMedia = JSON.parse(mediaDraft);
+  assert.deepEqual(
+    {schema:parsedMedia.schema,kind:parsedMedia.kind,title:parsedMedia.title,year:parsedMedia.year,rating:parsedMedia.rating},
+    {schema:1,kind:"films",title:"A Test Film",year:2024,rating:4.5},
+  );
+  assert.equal(parsedMedia.links[0].url, "https://letterboxd.com/film/test/");
+  const mediaHref = await evaluate(
+    "document.querySelector('.media-editor .actions a')?.href",
+  );
+  assert.ok(mediaHref?.startsWith("https://github.com/Fooftilly/Fooftilly.github.io/new/master?"));
+  assert.equal(new URL(mediaHref).searchParams.get("filename"), "content/media/films/a-test-film-2024.json");
+  await evaluate(`(()=>{
+    const el=document.querySelector('.media-editor input[placeholder="https://..."]');
+    el.value="javascript:alert(1)";
+    el.dispatchEvent(new Event('input',{bubbles:true}));
+  })()`);
+  await waitFor(
+    "document.querySelector('.media-editor .error')?.textContent",
+    (value) => typeof value === "string" && value.includes("Only absolute HTTP/HTTPS"),
+    "media form rejects unsafe URLs",
+  );
+  assert.equal(await evaluate("document.querySelector('.media-editor .preview')"), null);
+  console.log("Browser media smoke: first-party draft, GitHub PR handoff and unsafe-URL rejection passed");
+
   console.log("Browser smoke: long URL not truncated, long draft safe full-path fallback passed");
   console.log("Browser smoke: bookmark composer URL prefill, duplicate warning, GitHub handoff and unsafe URL rejection passed");
   console.log("Browser search smoke: Serbian labels, Vue input, category filter, URL state, reload and English search passed");
@@ -298,5 +378,5 @@ try {
   socket?.close();
   if (chrome && chrome.exitCode === null) chrome.kill();
   await new Promise((done) => server.close(done));
-  await rm(profile, { recursive: true, force: true, maxRetries: 3 });
+  await Promise.all(profiles.map((profile) => rm(profile, { recursive: true, force: true, maxRetries: 3 })));
 }
