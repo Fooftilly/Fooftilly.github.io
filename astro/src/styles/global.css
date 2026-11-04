@@ -8,6 +8,8 @@
   --border: #d3dbe3;
   --surface: #ffffff;
   --accent: #214f85;
+  --accent-contrast: #ffffff;
+  --rating-star: #a76706;
   background: var(--background);
   color: var(--foreground);
 }
@@ -20,6 +22,8 @@
     --border: #3c4653;
     --surface: #202833;
     --accent: #9ac5fa;
+    --accent-contrast: #111820;
+    --rating-star: #ffd166;
   }
 }
 
