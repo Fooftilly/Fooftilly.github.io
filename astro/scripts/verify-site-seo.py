@@ -63,12 +63,12 @@ def check_assets():
 def check_sitemap():
     records = json.loads((ASTRO / ".audit/bookmarks-parity.json").read_text())
     assert len(records) == 576, "Expected full bookmark parity manifest"
-    expected = {SITE + "/", SITE + "/about/", SITE + "/sr/", SITE + "/sr/about/", SITE + "/posts/", SITE + "/sr/posts/", SITE + "/search/", SITE + "/sr/search/", SITE + "/bookmarks/", SITE + "/new-bookmark/", SITE + "/media/", SITE + "/music/", SITE + "/films/", SITE + "/tv/", SITE + "/new-media/"}
+    expected = {SITE + "/", SITE + "/about/", SITE + "/sr/", SITE + "/sr/about/", SITE + "/posts/", SITE + "/sr/posts/", SITE + "/search/", SITE + "/sr/search/", SITE + "/bookmarks/", SITE + "/new-bookmark/", SITE + "/media/", SITE + "/music/", SITE + "/films/", SITE + "/tv/", SITE + "/new-media/", SITE + "/privacy/", SITE + "/sr/privacy/"}
     expected.update(f"{SITE}/bookmarks/{section}/" for section in SECTIONS)
     for record in records:
         section, stem = record["id"].split("/")
         expected.add(f"{SITE}/bookmarks/{section.lower()}/{quote(stem.lower(), safe='-._~')}/")
-    assert len(expected) == 598, "Expected 15 root pages + 7 categories + 576 details"
+    assert len(expected) == 600, "Expected 17 root pages + 7 categories + 576 details"
 
     root = ET.parse(DIST / "sitemap.xml").getroot()
     ns = "{http://www.sitemaps.org/schemas/sitemap/0.9}"
@@ -100,6 +100,8 @@ def check_metadata():
         "/tv/": DIST / "tv/index.html",
         "/media/": DIST / "media/index.html",
         "/new-media/": DIST / "new-media/index.html",
+        "/privacy/": DIST / "privacy/index.html",
+        "/sr/privacy/": DIST / "sr/privacy/index.html",
         "/bookmarks/art/": DIST / "bookmarks/art/index.html",
         "/bookmarks/art/50_watts___illustrations___/": DIST / "bookmarks/art/50_watts___illustrations___/index.html",
     }
@@ -162,6 +164,41 @@ def check_opt_in_comments():
     print("Verified bookmark comments require visitor opt-in before loading third-party scripts")
 
 
+def check_privacy_disclosure():
+    """Ensure both localized privacy notices are reachable and match source behavior."""
+    for path, other, language, markers in (
+        ("/privacy/", "/sr/privacy/", "en",
+         ("Privacy and cookies", "GitHub Pages", "Google Analytics", "Giscus",
+          "localStorage", "unverified")),
+        ("/sr/privacy/", "/privacy/", "sr-Latn",
+         ("Privatnost i kolačići", "GitHub Pages", "Google Analytics", "Giscus",
+          "localStorage", "nije potvrđen")),
+    ):
+        html = (DIST / path.lstrip("/") / "index.html").read_text(encoding="utf8")
+        doc = Metadata()
+        doc.feed(html)
+        assert doc.html_lang == language, path
+        for text in markers:
+            assert text in html, (path, "Missing disclosure content", text)
+        expected_alternate = SITE + other
+        assert any(link.get("rel") == "alternate" and
+                   link.get("href") == expected_alternate for link in doc.links), path
+        assert any(a.get("href") == ("/sr/privacy/" if path == "/privacy/" else "/privacy/")
+                   for a in doc.anchors), (path, "Missing language navigation")
+        assert any(a.get("href") == "https://policies.google.com/privacy"
+                   for a in doc.anchors), (path, "Missing Google policy reference")
+        assert any(a.get("href") ==
+                   "https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement"
+                   for a in doc.anchors), (path, "Missing GitHub privacy reference")
+        assert 'src="https://www.googletagmanager.com/' not in html, path
+        assert 'src="https://giscus.app/' not in html, path
+    for page in (DIST / "index.html", DIST / "sr/index.html"):
+        html = page.read_text(encoding="utf8")
+        expected = "/sr/privacy/" if page.parts[-2] == "sr" else "/privacy/"
+        assert f'href="{expected}"' in html, ("Missing visible footer privacy link", page)
+    print("Verified bilingual privacy notice, provider references, footer navigation and opt-in loading")
+
+
 def check_analytics_privacy():
     for page in (DIST / "index.html", DIST / "sr/index.html", DIST / "404.html"):
         html = page.read_text(encoding="utf8")
@@ -184,3 +221,4 @@ if __name__ == "__main__":
     check_not_found_page()
     check_analytics_privacy()
     check_opt_in_comments()
+    check_privacy_disclosure()

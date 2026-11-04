@@ -132,6 +132,8 @@ jobs:
           test -s astro/dist/tv/index.html
           test -s astro/dist/media/index.html
           test -s astro/dist/new-media/index.html
+          test -s astro/dist/privacy/index.html
+          test -s astro/dist/sr/privacy/index.html
           test -s astro/dist/about/index.html
           test -s astro/dist/sr/index.html
           test -s astro/dist/sr/about/index.html

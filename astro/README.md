@@ -48,7 +48,7 @@ redirects and the compiled-Hugo route comparison have been removed.
 Astro copies the repository-level `static/` directory through
 `publicDir`, preserving the domain configuration, icons, robots file and
 other assets. Its sitemap lists only routes Astro actually generates (currently
-598 canonical URLs). Shared layouts provide canonical/social metadata and
+600 canonical URLs). Shared layouts provide canonical/social metadata and
 language alternates.
 
 `scripts/verify-bookmark-parity.mjs`, `verify-bookmark-routes.mjs`,
@@ -146,6 +146,23 @@ show empty states, not placeholder personal ratings. Before the first bulk
 import, check representative rows and the exporter-specific column names.
 All changes go through Git PR review and a deliberately triggered
 manual GitHub Pages publication.
+
+## Privacy disclosure and visitor controls
+
+The bilingual `/privacy/` and `/sr/privacy/` pages explain GitHub Pages
+hosting, the optional Google Analytics opt-in, the browser-local consent
+preference, click-to-load Giscus comments, third-party destinations, and
+contact via the existing About pages. The footer and cookie overlay link to
+the disclosure in each language. The independent static SEO audit checks
+both routes, canonical/language metadata, provider-policy links, and absence
+of eager third-party tracking scripts. The manual Pages publish verifies
+the new public routes after deployment.
+
+The **Google Analytics property-level data-retention setting is not
+verified** by this repository. The disclosure does not invent a retention
+period or claim legal compliance. The owner still needs to verify and
+document the actual setting, revisit the disclosure and third-party
+service settings, and determine applicable legal requirements under #3.
 
 ## Release and maintenance
 

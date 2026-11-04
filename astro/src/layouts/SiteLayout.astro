@@ -81,6 +81,7 @@ const socialLinks = [
         {socialLinks.map(({ label, href }) => <a href={href} rel="noopener noreferrer">{label}</a>)}
         <a href="/index.xml" type="application/rss+xml">RSS</a>
       </nav>
+      <p class="footer-privacy"><a href={lang === "sr" ? "/sr/privacy/" : "/privacy/"}>{lang === "sr" ? "Obavještenje o privatnosti" : "Privacy notice"}</a></p>
       <AnalyticsSettings lang={lang} />
     </footer>
   </body>
@@ -89,4 +90,5 @@ const socialLinks = [
 <style>
   .social-links { display: flex; flex-wrap: wrap; gap: .55rem 1rem; margin-top: .65rem; }
   .social-links a { overflow-wrap: anywhere; }
+  .footer-privacy { margin: .65rem 0 0; }
 </style>

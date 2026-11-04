@@ -33,6 +33,7 @@ for (const file of [
   "bookmarks/index.html", "bookmarks/index.xml",
   "sr/index.html", "sr/about/index.html", "posts/index.html", "search/index.html",
   "new-bookmark/index.html", "media/index.html", "music/index.html", "films/index.html", "tv/index.html", "new-media/index.html",
+  "privacy/index.html", "sr/privacy/index.html",
 ]) assert.ok(await exists(join(publicDir, file)), "Missing public release file: " + file);
 assert.equal(await exists(join(publicDir, "migration-audit")), false, "Internal audit is public");
 assert.equal(await exists(join(publicDir, "admin")), false, "Admin output is public");
