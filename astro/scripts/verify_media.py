@@ -6,6 +6,7 @@ This independent Python check runs after static build on PRs and manual releases
 from collections import Counter
 from html.parser import HTMLParser
 from pathlib import Path
+from urllib.parse import urlsplit, urlunsplit, quote
 import json
 import re
 
@@ -85,6 +86,31 @@ class MediaParser(HTMLParser):
             self.in_body = False
 
 
+def normalize_external_url(value):
+    """Mirror WHATWG URL's normal HTTPS host/path formatting for static hrefs.
+
+    Astro validates links with new URL() and emits canonical hrefs. A source
+    URL with no path, e.g. https://example.org, is rendered with a trailing /.
+    """
+    parts = urlsplit(value)
+    if parts.scheme.lower() not in ("https", "http") or not parts.hostname:
+        raise AssertionError("Invalid public media URL")
+    if parts.username or parts.password:
+        raise AssertionError("Credential-bearing media URL")
+    host = parts.hostname.encode("idna").decode("ascii").lower()
+    if ":" in host and not host.startswith("["):
+        host = "[" + host + "]"
+    if parts.port and parts.port not in (80 if parts.scheme == "http" else 443,):
+        host += ":" + str(parts.port)
+    path = quote(parts.path or "/", safe="/%:@!def expected_row(record):
+'()*+,;=-._~")
+    query = quote(parts.query, safe="/?%:@!def expected_row(record):
+'()*+,;=-._~")
+    fragment = quote(parts.fragment, safe="/?%:@!def expected_row(record):
+'()*+,;=-._~")
+    return urlunsplit((parts.scheme.lower(), host, path, query, fragment))
+
+
 def expected_row(record):
     if record["schema"] != 1 or record["kind"] not in KINDS:
         raise AssertionError("Invalid media record schema")
@@ -104,7 +130,7 @@ def expected_row(record):
             normalized(record.get("status") or "—"),
             normalized("".join(link["label"] for link in links)) if links else "—",
         ],
-        "links": [(normalized(link["label"]), link["url"]) for link in links],
+        "links": [(normalized(link["label"]), normalize_external_url(link["url"])) for link in links],
         "notes": normalized(record.get("notes") or ""),
         "rating_label": (
             f"{rating:g} out of 5 stars" if rating is not None else "Not rated"
