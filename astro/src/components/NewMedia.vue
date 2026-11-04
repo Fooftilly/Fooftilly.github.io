@@ -148,7 +148,7 @@ async function copy(value:string,label:string){
 .fields{display:grid;gap:1.1rem;margin:1.5rem 0}
 label{display:grid;gap:.4rem;font-weight:600}
 input,select,textarea{width:100%;min-height:2.75rem;padding:.65rem;font:inherit;color:var(--foreground);
-background:var(--surface);border:1px solid var(--border);border-radius:.45rem}
+background:var(--surface);border:1px solid var(--border);border-radius: 0}
 textarea{min-height:6rem;resize:vertical;font-weight:400}
 .two-cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
 .privacy-note,.help,.copy-status{color:var(--muted);font-size:.92rem}
@@ -157,7 +157,7 @@ textarea{min-height:6rem;resize:vertical;font-weight:400}
 .preview code{overflow-wrap:anywhere}
 .actions{display:flex;flex-wrap:wrap;gap:.7rem;align-items:center}
 .actions a,.actions button{display:inline-flex;align-items:center;min-height:2.75rem;padding:.65rem .95rem;
-border:1px solid var(--border);border-radius:.45rem;background:var(--surface);color:var(--foreground);font:inherit;cursor:pointer;text-decoration:none}
+border:1px solid var(--border);border-radius: 0;background:var(--surface);color:var(--foreground);font:inherit;cursor:pointer;text-decoration:none}
 .actions a{color:var(--accent)}
 .duplicate,.error{border-left:3px solid var(--accent);padding-left:.8rem}
 .duplicate a{overflow-wrap:anywhere}

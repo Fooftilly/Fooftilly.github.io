@@ -141,19 +141,19 @@ label { display: grid; gap: .4rem; font-weight: 650; }
 input, select, textarea {
   width: 100%; min-height: 2.8rem; padding: .65rem;
   font: inherit; background: var(--surface); color: var(--foreground);
-  border: 1px solid var(--border); border-radius: .4rem;
+  border: 1px solid var(--border); border-radius: 0;
 }
 textarea { min-height: 5rem; resize: vertical; font-weight: normal; }
 .output { border-top: 1px solid var(--border); padding-top: 1.25rem; }
 .capture-help { margin: 1rem 0; }
 .capture-help summary { cursor: pointer; }
-.capture-help button { padding: .6rem .8rem; border: 1px solid var(--border); border-radius: .4rem; background: var(--surface); color: var(--foreground); cursor: pointer; }
+.capture-help button { padding: .6rem .8rem; border: 1px solid var(--border); border-radius: 0; background: var(--surface); color: var(--foreground); cursor: pointer; }
 .output label textarea { min-height: 12rem; font-family: ui-monospace, monospace; }
 .output code { overflow-wrap: anywhere; font-size: .9rem; }
 .actions { display: flex; align-items: center; flex-wrap: wrap; gap: .7rem; }
 .actions button, .actions a {
   color: var(--foreground); background: var(--surface);
-  border: 1px solid var(--border); border-radius: .45rem;
+  border: 1px solid var(--border); border-radius: 0;
   padding: .7rem 1rem; font: inherit; cursor: pointer;
 }
 .actions a { color: var(--accent); }
