@@ -3,7 +3,8 @@ from pathlib import Path
 import json
 import tempfile
 import unittest
-from verify_media import MediaParser, normalize_external_url, verify_media_output
+from verify_media import (MediaParser, normalize_external_url,
+                          normalize_external_urls, verify_media_output)
 
 
 PAGES = {"music": "Music", "films": "Films", "tv": "TV series"}
@@ -124,6 +125,9 @@ class MediaOutputTests(unittest.TestCase):
             ("https://example.org/mañana?name=João&name2=Émile#té",
              "https://example.org/ma%C3%B1ana?name=Jo%C3%A3o&name2=%C3%89mile#t%C3%A9"),
             ("https://EXAMPLE.org:443/path", "https://example.org/path"),
+            ("https://faß.de/", "https://xn--fa-hia.de/"),
+            ("https://[2001:0db8:0000:0000:0000:0000:0001]/", "https://[2001:db8::1]/"),
+            ("https://example.org/a/../../b", "https://example.org/b"),
             ("https://example.org/?", "https://example.org/?"),
             ("https://example.org/#", "https://example.org/#"),
             ("https://example.org/?#", "https://example.org/?#"),
@@ -143,6 +147,51 @@ class MediaOutputTests(unittest.TestCase):
         for raw, expected in examples:
             with self.subTest(raw=raw):
                 self.assertEqual(normalize_external_url(raw), expected)
+
+    def test_idna_ipv6_and_individually_trimmed_link_labels(self):
+        record = {
+            "schema": 1, "kind": "films", "title": "A  Film & You",
+            "creator": "Émilie", "year": 2001, "rating": 3.5,
+            "status": "finished", "notes": "A  personal note",
+            "links": [
+                {"label": " First ", "url": "https://faß.de/"},
+                {"label": " Second ", "url":
+                    "https://[2001:0db8:0000:0000:0000:0000:0000:0001]/"},
+            ],
+        }
+        row = (
+            '<tr><th scope="row">A &nbsp;Film &amp; You'
+            '<details><summary>Notes</summary><p class="notes">A  personal note</p></details>'
+            '</th><td>Émilie</td><td>2001</td>'
+            '<td aria-label="3.5 out of 5 stars">3.5 / 5</td>'
+            '<td>finished</td><td>'
+            '<a href="https://xn--fa-hia.de/">First</a>'
+            '<a href="https://[2001:db8::1]/">Second</a>'
+            '</td></tr>'
+        )
+        self.put_film(record=record, row=row)
+        self.assertEqual(verify_media_output(self.astro), 1)
+        page = self.astro / "dist" / "films" / "index.html"
+        html = page.read_text(encoding="utf-8")
+        # Each link still matches, but untrimmed separator text changes the cell.
+        page.write_text(html.replace("First</a><a", "First</a> <a"), encoding="utf-8")
+        with self.assertRaisesRegex(AssertionError, "rendered data mismatch"):
+            verify_media_output(self.astro)
+        # A host mangled by legacy Python IDNA must also fail exact href audit.
+        page.write_text(html.replace("xn--fa-hia.de", "fass.de"), encoding="utf-8")
+        with self.assertRaisesRegex(AssertionError, "rendered data mismatch"):
+            verify_media_output(self.astro)
+
+    def test_batch_url_audit_rejects_unsafe_urls_without_truncation(self):
+        urls = ["https://faß.de/", "https://[2001:db8::1]/"]
+        self.assertEqual(normalize_external_urls(urls), {
+            "https://faß.de/": "https://xn--fa-hia.de/",
+            "https://[2001:db8::1]/": "https://[2001:db8::1]/",
+        })
+        for unsafe in ("javascript:alert(1)", "https://user:secret@example.org/"):
+            with self.subTest(unsafe=unsafe):
+                with self.assertRaisesRegex(AssertionError, "Invalid public media URL"):
+                    normalize_external_url(unsafe)
 
     def test_rendered_media_accepts_canonicalized_dot_segments(self):
         record = {
