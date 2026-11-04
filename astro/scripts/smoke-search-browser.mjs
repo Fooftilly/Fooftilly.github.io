@@ -369,6 +369,46 @@ try {
     "media form rejects unsafe URLs",
   );
   assert.equal(await evaluate("document.querySelector('.media-editor .preview')"), null);
+
+  // Each media category must take the maintainer to the correct draft kind.
+  // The kind is selected after hydration, never blindly trusted from the URL.
+  for (const kind of ["music", "tv", "films"]) {
+    await navigate("/" + kind + "/");
+    const addHref = await evaluate(
+      "document.querySelector('a[href=\"/new-media/?kind=" + kind + "\"]')?.getAttribute('href')"
+    );
+    assert.equal(addHref, "/new-media/?kind=" + kind);
+    await navigate("/new-media/?kind=" + kind);
+    await waitFor(
+      "(()=>{const el=document.querySelector('.media-editor');const island=el?.closest('astro-island');return Boolean(el && island && !island.hasAttribute('ssr'));})()",
+      Boolean, "media draft hydration for " + kind,
+    );
+    await waitFor(
+      "document.querySelector('.media-editor select')?.value",
+      (value) => value === kind, "media category preselected for " + kind,
+    );
+    await evaluate("(()=>{const el=document.querySelector('.media-editor input[type=text]');el.value='A New Entry';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
+    await waitFor(
+      "document.querySelector('.media-editor .preview code')?.textContent",
+      (value) => typeof value === "string" && value.startsWith("content/media/" + kind + "/"),
+      "generated file path follows the selected category " + kind,
+    );
+    const json = await evaluate(
+      "document.querySelector('.media-editor .preview textarea[readonly]')?.value",
+    );
+    assert.equal(JSON.parse(json).kind, kind);
+  }
+  await navigate("/new-media/?kind=untrusted");
+  await waitFor(
+    "(()=>{const el=document.querySelector('.media-editor');const island=el?.closest('astro-island');return Boolean(el && island && !island.hasAttribute('ssr'));})()",
+    Boolean, "media form hydration for invalid category",
+  );
+  assert.equal(
+    await evaluate("document.querySelector('.media-editor select')?.value"),
+    "films",
+    "Unexpected URL parameters must not change the media category",
+  );
+
   console.log("Browser media smoke: first-party draft, GitHub PR handoff and unsafe-URL rejection passed");
 
   console.log("Browser smoke: long URL not truncated, long draft safe full-path fallback passed");

@@ -1,9 +1,16 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { composeMediaDraft, githubMediaEditorUrl, type ExistingMediaRef, type MediaKind, type MediaRecord } from "../lib/media-model.ts";
 
 const props=defineProps<{existing:ExistingMediaRef[]}>();
 const kind=ref<MediaKind>("films");
+onMounted(() => {
+  // Category-page links may preselect a kind, but the URL is untrusted.
+  const requested = new URLSearchParams(window.location.search).get("kind");
+  if (requested === "music" || requested === "tv" || requested === "films") {
+    kind.value = requested;
+  }
+});
 const title=ref("");
 const creator=ref("");
 const year=ref<string|number>("");
