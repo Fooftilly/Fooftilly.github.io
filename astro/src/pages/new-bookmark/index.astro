@@ -14,6 +14,6 @@ const existing = (await getCollection("bookmarks"))
   .filter(({ id }) => id !== "_index" && !id.endsWith("/_index"))
   .map(({ id }) => ({ id, url: published.get(id) ?? "" }));
 ---
-<SiteLayout title="New bookmark" description="Prepare a bookmark Markdown draft and review it in the GitHub editor.">
+<SiteLayout title="New bookmark" description="Add a bookmark.">
   <NewBookmark existing={existing} client:load />
 </SiteLayout>

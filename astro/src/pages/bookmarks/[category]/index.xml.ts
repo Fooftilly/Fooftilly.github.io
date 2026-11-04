@@ -14,7 +14,7 @@ export const GET: APIRoute = async ({ params }) => {
     (entry) => entry.id.startsWith(`${category.section}/`)
   );
   return rssResponse(renderBookmarkRss({
-    title: `Nikola Perović — ${category.label} bookmarks`,
+    title: `Peroniko — ${category.label} bookmarks`,
     description: `Bookmarks in ${category.label}`,
     path: bookmarkCategoryFeedPath(category.slug),
     bookmarks,
