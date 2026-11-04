@@ -291,6 +291,54 @@ try {
     await evaluate("document.querySelector('.new-bookmark .output code')?.textContent.trim()"),
     "content/bookmarks/Resource/long-notes.md",
   );
+  await navigate("/new-media/");
+  await waitFor(
+    "document.querySelector('.media-editor input[placeholder=\\\"Title\\\"]') !== null",
+    Boolean, "new media Vue form hydration",
+  );
+  await evaluate(`(()=>{
+    const edit=(selector,value,event="input")=>{
+      const el=document.querySelector(selector);
+      el.value=value;
+      el.dispatchEvent(new Event(event,{bubbles:true}));
+    };
+    edit('.media-editor input[placeholder="Title"]',"A Test Film");
+    edit('.media-editor input[step="1"]',"2024");
+    edit('.media-editor input[step="0.5"]',"4.5");
+    edit('.media-editor input[placeholder="https://..."]',"https://letterboxd.com/film/test/");
+  })()`);
+  await waitFor(
+    "document.querySelector('.media-editor .preview code')?.textContent",
+    (value) => typeof value === "string" && value.includes("content/media/films/a-test-film-2024.json"),
+    "media form generated first-party Git JSON",
+  );
+  const mediaDraft = await evaluate(
+    "document.querySelector('.media-editor .preview textarea[readonly]')?.value",
+  );
+  const parsedMedia = JSON.parse(mediaDraft);
+  assert.deepEqual(
+    {schema:parsedMedia.schema,kind:parsedMedia.kind,title:parsedMedia.title,year:parsedMedia.year,rating:parsedMedia.rating},
+    {schema:1,kind:"films",title:"A Test Film",year:2024,rating:4.5},
+  );
+  assert.equal(parsedMedia.links[0].url, "https://letterboxd.com/film/test/");
+  const mediaHref = await evaluate(
+    "document.querySelector('.media-editor .actions a')?.href",
+  );
+  assert.ok(mediaHref?.startsWith("https://github.com/Fooftilly/Fooftilly.github.io/new/master?"));
+  assert.equal(new URL(mediaHref).searchParams.get("filename"), "content/media/films/a-test-film-2024.json");
+  await evaluate(`(()=>{
+    const el=document.querySelector('.media-editor input[placeholder="https://..."]');
+    el.value="javascript:alert(1)";
+    el.dispatchEvent(new Event('input',{bubbles:true}));
+  })()`);
+  await waitFor(
+    "document.querySelector('.media-editor .error')?.textContent",
+    (value) => typeof value === "string" && value.includes("Only absolute HTTP/HTTPS"),
+    "media form rejects unsafe URLs",
+  );
+  assert.equal(await evaluate("document.querySelector('.media-editor .preview')"), null);
+  console.log("Browser media smoke: first-party draft, GitHub PR handoff and unsafe-URL rejection passed");
+
   console.log("Browser smoke: long URL not truncated, long draft safe full-path fallback passed");
   console.log("Browser smoke: bookmark composer URL prefill, duplicate warning, GitHub handoff and unsafe URL rejection passed");
   console.log("Browser search smoke: Serbian labels, Vue input, category filter, URL state, reload and English search passed");
