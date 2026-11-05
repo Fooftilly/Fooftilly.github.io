@@ -22,11 +22,21 @@ class Structure(HTMLParser):
         self.in_skip_link = False
         self.images_without_alt = 0
         self.unsafe_new_window_links = 0
+        self.primary_nav_count = 0
+        self.in_primary_nav = False
+        self.primary_current_links = []
+        self.in_footer_privacy = False
+        self.footer_current_links = []
 
     def handle_starttag(self, tag, attrs):
         props = dict(attrs)
         if tag == "html":
             self.language = props.get("lang")
+        if tag == "nav" and props.get("aria-label") in {"Main navigation", "Glavna navigacija"}:
+            self.primary_nav_count += 1
+            self.in_primary_nav = True
+        if tag == "p" and "footer-privacy" in props.get("class", "").split():
+            self.in_footer_privacy = True
         if tag == "main":
             self.main_count += 1
         if tag == "h1":
@@ -34,6 +44,10 @@ class Structure(HTMLParser):
         if props.get("id"):
             self.ids[props["id"]] += 1
         if tag == "a":
+            if "aria-current" in props and self.in_primary_nav:
+                self.primary_current_links.append((props.get("href"), props["aria-current"]))
+            if "aria-current" in props and self.in_footer_privacy:
+                self.footer_current_links.append((props.get("href"), props["aria-current"]))
             if props.get("href") == "#main":
                 self.skip_to_main = True
                 self.in_skip_link = True
@@ -47,12 +61,39 @@ class Structure(HTMLParser):
     def handle_endtag(self, tag):
         if tag == "a":
             self.in_skip_link = False
+        if tag == "nav" and self.in_primary_nav:
+            self.in_primary_nav = False
+        if tag == "p" and self.in_footer_privacy:
+            self.in_footer_privacy = False
 
     def handle_data(self, data):
         if self.in_skip_link:
             self.skip_link_text.append(data)
 
     handle_startendtag = handle_starttag
+
+
+def expected_nav_link(path: str):
+    """Independently validate the current section for canonical published routes."""
+    if path in {"/", "/sh/"}:
+        return (path, "page")
+    if path.startswith(("/sh/posts/", "/posts/")):
+        href = "/sh/posts/" if path.startswith("/sh/") else "/posts/"
+    elif path.startswith("/bookmarks/"):
+        href = "/bookmarks/"
+    elif path.startswith(("/media/", "/films/", "/music/", "/tv/", "/new-media/")):
+        href = "/media/"
+    elif path.startswith(("/sh/projects/", "/projects/")):
+        href = "/sh/projects/" if path.startswith("/sh/") else "/projects/"
+    elif path.startswith(("/sh/search/", "/search/")):
+        href = "/sh/search/" if path.startswith("/sh/") else "/search/"
+    elif path == "/new-bookmark/":
+        href = "/new-bookmark/"
+    elif path.startswith(("/sh/about/", "/about/")):
+        href = "/sh/about/" if path.startswith("/sh/") else "/about/"
+    else:
+        return None
+    return (href, "page" if path == href else "location")
 
 
 def verify_semantic_structure(dist: Path) -> None:
@@ -93,9 +134,18 @@ def verify_semantic_structure(dist: Path) -> None:
             errors.append(f"{structure.images_without_alt} images lack alt attributes")
         if structure.unsafe_new_window_links:
             errors.append(f"{structure.unsafe_new_window_links} new-window links lack noopener noreferrer")
+        if structure.primary_nav_count != 1:
+            errors.append(f"expected one primary navigation, got {structure.primary_nav_count}")
+        expected_nav = expected_nav_link(parsed.path)
+        actual_nav = structure.primary_current_links
+        if actual_nav != ([expected_nav] if expected_nav else []):
+            errors.append(f"primary navigation current link: expected {expected_nav!r}, got {actual_nav!r}")
+        expected_privacy = (parsed.path, "page") if parsed.path in {"/privacy/", "/sh/privacy/"} else None
+        if structure.footer_current_links != ([expected_privacy] if expected_privacy else []):
+            errors.append(f"privacy navigation current link: expected {expected_privacy!r}, got {structure.footer_current_links!r}")
         repeated = sorted(key for key, count in structure.ids.items() if count > 1)
         if repeated:
             errors.append(f"duplicate ids: {', '.join(repeated[:10])}")
         assert not errors, f"Accessibility structure on {parsed.path}: {'; '.join(errors)}"
         checked += 1
-    print(f"Validated semantic landmarks, headings, skip links, images and external links on {checked} pages")
+    print(f"Validated semantic landmarks, headings, active navigation, skip links, images and external links on {checked} pages")
