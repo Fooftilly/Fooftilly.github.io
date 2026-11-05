@@ -17,6 +17,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
 const socialImage = new URL("/avatar-full.webp", Astro.site);
 const alternateUrl = languageAlternate ? new URL(languageAlternate, Astro.site).href : undefined;
 const languageLabel = lang === "sh" ? "EN" : "SH";
+const isSearchRoute = Astro.url.pathname === "/search/" || Astro.url.pathname === "/sh/search/";
 const socialLinks = [
   { label: "GitHub", href: "https://github.com/Fooftilly" },
   { label: "Bluesky", href: "https://bsky.app/profile/peroniko.xyz" },
@@ -69,7 +70,7 @@ const socialLinks = [
           <a href={lang === "sh" ? "/sh/search/" : "/search/"}>{lang === "sh" ? "Pretraga" : "Search"}</a>
           <a href="/new-bookmark/">{lang === "sh" ? "Dodaj link" : "Add bookmark"}</a>
           <a href={lang === "sh" ? "/sh/about/" : "/about/"}>{lang === "sh" ? "O sajtu" : "About"}</a>
-          {languageAlternate && <a href={languageAlternate} lang={lang === "sh" ? "en" : "sh"} hreflang={lang === "sh" ? "en" : "sh"}>{languageLabel}</a>}
+          {languageAlternate && <a href={languageAlternate} lang={lang === "sh" ? "en" : "sh"} hreflang={lang === "sh" ? "en" : "sh"} data-search-language-switch={isSearchRoute ? "" : undefined}>{languageLabel}</a>}
         </div>
       </nav>
     </header>
@@ -87,6 +88,11 @@ const socialLinks = [
     </footer>
   </body>
 </html>
+
+<script>
+  import { wireSearchLanguageSwitch } from "../lib/search-language-switch.ts";
+  wireSearchLanguageSwitch();
+</script>
 
 <style>
   .social-links { display: flex; flex-wrap: wrap; gap: .55rem 1rem; margin-top: .65rem; }
