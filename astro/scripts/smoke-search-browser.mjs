@@ -228,6 +228,67 @@ try {
   await evaluate("document.querySelector('[data-analytics-decline]').click()");
   console.log("Browser consent smoke: fixed desktop/mobile cookie overlay, settings reopening, keyboard focus and no eager Google tag passed");
 
+  // Project cards are static links, not Vue islands. Reuse the existing Chrome
+  // session to check real keyboard navigation and mobile geometry in both locales.
+  for (const [route, language, sourceLabel, otherRoute] of [
+    ["/projects/", "en", "Source code", "/sh/projects/"],
+    ["/sh/projects/", "sh", "Izvorni kod", "/projects/"],
+  ]) {
+    await navigate(route);
+    const desktop = await evaluate(
+      "(()=>{const cards=[...document.querySelectorAll('.project-card')];" +
+      "const label=" + JSON.stringify(sourceLabel) + ",other=" + JSON.stringify(otherRoute) + ";" +
+      "return {language:document.documentElement.lang,cardCount:cards.length," +
+      "alternate:[...document.querySelectorAll('a[hreflang]')].some(a=>a.getAttribute('href')===other)," +
+      "directSources:cards.every(card=>{" +
+      "const detail=card.querySelector('h3 a'),source=card.querySelector('.project-source a');" +
+      "return detail?.getAttribute('href')?.startsWith('/projects/') &&" +
+      "source?.href?.startsWith('https://github.com/Fooftilly/') &&" +
+      "source.textContent.trim()===label &&" +
+      "source.getAttribute('aria-label')===label+': '+detail.textContent.trim() &&" +
+      "source.getBoundingClientRect().width>0;" +
+      "})};})()",
+    );
+    assert.equal(desktop.language, language, "Project index must declare the correct language: " + route);
+    assert.ok(desktop.cardCount >= 3, "Project showcase must contain all initial cards: " + route);
+    assert.equal(desktop.alternate, true, "Project index language switch is missing: " + route);
+    assert.equal(desktop.directSources, true, "Project card source links must be visible and localized: " + route);
+
+    // Start on the detail link, then send a genuine keyboard Tab via DevTools.
+    // The source link should be the next focusable control within the card.
+    await evaluate("document.querySelector('.project-card h3 a').focus()");
+    assert.equal(await evaluate("document.activeElement === document.querySelector('.project-card h3 a')"), true);
+    await command("Input.dispatchKeyEvent", {
+      type: "keyDown", key: "Tab", code: "Tab", windowsVirtualKeyCode: 9,
+    });
+    await command("Input.dispatchKeyEvent", {
+      type: "keyUp", key: "Tab", code: "Tab", windowsVirtualKeyCode: 9,
+    });
+    assert.equal(
+      await evaluate("document.activeElement === document.querySelector('.project-card .project-source a')"),
+      true, "Tab from a project detail link must focus that project's source link: " + route,
+    );
+
+    await command("Emulation.setDeviceMetricsOverride", {
+      width: 375, height: 667, deviceScaleFactor: 1, mobile: true,
+    });
+    const mobileCards = await evaluate(
+      "(()=>{const cards=[...document.querySelectorAll('.project-card')];" +
+      "return {width:innerWidth,documentWidth:document.documentElement.scrollWidth," +
+      "cardsFit:cards.every(card=>{" +
+      "const rect=card.getBoundingClientRect()," +
+      "source=card.querySelector('.project-source a')?.getBoundingClientRect();" +
+      "return rect.width>0 && rect.left>=-1 && rect.right<=innerWidth+1 &&" +
+      "source?.width>0 && source.left>=-1 && source.right<=innerWidth+1;" +
+      "})};})()",
+    );
+    assert.equal(mobileCards.width, 375, "Mobile viewport emulation must be active: " + route);
+    assert.ok(mobileCards.documentWidth <= 376, "Project index must not overflow horizontally: " + route);
+    assert.equal(mobileCards.cardsFit, true, "Project cards and source links must fit mobile viewport: " + route);
+    await command("Emulation.clearDeviceMetricsOverride");
+  }
+  console.log("Browser project smoke: EN/SH direct-source links, keyboard Tab order and mobile layout passed");
+
   await navigate("/sh/search/");
   // The SSR input is already present before Vue attaches event handlers.
   // Only interact after Astro marks this island as fully hydrated.
