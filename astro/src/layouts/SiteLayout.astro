@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import AnalyticsConsent from "../components/AnalyticsConsent.astro";
 import AnalyticsSettings from "../components/AnalyticsSettings.astro";
+import { currentNavigationLink } from "../lib/site-navigation.ts";
 
 interface Props {
   title: string;
@@ -18,6 +19,17 @@ const socialImage = new URL("/avatar-full.webp", Astro.site);
 const alternateUrl = languageAlternate ? new URL(languageAlternate, Astro.site).href : undefined;
 const languageLabel = lang === "sh" ? "EN" : "SH";
 const isSearchRoute = Astro.url.pathname === "/search/" || Astro.url.pathname === "/sh/search/";
+const homeHref = lang === "sh" ? "/sh/" : "/";
+const privacyHref = lang === "sh" ? "/sh/privacy/" : "/privacy/";
+const navLinks = [
+  { section: "posts", href: lang === "sh" ? "/sh/posts/" : "/posts/", label: lang === "sh" ? "Objave" : "Posts" },
+  { section: "bookmarks", href: "/bookmarks/", label: lang === "sh" ? "Linkovi" : "Bookmarks" },
+  { section: "media", href: "/media/", label: lang === "sh" ? "Mediji" : "Media" },
+  { section: "projects", href: lang === "sh" ? "/sh/projects/" : "/projects/", label: lang === "sh" ? "Projekti" : "Projects" },
+  { section: "search", href: lang === "sh" ? "/sh/search/" : "/search/", label: lang === "sh" ? "Pretraga" : "Search" },
+  { section: "new-bookmark", href: "/new-bookmark/", label: lang === "sh" ? "Dodaj link" : "Add bookmark" },
+  { section: "about", href: lang === "sh" ? "/sh/about/" : "/about/", label: lang === "sh" ? "O sajtu" : "About" },
+] as const;
 const socialLinks = [
   { label: "GitHub", href: "https://github.com/Fooftilly" },
   { label: "Bluesky", href: "https://bsky.app/profile/peroniko.xyz" },
@@ -61,15 +73,11 @@ const socialLinks = [
     <AnalyticsConsent lang={lang} />
     <header class="site-header">
       <nav class="site-nav" aria-label={lang === "sh" ? "Glavna navigacija" : "Main navigation"}>
-        <a class="site-brand" href={lang === "sh" ? "/sh/" : "/"}>Peroniko</a>
+        <a class="site-brand" href={homeHref} aria-current={currentNavigationLink(Astro.url.pathname, "home", homeHref)}>Peroniko</a>
         <div class="site-links">
-          <a href={lang === "sh" ? "/sh/posts/" : "/posts/"}>{lang === "sh" ? "Objave" : "Posts"}</a>
-          <a href="/bookmarks/">{lang === "sh" ? "Linkovi" : "Bookmarks"}</a>
-          <a href="/media/">{lang === "sh" ? "Mediji" : "Media"}</a>
-          <a href={lang === "sh" ? "/sh/projects/" : "/projects/"}>{lang === "sh" ? "Projekti" : "Projects"}</a>
-          <a href={lang === "sh" ? "/sh/search/" : "/search/"}>{lang === "sh" ? "Pretraga" : "Search"}</a>
-          <a href="/new-bookmark/">{lang === "sh" ? "Dodaj link" : "Add bookmark"}</a>
-          <a href={lang === "sh" ? "/sh/about/" : "/about/"}>{lang === "sh" ? "O sajtu" : "About"}</a>
+          {navLinks.map(({ section, href, label }) => (
+            <a href={href} aria-current={currentNavigationLink(Astro.url.pathname, section, href)}>{label}</a>
+          ))}
           {languageAlternate && <a href={languageAlternate} lang={lang === "sh" ? "en" : "sh"} hreflang={lang === "sh" ? "en" : "sh"} data-search-language-switch={isSearchRoute ? "" : undefined}>{languageLabel}</a>}
         </div>
       </nav>
@@ -83,7 +91,7 @@ const socialLinks = [
         {socialLinks.map(({ label, href }) => <a href={href} rel="noopener noreferrer">{label}</a>)}
         <a href="/index.xml" type="application/rss+xml">RSS</a>
       </nav>
-      <p class="footer-privacy"><a href={lang === "sh" ? "/sh/privacy/" : "/privacy/"}>{lang === "sh" ? "Obavještenje o privatnosti" : "Privacy notice"}</a></p>
+      <p class="footer-privacy"><a href={privacyHref} aria-current={currentNavigationLink(Astro.url.pathname, "privacy", privacyHref)}>{lang === "sh" ? "Obavještenje o privatnosti" : "Privacy notice"}</a></p>
       <AnalyticsSettings lang={lang} />
     </footer>
   </body>
@@ -95,6 +103,10 @@ const socialLinks = [
 </script>
 
 <style>
+  .site-nav a[aria-current], .footer-privacy a[aria-current] {
+    font-weight: 700; text-decoration: underline; text-decoration-thickness: 2px;
+    text-underline-offset: .25em;
+  }
   .social-links { display: flex; flex-wrap: wrap; gap: .55rem 1rem; margin-top: .65rem; }
   .social-links a { overflow-wrap: anywhere; }
   .footer-privacy { margin: .65rem 0 0; }
