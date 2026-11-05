@@ -46,6 +46,11 @@ const limit = ref(50);
 const categories = computed(() =>
   [...new Set(props.items.map((item) => item.category))].sort((a, b) => a.localeCompare(b))
 );
+const sortOptions = computed(() => [
+  { value: "newest" as BookmarkSort, label: labels.value.newest },
+  { value: "oldest" as BookmarkSort, label: labels.value.oldest },
+  { value: "title" as BookmarkSort, label: labels.value.title },
+]);
 
 const matches = computed(() => filterAndSortBookmarks(props.items, {
   query: query.value,
@@ -83,21 +88,26 @@ watch([query, category, sort], () => {
         <span>{{ labels.search }}</span>
         <input v-model="query" type="search" :placeholder="labels.placeholder" autocomplete="off" />
       </label>
-      <label>
-        <span>{{ labels.category }}</span>
-        <select v-model="category">
-          <option value="all">{{ labels.all }}</option>
-          <option v-for="name in categories" :key="name" :value="name">{{ bookmarkCategoryDisplayLabel(name, lang) }}</option>
-        </select>
-      </label>
-      <label>
-        <span>{{ labels.sort }}</span>
-        <select v-model="sort">
-          <option value="newest">{{ labels.newest }}</option>
-          <option value="oldest">{{ labels.oldest }}</option>
-          <option value="title">{{ labels.title }}</option>
-        </select>
-      </label>
+      <fieldset class="bookmark-filter-group sort-filters">
+        <legend>{{ labels.sort }}</legend>
+        <div class="filter-buttons">
+          <button v-for="option in sortOptions" :key="option.value" type="button"
+            :data-bookmark-sort="option.value" :aria-pressed="sort === option.value"
+            @click="sort = option.value">
+            {{ option.label }}
+          </button>
+        </div>
+      </fieldset>
+      <fieldset class="bookmark-filter-group category-filters">
+        <legend>{{ labels.category }}</legend>
+        <div class="filter-buttons">
+          <button type="button" data-bookmark-category="all" :aria-pressed="category === 'all'"
+            @click="category = 'all'">{{ labels.all }}</button>
+          <button v-for="name in categories" :key="name" type="button"
+            :data-bookmark-category="name" :aria-pressed="category === name"
+            @click="category = name">{{ bookmarkCategoryDisplayLabel(name, lang) }}</button>
+        </div>
+      </fieldset>
     </div>
     <div class="bookmark-summary">
       <p role="status" aria-live="polite">
@@ -129,11 +139,25 @@ watch([query, category, sort], () => {
 
 <style scoped>
 .bookmark-browser { margin-top: 1.5rem; }
-.bookmark-controls { display: grid; grid-template-columns: minmax(12rem, 1fr) minmax(10rem, 14rem) minmax(10rem, 12rem); gap: .75rem; }
-.bookmark-controls label { display: grid; gap: .35rem; font-weight: 600; font-size: .9rem; }
-.bookmark-controls input, .bookmark-controls select {
+.bookmark-controls {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: "search sort" "category category";
+  gap: .75rem 1rem; align-items: end;
+}
+.search-field { display: grid; grid-area: search; gap: .35rem; min-width: 0; font-weight: 600; font-size: .9rem; }
+.bookmark-controls input {
   padding: .7rem; width: 100%; font: inherit; min-height: 2.75rem; color: var(--foreground);
   background: var(--surface); border: 1px solid var(--border); border-radius: 0;
+}
+.bookmark-filter-group { border: 0; padding: 0; margin: 0; min-width: 0; }
+.bookmark-filter-group legend { padding: 0; margin: 0 0 .35rem; font-size: .9rem; font-weight: 600; }
+.sort-filters { grid-area: sort; }
+.category-filters { grid-area: category; }
+.filter-buttons { display: flex; flex-wrap: wrap; gap: .35rem; }
+.filter-buttons button { min-height: 2.75rem; padding: .4rem .65rem; line-height: 1.3; }
+.filter-buttons button[aria-pressed="true"] {
+  background: var(--foreground); color: var(--background);
+  border-color: var(--foreground); font-weight: 700;
 }
 .bookmark-summary { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; align-items: center; margin: 1.2rem 0 .4rem; color: var(--muted); }
 .bookmark-summary p { margin: 0; }
@@ -144,5 +168,7 @@ button { font: inherit; padding: .5rem .7rem; border-radius: 0; color: var(--for
 .metadata { display: flex; flex-wrap: wrap; gap: 1rem; color: var(--muted); font-size: .83rem; margin-top: .3rem; }
 .empty-result { padding: 2rem 0; }
 .more-button { display: block; margin: 1.5rem auto; }
-@media (max-width: 750px) { .bookmark-controls { grid-template-columns: 1fr; } }
+@media (max-width: 750px) {
+  .bookmark-controls { grid-template-columns: 1fr; grid-template-areas: "search" "sort" "category"; }
+}
 </style>
