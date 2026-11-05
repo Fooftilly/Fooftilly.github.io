@@ -22,6 +22,7 @@ const labels = computed(() => props.lang === "sh" ? {
   none: "Nema rezultata.",
   more: "Prikaži još",
   notes: "Bilješke",
+  details: "Detalji",
 } : {
   search: "Search links",
   placeholder: "Title, category, website or comment",
@@ -38,6 +39,7 @@ const labels = computed(() => props.lang === "sh" ? {
   none: "No bookmarks match these filters.",
   more: "Show more",
   notes: "Notes",
+  details: "Details",
 });
 const query = ref("");
 const category = ref("all");
@@ -125,7 +127,7 @@ watch([query, category, sort], () => {
         <div class="metadata">
           <time v-if="item.date" :datetime="item.date">{{ item.date }}</time>
           <span>{{ bookmarkCategoryDisplayLabel(item.category, lang) }}</span>
-          <a v-if="item.notesUrl" :href="item.notesUrl" :aria-label="`${labels.notes}: ${item.title}`">{{ labels.notes }}</a>
+          <a v-if="item.detailUrl || item.notesUrl" :href="item.detailUrl || item.notesUrl" :aria-label="`${item.notesUrl ? labels.notes : labels.details}: ${item.title}`" data-bookmark-detail-link>{{ item.notesUrl ? labels.notes : labels.details }}</a>
         </div>
         <p v-if="query.trim() && item.comments" class="bookmark-comment">{{ item.comments }}</p>
       </li>

@@ -4,8 +4,8 @@ import BookmarkBrowser from "../../components/BookmarkBrowser.vue";
 import { loadBookmarks } from "../../lib/bookmark-data.ts";
 import { BOOKMARK_CATEGORIES, bookmarkCategoryPath } from "../../lib/bookmark-categories.ts";
 
-const bookmarks = (await loadBookmarks()).map(({ id, title, category, url, date, notesUrl, comments }) =>
-  ({ id, title, category, url, date, notesUrl, comments })
+const bookmarks = (await loadBookmarks()).map(({ id, title, category, url, date, detailUrl, notesUrl, comments }) =>
+  ({ id, title, category, url, date, detailUrl, notesUrl, comments })
 );
 ---
 <SiteLayout title="Bookmarks" rssHref="/bookmarks/index.xml" description="Saved links by category.">

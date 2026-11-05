@@ -393,6 +393,46 @@ try {
   }
   console.log("Browser project smoke: EN/SH direct-source links, keyboard Tab order and mobile layout passed");
 
+  // Every saved bookmark has an existing first-party detail page, including
+  // the 576 legacy entries without Markdown notes. Verify these pages are
+  // discoverable from the actual hydrated category listing, not just generated.
+  await navigate("/bookmarks/paperbookarticle/");
+  await waitFor(
+    "(()=>{const island=document.querySelector('.bookmark-browser')?.closest('astro-island');return Boolean(island && !island.hasAttribute('ssr'));})()",
+    Boolean, "bookmark category listing Vue hydration",
+  );
+  await waitFor(
+    "document.querySelectorAll('.bookmark-entry').length",
+    value => value === 20, "20 article/book category listings",
+  );
+  const linkedCount = await evaluate(
+    "document.querySelectorAll('.bookmark-entry [data-bookmark-detail-link]').length",
+  );
+  assert.equal(linkedCount, 20, "Each displayed bookmark must expose its first-party detail page");
+  const detailTarget = await evaluate(
+    "document.querySelector('.bookmark-entry [data-bookmark-detail-link]')?.getAttribute('href')",
+  );
+  assert.match(detailTarget, /^\/bookmarks\/paperbookarticle\/[^/]+\/$/);
+  assert.equal(
+    await evaluate("document.querySelector('.bookmark-entry [data-bookmark-detail-link]')?.textContent.trim()"),
+    "Details", "Existing bookmarks without notes should offer Details rather than Notes",
+  );
+  await evaluate("document.querySelector('.bookmark-entry [data-bookmark-detail-link]').click()");
+  await waitFor(
+    "location.pathname",
+    value => value === detailTarget, "category listing detail link navigation",
+  );
+  await waitFor(
+    "document.querySelector('.bookmark-detail h1')?.textContent.trim()",
+    value => Boolean(value), "linked first-party bookmark detail page",
+  );
+  assert.equal(
+    await evaluate("document.querySelector('link[rel=canonical]')?.getAttribute('href')"),
+    new URL(detailTarget, "https://www.peroniko.xyz").href,
+    "Discovered bookmark detail page must retain its canonical URL",
+  );
+  console.log("Browser bookmark detail smoke: all 20 category entries link to their first-party pages");
+
   await navigate("/sh/search/");
   // The SSR input is already present before Vue attaches event handlers.
   // Only interact after Astro marks this island as fully hydrated.
@@ -415,6 +455,10 @@ try {
   assert.equal(await evaluate("document.querySelectorAll('[data-bookmark-category][aria-pressed=true]').length"), 1);
   assert.equal(await evaluate("document.querySelectorAll('[data-bookmark-sort][aria-pressed=true]').length"), 1);
   assert.equal(await evaluate("document.querySelector('[data-bookmark-category=all]')?.getAttribute('aria-pressed')"), "true");
+  assert.equal(
+    await evaluate("document.querySelector('.bookmark-entry [data-bookmark-detail-link]')?.textContent.trim()"),
+    "Detalji", "Localized SH results should provide a clearly labeled first-party detail link",
+  );
 
   await evaluate("(()=>{const el=document.querySelector('input[type=search]');el.value='no-matching-bookmark-2026';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
   await waitFor(

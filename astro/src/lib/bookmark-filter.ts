@@ -8,6 +8,8 @@ export interface Bookmark {
   category: string;
   url: string;
   date: string;
+  /** Canonical first-party detail page, available for every saved bookmark. */
+  detailUrl?: string;
   notesUrl?: string;
   /** Short, already-public Markdown frontmatter comment (not private notes). */
   comments?: string;

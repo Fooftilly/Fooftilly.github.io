@@ -65,6 +65,7 @@ test("all source bookmark metadata survives Astro collection loading and output"
       if (frontmatter.draft === true) continue;
       const id = `${section}/${filename.slice(0, -3)}`;
       const rawLink = frontmatter.link ?? "";
+      const detailUrl = `/bookmarks/${section.toLowerCase()}/${encodeURIComponent(filename.slice(0, -3).toLowerCase())}/`;
       const normalized = {
         id,
         title: frontmatter.title,
@@ -72,8 +73,9 @@ test("all source bookmark metadata survives Astro collection loading and output"
         date: asDate(frontmatter.date, id),
         rawLink,
         url: safeLink(rawLink),
+        detailUrl,
         comments: frontmatter.comments ?? "",
-        notesUrl: sourceBody ? `/bookmarks/${section.toLowerCase()}/${filename.slice(0, -3).toLowerCase()}/` : "",
+        notesUrl: sourceBody ? detailUrl : "",
       };
       assert.ok(!expected.has(id), `Duplicate source ID: ${id}`);
       expected.set(id, normalized);

@@ -9,6 +9,7 @@ export interface SourceBookmark extends Bookmark {
   // the narrower Bookmark type without private editor-only data.
   rawLink: string;
   comments: string;
+  detailUrl: string;
 }
 
 export async function loadBookmarks(): Promise<SourceBookmark[]> {
@@ -20,15 +21,17 @@ export async function loadBookmarks(): Promise<SourceBookmark[]> {
     const section = id.split("/")[0];
     const rawLink = data.link ?? "";
     const url = publicBookmarkUrl(rawLink);
+    const detailUrl = bookmarkDetailPath(id);
     return {
       id,
       title: data.title,
       category: categoryBySection(section)?.label ?? section,
       url,
+      detailUrl,
       rawLink,
       comments: data.comments ?? "",
       date: data.date?.toISOString().slice(0, 10) ?? "",
-      notesUrl: body?.trim() ? bookmarkDetailPath(id) : "",
+      notesUrl: body?.trim() ? detailUrl : "",
     };
   });
 }
