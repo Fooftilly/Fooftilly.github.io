@@ -8,7 +8,7 @@ const props = withDefaults(defineProps<{ items: Bookmark[]; lang?: "en" | "sh" }
 });
 const labels = computed(() => props.lang === "sh" ? {
   search: "Pretraga",
-  placeholder: "Naziv, kategorija ili adresa",
+  placeholder: "Naziv, kategorija, adresa ili komentar",
   category: "Kategorija",
   all: "Sve kategorije",
   sort: "Sortiraj",
@@ -24,7 +24,7 @@ const labels = computed(() => props.lang === "sh" ? {
   notes: "Bilješke",
 } : {
   search: "Search links",
-  placeholder: "Title, category or website",
+  placeholder: "Title, category, website or comment",
   category: "Category",
   all: "All categories",
   sort: "Sort by",
@@ -127,6 +127,7 @@ watch([query, category, sort], () => {
           <span>{{ bookmarkCategoryDisplayLabel(item.category, lang) }}</span>
           <a v-if="item.notesUrl" :href="item.notesUrl" :aria-label="`${labels.notes}: ${item.title}`">{{ labels.notes }}</a>
         </div>
+        <p v-if="query.trim() && item.comments" class="bookmark-comment">{{ item.comments }}</p>
       </li>
     </ul>
     <p v-if="matches.length === 0" class="empty-result">{{ labels.none }}</p>
@@ -166,6 +167,7 @@ button { font: inherit; padding: .5rem .7rem; border-radius: 0; color: var(--for
 .bookmark-entry { padding: .85rem 0; border-bottom: 1px solid var(--border); overflow-wrap: anywhere; }
 .bookmark-entry > a, .bookmark-entry > span { font-weight: 650; }
 .metadata { display: flex; flex-wrap: wrap; gap: 1rem; color: var(--muted); font-size: .83rem; margin-top: .3rem; }
+.bookmark-comment { color: var(--muted); font-size: .88rem; margin: .4rem 0 0; overflow-wrap: anywhere; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .empty-result { padding: 2rem 0; }
 .more-button { display: block; margin: 1.5rem auto; }
 @media (max-width: 750px) {
