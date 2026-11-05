@@ -127,7 +127,7 @@ watch([query, category, sort], () => {
         <div class="metadata">
           <time v-if="item.date" :datetime="item.date">{{ item.date }}</time>
           <span>{{ bookmarkCategoryDisplayLabel(item.category, lang) }}</span>
-          <a v-if="item.detailUrl" :href="item.detailUrl" :aria-label="`${item.notesUrl ? labels.notes : labels.details}: ${item.title}`" data-bookmark-detail-link>{{ item.notesUrl ? labels.notes : labels.details }}</a>
+          <a v-if="item.detailUrl || item.notesUrl" :href="item.detailUrl || item.notesUrl" :aria-label="`${item.notesUrl ? labels.notes : labels.details}: ${item.title}`" data-bookmark-detail-link>{{ item.notesUrl ? labels.notes : labels.details }}</a>
         </div>
         <p v-if="query.trim() && item.comments" class="bookmark-comment">{{ item.comments }}</p>
       </li>
