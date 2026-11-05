@@ -82,20 +82,20 @@ async function copy(value: string, description: string) {
         Bookmark title
         <input v-model="title" type="text" required placeholder="Page title" />
       </label>
-      <div class="draft-fields-two">
-        <label>
-          Category
-          <select v-model="category">
-            <option v-for="item in BOOKMARK_CATEGORIES" :key="item.section" :value="item.section">
-              {{ item.label }}
-            </option>
-          </select>
-        </label>
-        <label>
-          Saved date
-          <input v-model="date" type="date" required />
-        </label>
-      </div>
+      <fieldset class="category-field">
+        <legend>Category</legend>
+        <div class="category-buttons" data-bookmark-categories>
+          <button v-for="item in BOOKMARK_CATEGORIES" :key="item.section" type="button"
+            :data-bookmark-category="item.section" :aria-pressed="category === item.section"
+            @click="category = item.section">
+            {{ item.label }}
+          </button>
+        </div>
+      </fieldset>
+      <label class="saved-date">
+        Saved date
+        <input v-model="date" type="date" required />
+      </label>
       <label>
         Short comment (optional)
         <textarea v-model="comments" rows="2" maxlength="1200" placeholder="Why this link is worth saving" />
@@ -136,9 +136,21 @@ async function copy(value: string, description: string) {
 <style scoped>
 .new-bookmark { max-width: 52rem; }
 .draft-fields { display: grid; gap: 1rem; margin: 1.5rem 0; }
-.draft-fields-two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
 label { display: grid; gap: .4rem; font-weight: 650; }
-input, select, textarea {
+.saved-date { max-width: 16rem; }
+.category-field { min-width: 0; margin: 0; padding: 0; border: 0; }
+.category-field legend { margin: 0 0 .4rem; padding: 0; font-weight: 650; }
+.category-buttons { display: flex; flex-wrap: wrap; gap: .4rem; }
+.category-buttons button {
+  min-height: 2.8rem; padding: .55rem .75rem; font: inherit;
+  color: var(--foreground); background: var(--surface);
+  border: 1px solid var(--border); border-radius: 0; cursor: pointer;
+}
+.category-buttons button[aria-pressed="true"] {
+  background: var(--accent); color: var(--accent-contrast);
+  border-color: var(--accent); font-weight: 700;
+}
+input, textarea {
   width: 100%; min-height: 2.8rem; padding: .65rem;
   font: inherit; background: var(--surface); color: var(--foreground);
   border: 1px solid var(--border); border-radius: 0;
@@ -159,5 +171,5 @@ textarea { min-height: 5rem; resize: vertical; font-weight: normal; }
 .actions a { color: var(--accent); }
 .privacy-note, .help, .copy-status { color: var(--muted); font-size: .92rem; }
 .validation, .duplicate { color: var(--foreground); border-left: 3px solid var(--accent); padding-left: .75rem; }
-@media (max-width: 35rem) { .draft-fields-two { grid-template-columns: minmax(0, 1fr); } }
+
 </style>
