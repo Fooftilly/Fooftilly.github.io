@@ -16,7 +16,8 @@ for (const [path, language, heading] of [
   assert.ok(!html.includes("Astro migration preview"), "Technical placeholder leaked: " + path);
   assert.ok(!html.includes("Hugo na Astro"), "Serbo-Croatian preview placeholder leaked: " + path);
   assert.ok(html.includes('href="/new-bookmark/"'), "Public bookmark composer link missing: " + path);
-  assert.ok(html.includes('href="/projects/"'), "Missing project navigation: " + path);
+  assert.ok(html.includes('href="' + (language === "sh" ? "/sh/projects/" : "/projects/") + '"'),
+    "Missing localized project navigation: " + path);
   const sources=new Set((await readdir("../content/projects"))
     .filter(name=>name.endsWith(".md")).map(name=>name.slice(0,-3)));
   const featured=[...html.matchAll(/href="\/projects\/([a-z0-9-]+)\/"/g)]

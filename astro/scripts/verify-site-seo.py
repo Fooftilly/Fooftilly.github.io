@@ -73,12 +73,13 @@ def check_sitemap():
     assert len(project_sources) == len(slugs), "Duplicate project IDs"
     assert all(re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", slug) for slug in slugs)
     expected.add(SITE + "/projects/")
+    expected.add(SITE + "/sh/projects/")
     expected.update(f"{SITE}/projects/{slug}/" for slug in slugs)
     expected.update(f"{SITE}/bookmarks/{section}/" for section in SECTIONS)
     for record in records:
         section, stem = record["id"].split("/")
         expected.add(f"{SITE}/bookmarks/{section.lower()}/{quote(stem.lower(), safe='-._~')}/")
-    assert len(expected) == 601 + len(slugs), "Expected 18 roots + 7 categories + 576 bookmarks + project routes"
+    assert len(expected) == 602 + len(slugs), "Expected 19 roots + 7 categories + 576 bookmarks + project routes"
 
     root = ET.parse(DIST / "sitemap.xml").getroot()
     ns = "{http://www.sitemaps.org/schemas/sitemap/0.9}"
@@ -111,6 +112,7 @@ def check_metadata():
         "/media/": DIST / "media/index.html",
         "/new-media/": DIST / "new-media/index.html",
         "/projects/": DIST / "projects/index.html",
+        "/sh/projects/": DIST / "sh/projects/index.html",
         "/projects/prks/": DIST / "projects/prks/index.html",
         "/projects/kokoro-extension/": DIST / "projects/kokoro-extension/index.html",
         "/projects/local-search-mcp/": DIST / "projects/local-search-mcp/index.html",
@@ -125,6 +127,15 @@ def check_metadata():
         expected = SITE + urlpath
         assert doc.html_lang == ("sh" if urlpath.startswith("/sh/") else "en"), (urlpath, doc.html_lang)
         assert doc.metas.get("description"), urlpath
+        # Keep project-index metadata intentionally concise in both locales.
+        # The site identity is separately checked via author and OG site name.
+        if urlpath in ("/projects/", "/sh/projects/"):
+            description = "Projekti" if urlpath == "/sh/projects/" else "Projects"
+            for field in ("description", "og:description", "twitter:description"):
+                assert doc.metas.get(field) == description, (
+                    "Project index metadata must use the approved short wording",
+                    urlpath, field, doc.metas.get(field)
+                )
         assert doc.metas.get("author") == "Peroniko", urlpath
         assert doc.metas.get("og:site_name") == "Peroniko", urlpath
         markup = filename.read_text(encoding="utf8")
@@ -147,6 +158,8 @@ def check_metadata():
             "/sh/search/": ("/search/", "EN", "en"),
             "/privacy/": ("/sh/privacy/", "SH", "sh"),
             "/sh/privacy/": ("/privacy/", "EN", "en"),
+            "/projects/": ("/sh/projects/", "SH", "sh"),
+            "/sh/projects/": ("/projects/", "EN", "en"),
         }
         if urlpath in alternate_routes:
             target, label, locale = alternate_routes[urlpath]

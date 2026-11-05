@@ -1,6 +1,7 @@
 ---
 title: "Kokoro TTS Extension"
 summary: "Read selected text or articles aloud using your own Kokoro-FastAPI service."
+summarySh: "Dodatak za Chrome i Firefox koji pretvara tekst u govor preko Kokoro-FastAPI servera."
 repository: "https://github.com/Fooftilly/kokoro-extension"
 order: 2
 license: "MIT"

@@ -7,9 +7,9 @@ const sh=lang==="sh";
 <section class="projects-preview" aria-labelledby="homepage-projects">
   <div class="preview-heading">
     <h2 id="homepage-projects">{sh?"Projekti":"Projects"}</h2>
-    <a href="/projects/">{sh?"Svi projekti":"All projects"}</a>
+    <a href={sh?"/sh/projects/":"/projects/"}>{sh?"Svi projekti":"All projects"}</a>
   </div>
-  <ProjectCards limit={3}/>
+  <ProjectCards limit={3} lang={lang}/>
 </section>
 <style>
 .projects-preview{margin:1.5rem 0 3.5rem}

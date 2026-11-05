@@ -4,7 +4,7 @@ import { getPublishedPaths, absoluteSiteUrl, renderSitemap } from "../src/lib/si
 
 test("sitemap only includes implemented routes with canonical lowercase bookmark paths", () => {
   const paths = getPublishedPaths(["Art/UpperCase", "Perspectives/partII"]);
-  assert.equal(paths.length, 27); // The projects index is now a published route.
+  assert.equal(paths.length, 28); // Both project index locales are published.
   assert.ok(paths.includes("/"));
   assert.ok(paths.includes("/about/"));
   assert.ok(paths.includes("/bookmarks/art/uppercase/"));
@@ -25,6 +25,7 @@ test("sitemap only includes implemented routes with canonical lowercase bookmark
   assert.ok(paths.includes("/privacy/"));
   assert.ok(paths.includes("/sh/privacy/"));
   assert.ok(paths.includes("/projects/"));
+  assert.ok(paths.includes("/sh/projects/"));
   assert.ok(!paths.includes("/en/posts/"), "Do not add compatibility redirects");
 });
 
@@ -44,7 +45,7 @@ test("XML text and canonical domain are escaped", () => {
 
 test("project routes are canonical and remain independent of bookmark counts",()=>{
   const paths=getPublishedPaths([],["prks","kokoro-extension","local-search-mcp"]);
-  assert.equal(paths.length,17+7+1+3);
+  assert.equal(paths.length,17+7+2+3);
   for(const slug of ["prks","kokoro-extension","local-search-mcp"]){
     assert.ok(paths.includes("/projects/"+slug+"/"));
   }

@@ -1,6 +1,7 @@
 ---
 title: "PRKS"
 summary: "A research library for PDFs, research notes and connected bibliographic information."
+summarySh: "Biblioteka za istraživanje, PDF dokumente i bilješke."
 repository: "https://github.com/Fooftilly/PRKS"
 order: 1
 status: "Work in progress"
