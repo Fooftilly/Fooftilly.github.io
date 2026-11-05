@@ -1,6 +1,7 @@
 import { defineCollection, z } from "astro:content";
 import { glob } from "astro/loaders";
 import { mediaEntryId } from "./lib/media-model.ts";
+import { PROJECT_SLUG } from "./lib/project-catalog.ts";
 
 // Load the authoritative legacy Markdown in place; no mass content rewrite.
 // Folder _index.md files are section metadata, not bookmark records.
@@ -58,4 +59,31 @@ const media = defineCollection({
   }).strict(),
 });
 
-export const collections = { bookmarks, sitePages, media };
+// Static showcase records. One reviewed Markdown entry creates one project route.
+const httpsLink=z.string().url().refine(value=>{
+  const url=new URL(value);
+  return url.protocol==="https:" && !url.username && !url.password;
+},"Only HTTPS URLs without credentials are allowed");
+const projects=defineCollection({
+  loader:glob({
+    pattern:"*.md",
+    base:"../content/projects",
+    generateId:({entry})=>entry.replace(/\.md$/i,""),
+  }),
+  schema:z.object({
+    title:z.string().min(1).max(90),
+    summary:z.string().min(10).max(240),
+    repository:httpsLink.regex(/^https:\/\/github\.com\/Fooftilly\/[A-Za-z0-9_.-]+$/),
+    order:z.number().int().min(0).max(1000),
+    status:z.enum(["Work in progress","Maintained","Archived"]).optional(),
+    license:z.string().min(2).max(40).regex(/^[A-Za-z0-9.+-]+$/),
+    tags:z.array(z.string().min(1).max(36)).min(1).max(8),
+    highlights:z.array(z.string().min(5).max(160)).min(1).max(5),
+    links:z.array(z.object({
+      label:z.string().min(1).max(64),
+      url:httpsLink,
+    }).strict()).max(6).optional(),
+  }).strict(),
+});
+
+export const collections = { bookmarks, sitePages, media, projects };
