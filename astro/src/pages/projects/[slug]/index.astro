@@ -14,7 +14,7 @@ export const getStaticPaths=(async()=>{
 
 const {project}=Astro.props as {project:CollectionEntry<"projects">};
 const {Content}=await render(project);
-const {title,summary,repository,status,license,tags,highlights,links=[]}=project.data;
+const {title,summary,repository,status,license,licenseUrl,tags,highlights,links=[]}=project.data;
 ---
 <SiteLayout title={title} description={summary}>
   <article class="project-detail">
@@ -37,7 +37,7 @@ const {title,summary,repository,status,license,tags,highlights,links=[]}=project
         <li><a href={repository+"/issues"} rel="noopener noreferrer">Issues</a></li>
         {links.map(link=><li><a href={link.url} rel="noopener noreferrer">{link.label}</a></li>)}
       </ul>
-      <p class="project-license">License: {license}</p>
+      <p class="project-license">License: {licenseUrl ? <a href={licenseUrl} rel="noopener noreferrer">{license}</a> : license}</p>
     </section>
   </article>
 </SiteLayout>

@@ -5,6 +5,7 @@ summarySh: "MCP alat za pretragu interneta i učitavanje stranica preko sopstven
 repository: "https://github.com/Fooftilly/local-search-mcp"
 order: 3
 license: "Apache-2.0"
+licenseUrl: "https://github.com/Fooftilly/local-search-mcp/blob/master/LICENSE"
 tags: ["MCP", "SearXNG", "Crawl4AI", "Python"]
 highlights:
   - "Search through a locally managed SearXNG instance"

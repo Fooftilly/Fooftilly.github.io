@@ -78,6 +78,7 @@ const projects=defineCollection({
     order:z.number().int().min(0).max(1000),
     status:z.enum(["Work in progress","Maintained","Archived"]).optional(),
     license:z.string().min(2).max(40).regex(/^[A-Za-z0-9.+-]+$/),
+    licenseUrl:httpsLink.optional(),
     tags:z.array(z.string().min(1).max(36)).min(1).max(8),
     highlights:z.array(z.string().min(5).max(160)).min(1).max(5),
     links:z.array(z.object({

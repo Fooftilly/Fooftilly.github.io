@@ -9,12 +9,14 @@ from verify_projects import (
     parse_project_heading,
     verify_card_source_link,
     verify_project_disclosures,
+    verify_project_license_link,
 )
 
 FIXTURES = Path(__file__).resolve().parent / "fixtures"
 CARD = Template((FIXTURES / "project-card.html").read_text(encoding="utf-8"))
 DETAIL = Template((FIXTURES / "project-detail.html").read_text(encoding="utf-8"))
 DISCLOSURES = Template((FIXTURES / "project-disclosures.html").read_text(encoding="utf-8"))
+LICENSE = Template((FIXTURES / "project-license.html").read_text(encoding="utf-8"))
 
 
 def card(slug, title, repository, label="Source code", accessible_name=None):
@@ -36,6 +38,14 @@ def detail_heading(title):
 def cards(*items):
     return parse_project_cards("".join(items))
 
+
+
+def license_markup(url, identifier, rel="noopener noreferrer"):
+    return LICENSE.substitute(
+        url=escape(url, quote=True),
+        license=escape(identifier),
+        rel=escape(rel, quote=True),
+    )
 
 class ProjectSourceLinksTest(unittest.TestCase):
     def test_escaped_title_matches_decoded_detail_and_source_label(self):
@@ -115,6 +125,32 @@ class ProjectSourceLinksTest(unittest.TestCase):
         page = DETAIL.substitute(title=escape("PRKS"))
         with self.assertRaisesRegex(AssertionError, "Missing project prerequisite"):
             verify_project_disclosures(page, "prks")
+
+
+    def test_project_license_link_matches_verified_source(self):
+        url = "https://github.com/Fooftilly/PRKS/blob/master/LICENSE"
+        verify_project_license_link(license_markup(url, "AGPL-3.0-only"), "prks",
+                                    "AGPL-3.0-only", url)
+
+    def test_project_license_link_rejects_wrong_url(self):
+        url = "https://github.com/Fooftilly/PRKS/blob/master/LICENSE"
+        with self.assertRaisesRegex(AssertionError, "Incorrect license link"):
+            verify_project_license_link(
+                license_markup("https://github.com/Fooftilly/other/blob/master/LICENSE", "AGPL-3.0-only"),
+                "prks", "AGPL-3.0-only", url,
+            )
+
+    def test_project_license_link_rejects_wrong_identifier(self):
+        url = "https://github.com/Fooftilly/PRKS/blob/master/LICENSE"
+        with self.assertRaisesRegex(AssertionError, "Incorrect license identifier"):
+            verify_project_license_link(license_markup(url, "MIT"), "prks", "AGPL-3.0-only", url)
+
+    def test_project_license_link_requires_external_link_protections(self):
+        url = "https://github.com/Fooftilly/PRKS/blob/master/LICENSE"
+        with self.assertRaisesRegex(AssertionError, "Missing external-link protections"):
+            verify_project_license_link(license_markup(url, "AGPL-3.0-only", rel=""),
+                                        "prks", "AGPL-3.0-only", url)
+
 
 
 if __name__ == "__main__":

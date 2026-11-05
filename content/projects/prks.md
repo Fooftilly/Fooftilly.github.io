@@ -6,6 +6,7 @@ repository: "https://github.com/Fooftilly/PRKS"
 order: 1
 status: "Work in progress"
 license: "AGPL-3.0-only"
+licenseUrl: "https://github.com/Fooftilly/PRKS/blob/master/LICENSE"
 tags: ["Research", "PDFs", "Knowledge management"]
 highlights:
   - "Organize works, folders, people, tags and saved views"
