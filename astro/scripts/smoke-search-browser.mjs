@@ -383,6 +383,53 @@ try {
   assert.equal(mobileFilters.buttonsFit, true, "All category and sort buttons must fit the mobile viewport");
   await command("Emulation.clearDeviceMetricsOverride");
 
+  const languageFilters = new URLSearchParams({
+    q: "Članci i knjige", category: "Articles & books", sort: "title",
+    utm_campaign: "not-preserved",
+  });
+  await navigate("/sh/search/?" + languageFilters);
+  await waitFor(
+    "document.querySelector('[data-search-language-switch]')?.getAttribute('href')",
+    (value) => typeof value === "string" && value.includes("category=Articles"),
+    "localized search language switch deep link",
+  );
+  const originalSwitch = await evaluate(
+    "document.querySelector('[data-search-language-switch]')?.href",
+  );
+  assert.equal(new URL(originalSwitch).pathname, "/search/");
+  assert.equal(new URL(originalSwitch).searchParams.get("q"), "Članci i knjige");
+  assert.equal(new URL(originalSwitch).searchParams.has("utm_campaign"), false);
+  await waitFor(
+    "(()=>{const island=document.querySelector('.bookmark-browser')?.closest('astro-island');return Boolean(island && !island.hasAttribute('ssr'));})()",
+    Boolean, "search Vue hydration before changing language",
+  );
+  await evaluate("(()=>{const el=document.querySelector('.bookmark-browser input[type=search]');el.value='Resursi';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
+  await waitFor(
+    "new URL(location.href).searchParams.get('q')",
+    (value) => value === "Resursi", "updated search query before language switch",
+  );
+  await evaluate("document.querySelector('[data-search-language-switch]').click()");
+  await waitFor("location.pathname", (value) => value === "/search/", "SH-to-EN search switch");
+  assert.deepEqual(
+    await evaluate("(()=>{const p=new URL(location.href).searchParams;return [p.get('q'),p.get('category'),p.get('sort'),p.has('utm_campaign')]})()"),
+    ["Resursi", "Articles & books", "title", false],
+    "Search language switch preserves only active user filters",
+  );
+  await waitFor(
+    "document.querySelector('.bookmark-browser input[type=search]')?.value",
+    (value) => value === "Resursi", "EN search hydration restores query",
+  );
+  await waitFor(
+    "document.querySelector('.bookmark-browser [data-bookmark-sort=title]')?.getAttribute('aria-pressed')",
+    (value) => value === "true", "EN search restores sort",
+  );
+  await evaluate("document.querySelector('[data-search-language-switch]').click()");
+  await waitFor("location.pathname", (value) => value === "/sh/search/", "EN-to-SH search switch");
+  assert.equal(
+    await evaluate("new URL(location.href).searchParams.get('q')"), "Resursi",
+    "Returning to SH must preserve search state",
+  );
+
   await navigate("/search/?q=50%20Watts");
   await waitFor(
     "document.querySelector('input[type=search]')?.value",
