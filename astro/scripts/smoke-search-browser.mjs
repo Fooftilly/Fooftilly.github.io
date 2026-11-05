@@ -302,10 +302,15 @@ try {
     "Serbo-Croatian Vue search controls",
   );
   const options = await evaluate(
-    "Array.from(document.querySelector('select').options).map(o=>({label:o.textContent.trim(),value:o.value}))",
+    "Array.from(document.querySelectorAll('[data-bookmark-category]')).map(o=>({label:o.textContent.trim(),value:o.dataset.bookmarkCategory,pressed:o.getAttribute('aria-pressed')}))",
   );
   assert.ok(options.some((o) => o.label === "Članci i knjige" && o.value === "Articles & books"));
   assert.ok(options.some((o) => o.label === "Resursi" && o.value === "Resources"));
+  assert.equal(await evaluate("document.querySelectorAll('.bookmark-browser select').length"), 0,
+    "Bookmark category and sort controls must use visible buttons, not dropdowns");
+  assert.equal(await evaluate("document.querySelectorAll('[data-bookmark-category][aria-pressed=true]').length"), 1);
+  assert.equal(await evaluate("document.querySelectorAll('[data-bookmark-sort][aria-pressed=true]').length"), 1);
+  assert.equal(await evaluate("document.querySelector('[data-bookmark-category=all]')?.getAttribute('aria-pressed')"), "true");
 
   await evaluate("(()=>{const el=document.querySelector('input[type=search]');el.value='no-matching-bookmark-2026';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
   await waitFor(
@@ -321,7 +326,7 @@ try {
     "Nema rezultata.",
   );
 
-  await evaluate("(()=>{const el=document.querySelector('input[type=search]');el.value='';el.dispatchEvent(new Event('input',{bubbles:true}));const select=document.querySelector('select');select.value='Articles & books';select.dispatchEvent(new Event('change',{bubbles:true}))})()");
+  await evaluate("(()=>{const el=document.querySelector('input[type=search]');el.value='';el.dispatchEvent(new Event('input',{bubbles:true}));const category=[...document.querySelectorAll('[data-bookmark-category]')].find(button=>button.dataset.bookmarkCategory==='Articles & books');category.click()})()");
   await waitFor(
     "new URL(location.href).searchParams.get('category')",
     (value) => value === "Articles & books", "category query parameter",
@@ -345,13 +350,38 @@ try {
   );
   await command("Page.reload", { ignoreCache: true });
   await waitFor(
-    "document.querySelector('select')?.value",
+    "document.querySelector('[data-bookmark-category][aria-pressed=true]')?.dataset.bookmarkCategory",
     (value) => value === "Articles & books", "category restored after reload",
   );
   await waitFor(
     "document.querySelectorAll('li.bookmark-entry').length",
     (value) => value === 20, "reloaded filtered results",
   );
+  await evaluate("document.querySelector('[data-bookmark-sort=title]').click()");
+  await waitFor(
+    "new URL(location.href).searchParams.get('sort')",
+    (value) => value === "title", "sort button URL state",
+  );
+  assert.equal(await evaluate("document.querySelector('[data-bookmark-sort=title]').getAttribute('aria-pressed')"), "true");
+  assert.equal(await evaluate("document.querySelectorAll('[data-bookmark-sort][aria-pressed=true]').length"), 1);
+  await evaluate("document.querySelector('[data-bookmark-sort=newest]').click()");
+  await waitFor(
+    "new URL(location.href).searchParams.has('sort')",
+    (value) => value === false, "default sort removes URL parameter",
+  );
+
+  await command("Emulation.setDeviceMetricsOverride", {
+    width: 375, height: 667, deviceScaleFactor: 1, mobile: true,
+  });
+  const mobileFilters = await evaluate(
+    "(()=>{const buttons=[...document.querySelectorAll('.bookmark-controls button')];" +
+    "return {width:document.documentElement.scrollWidth,viewport:innerWidth," +
+    "buttonsFit:buttons.every(button=>{const box=button.getBoundingClientRect();" +
+    "return box.width>0&&box.left>=-1&&box.right<=innerWidth+1;})};})()",
+  );
+  assert.ok(mobileFilters.width <= mobileFilters.viewport + 1, "Bookmark controls must not overflow mobile viewport");
+  assert.equal(mobileFilters.buttonsFit, true, "All category and sort buttons must fit the mobile viewport");
+  await command("Emulation.clearDeviceMetricsOverride");
 
   await navigate("/search/?q=50%20Watts");
   await waitFor(
