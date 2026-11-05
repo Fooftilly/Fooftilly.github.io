@@ -6,6 +6,7 @@ import SiteLayout from "../../../../layouts/SiteLayout.astro";
 import ConsentComments from "../../../../components/ConsentComments.astro";
 import { bookmarkDetailParams } from "../../../../lib/bookmark-path.ts";
 import { categoryBySection, bookmarkCategoryPath } from "../../../../lib/bookmark-categories.ts";
+import { publicBookmarkUrl } from "../../../../lib/bookmark-public-url.ts";
 
 export const getStaticPaths = (async () => {
   const entries = await getCollection("bookmarks", ({ id, data }) =>
@@ -24,13 +25,7 @@ if (!category) throw new Error(`Unknown bookmark category in ${entry.id}`);
 
 const { Content } = await render(entry);
 const hasBody = Boolean(entry.body?.trim());
-let externalUrl = "";
-try {
-  const parsed = new URL(entry.data.link ?? "");
-  if (parsed.protocol === "http:" || parsed.protocol === "https:") externalUrl = parsed.href;
-} catch {
-  // Broken or unsafe external links must never become clickable.
-}
+const externalUrl = publicBookmarkUrl(entry.data.link ?? "");
 const date = entry.data.date?.toISOString().slice(0, 10) ?? "";
 const categoryPath = bookmarkCategoryPath(category.slug);
 ---

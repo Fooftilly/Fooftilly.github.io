@@ -2,6 +2,7 @@ import { getCollection } from "astro:content";
 import type { Bookmark } from "./bookmark-filter.ts";
 import { categoryBySection } from "./bookmark-categories.ts";
 import { bookmarkDetailPath } from "./bookmark-path.ts";
+import { publicBookmarkUrl } from "./bookmark-public-url.ts";
 
 export interface SourceBookmark extends Bookmark {
   // Only used by the staging parity audit; the public Vue browser receives
@@ -18,15 +19,7 @@ export async function loadBookmarks(): Promise<SourceBookmark[]> {
   return entries.map(({ id, data, body }) => {
     const section = id.split("/")[0];
     const rawLink = data.link ?? "";
-    let url = "";
-    try {
-      const parsed = new URL(rawLink);
-      if (parsed.protocol === "http:" || parsed.protocol === "https:") {
-        url = parsed.href;
-      }
-    } catch {
-      // Do not render malformed or unsafe links.
-    }
+    const url = publicBookmarkUrl(rawLink);
     return {
       id,
       title: data.title,

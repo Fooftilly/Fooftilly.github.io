@@ -58,6 +58,9 @@ test("all 576 original bookmark detail URLs are generated with correct canonical
       assert.equal(attr("target"), "_blank", `Unsafe external target: ${pathname}`);
       assert.deepEqual(new Set((attr("rel") ?? "").split(/\s+/)), new Set(["noopener", "noreferrer"]),
         `Unsafe external rel flags: ${pathname}`);
+    } else {
+      assert.ok(!html.includes(">Open original link</a>"),
+        `Unsafe or missing source URL rendered as a clickable link: ${pathname}`);
     }
   }
 
