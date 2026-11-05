@@ -5,6 +5,7 @@ summarySh: "Dodatak za Chrome i Firefox koji pretvara tekst u govor preko Kokoro
 repository: "https://github.com/Fooftilly/kokoro-extension"
 order: 2
 license: "MIT"
+licenseUrl: "https://github.com/Fooftilly/kokoro-extension/blob/master/LICENSE"
 tags: ["Browser extension", "Text to speech", "Chrome", "Firefox"]
 highlights:
   - "Send selected text or article text to a configured TTS endpoint"
