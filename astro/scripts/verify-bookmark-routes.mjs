@@ -31,6 +31,8 @@ test("all 576 original bookmark detail URLs are generated with correct canonical
     const pathname = `/bookmarks/${slug}/${encodeURIComponent(stem.toLowerCase())}/`;
     assert.ok(!expectedPaths.has(pathname), `Colliding detail route: ${pathname}`);
     expectedPaths.add(pathname);
+    assert.equal(record.detailUrl, pathname, `Missing or incorrect public detail link: ${record.id}`);
+    if (record.notesUrl) assert.equal(record.notesUrl, record.detailUrl, `Notes must use the same canonical detail route: ${record.id}`);
 
     const location = path.join(root, "bookmarks", slug, stem.toLowerCase(), "index.html");
     const html = await readFile(location, "utf8");
