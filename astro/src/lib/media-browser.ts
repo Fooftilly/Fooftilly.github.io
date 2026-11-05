@@ -25,7 +25,7 @@ export function mediaNotesExplainSearch(
   item: {title:string;creator?:string;year?:number;status?:string;notes?:string},
   query: string,
 ): boolean {
-  if (!item.notes || !query.trim()) return false;
+  if (!item.notes || !query.trim() || !matchesMediaSearch(searchableMediaText(item), query)) return false;
   const terms = normalizeMediaSearch(query).split(" ").filter(Boolean);
   const visible = normalizeMediaSearch(searchableMediaText({...item, notes: undefined}));
   const notes = normalizeMediaSearch(item.notes);
