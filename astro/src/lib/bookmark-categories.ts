@@ -22,6 +22,11 @@ export function categoryBySlug(slug: string | undefined): BookmarkCategory | und
   return BOOKMARK_CATEGORIES.find((item) => item.slug === slug);
 }
 
+/** Only canonical public category slugs may preselect a new bookmark draft. */
+export function draftCategoryFromSlug(raw: string | null): BookmarkCategory["section"] {
+  return categoryBySlug(raw ?? "")?.section ?? "Resource";
+}
+
 export function bookmarkCategoryPath(slug: string): string {
   return `/bookmarks/${slug}/`;
 }
