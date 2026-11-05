@@ -1,6 +1,7 @@
 ---
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import HomepageSections from "../../components/HomepageSections.astro";
+import ProjectsPreview from "../../components/ProjectsPreview.astro";
 ---
 <SiteLayout title="Početna" description="Linkovi, bilješke i mediji." lang="sh" languageAlternate="/" rssHref="/index.xml">
   <section class="intro">
@@ -12,6 +13,7 @@ import HomepageSections from "../../components/HomepageSections.astro";
     </div>
   </section>
   <HomepageSections lang="sh" />
+  <ProjectsPreview lang="sh" />
   <p class="feed-note"><a href="/index.xml" type="application/rss+xml">RSS</a></p>
 </SiteLayout>
 <style>

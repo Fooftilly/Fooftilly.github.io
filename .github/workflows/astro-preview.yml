@@ -132,6 +132,10 @@ jobs:
           test -s astro/dist/tv/index.html
           test -s astro/dist/media/index.html
           test -s astro/dist/new-media/index.html
+          test -s astro/dist/projects/index.html
+          test -s astro/dist/projects/prks/index.html
+          test -s astro/dist/projects/kokoro-extension/index.html
+          test -s astro/dist/projects/local-search-mcp/index.html
           test -s astro/dist/privacy/index.html
           test -s astro/dist/sh/privacy/index.html
           test -s astro/dist/about/index.html

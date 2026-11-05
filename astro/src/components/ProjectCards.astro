@@ -1,0 +1,27 @@
+---
+import { getCollection } from "astro:content";
+import { sortProjects, projectPath } from "../lib/project-catalog.ts";
+interface Props { limit?: number }
+const {limit}=Astro.props;
+const allProjects=sortProjects(await getCollection("projects"));
+const projects=limit===undefined ? allProjects : allProjects.slice(0,limit);
+---
+<ul class="project-cards">
+  {projects.map(({id,data})=><li class="project-card">
+    <h3><a href={projectPath(id)}>{data.title}</a></h3>
+    <p>{data.summary}</p>
+    {data.status && <p class="project-status">{data.status}</p>}
+    <ul class="project-tags" aria-label={data.title+" technologies"}>
+      {data.tags.map(tag=><li>{tag}</li>)}
+    </ul>
+  </li>)}
+</ul>
+<style>
+.project-cards{list-style:none;padding:0;margin:1rem 0 2rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,18rem),1fr));gap:1rem}
+.project-card{background:var(--surface);border:1px solid var(--border);padding:1.1rem;min-width:0;border-radius:0}
+.project-card h3{font-size:1.16rem;margin:0 0 .6rem;overflow-wrap:anywhere}
+.project-card p{margin:.45rem 0;line-height:1.5}
+.project-status{color:var(--muted);font-size:.9rem}
+.project-tags{display:flex;flex-wrap:wrap;list-style:none;gap:.4rem;margin:1rem 0 0;padding:0}
+.project-tags li{font-size:.8rem;border:1px solid var(--border);padding:.2rem .45rem;border-radius:0}
+</style>

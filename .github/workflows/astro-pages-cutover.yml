@@ -71,6 +71,10 @@ jobs:
           test -s dist/tv/index.html
           test -s dist/media/index.html
           test -s dist/new-media/index.html
+          test -s dist/projects/index.html
+          test -s dist/projects/prks/index.html
+          test -s dist/projects/kokoro-extension/index.html
+          test -s dist/projects/local-search-mcp/index.html
           test -s dist/privacy/index.html
           test -s dist/sh/privacy/index.html
           test ! -e dist/migration-audit
@@ -126,7 +130,7 @@ jobs:
 
           # These are required public routes and release artifacts, checked
           # independently after the exact revision is confirmed.
-          for route in / /sh/ /new-bookmark/ /bookmarks/ /search/ /media/ /music/ /films/ /tv/ /new-media/ /privacy/ /sh/privacy/ /404.html /index.xml /sitemap.xml; do
+          for route in / /sh/ /new-bookmark/ /bookmarks/ /search/ /media/ /music/ /films/ /tv/ /new-media/ /projects/ /projects/prks/ /projects/kokoro-extension/ /projects/local-search-mcp/ /privacy/ /sh/privacy/ /404.html /index.xml /sitemap.xml; do
             curl --fail --location --silent --show-error --max-time 12 \
               --output /dev/null "$base$route"
             echo "Verified $route"

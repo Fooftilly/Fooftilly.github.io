@@ -12,6 +12,7 @@ from xml.etree import ElementTree as ET
 
 from verify_semantic_accessibility import verify_semantic_structure
 from verify_internal_links import audit_internal_links
+from verify_projects import verify_projects
 
 ASTRO = Path(__file__).resolve().parents[1]
 DIST = ASTRO / "dist"
@@ -64,11 +65,20 @@ def check_sitemap():
     records = json.loads((ASTRO / ".audit/bookmarks-parity.json").read_text())
     assert len(records) == 576, "Expected full bookmark parity manifest"
     expected = {SITE + "/", SITE + "/about/", SITE + "/sh/", SITE + "/sh/about/", SITE + "/posts/", SITE + "/sh/posts/", SITE + "/search/", SITE + "/sh/search/", SITE + "/bookmarks/", SITE + "/new-bookmark/", SITE + "/media/", SITE + "/music/", SITE + "/films/", SITE + "/tv/", SITE + "/new-media/", SITE + "/privacy/", SITE + "/sh/privacy/"}
+    project_sources = sorted((ASTRO.parent / "content/projects").glob("*.md"))
+    slugs = {src.stem for src in project_sources}
+    assert {"prks", "kokoro-extension", "local-search-mcp"}.issubset(slugs), (
+        "Initial showcase projects are missing", slugs
+    )
+    assert len(project_sources) == len(slugs), "Duplicate project IDs"
+    assert all(re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", slug) for slug in slugs)
+    expected.add(SITE + "/projects/")
+    expected.update(f"{SITE}/projects/{slug}/" for slug in slugs)
     expected.update(f"{SITE}/bookmarks/{section}/" for section in SECTIONS)
     for record in records:
         section, stem = record["id"].split("/")
         expected.add(f"{SITE}/bookmarks/{section.lower()}/{quote(stem.lower(), safe='-._~')}/")
-    assert len(expected) == 600, "Expected 17 root pages + 7 categories + 576 details"
+    assert len(expected) == 601 + len(slugs), "Expected 18 roots + 7 categories + 576 bookmarks + project routes"
 
     root = ET.parse(DIST / "sitemap.xml").getroot()
     ns = "{http://www.sitemaps.org/schemas/sitemap/0.9}"
@@ -100,6 +110,10 @@ def check_metadata():
         "/tv/": DIST / "tv/index.html",
         "/media/": DIST / "media/index.html",
         "/new-media/": DIST / "new-media/index.html",
+        "/projects/": DIST / "projects/index.html",
+        "/projects/prks/": DIST / "projects/prks/index.html",
+        "/projects/kokoro-extension/": DIST / "projects/kokoro-extension/index.html",
+        "/projects/local-search-mcp/": DIST / "projects/local-search-mcp/index.html",
         "/privacy/": DIST / "privacy/index.html",
         "/sh/privacy/": DIST / "sh/privacy/index.html",
         "/bookmarks/art/": DIST / "bookmarks/art/index.html",
@@ -294,3 +308,4 @@ if __name__ == "__main__":
     check_analytics_privacy()
     check_opt_in_comments()
     check_privacy_disclosure()
+    verify_projects(DIST, ASTRO.parent / "content/projects", SITE)

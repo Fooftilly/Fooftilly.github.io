@@ -1,5 +1,6 @@
 import { BOOKMARK_CATEGORIES, bookmarkCategoryPath } from "./bookmark-categories.ts";
 import { bookmarkDetailPath } from "./bookmark-path.ts";
+import { projectPath } from "./project-catalog.ts";
 
 export const SITE_ORIGIN = "https://www.peroniko.xyz";
 
@@ -7,7 +8,7 @@ export const SITE_ORIGIN = "https://www.peroniko.xyz";
  * The routes that exist in the *current* Astro build. This is deliberately not
  * a wish list of unimplemented routes: include additional pages as they are migrated.
  */
-export function getPublishedPaths(bookmarkIds: readonly string[]): string[] {
+export function getPublishedPaths(bookmarkIds: readonly string[], projectSlugs:readonly string[]=[]): string[] {
   const paths = [
     "/",
     "/about/",
@@ -26,6 +27,8 @@ export function getPublishedPaths(bookmarkIds: readonly string[]): string[] {
     "/new-media/",
     "/privacy/",
     "/sh/privacy/",
+    "/projects/",
+    ...projectSlugs.map(projectPath),
     ...BOOKMARK_CATEGORIES.map((category) => bookmarkCategoryPath(category.slug)),
     ...bookmarkIds.map(bookmarkDetailPath),
   ];
