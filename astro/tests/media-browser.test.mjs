@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { normalizeMediaSearch, matchesMediaSearch, compareMediaListings, searchableMediaText } from "../src/lib/media-browser.ts";
+import { normalizeMediaSearch, matchesMediaSearch, compareMediaListings, searchableMediaText, mediaNotesExplainSearch } from "../src/lib/media-browser.ts";
 
 test("media search is case- and accent-insensitive across visible table fields",()=>{
   assert.equal(normalizeMediaSearch("  CAFÉ\t Émilie "), "cafe emilie");
@@ -30,4 +30,26 @@ test("search indexes public media fields, not unrelated external reference label
   assert.equal(matchesMediaSearch(text,"jazz"),false);
   assert.equal(matchesMediaSearch(text,"emilie sunset"),true);
   assert.equal(matchesMediaSearch(text,"2005 moonrise"),true);
+});
+
+test("matching terms found only in collapsed public notes are revealed", () => {
+  const entry = { title: "CI synthetic film", id: "films/example", creator: "Émilie",
+    year: 2001, status: "finished", notes: "Synthetic note.\\nSecond paragraph." };
+  assert.equal(mediaNotesExplainSearch(entry, "second"), true,
+    "Note-only searches should expand the note containing the matching text");
+  assert.equal(mediaNotesExplainSearch(entry, "FILM second"), true,
+    "Mixed visible-metadata and note queries should reveal the note");
+  assert.equal(mediaNotesExplainSearch(entry, "émilie paragráph"), true,
+    "Accent-insensitive searches should reveal note text");
+  assert.equal(mediaNotesExplainSearch(entry, "ci film"), false,
+    "Title-only searches should leave notes collapsed");
+  assert.equal(mediaNotesExplainSearch(entry, "émilie"), false,
+    "Creator-only searches should leave notes collapsed");
+  assert.equal(mediaNotesExplainSearch(entry, "synthetic"), false,
+    "A visible match does not require expanding notes even when the note also matches");
+  assert.equal(mediaNotesExplainSearch(entry, "second nonexistent"), false,
+    "No nonmatching result should be marked for note disclosure");
+  assert.equal(mediaNotesExplainSearch(entry, "   "), false,
+    "Blank searches keep normal compact table presentation");
+  assert.equal(mediaNotesExplainSearch({...entry,notes:undefined}, "second"), false);
 });
