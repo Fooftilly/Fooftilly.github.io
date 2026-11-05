@@ -30,6 +30,6 @@ export function currentNavigationLink(
   if (href.endsWith("/") && pathname.startsWith(href)) return "location";
   // Films, music, TV and the media editor share the /media/ header link.
   if (section === "media" && href === "/media/"
-      && /^\\/(?:films|music|tv|new-media)(?:\\/|$)/.test(pathname)) return "location";
+      && /^\/(?:films|music|tv|new-media)(?:\/|$)/.test(pathname)) return "location";
   return undefined;
 }
