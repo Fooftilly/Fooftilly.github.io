@@ -127,6 +127,15 @@ def check_metadata():
         expected = SITE + urlpath
         assert doc.html_lang == ("sh" if urlpath.startswith("/sh/") else "en"), (urlpath, doc.html_lang)
         assert doc.metas.get("description"), urlpath
+        # Keep project-index metadata intentionally concise in both locales.
+        # The site identity is separately checked via author and OG site name.
+        if urlpath in ("/projects/", "/sh/projects/"):
+            description = "Projekti" if urlpath == "/sh/projects/" else "Projects"
+            for field in ("description", "og:description", "twitter:description"):
+                assert doc.metas.get(field) == description, (
+                    "Project index metadata must use the approved short wording",
+                    urlpath, field, doc.metas.get(field)
+                )
         assert doc.metas.get("author") == "Peroniko", urlpath
         assert doc.metas.get("og:site_name") == "Peroniko", urlpath
         markup = filename.read_text(encoding="utf8")
