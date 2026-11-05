@@ -127,6 +127,51 @@ def verify_project_disclosures(page: str, slug: str) -> None:
         assert visible, ("Empty project prerequisite/limitation disclosure", slug, heading)
 
 
+class ProjectLicenseParser(HTMLParser):
+    """Collect links and text only from the rendered project-license paragraph."""
+
+    def __init__(self):
+        super().__init__()
+        self.in_license = False
+        self.links = []
+        self.link = None
+        self.labels = []
+
+    def handle_starttag(self, tag, attrs):
+        attrs = dict(attrs)
+        if tag == "p" and "project-license" in attrs.get("class", "").split():
+            self.in_license = True
+        elif tag == "a" and self.in_license:
+            self.link = {"attrs": attrs, "text": ""}
+            self.links.append(self.link)
+
+    def handle_data(self, data):
+        if self.in_license:
+            self.labels.append(data)
+            if self.link is not None:
+                self.link["text"] += data
+
+    def handle_endtag(self, tag):
+        if tag == "a":
+            self.link = None
+        elif tag == "p" and self.in_license:
+            self.in_license = False
+
+
+def verify_project_license_link(html: str, slug: str, license: str, license_url: str):
+    parser = ProjectLicenseParser()
+    parser.feed(html)
+    parser.close()
+    assert "License:" in " ".join(parser.labels), ("Missing license label", slug)
+    assert len(parser.links) == 1, ("Missing or duplicate license link", slug)
+    link = parser.links[0]
+    assert link["attrs"].get("href") == license_url, ("Incorrect license link", slug)
+    assert link["text"].strip() == license, ("Incorrect license identifier", slug)
+    assert {"noopener", "noreferrer"}.issubset(
+        link["attrs"].get("rel", "").split()
+    ), ("Missing external-link protections on license", slug)
+
+
 def verify_projects(dist: Path, source: Path, origin: str) -> None:
     items = sorted(source.glob("*.md"))
     assert len(items) >= 3, "Missing initial project showcase content"
@@ -153,6 +198,18 @@ def verify_projects(dist: Path, source: Path, origin: str) -> None:
         # Future fixture projects may omit optional disclosure sections.
         if slug in {"prks", "kokoro-extension", "local-search-mcp"}:
             verify_project_disclosures(html, slug)
+            # All three source repositories publish LICENSE on master; future
+            # projects may omit the optional licenseUrl or use another path.
+            expected_license_url = repository + "/blob/master/LICENSE"
+            assert f'licenseUrl: "{expected_license_url}"' in body, (
+                "Missing/incorrect canonical project license source", slug
+            )
+            license_values = [line.removeprefix("license: ").strip().strip('"').strip("'")
+                              for line in body.splitlines() if line.startswith("license: ")]
+            assert len(license_values) == 1 and license_values[0], (
+                "Missing canonical project license identifier", slug
+            )
+            verify_project_license_link(html, slug, license_values[0], expected_license_url)
         assert 'href="/projects/' + slug + '/"' in index, ("Missing index entry", slug)
         assert 'href="/projects/' + slug + '/"' in local_index, ("Missing SH index entry", slug)
         # Check source links in each rendered card, not anywhere on the page.
