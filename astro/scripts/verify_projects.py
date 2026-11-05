@@ -2,6 +2,7 @@
 
 No network calls or external dependencies. Source Markdown is authoritative.
 """
+import re
 from pathlib import Path
 
 
@@ -27,6 +28,18 @@ def verify_projects(dist: Path, source: Path, origin: str) -> None:
         html = result.read_text(encoding="utf8")
         assert 'href="/projects/' + slug + '/"' in index, ("Missing index entry", slug)
         assert 'href="/projects/' + slug + '/"' in local_index, ("Missing SH index entry", slug)
+        # Every card links directly to its repository in the correct language;
+        # do not rely on the separate English-only project detail page.
+        for label, page in (("Source code", index), ("Izvorni kod", local_index)):
+            source_link = (
+                r'<a\b(?=[^>]*href="' + re.escape(repository)
+                + r'")(?=[^>]*rel="noopener noreferrer")'
+                + r'(?=[^>]*aria-label="' + re.escape(label) + r': [^"]+")[^>]*>\s*'
+                + re.escape(label) + r'\s*</a>'
+            )
+            assert re.search(source_link, page), (
+                "Missing localized, accessible index source link", slug, label
+            )
         assert 'href="' + repository + '"' in html, ("Missing source link", slug)
         assert origin + "/projects/" + slug + "/" in html, ("Missing canonical URL", slug)
         assert "<h1" in html and "<iframe" not in html, ("Project page missing heading or embeds", slug)
