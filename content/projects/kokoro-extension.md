@@ -19,4 +19,10 @@ links:
 
 A browser extension for Chrome and Firefox that connects to a user-configured [Kokoro-FastAPI](https://github.com/remsky/Kokoro-FastAPI) service.
 
-Speech generation requires a reachable endpoint. Text is sent to whichever server the user configures; check the [README and privacy notes](https://github.com/Fooftilly/kokoro-extension#readme) before using a remote host.
+## Requirements
+
+Chrome or Firefox and a reachable Kokoro-FastAPI endpoint, hosted locally or on another server. The extension does not include its own speech server.
+
+## Limitations
+
+Selected text or extracted articles are sent to the configured endpoint. Remote servers receive that text; use HTTPS outside trusted local networks. See the [privacy notes](https://github.com/Fooftilly/kokoro-extension/blob/master/PrivacyPolicy.md).

@@ -16,6 +16,12 @@ links:
     url: "https://github.com/Fooftilly/PRKS/blob/master/README.md"
 ---
 
-PRKS brings research material, annotations and related notes into one library.
+PRKS organizes research material, PDF annotations and related notes in one library.
 
-Development is ongoing. The [project README](https://github.com/Fooftilly/PRKS#readme) documents the current setup and limitations.
+## Requirements
+
+Self-hosted software. See the [project README](https://github.com/Fooftilly/PRKS#readme) for current setup and supported deployment options.
+
+## Limitations
+
+Work in progress; installation and features may change before a stable release. See the [open issues](https://github.com/Fooftilly/PRKS/issues) for outstanding work.

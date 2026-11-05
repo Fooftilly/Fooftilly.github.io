@@ -17,6 +17,12 @@ links:
     url: "https://github.com/Fooftilly/local-search-mcp/blob/master/SECURITY.md"
 ---
 
-This project connects MCP-compatible clients to a self-hosted search and page-retrieval stack.
+Connects MCP-compatible clients to a self-hosted search and page-retrieval stack.
 
-It requires separately managed search and crawler services. The public [setup guide](https://github.com/Fooftilly/local-search-mcp#readme) explains prerequisites and access controls. No hosted demo is provided.
+## Requirements
+
+Linux with Python 3.14+, separately managed SearXNG, and Crawl4AI 0.9.5 or newer. See the [setup guide](https://github.com/Fooftilly/local-search-mcp#readme).
+
+## Limitations
+
+Experimental software, not a network firewall. Domain approvals do not replace network isolation; consult the [security notes](https://github.com/Fooftilly/local-search-mcp/blob/master/SECURITY.md). No hosted demo is provided.
