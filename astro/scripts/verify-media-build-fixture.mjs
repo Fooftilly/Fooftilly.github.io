@@ -11,6 +11,7 @@ import { fileURLToPath } from "node:url";
 const astro = fileURLToPath(new URL("../", import.meta.url));
 const root = fileURLToPath(new URL("../../", import.meta.url));
 const source = join(root, "content", "media");
+const projectSource = join(root, "content", "projects");
 const dist = join(astro, "dist");
 
 const fixtures = [
@@ -73,6 +74,23 @@ try {
     await writeFile(path, JSON.stringify(record, null, 2) + "\n", { flag: "wx" });
     created.push(path);
   }
+  // Verify an entirely new project needs a Markdown entry, not route code.
+  const projectFile=join(projectSource,"zz-ci-project.md");
+  await writeFile(projectFile,[
+    "---",
+    'title: "CI-only fourth project"',
+    'summary: "Disposable source-driven project route test."',
+    'repository: "https://github.com/Fooftilly/PRKS"',
+    "order: 999",
+    'license: "AGPL-3.0-only"',
+    'tags: ["CI", "Routing"]',
+    "highlights:",
+    '  - "Build a page from one new Markdown record"',
+    "---",
+    "Temporary project fixture, never for publication.",
+    "",
+  ].join("\n"),{flag:"wx"});
+  created.push(projectFile);
   run("npm", ["run", "build"]);
   const audit = run("python3", ["scripts/verify_media.py"]);
   for (const {folder, record} of fixtures) {
@@ -84,10 +102,18 @@ try {
   assert.match(audit, /Verified \d+ independent media records/);
   // Run the real browser against the fixture build, then delete every fixture.
   // The existing clean build/browser gate still runs afterward.
+  const projectAudit=run("python3",["scripts/verify_projects.py"]);
+  assert.match(projectAudit,/Verified 4 project showcases/);
+  const detail=await readFile(join(dist,"projects","zz-ci-project","index.html"),"utf8");
+  const index=await readFile(join(dist,"projects","index.html"),"utf8");
+  const sitemap=await readFile(join(dist,"sitemap.xml"),"utf8");
+  assert.ok(detail.includes("CI-only fourth project"),"Fourth project did not render");
+  assert.ok(index.includes("/projects/zz-ci-project/"),"Project missing from index");
+  assert.ok(sitemap.includes("/projects/zz-ci-project/"),"Project missing from sitemap");
   const browserOutput = run(process.execPath, ["scripts/smoke-search-browser.mjs", "--media-fixtures"]);
   assert.match(browserOutput, /Media fixture Chromium smoke: Vue hydration, search, live count and sort passed/);
   console.log(browserOutput.trim());
-  console.log("Actual Astro rendering and source-to-output audit passed for film, TV and music fixtures.");
+  console.log("Actual media rendering and fourth-project source-driven routing passed.");
 } finally {
   // CI's next step rebuilds the real public artifact from source after cleanup.
   await Promise.all(created.map((path) => unlink(path)));
