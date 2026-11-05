@@ -25,5 +25,11 @@ export function currentNavigationLink(
   href: string,
 ): "page" | "location" | undefined {
   if (navigationSectionForPath(pathname) !== section) return undefined;
-  return pathname === href ? "page" : "location";
+  if (pathname === href) return "page";
+  // A parent URL is current only for pages beneath it, not a different locale.
+  if (href.endsWith("/") && pathname.startsWith(href)) return "location";
+  // Films, music, TV and the media editor share the /media/ header link.
+  if (section === "media" && href === "/media/"
+      && /^\\/(?:films|music|tv|new-media)(?:\\/|$)/.test(pathname)) return "location";
+  return undefined;
 }
