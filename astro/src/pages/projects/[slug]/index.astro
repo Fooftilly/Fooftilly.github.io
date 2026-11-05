@@ -1,0 +1,54 @@
+---
+import type { GetStaticPaths } from "astro";
+import {getCollection,render,type CollectionEntry} from "astro:content";
+import SiteLayout from "../../../layouts/SiteLayout.astro";
+import {projectPath,sortProjects} from "../../../lib/project-catalog.ts";
+
+export const getStaticPaths=(async()=>{
+  const all=sortProjects(await getCollection("projects"));
+  return all.map(project=>({
+    params:{slug:project.id},
+    props:{project},
+  }));
+}) satisfies GetStaticPaths;
+
+const {project}=Astro.props as {project:CollectionEntry<"projects">};
+const {Content}=await render(project);
+const {title,summary,repository,status,license,tags,highlights,links=[]}=project.data;
+---
+<SiteLayout title={title} description={summary}>
+  <article class="project-detail">
+    <p><a href="/projects/">All projects</a></p>
+    <h1>{title}</h1>
+    <p class="project-summary">{summary}</p>
+    {status && <p class="project-status">{status}</p>}
+    <ul class="project-tags" aria-label="Technologies">
+      {tags.map(tag=><li>{tag}</li>)}
+    </ul>
+    <section aria-labelledby="project-highlights">
+      <h2 id="project-highlights">Highlights</h2>
+      <ul>{highlights.map(feature=><li>{feature}</li>)}</ul>
+    </section>
+    <section class="project-description" aria-label="About the project"><Content /></section>
+    <section aria-labelledby="project-links">
+      <h2 id="project-links">Links</h2>
+      <ul class="project-links">
+        <li><a href={repository} rel="noopener noreferrer">Source code</a></li>
+        <li><a href={repository+"/issues"} rel="noopener noreferrer">Issues</a></li>
+        {links.map(link=><li><a href={link.url} rel="noopener noreferrer">{link.label}</a></li>)}
+      </ul>
+      <p class="project-license">License: {license}</p>
+    </section>
+  </article>
+</SiteLayout>
+<style>
+.project-detail{max-width:72ch}
+.project-summary{font-size:1.12rem}
+.project-status,.project-license{color:var(--muted)}
+.project-tags,.project-links{display:flex;gap:.55rem;flex-wrap:wrap;list-style:none;padding:0}
+.project-tags li{border:1px solid var(--border);padding:.25rem .5rem;border-radius:0}
+.project-detail section{margin:2rem 0}
+.project-detail section h2{font-size:1.35rem}
+.project-detail section li{margin:.35rem 0}
+.project-links li{border:1px solid var(--border);padding:.55rem .75rem;border-radius:0}
+</style>

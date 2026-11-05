@@ -1,0 +1,21 @@
+---
+title: "Local Search MCP"
+summary: "A self-hosted MCP bridge for web search and page retrieval."
+repository: "https://github.com/Fooftilly/local-search-mcp"
+order: 3
+license: "Apache-2.0"
+tags: ["MCP", "SearXNG", "Crawl4AI", "Python"]
+highlights:
+  - "Search through a locally managed SearXNG instance"
+  - "Retrieve approved pages through a Crawl4AI backend"
+  - "Review domain permissions and activity in a local dashboard"
+links:
+  - label: "Search documentation"
+    url: "https://github.com/Fooftilly/local-search-mcp/blob/master/docs/SEARCH.md"
+  - label: "Security notes"
+    url: "https://github.com/Fooftilly/local-search-mcp/blob/master/SECURITY.md"
+---
+
+This project connects MCP-compatible clients to a self-hosted search and page-retrieval stack.
+
+It requires separately managed search and crawler services. The public [setup guide](https://github.com/Fooftilly/local-search-mcp#readme) explains prerequisites and access controls. No hosted demo is provided.

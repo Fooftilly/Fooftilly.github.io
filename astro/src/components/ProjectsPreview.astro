@@ -1,0 +1,18 @@
+---
+import ProjectCards from "./ProjectCards.astro";
+interface Props { lang: "en"|"sh" }
+const {lang}=Astro.props;
+const sh=lang==="sh";
+---
+<section class="projects-preview" aria-labelledby="homepage-projects">
+  <div class="preview-heading">
+    <h2 id="homepage-projects">{sh?"Projekti":"Projects"}</h2>
+    <a href="/projects/">{sh?"Svi projekti":"All projects"}</a>
+  </div>
+  <ProjectCards limit={3}/>
+</section>
+<style>
+.projects-preview{margin:1.5rem 0 3.5rem}
+.preview-heading{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.8rem}
+.preview-heading h2{font-size:clamp(1.3rem,3vw,1.75rem)}
+</style>
