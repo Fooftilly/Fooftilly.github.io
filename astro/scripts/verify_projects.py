@@ -50,12 +50,44 @@ def parse_project_cards(page):
     return parser.cards
 
 
-def verify_card_source_link(cards, slug, repository, label):
-    """Check the source link in this project's card using its rendered title.
+class ProjectHeadingParser(HTMLParser):
+    """Read the project title from the separately rendered detail page."""
 
-    HTMLParser decodes entities in text and attributes. Taking the title from
-    the rendered detail-page link avoids incorrectly comparing escaped YAML
-    frontmatter syntax with the decoded title displayed by Astro.
+    def __init__(self):
+        super().__init__()
+        self.headings = []
+        self._parts = None
+
+    def handle_starttag(self, tag, attrs):
+        if tag == "h1":
+            self._parts = []
+
+    def handle_data(self, data):
+        if self._parts is not None:
+            self._parts.append(data)
+
+    def handle_endtag(self, tag):
+        if tag == "h1" and self._parts is not None:
+            self.headings.append("".join(self._parts).strip())
+            self._parts = None
+
+
+def parse_project_heading(page):
+    parser = ProjectHeadingParser()
+    parser.feed(page)
+    parser.close()
+    assert len(parser.headings) == 1 and parser.headings[0], (
+        "Project detail must have one nonempty heading", parser.headings
+    )
+    return parser.headings[0]
+
+
+def verify_card_source_link(cards, slug, repository, label, expected_title):
+    """Check source links against the separately rendered project detail title.
+
+    The detail page and card are independent templates backed by canonical
+    project Markdown. HTMLParser decodes entities, so escaped YAML syntax
+    never has to be parsed from raw frontmatter lines.
     """
     detail_path = f"/projects/{slug}/"
     matching = [card for card in cards
@@ -65,7 +97,9 @@ def verify_card_source_link(cards, slug, repository, label):
     details = [link for link in card if link["attrs"].get("href") == detail_path]
     assert len(details) == 1, ("Missing/duplicate detail link", slug, label)
     title = details[0]["text"].strip()
-    assert title, ("Missing rendered project title", slug, label)
+    assert title == expected_title, (
+        "Project card title differs from detail page", slug, label, title, expected_title
+    )
 
     links = [link for link in card if link["attrs"].get("href") == repository]
     assert len(links) == 1, ("Incorrect repository link in project card", slug, label)
@@ -101,11 +135,12 @@ def verify_projects(dist: Path, source: Path, origin: str) -> None:
         result = dist / "projects" / slug / "index.html"
         assert result.is_file(), ("Missing project detail", slug)
         html = result.read_text(encoding="utf8")
+        expected_title = parse_project_heading(html)
         assert 'href="/projects/' + slug + '/"' in index, ("Missing index entry", slug)
         assert 'href="/projects/' + slug + '/"' in local_index, ("Missing SH index entry", slug)
         # Check source links in each rendered card, not anywhere on the page.
         for label, cards in indexes:
-            verify_card_source_link(cards, slug, repository, label)
+            verify_card_source_link(cards, slug, repository, label, expected_title)
         assert 'href="' + repository + '"' in html, ("Missing source link", slug)
         assert origin + "/projects/" + slug + "/" in html, ("Missing canonical URL", slug)
         assert "<h1" in html and "<iframe" not in html, ("Project page missing heading or embeds", slug)
