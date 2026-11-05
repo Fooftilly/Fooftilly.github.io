@@ -403,6 +403,43 @@ try {
     (value) => typeof value === "string" && value.includes("already appears"),
     "duplicate URL warning",
   );
+  assert.equal(await evaluate("document.querySelectorAll('.new-bookmark select').length"), 0,
+    "New bookmark category choices must be visible buttons");
+  assert.equal(await evaluate("document.querySelectorAll('.new-bookmark [data-bookmark-category]').length"), 7);
+  assert.equal(await evaluate("document.querySelector('.new-bookmark [data-bookmark-category=Resource]')?.getAttribute('aria-pressed')"), "true");
+  assert.equal(await evaluate("document.querySelectorAll('.new-bookmark [data-bookmark-category][aria-pressed=true]').length"), 1);
+
+  await evaluate("document.querySelector('.new-bookmark [data-bookmark-category=Art]').click()");
+  await waitFor(
+    "document.querySelector('.new-bookmark .output code')?.textContent",
+    (value) => typeof value === "string" && value.includes("content/bookmarks/Art/50-watts.md"),
+    "category button updates canonical draft path",
+  );
+  assert.equal(await evaluate("document.querySelector('.new-bookmark [data-bookmark-category=Art]')?.getAttribute('aria-pressed')"), "true");
+  assert.equal(await evaluate("document.querySelectorAll('.new-bookmark [data-bookmark-category][aria-pressed=true]').length"), 1);
+  assert.equal(await evaluate("new URL(document.querySelector('.new-bookmark .actions a').href).searchParams.get('filename')"), "content/bookmarks/Art/50-watts.md");
+  await evaluate("document.querySelector('.new-bookmark [data-bookmark-category=Resource]').click()");
+  await waitFor(
+    "document.querySelector('.new-bookmark .output code')?.textContent",
+    (value) => typeof value === "string" && value.includes("content/bookmarks/Resource/50-watts.md"),
+    "category returns to original default",
+  );
+
+  await command("Emulation.setDeviceMetricsOverride", {
+    width: 375, height: 667, deviceScaleFactor: 1, mobile: true,
+  });
+  const mobileDraftCategories = await evaluate(
+    "(()=>{const buttons=[...document.querySelectorAll('.new-bookmark [data-bookmark-category]')];" +
+    "return {width:document.documentElement.scrollWidth,viewport:innerWidth," +
+    "buttonsFit:buttons.every(button=>{const rect=button.getBoundingClientRect();" +
+    "return rect.width>0&&rect.left>=-1&&rect.right<=innerWidth+1;})};})()",
+  );
+  assert.ok(mobileDraftCategories.width <= mobileDraftCategories.viewport + 1,
+    "New bookmark category controls must not overflow a mobile viewport");
+  assert.equal(mobileDraftCategories.buttonsFit, true,
+    "Every bookmark category button must fit the mobile viewport");
+  await command("Emulation.clearDeviceMetricsOverride");
+
   const githubHref = await evaluate(
     "document.querySelector('.new-bookmark .actions a')?.href",
   );
