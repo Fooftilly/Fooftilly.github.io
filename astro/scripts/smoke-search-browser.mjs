@@ -168,6 +168,85 @@ try {
       "document.querySelector('[data-media-row] th[scope=row]')?.textContent.includes('CI synthetic film (not for publication)')",
       Boolean, "highest rated film first",
     );
+    // Media collection filters must survive navigation, reloads and link sharing.
+    await navigate("/films/?q=emilie&sort=year&utm_source=fixture");
+    await waitFor(
+      "document.querySelector('[data-media-search]')?.value",
+      value => value === "emilie", "film deep-link search restored",
+    );
+    await waitFor(
+      "document.querySelector('[data-media-count]')?.textContent.trim()",
+      value => value === "1 of 2 entries", "film deep-link filtering restored",
+    );
+    assert.equal(await evaluate("document.querySelector('[data-media-sort=year]')?.getAttribute('aria-pressed')"),"true",
+      "Film deep-link sort must be restored");
+    await evaluate("(()=>{const el=document.querySelector('[data-media-search]');el.value='zebra';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
+    await waitFor(
+      "new URL(location.href).searchParams.get('q')",
+      value => value === "zebra", "media live search URL state",
+    );
+    assert.equal(await evaluate("new URL(location.href).searchParams.get('utm_source')"),"fixture",
+      "Unrelated URL parameters must remain unchanged");
+    await evaluate("document.querySelector('[data-media-sort=title]').click()");
+    await waitFor(
+      "new URL(location.href).searchParams.get('sort')",
+      value => value === "title", "media sort selection URL state",
+    );
+    // Mark this DOM before reload so stale pre-navigation elements cannot satisfy
+    // assertions. Wait for a newly created document and hydrated Vue island.
+    await evaluate("document.documentElement.dataset.mediaPreReload = 'stale-document'");
+    await command("Page.reload", {ignoreCache:true});
+    await waitFor(
+      "(()=>{const island=document.querySelector('.media-collection')?.closest('astro-island');" +
+      "return document.readyState==='complete' && document.documentElement.dataset.mediaPreReload!=='stale-document'" +
+      " && Boolean(island && !island.hasAttribute('ssr'));})()",
+      Boolean, "new media document loaded and Vue island hydrated after reload",
+    );
+    await waitFor(
+      "document.querySelector('[data-media-search]')?.value",
+      value => value === "zebra", "media filter survives reload",
+    );
+    await waitFor(
+      "document.querySelector('[data-media-sort=title]')?.getAttribute('aria-pressed')",
+      value => value === "true", "media sort survives reload",
+    );
+    await waitFor(
+      "document.querySelector('[data-media-count]')?.textContent.trim()",
+      value => value === "1 of 2 entries", "reloaded media filter shows expected records",
+    );
+    await evaluate("(()=>{const el=document.querySelector('[data-media-search]');el.value='';el.dispatchEvent(new Event('input',{bubbles:true}));document.querySelector('[data-media-sort=rating]').click()})()");
+    await waitFor(
+      "(()=>{const p=new URL(location.href).searchParams;return !p.has('q')&&!p.has('sort')})()",
+      Boolean, "default media filters remove obsolete URL parameters",
+    );
+    assert.equal(await evaluate("new URL(location.href).searchParams.get('utm_source')"),"fixture");
+
+    await navigate("/music/?q=cafe&sort=title");
+    await waitFor(
+      "document.querySelector('[data-media-search]')?.value",
+      value => value === "cafe", "music deep-link search restored",
+    );
+    await waitFor(
+      "document.querySelector('[data-media-count]')?.textContent.trim()",
+      value => value === "1 of 1 entries", "music deep-link result",
+    );
+    assert.equal(await evaluate("document.querySelector('[data-media-sort=title]')?.getAttribute('aria-pressed')"), "true");
+    await navigate("/tv/?q=no-matching-show");
+    await waitFor(
+      "document.querySelector('[data-media-count]')?.textContent.trim()",
+      value => value === "0 of 1 entries", "TV deep-link empty result",
+    );
+    await navigate("/films/?sort=untrusted");
+    await waitFor(
+      "(()=>{const island=document.querySelector('.media-collection')?.closest('astro-island');return Boolean(island && !island.hasAttribute('ssr'));})()",
+      Boolean, "film controls hydrated before rejecting unsupported sort",
+    );
+    await waitFor(
+      "new URL(location.href).searchParams.has('sort')",
+      value => value === false, "unsupported media sort removed",
+    );
+    assert.equal(await evaluate("document.querySelector('[data-media-sort=rating]')?.getAttribute('aria-pressed')"),"true");
+    console.log("Media fixture URL smoke: EN collection deep links, reload, filters and unsupported sort handling passed");
     console.log("Media fixture Chromium smoke: Vue hydration, search, live count and sort passed");
   } else {
   // Consent must appear as a fixed cookie overlay, not as an inline footer.

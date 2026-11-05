@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { compareMediaListings, matchesMediaSearch, searchableMediaText, type MediaSort } from "../lib/media-browser.ts";
+import { mediaFilterHref, readMediaQueryState } from "../lib/media-query-state.ts";
 import type { MediaKind, StoredMedia } from "../lib/media-model.ts";
 
 const props=defineProps<{kind:MediaKind;entries:StoredMedia[]}>();
@@ -14,7 +15,21 @@ const sortOptions:{value:MediaSort;label:string}[]=[
   {value:"title",label:"Title A–Z"},
   {value:"year",label:"Newest"},
 ];
-onMounted(()=>{hydrated.value=true;});
+function syncUrl(): void {
+  if (typeof window === "undefined" || !hydrated.value) return;
+  const next = mediaFilterHref(window.location.href, query.value, sort.value);
+  const current = window.location.pathname + window.location.search + window.location.hash;
+  if (next !== current) window.history.replaceState(window.history.state, "", next);
+}
+
+onMounted(() => {
+  const initial = readMediaQueryState(window.location.search);
+  query.value = initial.query;
+  sort.value = initial.sort;
+  hydrated.value = true;
+  syncUrl();
+});
+watch([query, sort], syncUrl);
 const visible=computed(()=>props.entries
   .filter(item=>matchesMediaSearch(searchableMediaText(item),query.value))
   .sort((a,b)=>compareMediaListings(a,b,sort.value))
