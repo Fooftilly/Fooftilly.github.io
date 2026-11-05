@@ -3,6 +3,7 @@
 No network calls or external dependencies. Source Markdown is authoritative.
 """
 from html.parser import HTMLParser
+import re
 from pathlib import Path
 
 
@@ -136,6 +137,13 @@ def verify_projects(dist: Path, source: Path, origin: str) -> None:
         assert result.is_file(), ("Missing project detail", slug)
         html = result.read_text(encoding="utf8")
         expected_title = parse_project_heading(html)
+        # The initial showcases must expose prerequisite and limitation
+        # headings, but future fixture projects may omit these sections.
+        if slug in {"prks", "kokoro-extension", "local-search-mcp"}:
+            for heading in ("Requirements", "Limitations"):
+                assert re.search(r"<h2\b[^>]*>\s*" + heading + r"\s*</h2>", html), (
+                    "Missing project prerequisite/limitation disclosure", slug, heading
+                )
         assert 'href="/projects/' + slug + '/"' in index, ("Missing index entry", slug)
         assert 'href="/projects/' + slug + '/"' in local_index, ("Missing SH index entry", slug)
         # Check source links in each rendered card, not anywhere on the page.
