@@ -28,6 +28,7 @@ export function getPublishedPaths(bookmarkIds: readonly string[], projectSlugs:r
     "/privacy/",
     "/sh/privacy/",
     "/projects/",
+    "/sh/projects/",
     ...projectSlugs.map(projectPath),
     ...BOOKMARK_CATEGORIES.map((category) => bookmarkCategoryPath(category.slug)),
     ...bookmarkIds.map(bookmarkDetailPath),

@@ -1,6 +1,7 @@
 ---
 title: "Local Search MCP"
 summary: "A self-hosted MCP bridge for web search and page retrieval."
+summarySh: "MCP alat za pretragu interneta i učitavanje stranica preko sopstvenog servera."
 repository: "https://github.com/Fooftilly/local-search-mcp"
 order: 3
 license: "Apache-2.0"

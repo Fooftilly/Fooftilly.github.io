@@ -73,6 +73,7 @@ const projects=defineCollection({
   schema:z.object({
     title:z.string().min(1).max(90),
     summary:z.string().min(10).max(240),
+    summarySh:z.string().min(10).max(240).optional(),
     repository:z.string().regex(/^https:\/\/github\.com\/Fooftilly\/[A-Za-z0-9_.-]+$/),
     order:z.number().int().min(0).max(1000),
     status:z.enum(["Work in progress","Maintained","Archived"]).optional(),

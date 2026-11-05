@@ -1,17 +1,20 @@
 ---
 import { getCollection } from "astro:content";
 import { sortProjects, projectPath } from "../lib/project-catalog.ts";
-interface Props { limit?: number }
-const {limit}=Astro.props;
+interface Props { limit?: number; lang?: "en"|"sh" }
+const {limit,lang="en"}=Astro.props;
+const sh=lang==="sh";
 const allProjects=sortProjects(await getCollection("projects"));
 const projects=limit===undefined ? allProjects : allProjects.slice(0,limit);
 ---
 <ul class="project-cards">
   {projects.map(({id,data})=><li class="project-card">
     <h3><a href={projectPath(id)}>{data.title}</a></h3>
-    <p>{data.summary}</p>
-    {data.status && <p class="project-status">{data.status}</p>}
-    <ul class="project-tags" aria-label={data.title+" technologies"}>
+    <p>{sh && data.summarySh ? data.summarySh : data.summary}</p>
+    {data.status && <p class="project-status">{sh
+      ? {"Work in progress":"U razvoju","Maintained":"Aktivno","Archived":"Arhivirano"}[data.status]
+      : data.status}</p>}
+    <ul class="project-tags" aria-label={data.title+(sh?" — tehnologije":" technologies")}>
       {data.tags.map(tag=><li>{tag}</li>)}
     </ul>
   </li>)}
