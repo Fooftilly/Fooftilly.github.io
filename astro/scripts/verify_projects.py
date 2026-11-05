@@ -2,6 +2,7 @@
 
 No network calls or external dependencies. Source Markdown is authoritative.
 """
+from html import unescape
 from html.parser import HTMLParser
 import re
 from pathlib import Path
@@ -114,6 +115,18 @@ def verify_card_source_link(cards, slug, repository, label, expected_title):
     ), ("Missing external-link protections", slug, label)
 
 
+def verify_project_disclosures(page: str, slug: str) -> None:
+    """Require meaningful text under each initial project's disclosure heading."""
+    for heading in ("Requirements", "Limitations"):
+        # Each heading's content ends at the next heading or closing section.
+        # Checking only the heading would allow empty disclosures to ship.
+        pattern = r"<h2\b[^>]*>\s*" + heading + r"\s*</h2>(.*?)(?=<h2\b|</section>)"
+        match = re.search(pattern, page, flags=re.DOTALL)
+        assert match, ("Missing project prerequisite/limitation disclosure", slug, heading)
+        visible = unescape(re.sub(r"<[^>]+>", " ", match.group(1))).strip()
+        assert visible, ("Empty project prerequisite/limitation disclosure", slug, heading)
+
+
 def verify_projects(dist: Path, source: Path, origin: str) -> None:
     items = sorted(source.glob("*.md"))
     assert len(items) >= 3, "Missing initial project showcase content"
@@ -137,13 +150,9 @@ def verify_projects(dist: Path, source: Path, origin: str) -> None:
         assert result.is_file(), ("Missing project detail", slug)
         html = result.read_text(encoding="utf8")
         expected_title = parse_project_heading(html)
-        # The initial showcases must expose prerequisite and limitation
-        # headings, but future fixture projects may omit these sections.
+        # Future fixture projects may omit optional disclosure sections.
         if slug in {"prks", "kokoro-extension", "local-search-mcp"}:
-            for heading in ("Requirements", "Limitations"):
-                assert re.search(r"<h2\b[^>]*>\s*" + heading + r"\s*</h2>", html), (
-                    "Missing project prerequisite/limitation disclosure", slug, heading
-                )
+            verify_project_disclosures(html, slug)
         assert 'href="/projects/' + slug + '/"' in index, ("Missing index entry", slug)
         assert 'href="/projects/' + slug + '/"' in local_index, ("Missing SH index entry", slug)
         # Check source links in each rendered card, not anywhere on the page.
