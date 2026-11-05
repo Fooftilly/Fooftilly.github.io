@@ -10,6 +10,8 @@ def verify_projects(dist: Path, source: Path, origin: str) -> None:
     assert len(items) >= 3, "Missing initial project showcase content"
     index = (dist / "projects/index.html").read_text(encoding="utf8")
     assert "<h1" in index and "Projects" in index
+    local_index=(dist / "sh/projects/index.html").read_text(encoding="utf8")
+    assert "<h1" in local_index and "Projekti" in local_index
     for item in items:
         slug = item.stem
         assert slug and all(c.islower() or c.isdigit() or c == "-" for c in slug), slug
@@ -24,12 +26,14 @@ def verify_projects(dist: Path, source: Path, origin: str) -> None:
         assert result.is_file(), ("Missing project detail", slug)
         html = result.read_text(encoding="utf8")
         assert 'href="/projects/' + slug + '/"' in index, ("Missing index entry", slug)
+        assert 'href="/projects/' + slug + '/"' in local_index, ("Missing SH index entry", slug)
         assert 'href="' + repository + '"' in html, ("Missing source link", slug)
         assert origin + "/projects/" + slug + "/" in html, ("Missing canonical URL", slug)
         assert "<h1" in html and "<iframe" not in html, ("Project page missing heading or embeds", slug)
-    for homepage in (dist / "index.html", dist / "sh/index.html"):
+    for homepage, route in ((dist / "index.html", "/projects/"),
+                            (dist / "sh/index.html", "/sh/projects/")):
         html = homepage.read_text(encoding="utf8")
-        assert 'href="/projects/"' in html, ("Missing project navigation", homepage)
+        assert f'href="{route}"' in html, ("Missing localized project navigation", homepage)
     print(f"Verified {len(items)} project showcases with source links and static routes")
 
 
