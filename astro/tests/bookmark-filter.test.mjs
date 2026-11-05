@@ -70,5 +70,9 @@ test("existing public bookmark comments are searchable but blank comments do not
   assert.deepEqual(select("flickr heritage"), ["Resource/archive"]);
   assert.deepEqual(select("flickr no-match"), []);
   assert.deepEqual(select("archive"), ["Resource/archive"]);
+  const longComment = [{ ...records[0], comments: "Archive details. ".repeat(140) + "rare-final-needle" }];
+  assert.deepEqual(filterAndSortBookmarks(longComment, {...defaults, query: "rare-final-needle"})
+    .map(item => item.id), ["Resource/archive"],
+    "The whole public comment must be indexed, including its ending");
   assert.deepEqual(select("library"), ["Resource/other", "Resource/archive"].sort((a,b) => records.find(x=>x.id===a).title.localeCompare(records.find(x=>x.id===b).title)));
 });
