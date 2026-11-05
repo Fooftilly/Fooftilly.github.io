@@ -192,7 +192,16 @@ try {
       "new URL(location.href).searchParams.get('sort')",
       value => value === "title", "media sort selection URL state",
     );
+    // Mark this DOM before reload so stale pre-navigation elements cannot satisfy
+    // assertions. Wait for a newly created document and hydrated Vue island.
+    await evaluate("document.documentElement.dataset.mediaPreReload = 'stale-document'");
     await command("Page.reload", {ignoreCache:true});
+    await waitFor(
+      "(()=>{const island=document.querySelector('.media-collection')?.closest('astro-island');" +
+      "return document.readyState==='complete' && document.documentElement.dataset.mediaPreReload!=='stale-document'" +
+      " && Boolean(island && !island.hasAttribute('ssr'));})()",
+      Boolean, "new media document loaded and Vue island hydrated after reload",
+    );
     await waitFor(
       "document.querySelector('[data-media-search]')?.value",
       value => value === "zebra", "media filter survives reload",
