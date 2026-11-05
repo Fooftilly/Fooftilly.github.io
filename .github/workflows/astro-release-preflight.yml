@@ -67,6 +67,7 @@ jobs:
           python3 scripts/verify-localized-about.py
           python3 scripts/verify-posts-search.py
           python3 -m unittest discover -s scripts -p 'test_verify_internal_links.py'
+          python3 -m unittest discover -s scripts -p 'test_verify_projects.py'
           python3 scripts/verify-site-seo.py
           node scripts/verify-homepage.mjs
           python3 -m unittest discover -s scripts -p 'test_verify_media.py'

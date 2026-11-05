@@ -17,6 +17,11 @@ const projects=limit===undefined ? allProjects : allProjects.slice(0,limit);
     <ul class="project-tags" aria-label={data.title+(sh?" — tehnologije":" technologies")}>
       {data.tags.map(tag=><li>{tag}</li>)}
     </ul>
+    <p class="project-source">
+      <a href={data.repository} rel="noopener noreferrer" aria-label={`${sh?"Izvorni kod":"Source code"}: ${data.title}`}>
+        {sh?"Izvorni kod":"Source code"}
+      </a>
+    </p>
   </li>)}
 </ul>
 <style>
@@ -25,6 +30,7 @@ const projects=limit===undefined ? allProjects : allProjects.slice(0,limit);
 .project-card h3{font-size:1.16rem;margin:0 0 .6rem;overflow-wrap:anywhere}
 .project-card p{margin:.45rem 0;line-height:1.5}
 .project-status{color:var(--muted);font-size:.9rem}
+.project-source{margin-top:.9rem}
 .project-tags{display:flex;flex-wrap:wrap;list-style:none;gap:.4rem;margin:1rem 0 0;padding:0}
 .project-tags li{font-size:.8rem;border:1px solid var(--border);padding:.2rem .45rem;border-radius:0}
 </style>
