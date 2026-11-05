@@ -157,6 +157,31 @@ try {
       "document.querySelector('[data-media-count]')?.textContent.trim()",
       value => value === "1 of 2 entries", "accent-insensitive metadata search",
     );
+    assert.equal(await evaluate("document.querySelector('[data-media-row] details')?.open"), false,
+      "A visible creator match does not unnecessarily reveal public notes");
+    await evaluate("(()=>{const el=document.querySelector('[data-media-search]');el.value='second';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
+    await waitFor(
+      "document.querySelector('[data-media-count]')?.textContent.trim()",
+      value => value === "1 of 2 entries", "note-only search finds the correct film",
+    );
+    await waitFor(
+      "document.querySelector('[data-media-row] details')?.open",
+      value => value === true, "note-only match automatically reveals the collapsed note",
+    );
+    assert.match(
+      await evaluate("document.querySelector('[data-media-row] details .notes')?.textContent || ''"),
+      /Second paragraph/, "Visible notes must explain the search match",
+    );
+    await evaluate("(()=>{const el=document.querySelector('[data-media-search]');el.value='emilie second';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
+    await waitFor(
+      "document.querySelector('[data-media-row] details')?.open",
+      value => value === true, "mixed metadata and note matches keep notes readable",
+    );
+    await evaluate("(()=>{const el=document.querySelector('[data-media-search]');el.value='emilie';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
+    await waitFor(
+      "document.querySelector('[data-media-row] details')?.open",
+      value => value === false, "switching to metadata-only search collapses unused notes",
+    );
     await evaluate("(()=>{const el=document.querySelector('[data-media-search]');el.value='';el.dispatchEvent(new Event('input',{bubbles:true}));document.querySelector('[data-media-sort=year]').click()})()");
     await waitFor(
       "document.querySelector('[data-media-row] th[scope=row]')?.textContent.includes('Zebra CI synthetic film')",

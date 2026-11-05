@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from "vue";
-import { compareMediaListings, matchesMediaSearch, searchableMediaText, type MediaSort } from "../lib/media-browser.ts";
+import { compareMediaListings, matchesMediaSearch, searchableMediaText, mediaNotesExplainSearch, type MediaSort } from "../lib/media-browser.ts";
 import { mediaFilterHref, readMediaQueryState } from "../lib/media-query-state.ts";
 import type { MediaKind, StoredMedia } from "../lib/media-model.ts";
 
@@ -68,7 +68,7 @@ const visible=computed(()=>props.entries
             <tr v-for="item in visible" :key="item.id" data-media-row>
               <th scope="row">
                 {{ item.title }}
-                <details v-if="item.notes">
+                <details v-if="item.notes" :open="mediaNotesExplainSearch(item, query)">
                   <summary>Notes</summary><p class="notes">{{ item.notes }}</p>
                 </details>
               </th>
