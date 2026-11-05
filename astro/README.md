@@ -194,9 +194,10 @@ fields and unsafe URLs. The filename becomes the lowercase URL slug.
 Add future projects by creating one Markdown record. The page template,
 sitemap and project index discover it automatically, without a server,
 GitHub API calls or new database. CI verifies every entry against its
-rendered static route and direct repository link. Source screenshots and
-SH prose are added only after review; the initial English-only project
-index is linked from both language homepages with a natural SH label.
+rendered static route and direct repository link. Source screenshots and complete SH project details are added only after
+separate review. The project index has canonical `/projects/` and
+`/sh/projects/` routes, with short manually reviewed SH summaries in optional
+`summarySh` frontmatter. Technical project detail pages remain English-only.
 
 The first records cover PRKS (work in progress), kokoro-extension and
 local-search-mcp. There are no fictional demos, metrics or runtime embeds.
