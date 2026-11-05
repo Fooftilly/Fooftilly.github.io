@@ -8,11 +8,13 @@ from verify_projects import (
     parse_project_cards,
     parse_project_heading,
     verify_card_source_link,
+    verify_project_disclosures,
 )
 
 FIXTURES = Path(__file__).resolve().parent / "fixtures"
 CARD = Template((FIXTURES / "project-card.html").read_text(encoding="utf-8"))
 DETAIL = Template((FIXTURES / "project-detail.html").read_text(encoding="utf-8"))
+DISCLOSURES = Template((FIXTURES / "project-disclosures.html").read_text(encoding="utf-8"))
 
 
 def card(slug, title, repository, label="Source code", accessible_name=None):
@@ -91,6 +93,28 @@ class ProjectSourceLinksTest(unittest.TestCase):
     def test_detail_heading_is_nonempty(self):
         with self.assertRaisesRegex(AssertionError, "one nonempty heading"):
             detail_heading("")
+
+    def test_project_disclosures_include_visible_text(self):
+        page = DISCLOSURES.substitute(
+            requirements=escape("A server & browser"),
+            limitations=escape("No hosted demo is provided"),
+        )
+        verify_project_disclosures(page, "prks")
+
+    def test_disclosures_reject_empty_requirements(self):
+        page = DISCLOSURES.substitute(requirements="", limitations="No hosted demo")
+        with self.assertRaisesRegex(AssertionError, "Empty project prerequisite"):
+            verify_project_disclosures(page, "prks")
+
+    def test_disclosures_reject_empty_limitations(self):
+        page = DISCLOSURES.substitute(requirements="Local endpoint", limitations="")
+        with self.assertRaisesRegex(AssertionError, "Empty project prerequisite"):
+            verify_project_disclosures(page, "prks")
+
+    def test_disclosures_reject_missing_heading(self):
+        page = DETAIL.substitute(title=escape("PRKS"))
+        with self.assertRaisesRegex(AssertionError, "Missing project prerequisite"):
+            verify_project_disclosures(page, "prks")
 
 
 if __name__ == "__main__":
