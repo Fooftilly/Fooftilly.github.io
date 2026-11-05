@@ -12,6 +12,7 @@ from xml.etree import ElementTree as ET
 
 from verify_semantic_accessibility import verify_semantic_structure
 from verify_internal_links import audit_internal_links
+from verify_projects import verify_projects
 
 ASTRO = Path(__file__).resolve().parents[1]
 DIST = ASTRO / "dist"
@@ -267,3 +268,4 @@ if __name__ == "__main__":
     check_analytics_privacy()
     check_opt_in_comments()
     check_privacy_disclosure()
+    verify_projects(DIST, ASTRO.parent / "content/projects", SITE)

@@ -182,6 +182,26 @@ Already shared links with the old prefix will result in a 404 after manual
 publication; references should be updated to `/sh/`. CI verifies the new
 canonical URLs and switch labels. See `CUTOVER.md` for the release impact.
 
+## Public project showcase
+
+The `/projects/` index and `/projects/[slug]/` details use one static
+Astro template and reviewed `content/projects/*.md` files. Frontmatter
+declares a concise title, summary, public GitHub repository, display order,
+SPDX license, tags, verified highlights and optional HTTPS documentation
+links; body Markdown holds the short description. The schema rejects extra
+fields and unsafe URLs. The filename becomes the lowercase URL slug.
+
+Add future projects by creating one Markdown record. The page template,
+sitemap and project index discover it automatically, without a server,
+GitHub API calls or new database. CI verifies every entry against its
+rendered static route and direct repository link. Source screenshots and
+SH prose are added only after review; the initial English-only project
+index is linked from both language homepages with a natural SH label.
+
+The first records cover PRKS (work in progress), kokoro-extension and
+local-search-mcp. There are no fictional demos, metrics or runtime embeds.
+The separate manual Pages workflow remains required for publication.
+
 ## Release and maintenance
 
 The production site is Astro and Vue. A maintainer explicitly approves each GitHub Pages deployment. The old Hugo build, theme submodules and templates have been retired after cutover and the rollback period. The existing `cloakemail` content shortcode is translated by a native Sätteri plugin into a `mailto:` link; it does not retain bot obfuscation. Reassess this privacy behavior with issue #3 if required. Preserve audit checks, source parity, 404 recovery behavior and all bookmark content on future releases.

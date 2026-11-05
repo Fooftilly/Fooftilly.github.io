@@ -16,6 +16,10 @@ for (const [path, language, heading] of [
   assert.ok(!html.includes("Astro migration preview"), "Technical placeholder leaked: " + path);
   assert.ok(!html.includes("Hugo na Astro"), "Serbo-Croatian preview placeholder leaked: " + path);
   assert.ok(html.includes('href="/new-bookmark/"'), "Public bookmark composer link missing: " + path);
+  assert.ok(html.includes('href="/projects/"'), "Missing project navigation: " + path);
+  for (const slug of ["prks","kokoro-extension","local-search-mcp"]) {
+    assert.ok(html.includes('href="/projects/' + slug + '/"'), "Featured project missing: " + slug);
+  }
   assert.ok(html.includes("576"), "Bookmark count missing: " + path);
   for (const category of BOOKMARK_CATEGORIES) {
     assert.ok(html.includes('/bookmarks/' + category.slug + '/'),

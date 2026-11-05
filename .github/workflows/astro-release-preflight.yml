@@ -77,6 +77,10 @@ jobs:
         run: |
           test -s astro/dist/new-bookmark/index.html
           test -s astro/dist/404.html
+          test -s astro/dist/projects/index.html
+          test -s astro/dist/projects/prks/index.html
+          test -s astro/dist/projects/kokoro-extension/index.html
+          test -s astro/dist/projects/local-search-mcp/index.html
           test ! -e astro/dist/admin
           test ! -e astro/dist/migration-audit
           test -s astro/.audit/release-readiness.json

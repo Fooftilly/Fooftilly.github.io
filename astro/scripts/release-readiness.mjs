@@ -34,6 +34,8 @@ for (const file of [
   "sh/index.html", "sh/about/index.html", "posts/index.html", "search/index.html",
   "new-bookmark/index.html", "media/index.html", "music/index.html", "films/index.html", "tv/index.html", "new-media/index.html",
   "privacy/index.html", "sh/privacy/index.html",
+  "projects/index.html", "projects/prks/index.html",
+  "projects/kokoro-extension/index.html", "projects/local-search-mcp/index.html",
 ]) assert.ok(await exists(join(publicDir, file)), "Missing public release file: " + file);
 assert.equal(await exists(join(publicDir, "migration-audit")), false, "Internal audit is public");
 assert.equal(await exists(join(publicDir, "admin")), false, "Admin output is public");
