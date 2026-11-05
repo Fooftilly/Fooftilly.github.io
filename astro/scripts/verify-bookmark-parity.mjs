@@ -36,7 +36,8 @@ function asDate(raw, filename) {
 function safeLink(raw) {
   try {
     const parsed = new URL(raw);
-    return ["http:", "https:"].includes(parsed.protocol) ? parsed.href : "";
+    return ["http:", "https:"].includes(parsed.protocol)
+      && parsed.hostname && !parsed.username && !parsed.password ? parsed.href : "";
   } catch {
     return "";
   }
