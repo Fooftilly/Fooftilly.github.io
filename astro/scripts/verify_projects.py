@@ -50,6 +50,35 @@ def parse_project_cards(page):
     return parser.cards
 
 
+def verify_card_source_link(cards, slug, repository, label):
+    """Check the source link in this project's card using its rendered title.
+
+    HTMLParser decodes entities in text and attributes. Taking the title from
+    the rendered detail-page link avoids incorrectly comparing escaped YAML
+    frontmatter syntax with the decoded title displayed by Astro.
+    """
+    detail_path = f"/projects/{slug}/"
+    matching = [card for card in cards
+                if any(link["attrs"].get("href") == detail_path for link in card)]
+    assert len(matching) == 1, ("Missing/duplicate project card", slug, label)
+    card = matching[0]
+    details = [link for link in card if link["attrs"].get("href") == detail_path]
+    assert len(details) == 1, ("Missing/duplicate detail link", slug, label)
+    title = details[0]["text"].strip()
+    assert title, ("Missing rendered project title", slug, label)
+
+    links = [link for link in card if link["attrs"].get("href") == repository]
+    assert len(links) == 1, ("Incorrect repository link in project card", slug, label)
+    link = links[0]
+    assert link["text"].strip() == label, ("Incorrect source-link text", slug, label)
+    assert link["attrs"].get("aria-label") == f"{label}: {title}", (
+        "Incorrect source-link accessible name", slug, label
+    )
+    assert {"noopener", "noreferrer"}.issubset(
+        link["attrs"].get("rel", "").split()
+    ), ("Missing external-link protections", slug, label)
+
+
 def verify_projects(dist: Path, source: Path, origin: str) -> None:
     items = sorted(source.glob("*.md"))
     assert len(items) >= 3, "Missing initial project showcase content"
@@ -74,30 +103,9 @@ def verify_projects(dist: Path, source: Path, origin: str) -> None:
         html = result.read_text(encoding="utf8")
         assert 'href="/projects/' + slug + '/"' in index, ("Missing index entry", slug)
         assert 'href="/projects/' + slug + '/"' in local_index, ("Missing SH index entry", slug)
-        titles = [line.removeprefix("title: ").strip().strip('"').strip("'")
-                  for line in body.splitlines() if line.startswith("title: ")]
-        assert len(titles) == 1 and titles[0], ("Missing source project title", slug)
-        title = titles[0]
-        # Bind each repository URL and accessible label to the card for its
-        # own project. A URL or title copied into another card must fail.
+        # Check source links in each rendered card, not anywhere on the page.
         for label, cards in indexes:
-            matching = [card for card in cards if any(
-                link["attrs"].get("href") == "/projects/" + slug + "/"
-                and link["text"].strip() == title
-                for link in card
-            )]
-            assert len(matching) == 1, ("Missing/duplicate project card", slug, label)
-            links = [link for link in matching[0]
-                     if link["attrs"].get("href") == repository]
-            assert len(links) == 1, ("Incorrect repository link in project card", slug, label)
-            link = links[0]
-            assert link["text"].strip() == label, ("Incorrect source-link text", slug, label)
-            assert link["attrs"].get("aria-label") == f"{label}: {title}", (
-                "Incorrect source-link accessible name", slug, label
-            )
-            assert {"noopener", "noreferrer"}.issubset(
-                link["attrs"].get("rel", "").split()
-            ), ("Missing external-link protections", slug, label)
+            verify_card_source_link(cards, slug, repository, label)
         assert 'href="' + repository + '"' in html, ("Missing source link", slug)
         assert origin + "/projects/" + slug + "/" in html, ("Missing canonical URL", slug)
         assert "<h1" in html and "<iframe" not in html, ("Project page missing heading or embeds", slug)
