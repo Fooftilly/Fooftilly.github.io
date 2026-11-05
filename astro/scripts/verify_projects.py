@@ -15,7 +15,7 @@ def verify_projects(dist: Path, source: Path, origin: str) -> None:
         assert slug and all(c.islower() or c.isdigit() or c == "-" for c in slug), slug
         body = item.read_text(encoding="utf8")
         assert body.startswith("---\n"), ("Missing frontmatter", item)
-        repositories = [line.removeprefix("repository: ").strip('"')
+        repositories = [line.removeprefix("repository: ").strip('"').strip("'")
                         for line in body.splitlines() if line.startswith("repository: ")]
         assert len(repositories) == 1, ("Missing source repository", item)
         repository = repositories[0]

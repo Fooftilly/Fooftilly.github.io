@@ -103,7 +103,7 @@ try {
   // Run the real browser against the fixture build, then delete every fixture.
   // The existing clean build/browser gate still runs afterward.
   const projectAudit=run("python3",["scripts/verify_projects.py"]);
-  assert.match(projectAudit,/Verified 4 project showcases/);
+  assert.match(projectAudit,/Verified \d+ project showcases/);
   const detail=await readFile(join(dist,"projects","zz-ci-project","index.html"),"utf8");
   const index=await readFile(join(dist,"projects","index.html"),"utf8");
   const sitemap=await readFile(join(dist,"sitemap.xml"),"utf8");

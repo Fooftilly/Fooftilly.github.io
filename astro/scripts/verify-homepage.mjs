@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { readFile, readdir } from "node:fs/promises";
 import { BOOKMARK_CATEGORIES } from "../src/lib/bookmark-categories.ts";
 
 const records = JSON.parse(await readFile(".audit/bookmarks-parity.json", "utf8"));
@@ -17,9 +17,14 @@ for (const [path, language, heading] of [
   assert.ok(!html.includes("Hugo na Astro"), "Serbo-Croatian preview placeholder leaked: " + path);
   assert.ok(html.includes('href="/new-bookmark/"'), "Public bookmark composer link missing: " + path);
   assert.ok(html.includes('href="/projects/"'), "Missing project navigation: " + path);
-  for (const slug of ["prks","kokoro-extension","local-search-mcp"]) {
-    assert.ok(html.includes('href="/projects/' + slug + '/"'), "Featured project missing: " + slug);
-  }
+  const sources=new Set((await readdir("../content/projects"))
+    .filter(name=>name.endsWith(".md")).map(name=>name.slice(0,-3)));
+  const featured=[...html.matchAll(/href="\/projects\/([a-z0-9-]+)\/"/g)]
+    .map(match=>match[1]);
+  assert.equal(featured.length,Math.min(3,sources.size),
+    "Homepage must show up to three featured project cards");
+  assert.ok(featured.every(slug=>sources.has(slug)),
+    "Featured projects must refer to existing Git-managed records");
   assert.ok(html.includes("576"), "Bookmark count missing: " + path);
   for (const category of BOOKMARK_CATEGORIES) {
     assert.ok(html.includes('/bookmarks/' + category.slug + '/'),

@@ -3,7 +3,8 @@ import { getCollection } from "astro:content";
 import { sortProjects, projectPath } from "../lib/project-catalog.ts";
 interface Props { limit?: number }
 const {limit}=Astro.props;
-const projects=sortProjects(await getCollection("projects")).slice(0,limit);
+const allProjects=sortProjects(await getCollection("projects"));
+const projects=limit===undefined ? allProjects : allProjects.slice(0,limit);
 ---
 <ul class="project-cards">
   {projects.map(({id,data})=><li class="project-card">
