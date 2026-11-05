@@ -458,6 +458,10 @@ try {
   assert.equal(commentHit.title, "Biodiversity Heritage Library");
   assert.ok(commentHit.comment.startsWith("300k+ archive protos on Flickr:"),
     "Matching public comment must be visible to explain the search result");
+  assert.equal(
+    await evaluate("getComputedStyle(document.querySelector('li.bookmark-entry .bookmark-comment')).webkitLineClamp"),
+    "none", "Search results must not visually conceal matches near the end of long comments",
+  );
 
   await navigate("/new-bookmark/?url=https%3A%2F%2F50watts.com%2F&title=50%20Watts");
   await waitFor(
