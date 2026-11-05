@@ -50,6 +50,8 @@ test("unrelated links, similar path prefixes and 404 pages never claim current",
   }
   assert.equal(currentNavigationLink("/projects/prks/", "bookmarks", "/bookmarks/"), undefined);
   assert.equal(currentNavigationLink("/sh/search/", "posts", "/sh/posts/"), undefined);
-  assert.equal(currentNavigationLink("/search/", "search", "/sh/search/"), "location",
-    "A section link with the wrong locale must not claim it is the exact page");
+  assert.equal(currentNavigationLink("/search/", "search", "/sh/search/"), undefined,
+    "The other locale is not the current navigation location");
+  assert.equal(currentNavigationLink("/projects/prks/", "projects", "/unrelated/"), undefined,
+    "An unrelated URL cannot claim to be the active project section");
 });
