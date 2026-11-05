@@ -25,6 +25,12 @@ for (const [path, language, heading] of [
     "Homepage must show up to three featured project cards");
   assert.ok(featured.every(slug=>sources.has(slug)),
     "Featured projects must refer to existing Git-managed records");
+  assert.equal(new Set(featured).size,featured.length,
+    "Featured project cards must be distinct");
+  if (sources.size <= 3) {
+    assert.deepEqual(new Set(featured),sources,
+      "When all projects fit the preview, none may be omitted");
+  }
   assert.ok(html.includes("576"), "Bookmark count missing: " + path);
   for (const category of BOOKMARK_CATEGORIES) {
     assert.ok(html.includes('/bookmarks/' + category.slug + '/'),
