@@ -455,6 +455,10 @@ try {
   assert.equal(await evaluate("document.querySelectorAll('[data-bookmark-category][aria-pressed=true]').length"), 1);
   assert.equal(await evaluate("document.querySelectorAll('[data-bookmark-sort][aria-pressed=true]').length"), 1);
   assert.equal(await evaluate("document.querySelector('[data-bookmark-category=all]')?.getAttribute('aria-pressed')"), "true");
+  assert.equal(
+    await evaluate("document.querySelector('.bookmark-entry [data-bookmark-detail-link]')?.textContent.trim()"),
+    "Detalji", "Localized SH results should provide a clearly labeled first-party detail link",
+  );
 
   await evaluate("(()=>{const el=document.querySelector('input[type=search]');el.value='no-matching-bookmark-2026';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
   await waitFor(
