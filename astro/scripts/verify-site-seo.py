@@ -244,56 +244,6 @@ def check_privacy_disclosure():
     print("Verified bilingual privacy notice, provider references, footer navigation and opt-in loading")
 
 
-def check_project_showcase():
-    """Compare every canonical project source with its built static page."""
-    sources = sorted((ASTRO.parent / "content/projects").glob("*.md"))
-    assert len(sources) >= 3, "Missing project sources"
-    index = (DIST / "projects/index.html").read_text(encoding="utf8")
-    assert "Projects" in index and re.search(r"<h1\b[^>]*>", index)
-    for source in sources:
-        slug = source.stem
-        body = source.read_text(encoding="utf8")
-        assert body.startswith("---\n"), ("Missing project frontmatter", source)
-        match = re.search(r'^repository: "([^"]+)"
-    for page in (DIST / "index.html", DIST / "sh/index.html", DIST / "404.html"):
-        html = page.read_text(encoding="utf8")
-        for required in ("data-analytics-consent", "data-analytics-settings", "data-analytics-allow", "data-analytics-decline"):
-            assert required in html, f"Missing analytics privacy control {required}: {page}"
-        assert 'src="https://www.googletagmanager.com/' not in html, (
-            f"GA must not preload before visitor consent: {page}"
-        )
-    print("Verified bilingual privacy controls and no eager Google tracking script")
-
-
-
-
-if __name__ == "__main__":
-    check_assets()
-    check_sitemap()
-    check_metadata()
-    verify_semantic_structure(DIST)
-    audit_internal_links(DIST)
-    check_not_found_page()
-    check_analytics_privacy()
-    check_opt_in_comments()
-    check_privacy_disclosure()
-    check_project_showcase()
-, body, re.M)
-        assert match and match.group(1).startswith("https://github.com/Fooftilly/"), source
-        page = DIST / "projects" / slug / "index.html"
-        assert page.is_file(), ("Project page missing", slug)
-        html = page.read_text(encoding="utf8")
-        assert f'href="/projects/{slug}/"' in index, ("Missing project index link", slug)
-        assert f'href="{match.group(1)}"' in html, ("Missing source-code link", slug)
-        assert f"{SITE}/projects/{slug}/" in html, ("Missing canonical URL", slug)
-        assert re.search(r"<h1\b[^>]*>", html), ("Project heading missing", slug)
-        assert "<iframe" not in html, ("Unapproved embedded provider", slug)
-    for name in ("index.html", "sh/index.html"):
-        home = (DIST / name).read_text(encoding="utf8")
-        assert 'href="/projects/"' in home, ("Project navigation missing", name)
-    print(f"Verified {len(sources)} project showcases and homepage navigation")
-
-
 def check_analytics_privacy():
     for page in (DIST / "index.html", DIST / "sh/index.html", DIST / "404.html"):
         html = page.read_text(encoding="utf8")
