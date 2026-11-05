@@ -4,7 +4,7 @@ import { getPublishedPaths, absoluteSiteUrl, renderSitemap } from "../src/lib/si
 
 test("sitemap only includes implemented routes with canonical lowercase bookmark paths", () => {
   const paths = getPublishedPaths(["Art/UpperCase", "Perspectives/partII"]);
-  assert.equal(paths.length, 26);
+  assert.equal(paths.length, 27); // The projects index is now a published route.
   assert.ok(paths.includes("/"));
   assert.ok(paths.includes("/about/"));
   assert.ok(paths.includes("/bookmarks/art/uppercase/"));
