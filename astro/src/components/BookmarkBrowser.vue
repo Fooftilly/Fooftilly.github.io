@@ -167,7 +167,7 @@ button { font: inherit; padding: .5rem .7rem; border-radius: 0; color: var(--for
 .bookmark-entry { padding: .85rem 0; border-bottom: 1px solid var(--border); overflow-wrap: anywhere; }
 .bookmark-entry > a, .bookmark-entry > span { font-weight: 650; }
 .metadata { display: flex; flex-wrap: wrap; gap: 1rem; color: var(--muted); font-size: .83rem; margin-top: .3rem; }
-.bookmark-comment { color: var(--muted); font-size: .88rem; margin: .4rem 0 0; overflow-wrap: anywhere; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.bookmark-comment { color: var(--muted); font-size: .88rem; margin: .4rem 0 0; overflow-wrap: anywhere; white-space: pre-wrap; max-width: 70ch; }
 .empty-result { padding: 2rem 0; }
 .more-button { display: block; margin: 1.5rem auto; }
 @media (max-width: 750px) {
