@@ -9,6 +9,8 @@ export interface Bookmark {
   url: string;
   date: string;
   notesUrl?: string;
+  /** Short, already-public Markdown frontmatter comment (not private notes). */
+  comments?: string;
 }
 
 export interface BookmarkFilters {
@@ -34,7 +36,7 @@ export function filterAndSortBookmarks<T extends Bookmark>(
   const filtered = items.filter((item) => {
     if (filters.category !== "all" && item.category !== filters.category) return false;
     const translatedCategory = filters.lang === "sh" ? bookmarkCategoryDisplayLabel(item.category, "sh") : "";
-    const haystack = fold([item.title, item.category, translatedCategory, item.url].join(" "));
+    const haystack = fold([item.title, item.category, translatedCategory, item.url, item.comments ?? ""].join(" "));
     return terms.every((term) => haystack.includes(term));
   });
 
