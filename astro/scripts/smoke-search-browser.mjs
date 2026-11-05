@@ -298,7 +298,7 @@ try {
   );
   await waitFor(
     "document.querySelector('input[type=search]')?.placeholder",
-    (value) => value === "Naziv, kategorija ili adresa",
+    (value) => value === "Naziv, kategorija, adresa ili komentar",
     "Serbo-Croatian Vue search controls",
   );
   const options = await evaluate(
@@ -439,6 +439,26 @@ try {
     "document.querySelectorAll('li.bookmark-entry').length",
     (value) => value === 1, "English exact search",
   );
+
+  // The exact phrase is in a real public source record's comments frontmatter,
+  // not in its title, category or URL.
+  await navigate("/search/?q=" + encodeURIComponent("300k+ archive protos"));
+  await waitFor(
+    "document.querySelector('.bookmark-browser input[type=search]')?.value",
+    (value) => value === "300k+ archive protos",
+    "comment-only search deep link restored",
+  );
+  await waitFor(
+    "document.querySelectorAll('li.bookmark-entry').length",
+    (value) => value === 1, "comment-only query matches one saved bookmark",
+  );
+  const commentHit = await evaluate(
+    "(()=>{const item=document.querySelector('li.bookmark-entry');return {title:item?.querySelector('a')?.textContent?.trim(),comment:item?.querySelector('.bookmark-comment')?.textContent?.trim()}})()",
+  );
+  assert.equal(commentHit.title, "Biodiversity Heritage Library");
+  assert.ok(commentHit.comment.startsWith("300k+ archive protos on Flickr:"),
+    "Matching public comment must be visible to explain the search result");
+
   await navigate("/new-bookmark/?url=https%3A%2F%2F50watts.com%2F&title=50%20Watts");
   await waitFor(
     "document.querySelector('.new-bookmark .output code')?.textContent",
