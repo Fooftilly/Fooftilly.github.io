@@ -46,12 +46,12 @@ const { count, recent, categories } = homepageSummary(await loadBookmarks());
   .section-heading h2 { margin: .2rem 0; font-size: clamp(1.3rem, 3vw, 1.75rem); }
   .category-grid, .recent-grid { list-style: none; margin: 0; padding: 0; display: grid; gap: .8rem; }
   .category-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr)); }
-  .category-grid a { display: flex; align-items: center; justify-content: space-between; gap: .6rem; padding: 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: .7rem; text-decoration: none; min-height: 4rem; }
+  .category-grid a { display: flex; align-items: center; justify-content: space-between; gap: .6rem; padding: 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: 0; text-decoration: none; min-height: 4rem; }
   .category-grid a:hover, .category-grid a:focus-visible { border-color: var(--accent); }
   .category-label { font-weight: 650; color: var(--foreground); }
   .category-count { color: var(--muted); font-variant-numeric: tabular-nums; }
   .recent-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); }
-  .recent-grid li { padding: 1.1rem; border: 1px solid var(--border); border-radius: .7rem; min-width: 0; }
+  .recent-grid li { padding: 1.1rem; border: 1px solid var(--border); border-radius: 0; min-width: 0; }
   .recent-grid a, .recent-grid strong { font-weight: 650; overflow-wrap: anywhere; }
   .recent-grid p { color: var(--muted); font-size: .84rem; margin: .45rem 0 0; }
   @media (prefers-reduced-motion: no-preference) {

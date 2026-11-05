@@ -82,12 +82,12 @@ const visible=computed(()=>props.entries
 </template>
 <style scoped>
 .media-collection{margin-top:1.25rem;max-width:76rem}
-.empty-media{padding:1.5rem;background:var(--surface);border:1px solid var(--border);border-radius:.65rem}
+.empty-media{padding:1.5rem;background:var(--surface);border:1px solid var(--border);border-radius: 0}
 .media-controls{display:flex;flex-wrap:wrap;align-items:end;gap:.75rem 1.25rem;margin:1rem 0}
 .media-controls label{display:grid;gap:.25rem;font-weight:600;min-width:min(100%,18rem)}
-.media-controls input{padding:.55rem .7rem;border:1px solid var(--border);border-radius:.4rem;background:var(--surface);color:var(--foreground);font:inherit;width:100%}
+.media-controls input{padding:.55rem .7rem;border:1px solid var(--border);border-radius: 0;background:var(--surface);color:var(--foreground);font:inherit;width:100%}
 .sort-controls{display:flex;flex-wrap:wrap;gap:.4rem}
-.sort-controls button{padding:.5rem .7rem;border:1px solid var(--border);border-radius:.4rem;background:var(--surface);color:var(--foreground);font:inherit;cursor:pointer}
+.sort-controls button{padding:.5rem .7rem;border:1px solid var(--border);border-radius: 0;background:var(--surface);color:var(--foreground);font:inherit;cursor:pointer}
 .sort-controls button[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);font-weight:700}
 [data-media-count]{color:var(--muted);margin:.3rem 0}
 .media-no-results{color:var(--muted)}

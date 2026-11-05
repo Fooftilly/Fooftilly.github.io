@@ -8,6 +8,8 @@
   --border: #d3dbe3;
   --surface: #ffffff;
   --accent: #214f85;
+  --accent-contrast: #ffffff;
+  --rating-star: #a76706;
   background: var(--background);
   color: var(--foreground);
 }
@@ -20,10 +22,15 @@
     --border: #3c4653;
     --surface: #202833;
     --accent: #9ac5fa;
+    --accent-contrast: #111820;
+    --rating-star: #ffd166;
   }
 }
 
 * { box-sizing: border-box; }
+/* A consistent square-edge UI for inputs, buttons, cards and consent panels. */
+button, input, select, textarea { border-radius: 0; }
+
 body { margin: 0; }
 a { color: var(--accent); }
 a:hover { text-decoration-thickness: 2px; }
@@ -39,6 +46,6 @@ a:hover { text-decoration-thickness: 2px; }
 .intro { padding: 3rem 0 4rem; }
 .intro h1 { font-size: clamp(2rem, 5vw, 3.5rem); }
 .intro p { max-width: 43rem; }
-.button-link { display: inline-flex; padding: .75rem 1rem; border: 1px solid var(--border); border-radius: .5rem; background: var(--surface); text-decoration: none; }
+.button-link { display: inline-flex; padding: .75rem 1rem; border: 1px solid var(--border); border-radius: 0; background: var(--surface); text-decoration: none; }
 .skip-link { position: absolute; top: -10rem; left: 1rem; padding: .75rem; background: var(--surface); }
 .skip-link:focus { top: 1rem; z-index: 100; }

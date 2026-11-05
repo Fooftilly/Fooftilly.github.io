@@ -189,6 +189,10 @@ try {
     };
   })()`);
   assert.equal(desktopConsent.position, "fixed");
+  assert.equal(await evaluate("getComputedStyle(document.querySelector('[data-analytics-consent]')).borderRadius"),"0px",
+    "Cookie consent panel should use square corners");
+  assert.equal(await evaluate("getComputedStyle(document.querySelector('.category-grid a')).borderRadius"),"0px",
+    "Homepage cards should use square corners");
   assert.equal(desktopConsent.settings, true);
   assert.equal(desktopConsent.focused, true, "Cookie banner should be discoverable to keyboard users");
   assert.equal(desktopConsent.gaLoaded, false, "No Google tag without opt-in");
@@ -360,6 +364,14 @@ try {
     "(()=>{const editor=document.querySelector('.media-editor');const island=editor?.closest('astro-island');return Boolean(editor && island && !island.hasAttribute('ssr') && editor.querySelector('input[placeholder=\\\"Title\\\"]'));})()",
     Boolean, "new media Vue component hydration completed",
   );
+  assert.equal(await evaluate("document.querySelectorAll('.media-editor select').length"),0,
+    "Media type and status must be visible button groups, not dropdowns");
+  assert.equal(await evaluate("document.querySelector('[data-media-kind=films]')?.getAttribute('aria-pressed')"),"true");
+  assert.equal(await evaluate("document.querySelector('[data-media-status]')?.getAttribute('aria-pressed')"),"true");
+  assert.equal(await evaluate("document.querySelector('[data-media-rating]')?.getAttribute('step')"),"0.5");
+  assert.equal(await evaluate("document.querySelector('[data-media-rating]')?.getAttribute('aria-valuetext')"),"Not rated");
+  assert.equal(await evaluate("getComputedStyle(document.querySelector('.media-editor input[placeholder=Title]')).borderRadius"),"0px");
+  assert.equal(await evaluate("getComputedStyle(document.querySelector('[data-media-kind=films]')).borderRadius"),"0px");
   await evaluate(`(()=>{
     const edit=(selector,value,event="input")=>{
       const el=document.querySelector(selector);
@@ -385,6 +397,29 @@ try {
     {schema:1,kind:"films",title:"A Test Film",year:2024,rating:4.5},
   );
   assert.equal(parsedMedia.links[0].url, "https://letterboxd.com/film/test/");
+  assert.equal(await evaluate("document.querySelector('[data-media-rating]')?.getAttribute('aria-valuetext')"),"4.5 out of 5 stars");
+  assert.equal(await evaluate("document.querySelector('.rating-value')?.textContent.trim()"),"4.5 / 5");
+  await evaluate("document.querySelector('[data-media-status=planned]').click()");
+  await waitFor(
+    "(()=>{const json=document.querySelector('.media-editor .preview textarea[readonly]')?.value;return json?JSON.parse(json).status:undefined})()",
+    value=>value==="planned","status button updates drafted record",
+  );
+  assert.equal(await evaluate("document.querySelector('[data-media-status=planned]')?.getAttribute('aria-pressed')"),"true");
+  await evaluate("document.querySelector('[data-media-status]').click()");
+  await waitFor(
+    "(()=>{const json=document.querySelector('.media-editor .preview textarea[readonly]')?.value;return json?JSON.parse(json).status===undefined:false})()",
+    Boolean,"clearing status removes optional metadata",
+  );
+  await evaluate("(()=>{const el=document.querySelector('[data-media-rating]');el.stepUp();el.dispatchEvent(new Event('input',{bubbles:true}))})()");
+  await waitFor("document.querySelector('.rating-value')?.textContent.trim()",
+    value=>value==="5.0 / 5","native half-star slider step reaches five stars");
+  assert.equal(await evaluate("JSON.parse(document.querySelector('.media-editor .preview textarea[readonly]').value).rating"),5);
+  await evaluate("document.querySelector('.clear-rating').click()");
+  await waitFor(
+    "(()=>{const json=document.querySelector('.media-editor .preview textarea[readonly]')?.value;return json?JSON.parse(json).rating===undefined:false})()",
+    Boolean,"clear rating omits the optional field",
+  );
+  assert.equal(await evaluate("document.querySelector('.rating-value')?.textContent.trim()"),"Not rated");
   const mediaHref = await evaluate(
     "document.querySelector('.media-editor .actions a')?.href",
   );
@@ -416,8 +451,8 @@ try {
       Boolean, "media draft hydration for " + kind,
     );
     await waitFor(
-      "document.querySelector('.media-editor select')?.value",
-      (value) => value === kind, "media category preselected for " + kind,
+      "document.querySelector('[data-media-kind=" + kind + "]')?.getAttribute('aria-pressed')",
+      (value) => value === "true", "media category button preselected for " + kind,
     );
     await evaluate("(()=>{const el=document.querySelector('.media-editor input[type=text]');el.value='A New Entry';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
     await waitFor(
@@ -436,8 +471,8 @@ try {
     Boolean, "media form hydration for invalid category",
   );
   assert.equal(
-    await evaluate("document.querySelector('.media-editor select')?.value"),
-    "films",
+    await evaluate("document.querySelector('[data-media-kind=films]')?.getAttribute('aria-pressed')"),
+    "true",
     "Unexpected URL parameters must not change the media category",
   );
 

@@ -133,11 +133,11 @@ watch([query, category, sort], () => {
 .bookmark-controls label { display: grid; gap: .35rem; font-weight: 600; font-size: .9rem; }
 .bookmark-controls input, .bookmark-controls select {
   padding: .7rem; width: 100%; font: inherit; min-height: 2.75rem; color: var(--foreground);
-  background: var(--surface); border: 1px solid var(--border); border-radius: .45rem;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 0;
 }
 .bookmark-summary { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; align-items: center; margin: 1.2rem 0 .4rem; color: var(--muted); }
 .bookmark-summary p { margin: 0; }
-button { font: inherit; padding: .5rem .7rem; border-radius: .4rem; color: var(--foreground); background: var(--surface); border: 1px solid var(--border); cursor: pointer; }
+button { font: inherit; padding: .5rem .7rem; border-radius: 0; color: var(--foreground); background: var(--surface); border: 1px solid var(--border); cursor: pointer; }
 .bookmark-list { list-style: none; margin: 0; padding: 0; }
 .bookmark-entry { padding: .85rem 0; border-bottom: 1px solid var(--border); overflow-wrap: anywhere; }
 .bookmark-entry > a, .bookmark-entry > span { font-weight: 650; }
