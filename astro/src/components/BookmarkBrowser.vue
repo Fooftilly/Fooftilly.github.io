@@ -9,7 +9,7 @@ const props = withDefaults(defineProps<{ items: Bookmark[]; lang?: "en" | "sh" }
 });
 const labels = computed(() => props.lang === "sh" ? {
   search: "Pretraga",
-  placeholder: "Naziv, kategorija, adresa ili komentar",
+  placeholder: "Naziv, kategorija, oznake, adresa ili komentar",
   category: "Kategorija",
   all: "Sve kategorije",
   sort: "Sortiraj",
@@ -26,7 +26,7 @@ const labels = computed(() => props.lang === "sh" ? {
   details: "Detalji",
 } : {
   search: "Search links",
-  placeholder: "Title, category, website or comment",
+  placeholder: "Title, category, tags, website or comment",
   category: "Category",
   all: "All categories",
   sort: "Sort by",
@@ -151,6 +151,9 @@ watch([query, category, sort], () => {
           <span>{{ bookmarkCategoryDisplayLabel(item.category, lang) }}</span>
           <a v-if="item.detailUrl || item.notesUrl" :href="item.detailUrl || item.notesUrl" :aria-label="`${item.notesUrl ? labels.notes : labels.details}: ${item.title}`" data-bookmark-detail-link>{{ item.notesUrl ? labels.notes : labels.details }}</a>
         </div>
+        <ul v-if="item.tags?.length" class="bookmark-tags" :aria-label="lang === 'sh' ? 'Oznake' : 'Tags'">
+          <li v-for="tag in item.tags" :key="tag">{{ tag }}</li>
+        </ul>
         <p v-if="query.trim() && item.comments" class="bookmark-comment">{{ item.comments }}</p>
       </li>
     </ul>
@@ -192,6 +195,8 @@ button { font: inherit; padding: .5rem .7rem; border-radius: 0; color: var(--for
 .bookmark-entry { padding: .85rem 0; border-bottom: 1px solid var(--border); overflow-wrap: anywhere; }
 .bookmark-entry > a, .bookmark-entry > span { font-weight: 650; }
 .metadata { display: flex; flex-wrap: wrap; gap: 1rem; color: var(--muted); font-size: .83rem; margin-top: .3rem; }
+.bookmark-tags { display: flex; flex-wrap: wrap; list-style: none; gap: .3rem; margin: .45rem 0 0; padding: 0; }
+.bookmark-tags li { border: 1px solid var(--border); border-radius: 0; font-size: .8rem; padding: .1rem .4rem; }
 .bookmark-comment { color: var(--muted); font-size: .88rem; margin: .4rem 0 0; overflow-wrap: anywhere; white-space: pre-wrap; max-width: 70ch; }
 .empty-result { padding: 2rem 0; }
 .more-button { display: block; margin: 1.5rem auto; }

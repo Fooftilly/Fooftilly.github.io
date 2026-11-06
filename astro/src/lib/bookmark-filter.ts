@@ -13,6 +13,8 @@ export interface Bookmark {
   notesUrl?: string;
   /** Short, already-public Markdown frontmatter comment (not private notes). */
   comments?: string;
+  /** Optional source-owned labels, not a fixed taxonomy. */
+  tags?: string[];
 }
 
 export interface BookmarkFilters {
@@ -38,7 +40,7 @@ export function filterAndSortBookmarks<T extends Bookmark>(
   const filtered = items.filter((item) => {
     if (filters.category !== "all" && item.category !== filters.category) return false;
     const translatedCategory = filters.lang === "sh" ? bookmarkCategoryDisplayLabel(item.category, "sh") : "";
-    const haystack = fold([item.title, item.category, translatedCategory, item.url, item.comments ?? ""].join(" "));
+    const haystack = fold([item.title, item.category, translatedCategory, item.url, item.comments ?? "", ...(item.tags ?? [])].join(" "));
     return terms.every((term) => haystack.includes(term));
   });
 

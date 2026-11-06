@@ -16,6 +16,13 @@ const bookmarks = defineCollection({
     date: z.coerce.date().optional(),
     link: z.string().optional(),
     comments: z.string().optional(),
+    tags: z.array(z.string().min(1).max(36).refine(tag =>
+      tag === tag.trim() && !/[,\u0000-\u001f\u007f]/u.test(tag),
+      "Tag must be printable, trimmed and comma-free",
+    )).max(12).refine(tags =>
+      new Set(tags.map(tag => tag.normalize("NFC").toLocaleLowerCase())).size === tags.length,
+      "Duplicate bookmark tag",
+    ).optional(),
     draft: z.boolean().optional(),
   }).passthrough(),
 });

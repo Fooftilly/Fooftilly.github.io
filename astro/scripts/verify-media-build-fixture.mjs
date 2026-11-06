@@ -147,6 +147,7 @@ try {
     'date: "2000-01-01"',
     'link: "https://example.org/ci-bookmark-growth-fixture"',
     'comments: "Regression: current source inventory is reflected in generated output."',
+    'tags: ["CI migration tag", "Git-owned"]',
     "---",
     "",
   ].join("\n"), {flag:"wx"});
@@ -162,8 +163,12 @@ try {
   assert.deepEqual(manifest.map(row => row.id).sort(),
     [...bookmarkIdsBeforeFixture, bookmarkId].sort(),
     "Disposable fixture must add exactly one record without losing current source entries");
-  assert.ok((await readFile(join(dist, "bookmarks", bookmarkCategory.slug, bookmarkStem, "index.html"), "utf8"))
-    .includes("CI-only new bookmark"), "New bookmark detail page was not generated");
+  const fixtureRecord = manifest.find(row => row.id === bookmarkId);
+  assert.deepEqual(fixtureRecord?.tags, ["CI migration tag","Git-owned"],
+    "Optional source tags must survive the Astro collection without loss");
+  const bookmarkDetail = await readFile(join(dist, "bookmarks", bookmarkCategory.slug, bookmarkStem, "index.html"), "utf8");
+  assert.ok(bookmarkDetail.includes("CI-only new bookmark"), "New bookmark detail page was not generated");
+  assert.ok(bookmarkDetail.includes("CI migration tag"), "Current tags must appear on bookmark detail pages");
   const audit = run("python3", ["scripts/verify_media.py"]);
   for (const {folder, record} of fixtures) {
     const html = await readFile(join(dist, folder, "index.html"), "utf8");

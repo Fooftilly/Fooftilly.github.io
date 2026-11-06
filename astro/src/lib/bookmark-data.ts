@@ -30,6 +30,7 @@ export async function loadBookmarks(): Promise<SourceBookmark[]> {
       detailUrl,
       rawLink,
       comments: data.comments ?? "",
+      ...(data.tags?.length ? {tags: data.tags} : {}),
       date: data.date?.toISOString().slice(0, 10) ?? "",
       notesUrl: body?.trim() ? detailUrl : "",
     };

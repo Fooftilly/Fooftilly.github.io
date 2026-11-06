@@ -45,6 +45,9 @@ const categoryPath = bookmarkCategoryPath(category.slug);
     {date && <p class="meta"><time datetime={date}>{date}</time></p>}
     {externalUrl && <p><a href={externalUrl} target="_blank" rel="noopener noreferrer">Open original link</a></p>}
     {entry.data.comments && <p class="bookmark-comment">{entry.data.comments}</p>}
+    {entry.data.tags?.length && <ul class="bookmark-tags" aria-label="Bookmark tags">
+      {entry.data.tags.map(tag => <li>{tag}</li>)}
+    </ul>}
     {hasBody && <section class="bookmark-notes" aria-label="Bookmark notes"><Content /></section>}
   </article>
   {(adjacency.previous || adjacency.next) && <nav class="bookmark-neighbors" aria-label="Browse nearby bookmarks">
@@ -59,6 +62,8 @@ const categoryPath = bookmarkCategoryPath(category.slug);
   .bookmark-detail h1 { line-height: 1.2; }
   .meta { color: var(--muted); }
   .bookmark-comment { white-space: pre-wrap; }
+  .bookmark-tags { display: flex; flex-wrap: wrap; list-style: none; padding: 0; gap: .4rem; }
+  .bookmark-tags li { border: 1px solid var(--border); border-radius: 0; padding: .2rem .5rem; }
   .bookmark-notes { margin-top: 2rem; border-top: 1px solid var(--border); padding-top: 1rem; }
   .bookmark-neighbors { max-width: 70rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: .8rem 1.5rem; margin: 1.5rem 0 2rem; padding-top: 1rem; border-top: 1px solid var(--border); }
   .bookmark-neighbors a { overflow-wrap: anywhere; flex: 1 1 min(100%, 20rem); }

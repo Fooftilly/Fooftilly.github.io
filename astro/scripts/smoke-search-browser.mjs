@@ -738,7 +738,7 @@ try {
     "(()=>{const browser=document.querySelector('.bookmark-browser');const island=browser?.closest('astro-island');return Boolean(browser && island && !island.hasAttribute('ssr') && browser.querySelector('input[type=search]'));})()",
     Boolean, "Serbo-Croatian bookmark search hydration");
   assert.equal(await evaluate("document.querySelector('input[type=search]')?.placeholder"),
-    "Naziv, kategorija, adresa ili komentar");
+    "Naziv, kategorija, oznake, adresa ili komentar");
   assert.equal(await evaluate("document.querySelectorAll('.bookmark-browser select').length"), 0,
     "Category and sort controls must be buttons, not dropdowns");
   const availableCategories = activeCategories.length > 1 ? activeCategories.length + 1 : 0;
