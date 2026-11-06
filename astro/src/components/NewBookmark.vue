@@ -12,7 +12,7 @@ import {
 const props = defineProps<{ existing: ExistingBookmarkRef[] }>();
 const title = ref("");
 const url = ref("");
-const category = ref("Resource");
+const category = ref(draftCategoryFromSlug(null));
 const date = ref("");
 const comments = ref("");
 const notes = ref("");

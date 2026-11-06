@@ -4,20 +4,12 @@ import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { parse } from "yaml";
-import { assertLegacyBookmarkInventory } from "./bookmark-inventory.mjs";
+import { assertBookmarkSourceParity, assertBookmarkInventory } from "./bookmark-inventory.mjs";
+import { BOOKMARK_CATEGORIES } from "../src/lib/bookmark-categories.ts";
 
 const source = fileURLToPath(new URL("../../content/bookmarks/", import.meta.url));
 const manifest = fileURLToPath(new URL("../.audit/bookmarks-parity.json", import.meta.url));
 
-const categories = {
-  Art: "Art",
-  Fun: "Fun",
-  Music: "Music",
-  PaperBookArticle: "Articles & books",
-  Perspectives: "Perspectives",
-  Resource: "Resources",
-  YouTube: "YouTube",
-};
 
 function parseFrontmatter(raw, filename) {
   const match = /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/.exec(raw);
@@ -47,7 +39,7 @@ function safeLink(raw) {
 test("all source bookmark metadata survives Astro collection loading and output", async () => {
   const output = JSON.parse(await readFile(manifest, "utf8"));
   assert.ok(Array.isArray(output), "Expected Astro-generated collection JSON");
-  assertLegacyBookmarkInventory(output, "Astro parity output");
+  await assertBookmarkSourceParity(output, "Astro parity output");
   const actual = new Map();
   for (const row of output) {
     assert.equal(typeof row.id, "string");
@@ -56,7 +48,7 @@ test("all source bookmark metadata survives Astro collection loading and output"
   }
 
   const expected = new Map();
-  for (const [section, category] of Object.entries(categories)) {
+  for (const { section, label: category, slug } of BOOKMARK_CATEGORIES) {
     const files = (await readdir(path.join(source, section))).filter(
       filename => filename.endsWith(".md") && filename !== "_index.md"
     );
@@ -67,7 +59,7 @@ test("all source bookmark metadata survives Astro collection loading and output"
       if (frontmatter.draft === true) continue;
       const id = `${section}/${filename.slice(0, -3)}`;
       const rawLink = frontmatter.link ?? "";
-      const detailUrl = `/bookmarks/${section.toLowerCase()}/${encodeURIComponent(filename.slice(0, -3).toLowerCase())}/`;
+      const detailUrl = `/bookmarks/${slug}/${encodeURIComponent(filename.slice(0, -3).toLowerCase())}/`;
       const normalized = {
         id,
         title: frontmatter.title,
@@ -84,7 +76,7 @@ test("all source bookmark metadata survives Astro collection loading and output"
     }
   }
 
-  assertLegacyBookmarkInventory([...expected.keys()], "Canonical source inventory");
+  assertBookmarkInventory([...expected.keys()], "Canonical source inventory");
   assert.equal(actual.size, expected.size, "Astro output must contain every source record");
   for (const [id, row] of expected) {
     assert.deepEqual(actual.get(id), row, `Source-to-output mismatch for ${id}`);

@@ -1,10 +1,10 @@
 import assert from "node:assert/strict";
 import { readFile, readdir } from "node:fs/promises";
 import { BOOKMARK_CATEGORIES } from "../src/lib/bookmark-categories.ts";
-import { assertLegacyBookmarkInventory } from "./bookmark-inventory.mjs";
+import { assertBookmarkSourceParity } from "./bookmark-inventory.mjs";
 
 const records = JSON.parse(await readFile(".audit/bookmarks-parity.json", "utf8"));
-assertLegacyBookmarkInventory(records, "Homepage bookmark source");
+await assertBookmarkSourceParity(records, "Homepage bookmark source");
 for (const [path, language, heading] of [
   ["dist/index.html", "en", "Categories"],
   ["dist/sh/index.html", "sh", "Kategorije"],
@@ -78,4 +78,4 @@ for (const [path, language, heading] of [
     }
   }
 }
-console.log(`English/Serbo-Croatian homepages: seven categories, ${records.length} bookmarks, eight linked recent items; no preview placeholders`);
+console.log(`English/Serbo-Croatian homepages: ${BOOKMARK_CATEGORIES.length} categories, ${records.length} bookmarks, eight linked recent items; no preview placeholders`);
