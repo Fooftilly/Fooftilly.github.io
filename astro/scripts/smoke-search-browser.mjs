@@ -211,7 +211,32 @@ try {
       value => value === "", "media pageshow restores unfiltered list");
     await waitFor("document.querySelector('[data-media-status-filter=all]')?.getAttribute('aria-pressed')",
       value => value === "true", "media pageshow restores default status");
-    assert.equal(await evaluate("document.querySelectorAll('[data-media-row]').length"), mediaSource.films.length);
+    // The SSR build still contains every row for static audits, but Vue
+    // initially keeps only one live page and progressively reveals the rest.
+    assert.ok(mediaSource.films.length > 50, "The fixture must exceed one page");
+    await waitFor("document.querySelectorAll('[data-media-row]').length",
+      count => count === 50, "Hydrated media table starts with 50 rows");
+    assert.equal(await evaluate("document.querySelector('[data-media-visible-count]')?.textContent.trim()"),
+      "Showing 50 of " + mediaSource.films.length + " matching entries");
+    assert.equal(await evaluate("document.querySelector('[data-media-load-more]')?.textContent.trim()"),
+      "Show more", "Long media catalogs must expose an accessible load-more action");
+    await evaluate("document.querySelector('[data-media-load-more]').click()");
+    await waitFor("document.querySelectorAll('[data-media-row]').length",
+      count => count === Math.min(100, mediaSource.films.length),
+      "Load more reveals the rest of the current fixture catalog");
+    await waitFor("document.querySelector('[data-media-load-more]')",
+      value => value === null, "Last page has no redundant load-more button");
+
+    // Filtering must reset the live page window without changing total matches.
+    await evaluate("(()=>{const el=document.querySelector('[data-media-search]');el.value='ci pagination';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
+    await waitFor("document.querySelector('[data-media-count]')?.textContent.trim()",
+      value => value === mediaCountLabel("films", "ci pagination"), "Filtered source count remains complete");
+    await waitFor("document.querySelectorAll('[data-media-row]').length",
+      count => count === 50, "Search filter resets the hydrated list to one page");
+    await evaluate("(()=>{const el=document.querySelector('[data-media-search]');el.value='';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
+    await waitFor("document.querySelectorAll('[data-media-row]').length",
+      count => count === 50, "Cleared filter resets pagination");
+
     // A link labeled Jazz reviews is a reference, not a searchable media tag.
     await evaluate("(()=>{const el=document.querySelector('[data-media-search]');el.value='jazz';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
     await waitFor(
@@ -252,8 +277,13 @@ try {
       value => value === false, "switching to metadata-only search collapses unused notes",
     );
     await evaluate("(()=>{const el=document.querySelector('[data-media-search]');el.value='';el.dispatchEvent(new Event('input',{bubbles:true}));document.querySelector('[data-media-sort=year]').click()})()");
+    await waitFor("document.querySelector('[data-media-sort=year]')?.getAttribute('aria-pressed')",
+      value => value === "true", "Year sort activated");
     await waitFor("document.querySelectorAll('[data-media-row]').length",
-      count => count === mediaSource.films.length, "All source films remain after year sorting");
+      count => count === 50, "Year sort resets the live window");
+    await evaluate("document.querySelector('[data-media-load-more]').click()");
+    await waitFor("document.querySelectorAll('[data-media-row]').length",
+      count => count === mediaSource.films.length, "Year sort preserves every record after load-more");
     const yearTitles = await evaluate(
       "Array.from(document.querySelectorAll('[data-media-row] th[scope=row]')).map(th=>th.textContent.trim())");
     assert.ok(yearTitles.findIndex(title => title.includes(secondFilmTitle)) >= 0 && yearTitles.findIndex(title => title.includes(firstFilmTitle)) >= 0 &&
@@ -263,6 +293,11 @@ try {
     await evaluate("document.querySelector('[data-media-sort=rating]').click()");
     await waitFor("document.querySelector('[data-media-sort=rating]')?.getAttribute('aria-pressed')",
       value => value === "true", "Highest-rating sort activated");
+    await waitFor("document.querySelectorAll('[data-media-row]').length",
+      count => count === 50, "Rating sort resets the live window");
+    await evaluate("document.querySelector('[data-media-load-more]').click()");
+    await waitFor("document.querySelectorAll('[data-media-row]').length",
+      count => count === mediaSource.films.length, "Rating sort reveals the full list after load-more");
     const ratingTitles = await evaluate(
       "Array.from(document.querySelectorAll('[data-media-row] th[scope=row]')).map(th=>th.textContent.trim())");
     assert.ok(ratingTitles.findIndex(title => title.includes(firstFilmTitle)) >= 0 && ratingTitles.findIndex(title => title.includes(secondFilmTitle)) >= 0 &&
