@@ -433,6 +433,38 @@ try {
   );
   console.log("Browser bookmark detail smoke: all 20 category entries link to their first-party pages");
 
+  // Homepages should expose the same first-party detail pages as the
+  // bookmark browser, without altering external title links.
+  for (const [route, label] of [["/", "Details"], ["/sh/", "Detalji"]]) {
+    await navigate(route);
+    const cards = await evaluate(
+      "Array.from(document.querySelectorAll('.recent-grid li')).map(item=>({" +
+      "detail:item.querySelector('a.recent-details')?.getAttribute('href')," +
+      "label:item.querySelector('a.recent-details')?.textContent.trim()," +
+      "titleTarget:item.querySelector('a:not(.recent-details)')?.getAttribute('target')||null" +
+      "}))",
+    );
+    assert.equal(cards.length, 8, "Homepage must expose eight recent cards: " + route);
+    assert.ok(cards.every(item => /^\/bookmarks\/[^/]+\/[^/]+\/$/.test(item.detail)),
+      "Every recent card must reach a first-party detail URL: " + route);
+    assert.ok(cards.every(item => item.label === label),
+      "Recent internal links must be localized: " + route);
+    assert.ok(cards.every(item => item.titleTarget === "_blank" || item.titleTarget === null),
+      "Original external title links must retain their navigation behavior: " + route);
+    const firstDetail = cards[0].detail;
+    await evaluate("document.querySelector('.recent-grid a.recent-details').click()");
+    await waitFor("location.pathname", value => value === firstDetail,
+      "Homepage detail link should navigate to saved bookmark: " + route);
+    await waitFor("document.querySelector('.bookmark-detail h1')?.textContent.trim()",
+      Boolean, "Homepage-linked bookmark detail page loads: " + route);
+    assert.equal(
+      await evaluate("document.querySelector('link[rel=canonical]')?.getAttribute('href')"),
+      new URL(firstDetail, "https://www.peroniko.xyz").href,
+      "Homepage destination must retain canonical metadata: " + route,
+    );
+  }
+  console.log("Browser homepage bookmark smoke: EN/SH recent detail links and destination navigation passed");
+
   await navigate("/sh/search/");
   // The SSR input is already present before Vue attaches event handlers.
   // Only interact after Astro marks this island as fully hydrated.

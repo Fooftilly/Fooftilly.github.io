@@ -2,6 +2,7 @@
 import { loadBookmarks } from "../lib/bookmark-data.ts";
 import { homepageSummary } from "../lib/homepage.ts";
 import { bookmarkCategoryPath, bookmarkCategoryDisplayLabel } from "../lib/bookmark-categories.ts";
+import { bookmarkDetailPath } from "../lib/bookmark-path.ts";
 
 interface Props { lang: "en" | "sh" }
 const { lang } = Astro.props;
@@ -37,6 +38,7 @@ const { count, recent, categories } = homepageSummary(await loadBookmarks());
         ? <a href={item.url} target="_blank" rel="noopener noreferrer">{item.title}</a>
         : <strong>{item.title}</strong>}
       <p>{bookmarkCategoryDisplayLabel(item.category, lang)} {item.date && <><span aria-hidden="true"> · </span><time datetime={item.date}>{item.date}</time></>}</p>
+      <a class="recent-details" href={item.detailUrl ?? bookmarkDetailPath(item.id)} aria-label={`${sh ? "Detalji" : "Details"}: ${item.title}`}>{sh ? "Detalji" : "Details"}</a>
     </li>)}
   </ul>
 </section>
@@ -54,6 +56,7 @@ const { count, recent, categories } = homepageSummary(await loadBookmarks());
   .recent-grid li { padding: 1.1rem; border: 1px solid var(--border); border-radius: 0; min-width: 0; }
   .recent-grid a, .recent-grid strong { font-weight: 650; overflow-wrap: anywhere; }
   .recent-grid p { color: var(--muted); font-size: .84rem; margin: .45rem 0 0; }
+  .recent-grid .recent-details { display: inline-block; margin-top: .55rem; font-size: .88rem; }
   @media (prefers-reduced-motion: no-preference) {
     .category-grid a { transition: border-color .15s ease; }
   }

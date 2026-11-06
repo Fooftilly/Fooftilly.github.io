@@ -48,5 +48,33 @@ for (const [path, language, heading] of [
   assert.ok(latest, "Recent list missing: " + path);
   assert.equal((latest[1].match(/<li\b/g) ?? []).length, 8,
     "Homepage must show only the latest eight entries");
+  // Independently check every recent row against the authoritative bookmark
+  // manifest; external title links must remain unchanged after adding detail links.
+  const expected = [...records].sort((a, b) =>
+    (b.date || "").localeCompare(a.date || "")
+    || a.title.localeCompare(b.title, undefined, {sensitivity:"base"})
+    || a.id.localeCompare(b.id)
+  ).slice(0, 8);
+  const rows = [...latest[1].matchAll(/<li\b[^>]*>([\s\S]*?)<\/li>/g)].map(m => m[1]);
+  assert.equal(rows.length, expected.length, "Recent row HTML differs from the source records");
+  for (const [index, row] of rows.entries()) {
+    const record = expected[index];
+    const details = [...row.matchAll(/<a\b[^>]*class="recent-details"[^>]*>([^<]*)<\/a>/g)];
+    assert.equal(details.length, 1, "Every recent bookmark must link to one internal detail page");
+    const anchor = details[0][0];
+    assert.ok(anchor.includes(`href="${record.detailUrl}"`),
+      `Wrong recent detail link for ${record.id}`);
+    assert.ok(anchor.includes(`aria-label="${language === "sh" ? "Detalji" : "Details"}:`),
+      `Missing accessible localized detail label for ${record.id}`);
+    assert.equal(details[0][1].trim(), language === "sh" ? "Detalji" : "Details");
+    if (record.url) {
+      const external = row.match(/<a\b[^>]*target="_blank"[^>]*>/);
+      assert.ok(external, `External bookmark title link disappeared: ${record.id}`);
+      assert.ok(external[0].replaceAll("&amp;", "&").includes(`href="${record.url}"`),
+        `Original destination changed for ${record.id}`);
+    } else {
+      assert.ok(row.includes("<strong>"), `Bookmark without safe source URL must keep nonlink title: ${record.id}`);
+    }
+  }
 }
-console.log("English/Serbo-Croatian homepages: seven categories, 576 bookmarks, eight recent items; no preview placeholders");
+console.log("English/Serbo-Croatian homepages: seven categories, 576 bookmarks, eight linked recent items; no preview placeholders");
