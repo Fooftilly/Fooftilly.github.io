@@ -452,6 +452,17 @@ try {
       "Category detail URLs must remain category-local");
     const selected = bookmarkRecords.find(row => row.detailUrl === detailTarget);
     assert.ok(selected, "Displayed bookmark must exist in source parity manifest");
+    assert.ok(await evaluate("document.querySelector('.bookmark-browser input[type=search]') !== null"),
+      "Every category listing must retain an accessible search input");
+    await evaluate("(()=>{const el=document.querySelector('.bookmark-browser input[type=search]');el.value=" +
+      JSON.stringify(selected.title) + ";el.dispatchEvent(new Event('input',{bubbles:true}))})()");
+    await waitFor("document.querySelectorAll('.bookmark-entry [data-bookmark-detail-link]').length",
+      value => value > 0, "Category search must find the selected published title");
+    assert.ok(await evaluate("Array.from(document.querySelectorAll('.bookmark-entry [data-bookmark-detail-link]')).some(a=>a.getAttribute('href')===" +
+      JSON.stringify(detailTarget) + ")"), "Category search must preserve the matching detail link");
+    await evaluate("(()=>{const el=document.querySelector('.bookmark-browser input[type=search]');el.value='';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
+    await waitFor("document.querySelectorAll('.bookmark-entry').length",
+      value => value === Math.min(50, selectedCount), "Cleared category search restores current source results");
     assert.equal(await evaluate(
       "document.querySelector('.bookmark-entry [data-bookmark-detail-link]')?.textContent.trim()"),
       selected.notesUrl ? "Notes" : "Details", "Detail label must reflect published notes");
@@ -577,12 +588,25 @@ try {
     assert.equal(new URL(href).searchParams.has("utm_campaign"), false);
     await waitFor("(()=>{const island=document.querySelector('.bookmark-browser')?.closest('astro-island');return Boolean(island && !island.hasAttribute('ssr'));})()",
       Boolean, "search hydrated before language switch");
+    const updatedQuery = localizedLabel === label ? label + " changed" : label;
+    await evaluate("(()=>{const el=document.querySelector('.bookmark-browser input[type=search]');el.value=" +
+      JSON.stringify(updatedQuery) + ";el.dispatchEvent(new Event('input',{bubbles:true}))})()");
+    await waitFor("new URL(location.href).searchParams.get('q')",
+      value => value === updatedQuery, "Live SH search updates current URL before switching");
     await evaluate("document.querySelector('[data-search-language-switch]').click()");
     await waitFor("location.pathname", value => value === "/search/", "SH-to-EN search switch");
     assert.deepEqual(await evaluate("(()=>{const p=new URL(location.href).searchParams;return [p.get('q'),p.get('category'),p.get('sort'),p.has('utm_campaign')]})()"),
-      [localizedLabel,label,"title",false], "Language switch preserves current filters only");
+      [updatedQuery,label,"title",false], "Language switch preserves edited search and active filters");
+    await waitFor("(()=>{const island=document.querySelector('.bookmark-browser')?.closest('astro-island');return Boolean(island && !island.hasAttribute('ssr'));})()",
+      Boolean, "EN search hydrated before reverse switch");
+    await evaluate("(()=>{const el=document.querySelector('.bookmark-browser input[type=search]');el.value=" +
+      JSON.stringify(localizedLabel) + ";el.dispatchEvent(new Event('input',{bubbles:true}))})()");
+    await waitFor("new URL(location.href).searchParams.get('q')",
+      value => value === localizedLabel, "Live EN query edits update URL before reverse switch");
     await evaluate("document.querySelector('[data-search-language-switch]').click()");
     await waitFor("location.pathname", value => value === "/sh/search/", "EN-to-SH search switch");
+    assert.equal(await evaluate("new URL(location.href).searchParams.get('q')"),
+      localizedLabel, "Returning to SH retains the latest edited query");
   }
 
   await command("Emulation.setDeviceMetricsOverride", {
@@ -611,10 +635,14 @@ try {
   // historical bookmark remaining in the collection.
   const normalize = text => text.normalize("NFKD").replace(/\p{M}/gu,"").toLowerCase();
   const commentCase = bookmarkRecords.flatMap(record =>
-    (record.comments.match(/[\p{L}\p{N}]{8,}/gu) ?? []).map(word => ({record,word}))
-  ).find(({record,word}) => bookmarkRecords.filter(other =>
-    normalize([other.title,other.category,other.comments,other.url].join(" ")).includes(normalize(word))
-  ).length === 1);
+    ((record.comments ?? "").match(/[\p{L}\p{N}]{8,}/gu) ?? []).map(word => ({record,word}))
+  ).find(({record,word}) => {
+    const needle = normalize(word);
+    const otherFields = [record.title, record.category, record.url].join(" ");
+    return !normalize(otherFields).includes(needle) &&
+      bookmarkRecords.every(other => other.id === record.id ||
+        !normalize([other.title,other.category,other.comments ?? "",other.url].join(" ")).includes(needle));
+  });
   if (commentCase) {
     await navigate("/search/?q=" + encodeURIComponent(commentCase.word));
     await waitFor("document.querySelector('input[type=search]')?.value",
@@ -622,11 +650,27 @@ try {
     await waitFor("document.querySelectorAll('li.bookmark-entry').length",
       value => value >= 1, "current comment search finds a published bookmark");
     assert.equal(await evaluate("document.querySelector('li.bookmark-entry [data-bookmark-detail-link]')?.getAttribute('href')"),
-      commentCase.record.detailUrl, "Comment search must return the source record");
+      commentCase.record.detailUrl, "Comment-only search must return the source record");
+    const visibleComment = await evaluate("document.querySelector('li.bookmark-entry .bookmark-comment')?.textContent.trim()");
+    assert.ok(visibleComment && normalize(visibleComment).includes(normalize(commentCase.word)),
+      "The independently matched comment must be visible in the search result");
+    assert.equal(await evaluate("getComputedStyle(document.querySelector('li.bookmark-entry .bookmark-comment')).webkitLineClamp"),
+      "none", "Matching comment must not be visually line-clamped");
   }
 
-  const draftTitle = "CI Browser Bookmark";
-  const draftStem = "ci-browser-bookmark";
+  // Pick disposable titles absent from every current category; a real bookmark
+  // addition must never invalidate the browser smoke's expected GitHub filename.
+  const existingIds = new Set(bookmarkRecords.map(record => record.id.toLowerCase()));
+  const unusedDraft = (title, stem) => {
+    let suffix = 0;
+    while (bookmarkCategories.some(category => existingIds.has(
+      (category.section + "/" + stem + (suffix ? "-" + suffix : "")).toLowerCase()))) suffix++;
+    return { title: title + (suffix ? " " + suffix : ""),
+      stem: stem + (suffix ? "-" + suffix : "") };
+  };
+  const draft = unusedDraft("CI Browser Bookmark", "ci-browser-bookmark");
+  const draftTitle = draft.title;
+  const draftStem = draft.stem;
   const duplicateSource = bookmarkRecords.find(record => record.url && record.url.length < 512);
   const draftUrl = duplicateSource?.url ?? "https://example.org/ci-browser-bookmark";
   const draftPath = section => "content/bookmarks/" + section + "/" + draftStem + ".md";
@@ -665,12 +709,13 @@ try {
       value => value === draftPath(alternate.section), "category button selects alternate source folder");
     assert.equal(await evaluate("new URL(document.querySelector('.new-bookmark .actions a').href).searchParams.get('filename')"),
       draftPath(alternate.section), "GitHub editor respects selected category");
+    const researchDraft = unusedDraft("Research paper", "research-paper");
     await navigate("/new-bookmark/?category=" + encodeURIComponent(alternate.slug) +
-      "&url=https%3A%2F%2Fexample.org%2Fpaper&title=Research%20paper");
+      "&url=https%3A%2F%2Fexample.org%2Fpaper&title=" + encodeURIComponent(researchDraft.title));
     await waitFor("document.querySelector('.new-bookmark [data-bookmark-category][aria-pressed=true]')?.dataset.bookmarkCategory",
       value => value === alternate.section, "category deep link selects the matching section");
     assert.equal(await evaluate("new URL(document.querySelector('.new-bookmark .actions a').href).searchParams.get('filename')"),
-      "content/bookmarks/" + alternate.section + "/research-paper.md");
+      "content/bookmarks/" + alternate.section + "/" + researchDraft.stem + ".md");
   }
   await navigate("/new-bookmark/?category=not-a-category&url=https%3A%2F%2Fexample.org%2Fpaper&title=Research%20paper");
   await waitFor("document.querySelector('.new-bookmark [data-bookmark-category][aria-pressed=true]')?.dataset.bookmarkCategory",
@@ -702,18 +747,21 @@ try {
     value => value === longUrl.length, "long captured URL preserved");
   await waitFor("document.querySelector('.new-bookmark .validation')?.textContent",
     value => typeof value === "string" && value.includes("at most 2048"), "long URL rejected");
-  await navigate("/new-bookmark/?url=https%3A%2F%2Fexample.org%2F&title=Long%20Notes");
+  const longDraft = unusedDraft("Long Notes", "long-notes");
+  await navigate("/new-bookmark/?url=https%3A%2F%2Fexample.org%2F&title=" + encodeURIComponent(longDraft.title));
   await waitFor("document.querySelector('.new-bookmark .output code')?.textContent",
-    value => value === "content/bookmarks/" + defaultCategory.section + "/long-notes.md",
+    value => value === "content/bookmarks/" + defaultCategory.section + "/" + longDraft.stem + ".md",
     "composer ready for long note");
-  await evaluate("(()=>{const el=document.querySelector('textarea[placeholder=\\\"Longer personal notes\\\"]');el.value='a'.repeat(5000);el.dispatchEvent(new Event('input',{bubbles:true}))})()");
+  const notesSelector = JSON.stringify('textarea[placeholder="Longer personal notes"]');
+  await evaluate("(()=>{const el=document.querySelector(" + notesSelector +
+    ");el.value='a'.repeat(5000);el.dispatchEvent(new Event('input',{bubbles:true}))})()");
   await waitFor("document.querySelector('.new-bookmark .actions a')?.href",
     value => value === "https://github.com/Fooftilly/Fooftilly.github.io/new/master",
     "long draft falls back to GitHub editor");
   assert.equal(await evaluate("document.querySelector('.new-bookmark .actions button:nth-child(2)')?.textContent.trim()"),
     "Copy full file path");
   assert.equal(await evaluate("document.querySelector('.new-bookmark .output code')?.textContent.trim()"),
-    "content/bookmarks/" + defaultCategory.section + "/long-notes.md");
+    "content/bookmarks/" + defaultCategory.section + "/" + longDraft.stem + ".md");
 
   await navigate("/new-media/");
   await waitFor(
