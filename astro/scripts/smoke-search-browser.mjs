@@ -298,7 +298,52 @@ try {
       value => value === false, "unsupported media sort removed",
     );
     assert.equal(await evaluate("document.querySelector('[data-media-sort=rating]')?.getAttribute('aria-pressed')"),"true");
-    console.log("Media fixture URL smoke: EN collection deep links, reload, filters and unsupported sort handling passed");
+
+    // A status-only deep link should filter the real disposable entries while
+    // preserving unrelated URL state and the ordinary search/sort controls.
+    await navigate("/films/?status=planned&sort=title&utm_source=fixture");
+    await waitFor(
+      "document.querySelector('[data-media-status-filter=planned]')?.getAttribute('aria-pressed')",
+      value => value === "true", "Film status filter restored from URL",
+    );
+    await waitFor(
+      "document.querySelector('[data-media-count]')?.textContent.trim()",
+      value => value === "1 of 2 entries", "Film status filter hides other statuses",
+    );
+    assert.equal(await evaluate("document.querySelector('[data-media-row] td:nth-of-type(4)')?.textContent.trim()"),"Planned",
+      "Media status is displayed in a readable form");
+    await evaluate("document.querySelector('[data-media-status-filter=unspecified]').click()");
+    await waitFor(
+      "document.querySelector('[data-media-count]')?.textContent.trim()",
+      value => value === "0 of 2 entries", "Unspecified status finds no film fixture records",
+    );
+    assert.equal(await evaluate("new URL(location.href).searchParams.get('status')"),"unspecified");
+    await evaluate("document.querySelector('[data-media-clear-filters]').click()");
+    await waitFor(
+      "document.querySelector('[data-media-count]')?.textContent.trim()",
+      value => value === "2 of 2 entries", "Clear filters restores all media statuses",
+    );
+    await waitFor(
+      "new URL(location.href).searchParams.has('status')",
+      value => value === false, "Clear filters removes the status URL key",
+    );
+    assert.equal(await evaluate("new URL(location.href).searchParams.get('utm_source')"),"fixture",
+      "Status reset preserves unrelated URL state");
+    assert.equal(await evaluate("document.querySelector('[data-media-status-filter=all]')?.getAttribute('aria-pressed')"),"true");
+    assert.equal(await evaluate("document.activeElement===document.querySelector('[data-media-search]')"),true,
+      "Clearing status restores keyboard focus to the search control");
+    await navigate("/tv/?status=planned");
+    await waitFor(
+      "document.querySelector('[data-media-count]')?.textContent.trim()",
+      value => value === "1 of 1 entries", "TV planned status filter",
+    );
+    await navigate("/music/?status=unsupported");
+    await waitFor(
+      "(()=>{const p=new URL(location.href).searchParams;return !p.has('status')})()",
+      Boolean, "Unsupported status safely normalizes to All",
+    );
+    assert.equal(await evaluate("document.querySelector('[data-media-status-filter=all]')?.getAttribute('aria-pressed')"),"true");
+    console.log("Media fixture URL smoke: EN collection deep links, reload, status/search/sort filters and reset passed");
     console.log("Media fixture Chromium smoke: Vue hydration, search, live count and sort passed");
   } else {
   // Consent must appear as a fixed cookie overlay, not as an inline footer.
