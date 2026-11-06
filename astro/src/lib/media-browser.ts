@@ -1,5 +1,13 @@
 /** Search and order Git-managed media without relying on an external provider. */
 export type MediaSort = "rating" | "title" | "year";
+export type MediaStatusFilter = "all" | "finished" | "in-progress" | "planned" | "unspecified";
+
+/** Status is optional in the site-owned JSON schema; do not hide unrated or
+ * unclassified entries unless the visitor selected a specific status. */
+export function matchesMediaStatus(entry: {status?: string}, filter: MediaStatusFilter): boolean {
+  return filter === "all" || (filter === "unspecified" ? !entry.status : entry.status === filter);
+}
+
 export interface MediaListing { title: string; id: string; year?: number; rating?: number }
 
 export const normalizeMediaSearch = (value: string): string => value.normalize("NFKD")
