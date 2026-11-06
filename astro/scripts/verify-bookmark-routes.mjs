@@ -66,6 +66,14 @@ test("all 576 original bookmark detail URLs are generated with correct canonical
     }
   }
 
+  // Every category page must supply an Add action that selects its source
+  // category in the existing GitHub-reviewed editor, not a generic fallback.
+  for (const [section, slug] of categories) {
+    const html = await readFile(path.join(root, "bookmarks", slug, "index.html"), "utf8");
+    assert.ok(html.includes(`href="/new-bookmark/?category=${slug}"`),
+      `Missing category-specific Add bookmark link for ${section}`);
+  }
+
   let totalRoutes = 0;
   for (const slug of categories.values()) {
     const folder = path.join(root, "bookmarks", slug);

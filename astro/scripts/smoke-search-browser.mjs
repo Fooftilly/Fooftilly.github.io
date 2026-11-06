@@ -644,6 +644,44 @@ try {
     "category returns to original default",
   );
 
+  // A category listing's Add bookmark link must pick the canonical editor
+  // category without silently resetting URLs or titles captured in the link.
+  await navigate("/new-bookmark/?category=paperbookarticle&url=https%3A%2F%2Fexample.org%2Fpaper&title=Research%20paper");
+  await waitFor(
+    "document.querySelector('.new-bookmark .output code')?.textContent",
+    value => typeof value === "string" && value.includes("content/bookmarks/PaperBookArticle/research-paper.md"),
+    "category deep link selects article/book destination",
+  );
+  assert.equal(
+    await evaluate("document.querySelector('.new-bookmark [data-bookmark-category=PaperBookArticle]')?.getAttribute('aria-pressed')"),
+    "true", "Article/book category button must reflect the deep link",
+  );
+  assert.equal(
+    await evaluate("document.querySelectorAll('.new-bookmark [data-bookmark-category][aria-pressed=true]').length"),
+    1, "Exactly one deep-linked draft category must be selected",
+  );
+  assert.equal(
+    await evaluate("new URL(document.querySelector('.new-bookmark .actions a').href).searchParams.get('filename')"),
+    "content/bookmarks/PaperBookArticle/research-paper.md", "GitHub editor must use the selected category",
+  );
+  await navigate("/new-bookmark/?category=not-a-category&url=https%3A%2F%2Fexample.org%2Fpaper&title=Research%20paper");
+  await waitFor(
+    "document.querySelector('.new-bookmark .output code')?.textContent",
+    value => typeof value === "string" && value.includes("content/bookmarks/Resource/research-paper.md"),
+    "unknown category deep link safely uses Resource default",
+  );
+  assert.equal(
+    await evaluate("document.querySelector('.new-bookmark [data-bookmark-category=Resource]')?.getAttribute('aria-pressed')"),
+    "true", "An invalid deep link must not select an invented category",
+  );
+  await navigate("/new-bookmark/?url=https%3A%2F%2F50watts.com%2F&title=50%20Watts");
+  await waitFor(
+    "document.querySelector('.new-bookmark .output code')?.textContent",
+    value => typeof value === "string" && value.includes("content/bookmarks/Resource/50-watts.md"),
+    "normal default draft restored before mobile/editor checks",
+  );
+
+
   await command("Emulation.setDeviceMetricsOverride", {
     width: 375, height: 667, deviceScaleFactor: 1, mobile: true,
   });

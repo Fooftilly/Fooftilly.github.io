@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
-import { BOOKMARK_CATEGORIES } from "../lib/bookmark-categories.ts";
+import { BOOKMARK_CATEGORIES, draftCategoryFromSlug } from "../lib/bookmark-categories.ts";
 import {
   composeBookmarkDraft,
   githubNewFileUrl,
@@ -25,6 +25,7 @@ onMounted(() => {
   const parameters = new URLSearchParams(window.location.search);
   url.value = parameters.get("url") ?? "";
   title.value = parameters.get("title") ?? "";
+  category.value = draftCategoryFromSlug(parameters.get("category"));
   const now = new Date();
   date.value = new Date(now.getTime() - now.getTimezoneOffset() * 60000)
     .toISOString().slice(0, 10);
