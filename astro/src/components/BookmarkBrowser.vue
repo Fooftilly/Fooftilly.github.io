@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, nextTick, onMounted, ref, watch } from "vue";
 import { filterAndSortBookmarks, type Bookmark, type BookmarkSort } from "../lib/bookmark-filter.ts";
 import { bookmarkCategoryDisplayLabel } from "../lib/bookmark-categories.ts";
 
@@ -42,6 +42,16 @@ const labels = computed(() => props.lang === "sh" ? {
   details: "Details",
 });
 const query = ref("");
+const searchInput = ref<HTMLInputElement | null>(null);
+async function clearFilters(): Promise<void> {
+  query.value = "";
+  category.value = "all";
+  sort.value = "newest";
+  // The reset button is removed when filters become default; keep keyboard
+  // focus in the browser controls rather than falling back to the document.
+  await nextTick();
+  searchInput.value?.focus();
+}
 const category = ref("all");
 const sort = ref<BookmarkSort>("newest");
 const limit = ref(50);
@@ -81,7 +91,7 @@ watch([query, category, sort], () => {
   if (query.value.trim()) url.searchParams.set("q", query.value.trim());
   if (category.value !== "all") url.searchParams.set("category", category.value);
   if (sort.value !== "newest") url.searchParams.set("sort", sort.value);
-  window.history.replaceState(null, "", url);
+  window.history.replaceState(window.history.state, "", url);
 });
 </script>
 
@@ -90,7 +100,7 @@ watch([query, category, sort], () => {
     <div class="bookmark-controls" :class="{ 'single-category': categories.length <= 1 }">
       <label class="search-field">
         <span>{{ labels.search }}</span>
-        <input v-model="query" type="search" :placeholder="labels.placeholder" autocomplete="off" />
+        <input ref="searchInput" v-model="query" type="search" :placeholder="labels.placeholder" autocomplete="off" />
       </label>
       <fieldset class="bookmark-filter-group sort-filters">
         <legend>{{ labels.sort }}</legend>
@@ -118,7 +128,7 @@ watch([query, category, sort], () => {
         {{ labels.showing }} {{ visible.length }} {{ labels.of }} {{ matches.length }} {{ labels.bookmarks }}
       </p>
       <button v-if="query || category !== 'all' || sort !== 'newest'" type="button"
-        @click="query = ''; category = 'all'; sort = 'newest'">
+        @click="clearFilters">
         {{ labels.clear }}
       </button>
     </div>
