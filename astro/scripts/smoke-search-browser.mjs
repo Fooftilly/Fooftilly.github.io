@@ -586,6 +586,31 @@ try {
     (value) => value === false, "default sort removes URL parameter",
   );
 
+  // Test native keyboard activation, not a simulated JavaScript click:
+  // Clear filters is removed after reset and must return focus to search.
+  assert.equal(await evaluate("document.querySelector('.bookmark-summary button')?.textContent.trim()"),"Poništi filtere");
+  await evaluate("document.querySelector('.bookmark-summary button').focus()");
+  assert.equal(await evaluate("document.activeElement===document.querySelector('.bookmark-summary button')"),true);
+  await command("Input.dispatchKeyEvent", {
+    type:"keyDown",key:"Enter",code:"Enter",text:"\r",unmodifiedText:"\r",
+    windowsVirtualKeyCode:13,nativeVirtualKeyCode:13,
+  });
+  await command("Input.dispatchKeyEvent", {
+    type:"keyUp",key:"Enter",code:"Enter",windowsVirtualKeyCode:13,nativeVirtualKeyCode:13,
+  });
+  await waitFor(
+    "(()=>{const p=new URL(location.href).searchParams;return !p.has('q')&&!p.has('sort')&&!p.has('category')})()",
+    Boolean,"bookmark reset removes active filter query keys",
+  );
+  await waitFor(
+    "document.activeElement===document.querySelector('.bookmark-browser input[type=search]')",
+    Boolean,"bookmark reset returns keyboard focus to search",
+  );
+  assert.equal(await evaluate("document.querySelector('.bookmark-summary button')"),null,
+    "Reset button must disappear when there are no active filters");
+  assert.equal(await evaluate("document.querySelector('[data-bookmark-category=all]')?.getAttribute('aria-pressed')"),"true");
+  assert.equal(await evaluate("document.querySelector('[data-bookmark-sort=newest]')?.getAttribute('aria-pressed')"),"true");
+
   await command("Emulation.setDeviceMetricsOverride", {
     width: 375, height: 667, deviceScaleFactor: 1, mobile: true,
   });
