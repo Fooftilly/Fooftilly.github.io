@@ -17,7 +17,8 @@ export const normalizeMediaSearch = (value: string): string => value.normalize("
 export function searchableMediaText(item: {
   title:string;creator?:string;year?:number;status?:string;notes?:string
 }):string {
-  return [item.title,item.creator??"",item.year?.toString()??"",item.status??"",item.notes??""].join(" ");
+  const status = item.status === "in-progress" ? "in-progress In progress" : item.status ?? "";
+  return [item.title,item.creator??"",item.year?.toString()??"",status,item.notes??""].join(" ");
 }
 /** All search terms may occur in different table cells, including public notes. */
 export function matchesMediaSearch(rowText: string, query: string): boolean {
