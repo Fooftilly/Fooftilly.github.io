@@ -445,7 +445,7 @@ try {
       "}))",
     );
     assert.equal(cards.length, 8, "Homepage must expose eight recent cards: " + route);
-    assert.ok(cards.every(item => /^\\/bookmarks\\/[^/]+\\/[^/]+\\/$/.test(item.detail)),
+    assert.ok(cards.every(item => /^\/bookmarks\/[^/]+\/[^/]+\/$/.test(item.detail)),
       "Every recent card must reach a first-party detail URL: " + route);
     assert.ok(cards.every(item => item.label === label),
       "Recent internal links must be localized: " + route);
