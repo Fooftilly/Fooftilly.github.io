@@ -223,16 +223,22 @@ try {
       value => value === false, "switching to metadata-only search collapses unused notes",
     );
     await evaluate("(()=>{const el=document.querySelector('[data-media-search]');el.value='';el.dispatchEvent(new Event('input',{bubbles:true}));document.querySelector('[data-media-sort=year]').click()})()");
-    await waitFor(
-      "document.querySelector('[data-media-row] th[scope=row]')?.textContent.includes('Zebra CI synthetic film')",
-      Boolean, "newest film first",
-    );
+    await waitFor("document.querySelectorAll('[data-media-row]').length",
+      count => count === mediaSource.films.length, "All source films remain after year sorting");
+    const yearTitles = await evaluate(
+      "Array.from(document.querySelectorAll('[data-media-row] th[scope=row]')).map(th=>th.textContent.trim())");
+    assert.ok(yearTitles.indexOf(secondFilmTitle) >= 0 && yearTitles.indexOf(firstFilmTitle) >= 0 &&
+      yearTitles.indexOf(secondFilmTitle) < yearTitles.indexOf(firstFilmTitle),
+      "The 2024 synthetic film must precede the 2001 synthetic film by year");
     assert.equal(await evaluate("document.querySelector('[data-media-sort=year]')?.getAttribute('aria-pressed')"),"true");
     await evaluate("document.querySelector('[data-media-sort=rating]').click()");
-    await waitFor(
-      "document.querySelector('[data-media-row] th[scope=row]')?.textContent.includes('CI synthetic film (not for publication)')",
-      Boolean, "highest rated film first",
-    );
+    await waitFor("document.querySelector('[data-media-sort=rating]')?.getAttribute('aria-pressed')",
+      value => value === "true", "Highest-rating sort activated");
+    const ratingTitles = await evaluate(
+      "Array.from(document.querySelectorAll('[data-media-row] th[scope=row]')).map(th=>th.textContent.trim())");
+    assert.ok(ratingTitles.indexOf(firstFilmTitle) >= 0 && ratingTitles.indexOf(secondFilmTitle) >= 0 &&
+      ratingTitles.indexOf(firstFilmTitle) < ratingTitles.indexOf(secondFilmTitle),
+      "The 4.5-star synthetic film must precede the 1.5-star film by rating");
     // Media collection filters must survive navigation, reloads and link sharing.
     await navigate("/films/?q=emilie&sort=year&utm_source=fixture");
     await waitFor(
@@ -350,8 +356,8 @@ try {
       "document.querySelector('[data-media-count]')?.textContent.trim()",
       value => value === mediaCountLabel("films", "", "planned"), "Film status filter hides other statuses",
     );
-    assert.equal(await evaluate("document.querySelector('[data-media-row] td:nth-of-type(4)')?.textContent.trim()"),"Planned",
-      "Media status is displayed in a readable form");
+    assert.equal(await evaluate("Array.from(document.querySelectorAll('[data-media-row]')).find(row=>row.querySelector('th[scope=row]')?.textContent.includes('Zebra CI synthetic film'))?.querySelector('td:nth-of-type(4)')?.textContent.trim()"),"Planned",
+      "Media status is displayed in a readable form for the planned fixture");
     await evaluate("document.querySelector('[data-media-status-filter=unspecified]').click()");
     await waitFor(
       "document.querySelector('[data-media-count]')?.textContent.trim()",
