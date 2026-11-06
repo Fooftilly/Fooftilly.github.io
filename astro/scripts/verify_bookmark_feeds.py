@@ -79,7 +79,13 @@ def verify_feed(feed_path, expected_records, expected_channel_url):
 def main():
     manifest = ROOT / ".audit/bookmarks-parity.json"
     entries = json.loads(manifest.read_text(encoding="utf-8"))
-    assert len(entries) == 576, "Source parity gate requires all 576 bookmark entries"
+    baseline = json.loads((ROOT / "tests/fixtures/legacy-bookmark-ids.json").read_text(encoding="utf-8"))
+    assert len(baseline) == len(set(baseline)) == 576, "Invalid legacy bookmark baseline"
+    ids = [entry["id"] for entry in entries]
+    assert len(ids) == len(set(ids)), "Duplicate bookmark in feed parity manifest"
+    missing = set(baseline) - set(ids)
+    assert not missing, ("Original bookmark entries missing from RSS input", sorted(missing))
+    assert len(entries) >= len(baseline)
     verify_feed(DIST / "index.xml", entries, SITE + "/")
     verify_feed(DIST / "bookmarks/index.xml", entries, SITE + "/bookmarks/")
     for slug, section in CATEGORIES.items():
