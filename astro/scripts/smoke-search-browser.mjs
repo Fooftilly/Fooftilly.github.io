@@ -405,6 +405,13 @@ try {
     "document.querySelectorAll('.bookmark-entry').length",
     value => value === 20, "20 article/book category listings",
   );
+  assert.equal(await evaluate("document.querySelectorAll('.bookmark-browser [data-bookmark-category]').length"),0,
+    "Single-category listings must not show redundant All/category buttons");
+  assert.equal(await evaluate("document.querySelector('.bookmark-controls')?.classList.contains('single-category')"),true);
+  assert.equal(await evaluate("document.querySelectorAll('.bookmark-browser [data-bookmark-sort]').length"),3,
+    "Single-category listings retain sort buttons");
+  assert.ok(await evaluate("document.querySelector('.bookmark-browser input[type=search]') !== null"),
+    "Single-category listings retain title and comment search");
   const linkedCount = await evaluate(
     "document.querySelectorAll('.bookmark-entry [data-bookmark-detail-link]').length",
   );
@@ -485,6 +492,8 @@ try {
   assert.equal(await evaluate("document.querySelectorAll('.bookmark-browser select').length"), 0,
     "Bookmark category and sort controls must use visible buttons, not dropdowns");
   assert.equal(await evaluate("document.querySelectorAll('[data-bookmark-category][aria-pressed=true]').length"), 1);
+  assert.equal(await evaluate("document.querySelectorAll('[data-bookmark-category]').length"), 8,
+    "Full EN/SH search must retain All plus seven category controls");
   assert.equal(await evaluate("document.querySelectorAll('[data-bookmark-sort][aria-pressed=true]').length"), 1);
   assert.equal(await evaluate("document.querySelector('[data-bookmark-category=all]')?.getAttribute('aria-pressed')"), "true");
   assert.equal(
