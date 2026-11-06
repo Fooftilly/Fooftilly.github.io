@@ -28,8 +28,8 @@ to Pages. The old Hugo rollback workflow has been retired only after the accepte
   must match the source category folders.
 - Search, category filtering and date/title sorting share a pure TypeScript
   selector. The Vue browser supports incremental rendering and URL query state.
-- Individual bookmark pages render source Markdown body when present; source
-  records currently contain no nonempty body notes.
+- Individual bookmark pages render the current Markdown body when present;
+  new, edited and existing notes are supported without a frozen source snapshot.
 - The site-wide `/index.xml` RSS feed, bookmarks root feed and one feed for each
   configured category are generated from the current public bookmark collection.
   The home and posts pages advertise the site feed; CI validates every
