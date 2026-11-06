@@ -189,13 +189,15 @@ try {
       "document.querySelector('[data-media-count]')?.textContent.trim()",
       value => value === mediaCountLabel("films", "jazz", "all"), "unrelated link label excluded",
     );
-    assert.equal(await evaluate("document.querySelectorAll('[data-media-row]').length"),0);
+    assert.equal(await evaluate("document.querySelectorAll('[data-media-row]').length"), mediaCount("films", "jazz"));
+    assert.equal(await evaluate("Array.from(document.querySelectorAll('[data-media-row] th[scope=row]')).some(th=>th.textContent.includes('CI synthetic film (not for publication)'))"), false,
+      "A link-label-only query must not match the disposable film");
     await evaluate("(()=>{const el=document.querySelector('[data-media-search]');el.value='emilie';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
     await waitFor(
       "document.querySelector('[data-media-count]')?.textContent.trim()",
       value => value === mediaCountLabel("films", "emilie", "all"), "accent-insensitive metadata search",
     );
-    assert.equal(await evaluate("document.querySelector('[data-media-row] details')?.open"), false,
+    assert.equal(await evaluate("Array.from(document.querySelectorAll('[data-media-row]')).find(row=>row.querySelector('th[scope=row]')?.textContent.includes('CI synthetic film (not for publication)'))?.querySelector('details')?.open"), false,
       "A visible creator match does not unnecessarily reveal public notes");
     await evaluate("(()=>{const el=document.querySelector('[data-media-search]');el.value='second';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
     await waitFor(
@@ -203,21 +205,21 @@ try {
       value => value === mediaCountLabel("films", "second", "all"), "note-only search finds the correct film",
     );
     await waitFor(
-      "document.querySelector('[data-media-row] details')?.open",
+      "Array.from(document.querySelectorAll('[data-media-row]')).find(row=>row.querySelector('th[scope=row]')?.textContent.includes('CI synthetic film (not for publication)'))?.querySelector('details')?.open",
       value => value === true, "note-only match automatically reveals the collapsed note",
     );
     assert.match(
-      await evaluate("document.querySelector('[data-media-row] details .notes')?.textContent || ''"),
+      await evaluate("Array.from(document.querySelectorAll('[data-media-row]')).find(row=>row.querySelector('th[scope=row]')?.textContent.includes('CI synthetic film (not for publication)'))?.querySelector('details .notes')?.textContent || ''"),
       /Second paragraph/, "Visible notes must explain the search match",
     );
     await evaluate("(()=>{const el=document.querySelector('[data-media-search]');el.value='emilie second';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
     await waitFor(
-      "document.querySelector('[data-media-row] details')?.open",
+      "Array.from(document.querySelectorAll('[data-media-row]')).find(row=>row.querySelector('th[scope=row]')?.textContent.includes('CI synthetic film (not for publication)'))?.querySelector('details')?.open",
       value => value === true, "mixed metadata and note matches keep notes readable",
     );
     await evaluate("(()=>{const el=document.querySelector('[data-media-search]');el.value='emilie';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
     await waitFor(
-      "document.querySelector('[data-media-row] details')?.open",
+      "Array.from(document.querySelectorAll('[data-media-row]')).find(row=>row.querySelector('th[scope=row]')?.textContent.includes('CI synthetic film (not for publication)'))?.querySelector('details')?.open",
       value => value === false, "switching to metadata-only search collapses unused notes",
     );
     await evaluate("(()=>{const el=document.querySelector('[data-media-search]');el.value='';el.dispatchEvent(new Event('input',{bubbles:true}));document.querySelector('[data-media-sort=year]').click()})()");
