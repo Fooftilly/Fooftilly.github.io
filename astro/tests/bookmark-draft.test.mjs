@@ -5,11 +5,16 @@ import {
   composeBookmarkDraft, parseBookmarkUrl, bookmarkSlug, githubNewFileUrl,
 } from "../src/lib/bookmark-draft.ts";
 import { bookmarkDetailPath } from "../src/lib/bookmark-path.ts";
+import { BOOKMARK_CATEGORIES, defaultBookmarkCategory } from "../src/lib/bookmark-categories.ts";
+const defaultCategory = defaultBookmarkCategory();
+const otherCategory = BOOKMARK_CATEGORIES.find(c => c.section !== defaultCategory.section) ?? defaultCategory;
+const primary = defaultCategory.section;
+const secondary = otherCategory.section;
 
 const valid = {
   title: "Čudesni članak / reference",
   url: "https://example.org/story?x=1&y=2",
-  category: "Resource",
+  category: primary,
   date: "2026-11-01",
   comments: "First line\nsecond line: #1",
   notes: "Personal **notes**\n\n- Useful source",
@@ -17,7 +22,7 @@ const valid = {
 
 test("generates source-compatible YAML and optional Markdown body", () => {
   const draft = composeBookmarkDraft(valid, []);
-  assert.equal(draft.path, "content/bookmarks/Resource/cudesni-clanak-reference.md");
+  assert.equal(draft.path, "content/bookmarks/" + primary + "/cudesni-clanak-reference.md");
   const segments = draft.markdown.split("---");
   const frontmatter = parse(segments[1]);
   assert.deepEqual(frontmatter, {
@@ -32,12 +37,12 @@ test("generates source-compatible YAML and optional Markdown body", () => {
 
 test("same URL gets a duplicate warning and filename gets a unique suffix", () => {
   const existing = [
-    { id: "Resource/cudesni-clanak-reference", url: valid.url },
-    { id: "Resource/cudesni-clanak-reference-2", url: "https://example.org/another" },
+    { id: primary + "/cudesni-clanak-reference", url: valid.url },
+    { id: primary + "/cudesni-clanak-reference-2", url: "https://example.org/another" },
   ];
   const out = composeBookmarkDraft(valid, existing);
   assert.equal(out.filename, "cudesni-clanak-reference-3.md");
-  assert.deepEqual(out.duplicateIds, ["Resource/cudesni-clanak-reference"]);
+  assert.deepEqual(out.duplicateIds, [primary + "/cudesni-clanak-reference"]);
 });
 
 test("safely encodes YAML-breaking quote and newline characters", () => {
@@ -84,18 +89,18 @@ test("non-Latin filenames remain safe and stable", () => {
 
 test("duplicate warnings can link to canonical, existing first-party detail pages", () => {
   const existing = [
-    {id:"Resource/source",url:valid.url},
-    {id:"PaperBookArticle/same-source",url:valid.url},
-    {id:"Resource/another",url:"https://example.org/other"},
+    {id:primary + "/source",url:valid.url},
+    {id:secondary + "/same-source",url:valid.url},
+    {id:primary + "/another",url:"https://example.org/other"},
   ];
   const draft = composeBookmarkDraft(valid, existing);
-  assert.deepEqual(draft.duplicateIds,["Resource/source","PaperBookArticle/same-source"]);
+  assert.deepEqual(draft.duplicateIds,[primary + "/source",secondary + "/same-source"]);
   const targets = draft.duplicateIds.map(bookmarkDetailPath);
   assert.deepEqual(targets,[
-    "/bookmarks/resource/source/",
-    "/bookmarks/paperbookarticle/same-source/",
+    "/bookmarks/" + defaultCategory.slug + "/source/",
+    "/bookmarks/" + otherCategory.slug + "/same-source/",
   ]);
   assert.ok(targets.every(target=>target.startsWith("/bookmarks/")&&!target.includes("..")));
   assert.throws(()=>bookmarkDetailPath("../traversal"),/Unsupported bookmark ID/);
-  assert.throws(()=>bookmarkDetailPath("Resource/file/extra"),/Unsupported bookmark ID/);
+  assert.throws(()=>bookmarkDetailPath(primary + "/file/extra"),/Unsupported bookmark ID/);
 });
