@@ -2,7 +2,6 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { getPublishedPaths, absoluteSiteUrl, renderSitemap } from "../src/lib/site-index.ts";
 import { BOOKMARK_CATEGORIES } from "../src/lib/bookmark-categories.ts";
-import { bookmarkDetailPath } from "../src/lib/bookmark-path.ts";
 
 test("sitemap uses configured categories and current bookmark IDs", () => {
   const first = BOOKMARK_CATEGORIES[0], last = BOOKMARK_CATEGORIES.at(-1);
@@ -10,7 +9,9 @@ test("sitemap uses configured categories and current bookmark IDs", () => {
   const baseline = getPublishedPaths([]);
   const paths = getPublishedPaths(ids);
   assert.equal(paths.length, baseline.length + ids.length);
-  for (const id of ids) assert.ok(paths.includes(bookmarkDetailPath(id)));
+  // Independent route expectations must catch accidental mixed-case output.
+  assert.ok(paths.includes("/bookmarks/" + first.slug + "/uppercase/"));
+  assert.ok(paths.includes("/bookmarks/" + last.slug + "/partii/"));
   for (const category of BOOKMARK_CATEGORIES) {
     assert.ok(paths.includes("/bookmarks/" + category.slug + "/"));
   }

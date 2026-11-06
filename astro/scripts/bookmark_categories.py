@@ -13,6 +13,7 @@ def load_categories():
     assert isinstance(categories, list) and categories, "Bookmark category catalog is empty"
     sections = set()
     slugs = set()
+    labels = set()
     default_count = 0
     for category in categories:
         assert isinstance(category, dict), "Invalid category object"
@@ -21,9 +22,11 @@ def load_categories():
         assert isinstance(slug, str) and re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", slug), slug
         assert all(isinstance(category.get(key), str) and category[key].strip()
                    for key in ("label", "labelSh")), category
-        assert section not in sections and slug not in slugs, "Duplicate bookmark category"
+        label_key = category["label"].strip().casefold()
+        assert section not in sections and slug not in slugs and label_key not in labels, "Duplicate bookmark category"
         sections.add(section)
         slugs.add(slug)
+        labels.add(label_key)
         default_count += category.get("default") is True
     assert default_count == 1, "Expected exactly one default bookmark category"
     folders = {path.name for path in SOURCE.iterdir() if path.is_dir()}

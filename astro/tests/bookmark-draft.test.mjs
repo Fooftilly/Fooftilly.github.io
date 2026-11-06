@@ -70,6 +70,13 @@ test("invalid categories, blank titles, date rollover and oversized fields fail"
   assert.throws(() => composeBookmarkDraft({ ...valid, title: "#!" }, []), /letter or number/);
 });
 
+test("GitHub handoff accepts a configured-style category with digits but rejects unsafe paths", () => {
+  const target = githubNewFileUrl("content/bookmarks/Web3/valid-bookmark.md", "---\\ntitle: Example\\n---\\n");
+  assert.equal(new URL(target).searchParams.get("filename"), "content/bookmarks/Web3/valid-bookmark.md");
+  assert.throws(() => githubNewFileUrl("content/bookmarks/../oops.md", ""), /Invalid destination/);
+  assert.throws(() => githubNewFileUrl("content/bookmarks/Web3/x/invalid.md", ""), /Invalid destination/);
+});
+
 test("safe canonical path is used in GitHub new-file handoff", () => {
   const draft = composeBookmarkDraft(valid, []);
   const url = new URL(githubNewFileUrl(draft.path, draft.markdown));

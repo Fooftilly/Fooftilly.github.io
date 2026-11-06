@@ -40,7 +40,7 @@ test("empty query returns all items and missing dates stay last", () => {
 });
 
 test("Serbo-Croatian category labels are searchable through current category metadata", () => {
-  const category = BOOKMARK_CATEGORIES.find(item => item.labelSh !== item.label && /[^\\x00-\\x7F]/.test(item.labelSh))
+  const category = BOOKMARK_CATEGORIES.find(item => item.labelSh !== item.label && /[^\x00-\x7F]/.test(item.labelSh))
     ?? BOOKMARK_CATEGORIES.find(item => item.labelSh !== item.label);
   assert.ok(category, "Expected at least one translated category");
   const articles = [{
@@ -51,6 +51,9 @@ test("Serbo-Croatian category labels are searchable through current category met
     ...defaults, query, lang, category: category.label,
   }).map(item => item.id);
   assert.deepEqual(search(category.labelSh, "sh"), ["translated-1"]);
+  const unfolded = category.labelSh.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  assert.deepEqual(search(unfolded, "sh"), ["translated-1"],
+    "Serbo-Croatian search must match a diacritic-free form of the displayed label");
   assert.deepEqual(search(category.label, "sh"), ["translated-1"]);
   if (category.labelSh !== category.label) assert.deepEqual(search(category.labelSh, "en"), []);
   assert.deepEqual(filterAndSortBookmarks(articles, {

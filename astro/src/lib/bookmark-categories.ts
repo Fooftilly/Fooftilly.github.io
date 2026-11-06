@@ -12,15 +12,18 @@ export const BOOKMARK_CATEGORIES: readonly BookmarkCategory[] = data;
 
 const sections = new Set<string>();
 const slugs = new Set<string>();
+const labels = new Set<string>();
 for (const category of BOOKMARK_CATEGORIES) {
   if (!/^[A-Za-z][A-Za-z0-9]*$/.test(category.section) ||
       !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(category.slug) ||
       !category.label.trim() || !category.labelSh.trim() ||
-      sections.has(category.section) || slugs.has(category.slug)) {
+      sections.has(category.section) || slugs.has(category.slug) ||
+      labels.has(category.label.trim().toLocaleLowerCase('en'))) {
     throw new Error("Invalid or duplicated bookmark category: " + category.section);
   }
   sections.add(category.section);
   slugs.add(category.slug);
+  labels.add(category.label.trim().toLocaleLowerCase('en'));
 }
 if (BOOKMARK_CATEGORIES.filter(category => category.default).length !== 1) {
   throw new Error("Exactly one default bookmark category must be configured");
