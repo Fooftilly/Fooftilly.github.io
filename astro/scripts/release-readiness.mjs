@@ -34,9 +34,22 @@ for (const file of [
   "sh/index.html", "sh/about/index.html", "posts/index.html", "search/index.html",
   "new-bookmark/index.html", "media/index.html", "music/index.html", "films/index.html", "tv/index.html", "new-media/index.html",
   "privacy/index.html", "sh/privacy/index.html",
-  "projects/index.html", "sh/projects/index.html", "projects/prks/index.html",
-  "projects/kokoro-extension/index.html", "projects/local-search-mcp/index.html",
+  "projects/index.html", "sh/projects/index.html",
 ]) assert.ok(await exists(join(publicDir, file)), "Missing public release file: " + file);
+// Every generated detail route must match a current Git-reviewed project
+// Markdown entry, including intentional additions, removals and renames.
+const projectSource = resolve(cwd, "../content/projects");
+const projectSlugs = (await readdir(projectSource))
+  .filter(name => name.endsWith(".md")).map(name => name.slice(0, -3)).sort();
+for (const slug of projectSlugs) {
+  assert.match(slug, /^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Invalid project source slug");
+  assert.ok(await exists(join(publicDir, "projects", slug, "index.html")),
+    "Missing current project detail route: " + slug);
+}
+const generatedProjectDirs = (await readdir(join(publicDir, "projects"), { withFileTypes: true }))
+  .filter(entry => entry.isDirectory()).map(entry => entry.name).sort();
+assert.deepEqual(generatedProjectDirs, projectSlugs,
+  "Generated project routes differ from current Git-managed Markdown");
 assert.equal(await exists(join(publicDir, "migration-audit")), false, "Internal audit is public");
 assert.equal(await exists(join(publicDir, "admin")), false, "Admin output is public");
 assert.match(await readFile(join(publicDir, "new-bookmark", "index.html"), "utf8"), /<astro-island/);
