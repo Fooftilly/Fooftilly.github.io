@@ -1,4 +1,5 @@
 import { filterAndSortBookmarks } from "./bookmark-filter.ts";
+import { bookmarkDetailPath } from "./bookmark-path.ts";
 import type { SourceBookmark } from "./bookmark-data.ts";
 
 export const SITE_URL = "https://www.peroniko.xyz";
@@ -28,7 +29,9 @@ export function renderBookmarkRss({ title, description, path, bookmarks }: FeedO
     query: "", category: "all", sort: "newest",
   });
   const items = sorted.map((item) => {
-    const url = item.url || new URL("/bookmarks/", SITE_URL).href;
+    // When the original source is unavailable or unsafe, link to this
+    // specific first-party detail page instead of the generic index.
+    const url = item.url || new URL(item.detailUrl || bookmarkDetailPath(item.id), SITE_URL).href;
     const description = item.comments || item.title;
     const pubDate = item.date
       ? `\n      <pubDate>${escapeXml(new Date(`${item.date}T00:00:00Z`).toUTCString())}</pubDate>`
