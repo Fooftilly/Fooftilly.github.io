@@ -63,7 +63,12 @@ def check_assets():
 
 def check_sitemap():
     records = json.loads((ASTRO / ".audit/bookmarks-parity.json").read_text())
-    assert len(records) == 576, "Expected full bookmark parity manifest"
+    baseline = json.loads((ASTRO / "tests/fixtures/legacy-bookmark-ids.json").read_text(encoding="utf-8"))
+    assert len(baseline) == len(set(baseline)) == 576, "Invalid legacy bookmark baseline"
+    ids = [record["id"] for record in records]
+    assert len(ids) == len(set(ids)), "Duplicate bookmark in sitemap source"
+    missing = set(baseline) - set(ids)
+    assert not missing, ("Original bookmarks missing from sitemap input", sorted(missing))
     expected = {SITE + "/", SITE + "/about/", SITE + "/sh/", SITE + "/sh/about/", SITE + "/posts/", SITE + "/sh/posts/", SITE + "/search/", SITE + "/sh/search/", SITE + "/bookmarks/", SITE + "/new-bookmark/", SITE + "/media/", SITE + "/music/", SITE + "/films/", SITE + "/tv/", SITE + "/new-media/", SITE + "/privacy/", SITE + "/sh/privacy/"}
     project_sources = sorted((ASTRO.parent / "content/projects").glob("*.md"))
     slugs = {src.stem for src in project_sources}
@@ -79,7 +84,7 @@ def check_sitemap():
     for record in records:
         section, stem = record["id"].split("/")
         expected.add(f"{SITE}/bookmarks/{section.lower()}/{quote(stem.lower(), safe='-._~')}/")
-    assert len(expected) == 602 + len(slugs), "Expected 19 roots + 7 categories + 576 bookmarks + project routes"
+    assert len(expected) == 26 + len(records) + len(slugs), "Expected 19 roots + 7 categories + all bookmarks + project routes"
 
     root = ET.parse(DIST / "sitemap.xml").getroot()
     ns = "{http://www.sitemaps.org/schemas/sitemap/0.9}"
