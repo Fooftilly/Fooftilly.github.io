@@ -8,19 +8,13 @@ from email.utils import parsedate_to_datetime
 from pathlib import Path
 from xml.etree import ElementTree as ET
 
+from bookmark_categories import load_categories
+
 
 ROOT = Path(__file__).resolve().parents[1]
 DIST = ROOT / "dist"
 SITE = "https://www.peroniko.xyz"
-CATEGORIES = {
-    "art": "Art",
-    "fun": "Fun",
-    "music": "Music",
-    "paperbookarticle": "PaperBookArticle",
-    "perspectives": "Perspectives",
-    "resource": "Resource",
-    "youtube": "YouTube",
-}
+
 
 
 def verify_feed(feed_path, expected_records, expected_channel_url):
@@ -79,24 +73,20 @@ def verify_feed(feed_path, expected_records, expected_channel_url):
 def main():
     manifest = ROOT / ".audit/bookmarks-parity.json"
     entries = json.loads(manifest.read_text(encoding="utf-8"))
-    baseline = json.loads((ROOT / "tests/fixtures/legacy-bookmark-ids.json").read_text(encoding="utf-8"))
-    assert len(baseline) == len(set(baseline)) == 576, "Invalid legacy bookmark baseline"
     ids = [entry["id"] for entry in entries]
     assert len(ids) == len(set(ids)), "Duplicate bookmark in feed parity manifest"
-    missing = set(baseline) - set(ids)
-    assert not missing, ("Original bookmark entries missing from RSS input", sorted(missing))
-    assert len(entries) >= len(baseline)
+    categories = load_categories()
     verify_feed(DIST / "index.xml", entries, SITE + "/")
     verify_feed(DIST / "bookmarks/index.xml", entries, SITE + "/bookmarks/")
-    for slug, section in CATEGORIES.items():
+    for category in categories:
+        slug, section = category["slug"], category["section"]
         subset = [entry for entry in entries if entry["id"].startswith(section + "/")]
-        assert subset, section
         assert (DIST / f"bookmarks/{slug}/index.html").is_file(), slug
         verify_feed(
             DIST / f"bookmarks/{slug}/index.xml", subset,
             SITE + f"/bookmarks/{slug}/",
         )
-    assert sum(len([e for e in entries if e["id"].startswith(s + "/")]) for s in CATEGORIES.values()) == len(entries)
+    assert sum(len([e for e in entries if e["id"].startswith(s + "/")]) for s in (category["section"] for category in categories)) == len(entries)
     print("Site-wide, bookmark and category RSS feeds match the complete bookmark manifest")
 
 

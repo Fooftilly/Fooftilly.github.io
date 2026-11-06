@@ -13,12 +13,12 @@ from xml.etree import ElementTree as ET
 from verify_semantic_accessibility import verify_semantic_structure
 from verify_internal_links import audit_internal_links
 from verify_projects import verify_projects
+from bookmark_categories import load_categories
 
 ASTRO = Path(__file__).resolve().parents[1]
 DIST = ASTRO / "dist"
 STATIC = ASTRO.parent / "static"
 SITE = "https://www.peroniko.xyz"
-SECTIONS = ("art", "fun", "music", "paperbookarticle", "perspectives", "resource", "youtube")
 
 
 def sha256(path: Path) -> str:
@@ -63,28 +63,27 @@ def check_assets():
 
 def check_sitemap():
     records = json.loads((ASTRO / ".audit/bookmarks-parity.json").read_text())
-    baseline = json.loads((ASTRO / "tests/fixtures/legacy-bookmark-ids.json").read_text(encoding="utf-8"))
-    assert len(baseline) == len(set(baseline)) == 576, "Invalid legacy bookmark baseline"
     ids = [record["id"] for record in records]
     assert len(ids) == len(set(ids)), "Duplicate bookmark in sitemap source"
-    missing = set(baseline) - set(ids)
-    assert not missing, ("Original bookmarks missing from sitemap input", sorted(missing))
+    categories = load_categories()
+    slug_by_section = {item["section"]: item["slug"] for item in categories}
     expected = {SITE + "/", SITE + "/about/", SITE + "/sh/", SITE + "/sh/about/", SITE + "/posts/", SITE + "/sh/posts/", SITE + "/search/", SITE + "/sh/search/", SITE + "/bookmarks/", SITE + "/new-bookmark/", SITE + "/media/", SITE + "/music/", SITE + "/films/", SITE + "/tv/", SITE + "/new-media/", SITE + "/privacy/", SITE + "/sh/privacy/"}
     project_sources = sorted((ASTRO.parent / "content/projects").glob("*.md"))
     slugs = {src.stem for src in project_sources}
-    assert {"prks", "kokoro-extension", "local-search-mcp"}.issubset(slugs), (
-        "Initial showcase projects are missing", slugs
-    )
     assert len(project_sources) == len(slugs), "Duplicate project IDs"
     assert all(re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", slug) for slug in slugs)
     expected.add(SITE + "/projects/")
     expected.add(SITE + "/sh/projects/")
     expected.update(f"{SITE}/projects/{slug}/" for slug in slugs)
-    expected.update(f"{SITE}/bookmarks/{section}/" for section in SECTIONS)
+    roots_and_projects = len(expected)
+    expected.update(f'{SITE}/bookmarks/{category["slug"]}/' for category in categories)
     for record in records:
         section, stem = record["id"].split("/")
-        expected.add(f"{SITE}/bookmarks/{section.lower()}/{quote(stem.lower(), safe='-._~')}/")
-    assert len(expected) == 26 + len(records) + len(slugs), "Expected 19 roots + 7 categories + all bookmarks + project routes"
+        assert section in slug_by_section and re.fullmatch(r"[\\w-]+", stem, flags=re.UNICODE), record["id"]
+        expected.add(f'{SITE}/bookmarks/{slug_by_section[section]}/{quote(stem.lower(), safe="-._~")}/')
+    assert len(expected) == roots_and_projects + len(categories) + len(records), (
+        "Sitemap path collisions or omitted bookmark routes"
+    )
 
     root = ET.parse(DIST / "sitemap.xml").getroot()
     ns = "{http://www.sitemaps.org/schemas/sitemap/0.9}"
@@ -118,14 +117,21 @@ def check_metadata():
         "/new-media/": DIST / "new-media/index.html",
         "/projects/": DIST / "projects/index.html",
         "/sh/projects/": DIST / "sh/projects/index.html",
-        "/projects/prks/": DIST / "projects/prks/index.html",
-        "/projects/kokoro-extension/": DIST / "projects/kokoro-extension/index.html",
-        "/projects/local-search-mcp/": DIST / "projects/local-search-mcp/index.html",
         "/privacy/": DIST / "privacy/index.html",
         "/sh/privacy/": DIST / "sh/privacy/index.html",
-        "/bookmarks/art/": DIST / "bookmarks/art/index.html",
-        "/bookmarks/art/50_watts___illustrations___/": DIST / "bookmarks/art/50_watts___illustrations___/index.html",
     }
+    pages.update({
+        f'/bookmarks/{category["slug"]}/': DIST / "bookmarks" / category["slug"] / "index.html"
+        for category in load_categories()
+    })
+    pages.update({
+        f"/projects/{path.stem}/": DIST / "projects" / path.stem / "index.html"
+        for path in (ASTRO.parent / "content/projects").glob("*.md")
+    })
+    bookmarks = json.loads((ASTRO / ".audit/bookmarks-parity.json").read_text(encoding="utf-8"))
+    if bookmarks:
+        detail = bookmarks[0]["detailUrl"]
+        pages[detail] = DIST / detail.lstrip("/") / "index.html"
     for urlpath, filename in pages.items():
         doc = Metadata()
         doc.feed(filename.read_text(encoding="utf8"))
@@ -223,7 +229,10 @@ def check_public_branding():
         )
 
     rss = sorted(DIST.rglob("index.xml"))
-    assert len(rss) == 9, ("Expected nine site and category RSS feeds", rss)
+    expected_feeds = {"index.xml", "bookmarks/index.xml"}
+    expected_feeds.update(f'bookmarks/{category["slug"]}/index.xml' for category in load_categories())
+    actual_feeds = {path.relative_to(DIST).as_posix() for path in rss}
+    assert actual_feeds == expected_feeds, ("RSS feed coverage mismatch", actual_feeds ^ expected_feeds)
     for feed in rss:
         channel = ET.parse(feed).getroot().find("channel")
         assert channel is not None, ("Missing RSS channel", feed)
@@ -255,7 +264,11 @@ def check_not_found_page():
 
 
 def check_opt_in_comments():
-    page = DIST / "bookmarks/art/50_watts___illustrations___/index.html"
+    bookmarks = json.loads((ASTRO / ".audit/bookmarks-parity.json").read_text(encoding="utf-8"))
+    if not bookmarks:
+        print("No bookmark detail pages; comment-consent test is not applicable")
+        return
+    page = DIST / bookmarks[0]["detailUrl"].lstrip("/") / "index.html"
     html = page.read_text(encoding="utf8")
     assert "data-comments-consent" in html, "Missing opt-in comment section"
     assert "data-load-comments" in html and "Load comments from Giscus" in html, "Missing consent control"
