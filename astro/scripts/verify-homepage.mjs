@@ -1,9 +1,10 @@
 import assert from "node:assert/strict";
 import { readFile, readdir } from "node:fs/promises";
 import { BOOKMARK_CATEGORIES } from "../src/lib/bookmark-categories.ts";
+import { assertLegacyBookmarkInventory } from "./bookmark-inventory.mjs";
 
 const records = JSON.parse(await readFile(".audit/bookmarks-parity.json", "utf8"));
-assert.equal(records.length, 576);
+assertLegacyBookmarkInventory(records, "Homepage bookmark source");
 for (const [path, language, heading] of [
   ["dist/index.html", "en", "Categories"],
   ["dist/sh/index.html", "sh", "Kategorije"],
@@ -32,7 +33,7 @@ for (const [path, language, heading] of [
     assert.deepEqual(new Set(featured),sources,
       "When all projects fit the preview, none may be omitted");
   }
-  assert.ok(html.includes("576"), "Bookmark count missing: " + path);
+  assert.ok(html.includes(String(records.length)), "Dynamic bookmark count missing: " + path);
   for (const category of BOOKMARK_CATEGORIES) {
     assert.ok(html.includes('/bookmarks/' + category.slug + '/'),
       "Missing category " + category.slug + " on " + path);
@@ -77,4 +78,4 @@ for (const [path, language, heading] of [
     }
   }
 }
-console.log("English/Serbo-Croatian homepages: seven categories, 576 bookmarks, eight linked recent items; no preview placeholders");
+console.log(`English/Serbo-Croatian homepages: seven categories, ${records.length} bookmarks, eight linked recent items; no preview placeholders`);
