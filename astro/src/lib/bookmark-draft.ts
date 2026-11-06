@@ -1,4 +1,5 @@
 import { BOOKMARK_CATEGORIES } from "./bookmark-categories.ts";
+import { validateBookmarkTags } from "./bookmark-tags.ts";
 
 export interface BookmarkDraftInput {
   url: string;
@@ -7,6 +8,7 @@ export interface BookmarkDraftInput {
   date: string;
   comments: string;
   notes: string;
+  tags?: string[];
 }
 
 export interface ExistingBookmarkRef {
@@ -73,6 +75,8 @@ export function composeBookmarkDraft(input: BookmarkDraftInput, existing: readon
     "link: " + JSON.stringify(url),
   ];
   if (input.comments.trim()) data.push("comments: " + JSON.stringify(input.comments.trim()));
+  const tags = validateBookmarkTags(input.tags ?? []);
+  if (tags.length) data.push("tags: " + JSON.stringify(tags));
   data.push("---", "");
   const markdown = data.join("\n") + (input.notes.trim() ? "\n" + input.notes.trim() + "\n" : "");
   return {

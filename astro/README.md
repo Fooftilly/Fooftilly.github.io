@@ -28,6 +28,10 @@ to Pages. The old Hugo rollback workflow has been retired only after the accepte
   must match the source category folders.
 - Search, category filtering and date/title sorting share a pure TypeScript
   selector. The Vue browser supports incremental rendering and URL query state.
+- Bookmark tags are optional Unicode labels defined on each Git Markdown record
+  as `tags: ["Café culture", "Research"]`; tags are searchable and visible on
+  listings and detail pages. The public new-bookmark editor creates the same
+  validated array from comma-separated input. No fixed tag registry is needed.
 - Individual bookmark pages render the current Markdown body when present;
   new, edited and existing notes are supported without a frozen source snapshot.
 - The site-wide `/index.xml` RSS feed, bookmarks root feed and one feed for each

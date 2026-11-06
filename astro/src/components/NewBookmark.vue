@@ -2,6 +2,7 @@
 import { computed, onMounted, ref } from "vue";
 import { BOOKMARK_CATEGORIES, draftCategoryFromSlug } from "../lib/bookmark-categories.ts";
 import { bookmarkDetailPath } from "../lib/bookmark-path.ts";
+import { parseBookmarkTags } from "../lib/bookmark-tags.ts";
 import {
   composeBookmarkDraft,
   githubNewFileUrl,
@@ -15,6 +16,7 @@ const url = ref("");
 const category = ref(draftCategoryFromSlug(null));
 const date = ref("");
 const comments = ref("");
+const tags = ref("");
 const notes = ref("");
 const status = ref("");
 const editorLimit = 4000; // Conservative URL length across browsers and GitHub redirects.
@@ -37,7 +39,10 @@ const result = computed(() => {
     title: title.value, url: url.value, category: category.value,
     date: date.value, comments: comments.value, notes: notes.value,
   };
-  try { return { draft: composeBookmarkDraft(input, props.existing), error: "" }; }
+  try {
+    input.tags = parseBookmarkTags(tags.value);
+    return { draft: composeBookmarkDraft(input, props.existing), error: "" };
+  }
   catch (error) { return { draft: null, error: error instanceof Error ? error.message : "Invalid bookmark." }; }
 });
 
@@ -101,6 +106,11 @@ async function copy(value: string, description: string) {
       <label>
         Short comment (optional)
         <textarea v-model="comments" rows="2" maxlength="1200" placeholder="Why this link is worth saving" />
+      </label>
+      <label>
+        Public tags (optional, comma-separated)
+        <input v-model="tags" type="text" data-bookmark-tag-input autocomplete="off"
+               placeholder="Separate tag names with commas" />
       </label>
       <label>
         Markdown notes (optional)
