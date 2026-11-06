@@ -214,9 +214,12 @@ try {
     // Exercise a genuine same-origin document navigation and Back. Chromium
     // may restore this page from BFCache or rehydrate it from network; either
     // path must restore the saved URL controls without a stale Vue island.
-    await evaluate("(()=>{history.replaceState(history.state,'',location.pathname+'?q=emilie&status=finished&sort=year');window.dispatchEvent(new Event('pageshow'))})()");
-    await waitFor("document.querySelector('[data-media-search]')?.value",
-      value => value === "emilie", "film filters applied before leaving the document");
+    // Deliberately leave the Vue controls stale while changing the saved URL.
+    // A real BFCache return must apply pageshow restoration; a network return
+    // must rehydrate from the URL. Neither path can pass on preserved controls.
+    await evaluate("history.replaceState(history.state,'',location.pathname+'?q=emilie&status=finished&sort=year')");
+    assert.equal(await evaluate("document.querySelector('[data-media-search]')?.value"),
+      "", "The before-navigation control must differ from the saved URL");
     await navigate("/music/");
     await evaluate("history.back()");
     await waitFor("location.pathname", value => value === "/films/", "real document Back navigation");
