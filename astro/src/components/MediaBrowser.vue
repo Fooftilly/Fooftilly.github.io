@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
-import { compareMediaListings, matchesMediaSearch, matchesMediaStatus, searchableMediaText, mediaNotesExplainSearch, type MediaSort, type MediaStatusFilter } from "../lib/media-browser.ts";
+import { compareMediaListings, matchesMediaSearch, matchesMediaStatus, searchableMediaText, mediaNotesExplainSearch, mediaVisiblePage, MEDIA_PAGE_SIZE, type MediaSort, type MediaStatusFilter } from "../lib/media-browser.ts";
 import { mediaFilterHref, readMediaQueryState } from "../lib/media-query-state.ts";
 import type { MediaKind, StoredMedia } from "../lib/media-model.ts";
 
@@ -10,6 +10,7 @@ const creatorLabel=computed(()=>props.kind==="music"?"Artist":props.kind==="film
 const query=ref("");
 const sort=ref<MediaSort>("rating");
 const statusFilter=ref<MediaStatusFilter>("all");
+const limit=ref(MEDIA_PAGE_SIZE);
 const hydrated=ref(false);
 const searchInput=ref<HTMLInputElement|null>(null);
 async function clearFilters():Promise<void> {
@@ -59,11 +60,17 @@ onUnmounted(() => {
   window.removeEventListener("popstate", restoreFilters);
   window.removeEventListener("pageshow", restoreFilters);
 });
-watch([query, sort, statusFilter], syncUrl);
-const visible=computed(()=>props.entries
+watch([query, sort, statusFilter], () => {
+  limit.value = MEDIA_PAGE_SIZE;
+  syncUrl();
+});
+const matches=computed(()=>props.entries
   .filter(item=>matchesMediaSearch(searchableMediaText(item),query.value) && matchesMediaStatus(item,statusFilter.value))
   .sort((a,b)=>compareMediaListings(a,b,sort.value))
 );
+// Server-render the complete source-owned catalog for non-JS visitors and
+// parity audits, but only keep one page of live rows after Vue hydration.
+const visible=computed(()=>mediaVisiblePage(matches.value,limit.value,hydrated.value));
 </script>
 <template>
   <section class="media-collection" data-media-collection :aria-label="title+' collection'">
@@ -91,7 +98,7 @@ const visible=computed(()=>props.entries
           type="button" data-media-clear-filters
           @click="clearFilters">Clear filters</button>
         <p data-media-count role="status" aria-live="polite" aria-atomic="true">
-          {{ visible.length }} of {{ entries.length }} entries
+          {{ matches.length }} of {{ entries.length }} entries
         </p>
       </div>
       <div class="media-scroll">
@@ -127,7 +134,13 @@ const visible=computed(()=>props.entries
           </tbody>
         </table>
       </div>
-      <p v-if="hydrated && !visible.length" class="media-no-results" role="status">
+      <p v-if="hydrated && matches.length > MEDIA_PAGE_SIZE" class="media-page-count" data-media-visible-count
+         role="status" aria-live="polite">Showing {{ visible.length }} of {{ matches.length }} matching entries</p>
+      <button v-if="hydrated && visible.length < matches.length" type="button"
+        class="media-more" data-media-load-more @click="limit += MEDIA_PAGE_SIZE">
+        Show more
+      </button>
+      <p v-if="hydrated && !matches.length" class="media-no-results" role="status">
         No matching {{ title.toLowerCase() }} entries. Try another search.
       </p>
     </template>
@@ -146,6 +159,9 @@ const visible=computed(()=>props.entries
 .clear-media:hover,.clear-media:focus-visible{border-color:var(--accent)}
 [data-media-count]{color:var(--muted);margin:.3rem 0}
 .media-no-results{color:var(--muted)}
+.media-page-count{color:var(--muted);margin:0 0 .65rem}
+.media-more{padding:.6rem 1rem;margin:0 0 1.2rem;border:1px solid var(--border);border-radius:0;background:var(--surface);color:var(--foreground);font:inherit;cursor:pointer}
+.media-more:hover,.media-more:focus-visible{border-color:var(--accent)}
 .media-scroll{overflow-x:auto;margin:1rem 0 2rem}
 table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
 caption{text-align:start;color:var(--muted);padding:.6rem 0}
