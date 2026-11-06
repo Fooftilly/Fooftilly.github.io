@@ -4,7 +4,8 @@ import type { CollectionEntry } from "astro:content";
 import { getCollection, render } from "astro:content";
 import SiteLayout from "../../../../layouts/SiteLayout.astro";
 import ConsentComments from "../../../../components/ConsentComments.astro";
-import { bookmarkDetailParams } from "../../../../lib/bookmark-path.ts";
+import { bookmarkDetailParams, bookmarkDetailPath } from "../../../../lib/bookmark-path.ts";
+import { bookmarkNeighborMap, type BookmarkAdjacency } from "../../../../lib/bookmark-neighbors.ts";
 import { categoryBySection, bookmarkCategoryPath } from "../../../../lib/bookmark-categories.ts";
 import { publicBookmarkUrl } from "../../../../lib/bookmark-public-url.ts";
 
@@ -12,13 +13,17 @@ export const getStaticPaths = (async () => {
   const entries = await getCollection("bookmarks", ({ id, data }) =>
     id !== "_index" && !id.endsWith("/_index") && !data.draft
   );
+  const neighbors = bookmarkNeighborMap(entries.map(entry => ({
+    id: entry.id, title: entry.data.title,
+    date: entry.data.date?.toISOString().slice(0,10) ?? "",
+  })));
   return entries.map((entry) => ({
     params: bookmarkDetailParams(entry.id),
-    props: { entry },
+    props: { entry, adjacency: neighbors.get(entry.id) ?? {} },
   }));
 }) satisfies GetStaticPaths;
 
-const { entry } = Astro.props as { entry: CollectionEntry<"bookmarks"> };
+const { entry, adjacency } = Astro.props as { entry: CollectionEntry<"bookmarks">; adjacency: BookmarkAdjacency };
 const section = entry.id.split("/")[0];
 const category = categoryBySection(section);
 if (!category) throw new Error(`Unknown bookmark category in ${entry.id}`);
@@ -42,6 +47,10 @@ const categoryPath = bookmarkCategoryPath(category.slug);
     {entry.data.comments && <p class="bookmark-comment">{entry.data.comments}</p>}
     {hasBody && <section class="bookmark-notes" aria-label="Bookmark notes"><Content /></section>}
   </article>
+  {(adjacency.previous || adjacency.next) && <nav class="bookmark-neighbors" aria-label="Browse nearby bookmarks">
+    {adjacency.previous && <a rel="prev" href={bookmarkDetailPath(adjacency.previous.id)}>Previous: {adjacency.previous.title}</a>}
+    {adjacency.next && <a rel="next" href={bookmarkDetailPath(adjacency.next.id)}>Next: {adjacency.next.title}</a>}
+  </nav>}
   <ConsentComments />
 </SiteLayout>
 <style>
@@ -51,4 +60,6 @@ const categoryPath = bookmarkCategoryPath(category.slug);
   .meta { color: var(--muted); }
   .bookmark-comment { white-space: pre-wrap; }
   .bookmark-notes { margin-top: 2rem; border-top: 1px solid var(--border); padding-top: 1rem; }
+  .bookmark-neighbors { max-width: 70rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: .8rem 1.5rem; margin: 1.5rem 0 2rem; padding-top: 1rem; border-top: 1px solid var(--border); }
+  .bookmark-neighbors a { overflow-wrap: anywhere; flex: 1 1 min(100%, 20rem); }
 </style>

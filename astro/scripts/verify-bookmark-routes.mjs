@@ -14,6 +14,25 @@ test("all original and new bookmark detail URLs are generated with correct canon
   const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
   await assertBookmarkSourceParity(manifest, "Generated bookmark routes");
   const expectedPaths = new Set();
+  // Independent source-manifest order, rather than the route component's
+  // selector, catches missing, reversed and cross-category navigation links.
+  const neighbors = new Map();
+  for (const section of categories.keys()) {
+    const records = manifest.filter(record => record.id.startsWith(section + "/"))
+      .sort((a,b) => {
+        if (!a.date && b.date) return 1;
+        if (!b.date && a.date) return -1;
+        return b.date.localeCompare(a.date)
+          || a.title.localeCompare(b.title,undefined,{sensitivity:"base"})
+          || a.id.localeCompare(b.id);
+      });
+    for (const [index,record] of records.entries()) {
+      neighbors.set(record.id, {
+        prev:records[index-1]?.detailUrl,
+        next:records[index+1]?.detailUrl,
+      });
+    }
+  }
   let notesCount = 0;
 
   for (const record of manifest) {
@@ -34,6 +53,26 @@ test("all original and new bookmark detail URLs are generated with correct canon
     const canonical = new URL(pathname, "https://www.peroniko.xyz").href;
     assert.ok(html.includes(`href="${canonical}"`), `Missing canonical URL: ${pathname}`);
     assert.ok(html.includes(`href="/bookmarks/${slug}/"`), `Missing category back link: ${pathname}`);
+    const context = neighbors.get(record.id);
+    assert.ok(context, `No category-local sequence for ${record.id}`);
+    const navigation = html.match(/<nav\b[^>]*class="bookmark-neighbors"[^>]*>([\s\S]*?)<\/nav>/);
+    const expectedLinks = [
+      ...(context.prev ? [{rel:"prev",href:context.prev}] : []),
+      ...(context.next ? [{rel:"next",href:context.next}] : []),
+    ];
+    if (!expectedLinks.length) {
+      assert.equal(navigation, null, `Single-item category must not render unrelated neighbors: ${pathname}`);
+    } else {
+      assert.ok(navigation, `Missing adjacent bookmark navigation: ${pathname}`);
+      const actualLinks = [...navigation[1].matchAll(/<a\b([^>]*)>/g)].map(([,attrs]) => ({
+        rel:attrs.match(/\brel="([^"]+)"/)?.[1],
+        href:attrs.match(/\bhref="([^"]+)"/)?.[1],
+      }));
+      assert.deepEqual(actualLinks, expectedLinks,
+        `Wrong previous/next detail links or category leakage: ${pathname}`);
+    }
+
+
 
     if (record.notesUrl) {
       notesCount++;
