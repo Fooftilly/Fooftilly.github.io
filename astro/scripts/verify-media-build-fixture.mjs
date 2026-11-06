@@ -12,6 +12,7 @@ const astro = fileURLToPath(new URL("../", import.meta.url));
 const root = fileURLToPath(new URL("../../", import.meta.url));
 const source = join(root, "content", "media");
 const projectSource = join(root, "content", "projects");
+const bookmarkSource = join(root, "content", "bookmarks", "Resource");
 const dist = join(astro, "dist");
 
 const fixtures = [
@@ -91,7 +92,33 @@ try {
     "",
   ].join("\n"),{flag:"wx"});
   created.push(projectFile);
+  // Exercise the complete source/route/feed/release pipeline with a 577th
+  // reviewed-shape bookmark, not only a fixture inserted into the JS selector.
+  // The old timestamp prevents this fixture from changing the recent-eight UI.
+  const bookmarkFile = join(bookmarkSource, "zz-ci-new-bookmark-fixture.md");
+  await writeFile(bookmarkFile, [
+    "---",
+    'title: "CI-only new bookmark (not for publication)"',
+    'date: "2000-01-01"',
+    'link: "https://example.org/ci-bookmark-growth-fixture"',
+    'comments: "Regression: new bookmark accepted without deleting original entries."',
+    "---",
+    "",
+  ].join("\n"), {flag:"wx"});
+  created.push(bookmarkFile);
   run("npm", ["run", "build"]);
+  run("npm", ["run", "test:parity"]);
+  run("npm", ["run", "test:routes"]);
+  run("python3", ["scripts/verify_bookmark_feeds.py"]);
+  run("node", ["scripts/verify-homepage.mjs"]);
+  run("python3", ["scripts/verify-site-seo.py"]);
+  run(process.execPath, ["scripts/release-readiness.mjs"]);
+  const manifest = JSON.parse(await readFile(join(astro, ".audit", "bookmarks-parity.json"), "utf8"));
+  assert.equal(manifest.length, 577, "Disposable bookmark fixture must increase the source inventory");
+  assert.ok(manifest.some(row => row.id === "Resource/zz-ci-new-bookmark-fixture"),
+    "New bookmark must be present in the parity manifest");
+  assert.ok((await readFile(join(dist, "bookmarks", "resource", "zz-ci-new-bookmark-fixture", "index.html"), "utf8"))
+    .includes("CI-only new bookmark"), "New bookmark detail page was not generated");
   const audit = run("python3", ["scripts/verify_media.py"]);
   for (const {folder, record} of fixtures) {
     const html = await readFile(join(dist, folder, "index.html"), "utf8");
@@ -113,7 +140,7 @@ try {
   const browserOutput = run(process.execPath, ["scripts/smoke-search-browser.mjs", "--media-fixtures"]);
   assert.match(browserOutput, /Media fixture Chromium smoke: Vue hydration, search, live count and sort passed/);
   console.log(browserOutput.trim());
-  console.log("Actual media rendering and fourth-project source-driven routing passed.");
+  console.log("Actual media rendering, fourth-project routing and 577-record bookmark growth audits passed.");
 } finally {
   // CI's next step rebuilds the real public artifact from source after cleanup.
   await Promise.all(created.map((path) => unlink(path)));
