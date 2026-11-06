@@ -4,7 +4,7 @@
  */
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { readFile, unlink, writeFile } from "node:fs/promises";
+import { readFile, readdir, unlink, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { readPublishedSourceBookmarkIds } from "./bookmark-inventory.mjs";
@@ -16,7 +16,12 @@ const source = join(root, "content", "media");
 const projectSource = join(root, "content", "projects");
 const bookmarkCategory = defaultBookmarkCategory();
 const bookmarkSource = join(root, "content", "bookmarks", bookmarkCategory.section);
-const bookmarkStem = "zz-ci-new-bookmark-fixture";
+let bookmarkStem = "zz-ci-new-bookmark-fixture";
+let bookmarkSuffix = 2;
+const existingBookmarkFiles = new Set(await readdir(bookmarkSource));
+while (existingBookmarkFiles.has(bookmarkStem + ".md")) {
+  bookmarkStem = "zz-ci-new-bookmark-fixture-" + bookmarkSuffix++;
+}
 const bookmarkId = bookmarkCategory.section + "/" + bookmarkStem;
 const dist = join(astro, "dist");
 
@@ -81,10 +86,16 @@ try {
     created.push(path);
   }
   // Verify an entirely new project needs a Markdown entry, not route code.
-  const projectFile=join(projectSource,"zz-ci-project.md");
+  const existingProjectFiles = new Set(await readdir(projectSource));
+  let projectSlug = "zz-ci-project";
+  let projectSuffix = 2;
+  while (existingProjectFiles.has(projectSlug + ".md")) {
+    projectSlug = "zz-ci-project-" + projectSuffix++;
+  }
+  const projectFile = join(projectSource, projectSlug + ".md");
   await writeFile(projectFile,[
     "---",
-    'title: "CI-only fourth project"',
+    'title: "CI-only synthetic project"',
     'summary: "Disposable source-driven project route test."',
     'repository: "https://github.com/Fooftilly/PRKS"',
     "order: 999",
@@ -138,12 +149,12 @@ try {
   // The existing clean build/browser gate still runs afterward.
   const projectAudit=run("python3",["scripts/verify_projects.py"]);
   assert.match(projectAudit,/Verified \d+ project showcases/);
-  const detail=await readFile(join(dist,"projects","zz-ci-project","index.html"),"utf8");
+  const detail=await readFile(join(dist,"projects",projectSlug,"index.html"),"utf8");
   const index=await readFile(join(dist,"projects","index.html"),"utf8");
   const sitemap=await readFile(join(dist,"sitemap.xml"),"utf8");
-  assert.ok(detail.includes("CI-only fourth project"),"Fourth project did not render");
-  assert.ok(index.includes("/projects/zz-ci-project/"),"Project missing from index");
-  assert.ok(sitemap.includes("/projects/zz-ci-project/"),"Project missing from sitemap");
+  assert.ok(detail.includes("CI-only synthetic project"),"Disposable project did not render");
+  assert.ok(index.includes("/projects/" + projectSlug + "/"),"Project missing from index");
+  assert.ok(sitemap.includes("/projects/" + projectSlug + "/"),"Project missing from sitemap");
   const browserOutput = run(process.execPath, ["scripts/smoke-search-browser.mjs", "--media-fixtures"]);
   assert.match(browserOutput, /Media fixture Chromium smoke: Vue hydration, search, live count and sort passed/);
   console.log(browserOutput.trim());
