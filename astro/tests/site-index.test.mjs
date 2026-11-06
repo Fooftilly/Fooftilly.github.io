@@ -1,39 +1,33 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { getPublishedPaths, absoluteSiteUrl, renderSitemap } from "../src/lib/site-index.ts";
+import { BOOKMARK_CATEGORIES } from "../src/lib/bookmark-categories.ts";
+import { bookmarkDetailPath } from "../src/lib/bookmark-path.ts";
 
-test("sitemap only includes implemented routes with canonical lowercase bookmark paths", () => {
-  const paths = getPublishedPaths(["Art/UpperCase", "Perspectives/partII"]);
-  assert.equal(paths.length, 28); // Both project index locales are published.
-  assert.ok(paths.includes("/"));
-  assert.ok(paths.includes("/about/"));
-  assert.ok(paths.includes("/bookmarks/art/uppercase/"));
-  assert.ok(paths.includes("/bookmarks/perspectives/partii/"));
-  assert.ok(paths.includes("/bookmarks/paperbookarticle/"));
-  assert.ok(paths.includes("/sh/"));
-  assert.ok(paths.includes("/sh/about/"));
-  assert.ok(paths.includes("/sh/posts/"));
-  assert.ok(paths.includes("/posts/"));
-  assert.ok(paths.includes("/search/"));
-  assert.ok(paths.includes("/sh/search/"));
-  assert.ok(paths.includes("/new-bookmark/"));
-  assert.ok(paths.includes("/music/"));
-  assert.ok(paths.includes("/films/"));
-  assert.ok(paths.includes("/media/"));
-  assert.ok(paths.includes("/tv/"));
-  assert.ok(paths.includes("/new-media/"));
-  assert.ok(paths.includes("/privacy/"));
-  assert.ok(paths.includes("/sh/privacy/"));
-  assert.ok(paths.includes("/projects/"));
-  assert.ok(paths.includes("/sh/projects/"));
+test("sitemap uses configured categories and current bookmark IDs", () => {
+  const first = BOOKMARK_CATEGORIES[0], last = BOOKMARK_CATEGORIES.at(-1);
+  const ids = [first.section + "/UpperCase", last.section + "/partII"];
+  const baseline = getPublishedPaths([]);
+  const paths = getPublishedPaths(ids);
+  assert.equal(paths.length, baseline.length + ids.length);
+  for (const id of ids) assert.ok(paths.includes(bookmarkDetailPath(id)));
+  for (const category of BOOKMARK_CATEGORIES) {
+    assert.ok(paths.includes("/bookmarks/" + category.slug + "/"));
+  }
+  for (const route of ["/", "/about/", "/bookmarks/", "/sh/", "/sh/about/", "/sh/posts/",
+    "/posts/", "/search/", "/sh/search/", "/new-bookmark/", "/music/", "/films/",
+    "/media/", "/tv/", "/new-media/", "/privacy/", "/sh/privacy/", "/projects/", "/sh/projects/"]) {
+    assert.ok(paths.includes(route), "Missing site route " + route);
+  }
   assert.ok(!paths.includes("/en/posts/"), "Do not add compatibility redirects");
 });
 
 test("duplicate URLs and malformed paths fail fast", () => {
-  assert.throws(() => getPublishedPaths(["Art/A", "Art/a"]), /duplicate sitemap path/);
+  const section = BOOKMARK_CATEGORIES[0].section;
+  assert.throws(() => getPublishedPaths([section + "/A", section + "/a"]), /duplicate sitemap path/);
   assert.throws(() => absoluteSiteUrl("//other.example/"), /site-relative/);
-  assert.throws(()=>getPublishedPaths([],["UPPER"]),/Invalid project slug/);
-  assert.throws(()=>getPublishedPaths([],["prks","prks"]),/duplicate sitemap path/);
+  assert.throws(() => getPublishedPaths([], ["UPPER"]), /Invalid project slug/);
+  assert.throws(() => getPublishedPaths([], ["demo", "demo"]), /duplicate sitemap path/);
 });
 
 test("XML text and canonical domain are escaped", () => {
@@ -43,10 +37,10 @@ test("XML text and canonical domain are escaped", () => {
   assert.equal((xml.match(/<url>/g) ?? []).length, 2);
 });
 
-test("project routes are canonical and remain independent of bookmark counts",()=>{
-  const paths=getPublishedPaths([],["prks","kokoro-extension","local-search-mcp"]);
-  assert.equal(paths.length,17+7+2+3);
-  for(const slug of ["prks","kokoro-extension","local-search-mcp"]){
-    assert.ok(paths.includes("/projects/"+slug+"/"));
-  }
+test("project routes are independent of the bookmark inventory", () => {
+  const projects = ["one-project", "another-project", "third-project"];
+  const base = getPublishedPaths([]);
+  const paths = getPublishedPaths([], projects);
+  assert.equal(paths.length, base.length + projects.length);
+  for (const slug of projects) assert.ok(paths.includes("/projects/" + slug + "/"));
 });
