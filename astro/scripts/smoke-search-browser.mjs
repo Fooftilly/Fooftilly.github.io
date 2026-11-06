@@ -224,8 +224,27 @@ try {
     await waitFor("document.querySelectorAll('[data-media-row]').length",
       count => count === Math.min(100, mediaSource.films.length),
       "Load more reveals the rest of the current fixture catalog");
-    await waitFor("document.querySelector('[data-media-load-more]')",
-      value => value === null, "Last page has no redundant load-more button");
+    assert.equal(await evaluate("Boolean(document.querySelector('[data-media-load-more]'))"),
+      mediaSource.films.length > 100, "Load-more availability must follow the current catalog size");
+    assert.equal(await evaluate("document.activeElement===document.querySelectorAll('[data-media-row]')[50]?.querySelector('th[scope=row]')"),
+      true, "After Show more, keyboard focus must reach the first newly revealed title");
+    // Reuse the focus-safe control when comparing synthetic rows in catalogs
+    // that may have grown far beyond today's disposable fixtures.
+    const loadUntilFilmPair = async (label) => {
+      for (let page = 0; page <= Math.ceil(mediaSource.films.length / 50); page++) {
+        const titles = await evaluate(
+          "Array.from(document.querySelectorAll('[data-media-row] th[scope=row]')).map(th=>th.textContent.trim())");
+        if (titles.some(title => title.includes(firstFilmTitle)) &&
+            titles.some(title => title.includes(secondFilmTitle))) return titles;
+        const hasMore = await evaluate("Boolean(document.querySelector('[data-media-load-more]'))");
+        if (!hasMore) throw new Error(label + ": fixture film pair not present in rendered matches");
+        const before = titles.length;
+        await evaluate("document.querySelector('[data-media-load-more]').click()");
+        await waitFor("document.querySelectorAll('[data-media-row]').length",
+          value => value > before, label + ": new page rendered");
+      }
+      throw new Error(label + ": excessive pages while looking for fixture films");
+    };
 
     // Filtering must reset the live page window without changing total matches.
     await evaluate("(()=>{const el=document.querySelector('[data-media-search]');el.value='ci pagination';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
@@ -281,11 +300,7 @@ try {
       value => value === "true", "Year sort activated");
     await waitFor("document.querySelectorAll('[data-media-row]').length",
       count => count === 50, "Year sort resets the live window");
-    await evaluate("document.querySelector('[data-media-load-more]').click()");
-    await waitFor("document.querySelectorAll('[data-media-row]').length",
-      count => count === mediaSource.films.length, "Year sort preserves every record after load-more");
-    const yearTitles = await evaluate(
-      "Array.from(document.querySelectorAll('[data-media-row] th[scope=row]')).map(th=>th.textContent.trim())");
+    const yearTitles = await loadUntilFilmPair("Year sorting");
     assert.ok(yearTitles.findIndex(title => title.includes(secondFilmTitle)) >= 0 && yearTitles.findIndex(title => title.includes(firstFilmTitle)) >= 0 &&
       yearTitles.findIndex(title => title.includes(secondFilmTitle)) < yearTitles.findIndex(title => title.includes(firstFilmTitle)),
       "The 2024 synthetic film must precede the 2001 synthetic film by year");
@@ -295,11 +310,7 @@ try {
       value => value === "true", "Highest-rating sort activated");
     await waitFor("document.querySelectorAll('[data-media-row]').length",
       count => count === 50, "Rating sort resets the live window");
-    await evaluate("document.querySelector('[data-media-load-more]').click()");
-    await waitFor("document.querySelectorAll('[data-media-row]').length",
-      count => count === mediaSource.films.length, "Rating sort reveals the full list after load-more");
-    const ratingTitles = await evaluate(
-      "Array.from(document.querySelectorAll('[data-media-row] th[scope=row]')).map(th=>th.textContent.trim())");
+    const ratingTitles = await loadUntilFilmPair("Rating sorting");
     assert.ok(ratingTitles.findIndex(title => title.includes(firstFilmTitle)) >= 0 && ratingTitles.findIndex(title => title.includes(secondFilmTitle)) >= 0 &&
       ratingTitles.findIndex(title => title.includes(firstFilmTitle)) < ratingTitles.findIndex(title => title.includes(secondFilmTitle)),
       "The 4.5-star synthetic film must precede the 1.5-star film by rating");
