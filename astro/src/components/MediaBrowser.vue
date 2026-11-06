@@ -52,6 +52,9 @@ const visible=computed(()=>props.entries
             :data-media-sort="option.value" :aria-pressed="sort===option.value"
             @click="sort=option.value">{{ option.label }}</button>
         </div>
+        <button v-if="hydrated && (query || sort !== 'rating')" class="clear-media"
+          type="button" data-media-clear-filters
+          @click="query=''; sort='rating'">Clear filters</button>
         <p data-media-count role="status" aria-live="polite" aria-atomic="true">
           {{ visible.length }} of {{ entries.length }} entries
         </p>
@@ -104,6 +107,8 @@ const visible=computed(()=>props.entries
 .sort-controls{display:flex;flex-wrap:wrap;gap:.4rem}
 .sort-controls button{padding:.5rem .7rem;border:1px solid var(--border);border-radius: 0;background:var(--surface);color:var(--foreground);font:inherit;cursor:pointer}
 .sort-controls button[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);font-weight:700}
+.clear-media{padding:.5rem .7rem;min-height:2.75rem;border:1px solid var(--border);border-radius:0;background:var(--surface);color:var(--foreground);font:inherit;cursor:pointer}
+.clear-media:hover,.clear-media:focus-visible{border-color:var(--accent)}
 [data-media-count]{color:var(--muted);margin:.3rem 0}
 .media-no-results{color:var(--muted)}
 .media-scroll{overflow-x:auto;margin:1rem 0 2rem}
