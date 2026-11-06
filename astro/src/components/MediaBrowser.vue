@@ -13,6 +13,7 @@ const statusFilter=ref<MediaStatusFilter>("all");
 const limit=ref(MEDIA_PAGE_SIZE);
 const hydrated=ref(false);
 const searchInput=ref<HTMLInputElement|null>(null);
+const tableBody=ref<HTMLTableSectionElement|null>(null);
 async function clearFilters():Promise<void> {
   query.value="";
   sort.value="rating";
@@ -71,6 +72,19 @@ const matches=computed(()=>props.entries
 // Server-render the complete source-owned catalog for non-JS visitors and
 // parity audits, but only keep one page of live rows after Vue hydration.
 const visible=computed(()=>mediaVisiblePage(matches.value,limit.value,hydrated.value));
+async function showMore(): Promise<void> {
+  const previous = visible.value.length;
+  limit.value += MEDIA_PAGE_SIZE;
+  await nextTick();
+  // The button disappears on the last page; focus the first new row so
+  // keyboard and screen-reader users keep their position in the results.
+  const row = tableBody.value?.querySelectorAll<HTMLTableRowElement>("tr[data-media-row]")[previous];
+  const heading = row?.querySelector<HTMLElement>("th[scope=row]");
+  if (heading) {
+    heading.tabIndex = -1;
+    heading.focus();
+  }
+}
 </script>
 <template>
   <section class="media-collection" data-media-collection :aria-label="title+' collection'">
@@ -109,7 +123,7 @@ const visible=computed(()=>mediaVisiblePage(matches.value,limit.value,hydrated.v
               <th scope="col">Year</th><th scope="col">My rating</th>
               <th scope="col">Status</th><th scope="col">Links</th></tr>
           </thead>
-          <tbody>
+          <tbody ref="tableBody">
             <tr v-for="item in visible" :key="item.id" data-media-row>
               <th scope="row">
                 {{ item.title }}
@@ -137,7 +151,7 @@ const visible=computed(()=>mediaVisiblePage(matches.value,limit.value,hydrated.v
       <p v-if="hydrated && matches.length > MEDIA_PAGE_SIZE" class="media-page-count" data-media-visible-count
          role="status" aria-live="polite">Showing {{ visible.length }} of {{ matches.length }} matching entries</p>
       <button v-if="hydrated && visible.length < matches.length" type="button"
-        class="media-more" data-media-load-more @click="limit += MEDIA_PAGE_SIZE">
+        class="media-more" data-media-load-more @click="showMore">
         Show more
       </button>
       <p v-if="hydrated && !matches.length" class="media-no-results" role="status">
@@ -162,6 +176,7 @@ const visible=computed(()=>mediaVisiblePage(matches.value,limit.value,hydrated.v
 .media-page-count{color:var(--muted);margin:0 0 .65rem}
 .media-more{padding:.6rem 1rem;margin:0 0 1.2rem;border:1px solid var(--border);border-radius:0;background:var(--surface);color:var(--foreground);font:inherit;cursor:pointer}
 .media-more:hover,.media-more:focus-visible{border-color:var(--accent)}
+tbody th:focus{outline:2px solid var(--accent);outline-offset:2px}
 .media-scroll{overflow-x:auto;margin:1rem 0 2rem}
 table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
 caption{text-align:start;color:var(--muted);padding:.6rem 0}
