@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFile, readdir, stat, mkdir, writeFile } from "node:fs/promises";
 import { dirname, join, resolve, relative, sep } from "node:path";
+import { assertBookmarkSourceParity } from "./bookmark-inventory.mjs";
 
 const cwd = resolve(".");
 const publicDir = join(cwd, "dist");
@@ -25,8 +26,7 @@ async function fileList(folder) {
 }
 
 const bookmarks = JSON.parse(await readFile(audit, "utf8"));
-assert.equal(bookmarks.length, 576, "Source bookmark inventory changed; reassess before release");
-assert.equal(new Set(bookmarks.map((b) => b.id)).size, bookmarks.length);
+await assertBookmarkSourceParity(bookmarks, "Release candidate bookmarks");
 const publicFiles = await fileList(publicDir);
 for (const file of [
   "index.html", "404.html", "sitemap.xml", "CNAME", "robots.txt", "index.xml",

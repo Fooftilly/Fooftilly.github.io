@@ -1,9 +1,10 @@
 import assert from "node:assert/strict";
 import { readFile, readdir } from "node:fs/promises";
 import { BOOKMARK_CATEGORIES } from "../src/lib/bookmark-categories.ts";
+import { assertBookmarkSourceParity } from "./bookmark-inventory.mjs";
 
 const records = JSON.parse(await readFile(".audit/bookmarks-parity.json", "utf8"));
-assert.equal(records.length, 576);
+await assertBookmarkSourceParity(records, "Homepage bookmark source");
 for (const [path, language, heading] of [
   ["dist/index.html", "en", "Categories"],
   ["dist/sh/index.html", "sh", "Kategorije"],
@@ -32,7 +33,7 @@ for (const [path, language, heading] of [
     assert.deepEqual(new Set(featured),sources,
       "When all projects fit the preview, none may be omitted");
   }
-  assert.ok(html.includes("576"), "Bookmark count missing: " + path);
+  assert.ok(html.includes(String(records.length)), "Dynamic bookmark count missing: " + path);
   for (const category of BOOKMARK_CATEGORIES) {
     assert.ok(html.includes('/bookmarks/' + category.slug + '/'),
       "Missing category " + category.slug + " on " + path);
@@ -46,8 +47,8 @@ for (const [path, language, heading] of [
     "Recent bookmarks search link must remain in the selected language");
   const latest = html.match(/<ul class="recent-grid"[^>]*>([\s\S]*?)<\/ul>/);
   assert.ok(latest, "Recent list missing: " + path);
-  assert.equal((latest[1].match(/<li\b/g) ?? []).length, 8,
-    "Homepage must show only the latest eight entries");
+  assert.equal((latest[1].match(/<li\b/g) ?? []).length, Math.min(8, records.length),
+    "Homepage recent items must reflect the current public collection");
   // Independently check every recent row against the authoritative bookmark
   // manifest; external title links must remain unchanged after adding detail links.
   const expected = [...records].sort((a, b) =>
@@ -77,4 +78,4 @@ for (const [path, language, heading] of [
     }
   }
 }
-console.log("English/Serbo-Croatian homepages: seven categories, 576 bookmarks, eight linked recent items; no preview placeholders");
+console.log(`English/Serbo-Croatian homepages: ${BOOKMARK_CATEGORIES.length} categories, ${records.length} bookmarks, eight linked recent items; no preview placeholders`);

@@ -1,0 +1,45 @@
+[
+  {
+    "section": "Art",
+    "slug": "art",
+    "label": "Art",
+    "labelSh": "Umjetnost"
+  },
+  {
+    "section": "Fun",
+    "slug": "fun",
+    "label": "Fun",
+    "labelSh": "Zabava"
+  },
+  {
+    "section": "Music",
+    "slug": "music",
+    "label": "Music",
+    "labelSh": "Muzika"
+  },
+  {
+    "section": "PaperBookArticle",
+    "slug": "paperbookarticle",
+    "label": "Articles & books",
+    "labelSh": "Članci i knjige"
+  },
+  {
+    "section": "Perspectives",
+    "slug": "perspectives",
+    "label": "Perspectives",
+    "labelSh": "Perspektive"
+  },
+  {
+    "section": "Resource",
+    "slug": "resource",
+    "label": "Resources",
+    "labelSh": "Resursi",
+    "default": true
+  },
+  {
+    "section": "YouTube",
+    "slug": "youtube",
+    "label": "YouTube",
+    "labelSh": "YouTube"
+  }
+]

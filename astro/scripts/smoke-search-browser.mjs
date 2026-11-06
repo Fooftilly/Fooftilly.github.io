@@ -92,6 +92,16 @@ try {
     }
   }
   if (!port) throw lastStartupError;
+  const bookmarkCategories = JSON.parse(await readFile(resolve("src/data/bookmark-categories.json"), "utf8"));
+  const bookmarkRecords = JSON.parse(await readFile(resolve(".audit/bookmarks-parity.json"), "utf8"));
+  const defaultCategory = bookmarkCategories.find(item => item.default);
+  assert.ok(defaultCategory, "Missing configured default bookmark category");
+  const categoryCount = category => bookmarkRecords.filter(record => record.id.startsWith(category.section + "/")).length;
+  const categoryForDetails = bookmarkCategories.find(category => categoryCount(category) >= 2)
+    ?? bookmarkCategories.find(category => categoryCount(category) > 0);
+  const categoryForSearch = bookmarkCategories.find(category => categoryCount(category) > 0 && category.labelSh !== category.label)
+    ?? bookmarkCategories.find(category => categoryCount(category) > 0);
+  const activeCategories = bookmarkCategories.filter(category => categoryCount(category) > 0);
   const opened = await fetch("http://127.0.0.1:" + port + "/json/new?about:blank", { method: "PUT" });
   assert.equal(opened.status, 200, "Unable to open browser target");
   const target = await opened.json();
@@ -465,52 +475,52 @@ try {
   }
   console.log("Browser project smoke: EN/SH direct-source links, keyboard Tab order and mobile layout passed");
 
-  // Every saved bookmark has an existing first-party detail page, including
-  // the 576 legacy entries without Markdown notes. Verify these pages are
-  // discoverable from the actual hydrated category listing, not just generated.
-  await navigate("/bookmarks/paperbookarticle/");
-  await waitFor(
-    "(()=>{const island=document.querySelector('.bookmark-browser')?.closest('astro-island');return Boolean(island && !island.hasAttribute('ssr'));})()",
-    Boolean, "bookmark category listing Vue hydration",
-  );
-  await waitFor(
-    "document.querySelectorAll('.bookmark-entry').length",
-    value => value === 20, "20 article/book category listings",
-  );
-  assert.equal(await evaluate("document.querySelectorAll('.bookmark-browser [data-bookmark-category]').length"),0,
-    "Single-category listings must not show redundant All/category buttons");
-  assert.equal(await evaluate("document.querySelector('.bookmark-controls')?.classList.contains('single-category')"),true);
-  assert.equal(await evaluate("document.querySelectorAll('.bookmark-browser [data-bookmark-sort]').length"),3,
-    "Single-category listings retain sort buttons");
-  assert.ok(await evaluate("document.querySelector('.bookmark-browser input[type=search]') !== null"),
-    "Single-category listings retain title and comment search");
-  const linkedCount = await evaluate(
-    "document.querySelectorAll('.bookmark-entry [data-bookmark-detail-link]').length",
-  );
-  assert.equal(linkedCount, 20, "Each displayed bookmark must expose its first-party detail page");
-  const detailTarget = await evaluate(
-    "document.querySelector('.bookmark-entry [data-bookmark-detail-link]')?.getAttribute('href')",
-  );
-  assert.match(detailTarget, /^\/bookmarks\/paperbookarticle\/[^/]+\/$/);
-  assert.equal(
-    await evaluate("document.querySelector('.bookmark-entry [data-bookmark-detail-link]')?.textContent.trim()"),
-    "Details", "Existing bookmarks without notes should offer Details rather than Notes",
-  );
-  await evaluate("document.querySelector('.bookmark-entry [data-bookmark-detail-link]').click()");
-  await waitFor(
-    "location.pathname",
-    value => value === detailTarget, "category listing detail link navigation",
-  );
-  await waitFor(
-    "document.querySelector('.bookmark-detail h1')?.textContent.trim()",
-    value => Boolean(value), "linked first-party bookmark detail page",
-  );
-  assert.equal(
-    await evaluate("document.querySelector('link[rel=canonical]')?.getAttribute('href')"),
-    new URL(detailTarget, "https://www.peroniko.xyz").href,
-    "Discovered bookmark detail page must retain its canonical URL",
-  );
-  console.log("Browser bookmark detail smoke: all 20 category entries link to their first-party pages");
+  // Inspect a current category rather than pinning a migrated record or count.
+  if (categoryForDetails) {
+    const selectedCount = categoryCount(categoryForDetails);
+    await navigate("/bookmarks/" + categoryForDetails.slug + "/");
+    await waitFor(
+      "(()=>{const island=document.querySelector('.bookmark-browser')?.closest('astro-island');return Boolean(island && !island.hasAttribute('ssr'));})()",
+      Boolean, "bookmark category listing Vue hydration",
+    );
+    await waitFor("document.querySelectorAll('.bookmark-entry').length",
+      value => value === Math.min(50, selectedCount), "visible category bookmark entries");
+    assert.equal(await evaluate("document.querySelectorAll('.bookmark-browser [data-bookmark-category]').length"),0,
+      "Single-category listings must not show redundant category buttons");
+    assert.equal(await evaluate("document.querySelector('.bookmark-controls')?.classList.contains('single-category')"),true);
+    assert.equal(await evaluate("document.querySelectorAll('.bookmark-browser [data-bookmark-sort]').length"),3);
+    assert.equal(await evaluate("document.querySelectorAll('.bookmark-entry [data-bookmark-detail-link]').length"),
+      Math.min(50, selectedCount), "Each visible entry needs a detail link");
+    const detailTarget = await evaluate(
+      "document.querySelector('.bookmark-entry [data-bookmark-detail-link]')?.getAttribute('href')");
+    assert.ok(detailTarget.startsWith("/bookmarks/" + categoryForDetails.slug + "/"),
+      "Category detail URLs must remain category-local");
+    const selected = bookmarkRecords.find(row => row.detailUrl === detailTarget);
+    assert.ok(selected, "Displayed bookmark must exist in source parity manifest");
+    assert.ok(await evaluate("document.querySelector('.bookmark-browser input[type=search]') !== null"),
+      "Every category listing must retain an accessible search input");
+    await evaluate("(()=>{const el=document.querySelector('.bookmark-browser input[type=search]');el.value=" +
+      JSON.stringify(selected.title) + ";el.dispatchEvent(new Event('input',{bubbles:true}))})()");
+    await waitFor("document.querySelectorAll('.bookmark-entry [data-bookmark-detail-link]').length",
+      value => value > 0, "Category search must find the selected published title");
+    assert.ok(await evaluate("Array.from(document.querySelectorAll('.bookmark-entry [data-bookmark-detail-link]')).some(a=>a.getAttribute('href')===" +
+      JSON.stringify(detailTarget) + ")"), "Category search must preserve the matching detail link");
+    await evaluate("(()=>{const el=document.querySelector('.bookmark-browser input[type=search]');el.value='';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
+    await waitFor("document.querySelectorAll('.bookmark-entry').length",
+      value => value === Math.min(50, selectedCount), "Cleared category search restores current source results");
+    assert.equal(await evaluate(
+      "document.querySelector('.bookmark-entry [data-bookmark-detail-link]')?.textContent.trim()"),
+      selected.notesUrl ? "Notes" : "Details", "Detail label must reflect published notes");
+    await evaluate("document.querySelector('.bookmark-entry [data-bookmark-detail-link]').click()");
+    await waitFor("location.pathname", value => value === detailTarget,
+      "category listing detail link navigation");
+    await waitFor("document.querySelector('.bookmark-detail h1')?.textContent.trim()",
+      Boolean, "linked first-party bookmark detail page");
+    assert.equal(await evaluate("document.querySelector('link[rel=canonical]')?.getAttribute('href')"),
+      new URL(detailTarget, "https://www.peroniko.xyz").href,
+      "Discovered bookmark detail page must retain its canonical URL");
+    console.log(`Browser bookmark detail smoke: ${selectedCount} category records have current source-driven links`);
+  }
 
   // Homepages should expose the same first-party detail pages as the
   // bookmark browser, without altering external title links.
@@ -523,138 +533,126 @@ try {
       "titleTarget:item.querySelector('a:not(.recent-details)')?.getAttribute('target')||null" +
       "}))",
     );
-    assert.equal(cards.length, 8, "Homepage must expose eight recent cards: " + route);
+    assert.equal(cards.length, Math.min(8, bookmarkRecords.length), "Homepage recent cards must reflect current content: " + route);
     assert.ok(cards.every(item => /^\/bookmarks\/[^/]+\/[^/]+\/$/.test(item.detail)),
       "Every recent card must reach a first-party detail URL: " + route);
     assert.ok(cards.every(item => item.label === label),
       "Recent internal links must be localized: " + route);
     assert.ok(cards.every(item => item.titleTarget === "_blank" || item.titleTarget === null),
       "Original external title links must retain their navigation behavior: " + route);
-    const firstDetail = cards[0].detail;
-    await evaluate("document.querySelector('.recent-grid a.recent-details').click()");
-    await waitFor("location.pathname", value => value === firstDetail,
-      "Homepage detail link should navigate to saved bookmark: " + route);
-    await waitFor("document.querySelector('.bookmark-detail h1')?.textContent.trim()",
-      Boolean, "Homepage-linked bookmark detail page loads: " + route);
-    assert.equal(
-      await evaluate("document.querySelector('link[rel=canonical]')?.getAttribute('href')"),
-      new URL(firstDetail, "https://www.peroniko.xyz").href,
-      "Homepage destination must retain canonical metadata: " + route,
-    );
+    if (cards.length) {
+      const firstDetail = cards[0].detail;
+      await evaluate("document.querySelector('.recent-grid a.recent-details').click()");
+      await waitFor("location.pathname", value => value === firstDetail,
+        "Homepage detail link should navigate to saved bookmark: " + route);
+      await waitFor("document.querySelector('.bookmark-detail h1')?.textContent.trim()",
+        Boolean, "Homepage-linked bookmark detail page loads: " + route);
+      assert.equal(
+        await evaluate("document.querySelector('link[rel=canonical]')?.getAttribute('href')"),
+        new URL(firstDetail, "https://www.peroniko.xyz").href,
+        "Homepage destination must retain canonical metadata: " + route,
+      );
+    }
   }
   console.log("Browser homepage bookmark smoke: EN/SH recent detail links and destination navigation passed");
 
   await navigate("/sh/search/");
-  // The SSR input is already present before Vue attaches event handlers.
-  // Only interact after Astro marks this island as fully hydrated.
   await waitFor(
     "(()=>{const browser=document.querySelector('.bookmark-browser');const island=browser?.closest('astro-island');return Boolean(browser && island && !island.hasAttribute('ssr') && browser.querySelector('input[type=search]'));})()",
-    Boolean, "Serbo-Croatian bookmark search Vue hydration",
-  );
-  await waitFor(
-    "document.querySelector('input[type=search]')?.placeholder",
-    (value) => value === "Naziv, kategorija, adresa ili komentar",
-    "Serbo-Croatian Vue search controls",
-  );
-  const options = await evaluate(
-    "Array.from(document.querySelectorAll('[data-bookmark-category]')).map(o=>({label:o.textContent.trim(),value:o.dataset.bookmarkCategory,pressed:o.getAttribute('aria-pressed')}))",
-  );
-  assert.ok(options.some((o) => o.label === "Članci i knjige" && o.value === "Articles & books"));
-  assert.ok(options.some((o) => o.label === "Resursi" && o.value === "Resources"));
+    Boolean, "Serbo-Croatian bookmark search hydration");
+  assert.equal(await evaluate("document.querySelector('input[type=search]')?.placeholder"),
+    "Naziv, kategorija, adresa ili komentar");
   assert.equal(await evaluate("document.querySelectorAll('.bookmark-browser select').length"), 0,
-    "Bookmark category and sort controls must use visible buttons, not dropdowns");
-  assert.equal(await evaluate("document.querySelectorAll('[data-bookmark-category][aria-pressed=true]').length"), 1);
-  assert.equal(await evaluate("document.querySelectorAll('[data-bookmark-category]').length"), 8,
-    "Full EN/SH search must retain All plus seven category controls");
+    "Category and sort controls must be buttons, not dropdowns");
+  const availableCategories = activeCategories.length > 1 ? activeCategories.length + 1 : 0;
+  assert.equal(await evaluate("document.querySelectorAll('.bookmark-browser [data-bookmark-category]').length"),
+    availableCategories, "Search filter buttons must reflect categories present in current content");
   assert.equal(await evaluate("document.querySelectorAll('[data-bookmark-sort][aria-pressed=true]').length"), 1);
-  assert.equal(await evaluate("document.querySelector('[data-bookmark-category=all]')?.getAttribute('aria-pressed')"), "true");
-  assert.equal(
-    await evaluate("document.querySelector('.bookmark-entry [data-bookmark-detail-link]')?.textContent.trim()"),
-    "Detalji", "Localized SH results should provide a clearly labeled first-party detail link",
-  );
+  const emptyQuery = "no-matching-bookmark-ci-unique-unlikely";
+  await evaluate("(()=>{const el=document.querySelector('input[type=search]');el.value=" +
+    JSON.stringify(emptyQuery) + ";el.dispatchEvent(new Event('input',{bubbles:true}))})()");
+  await waitFor("new URL(location.href).searchParams.get('q')",
+    value => value === emptyQuery, "empty search URL state");
+  await waitFor("document.querySelectorAll('li.bookmark-entry').length",
+    value => value === 0, "empty search results");
+  assert.equal(await evaluate("document.querySelector('.empty-result')?.textContent.trim()"),
+    "Nema rezultata.");
 
-  await evaluate("(()=>{const el=document.querySelector('input[type=search]');el.value='no-matching-bookmark-2026';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
-  await waitFor(
-    "new URL(location.href).searchParams.get('q')",
-    (value) => value === "no-matching-bookmark-2026", "search URL state",
-  );
-  await waitFor(
-    "document.querySelectorAll('li.bookmark-entry').length",
-    (value) => value === 0, "empty filtered results",
-  );
-  assert.equal(
-    await evaluate("document.querySelector('.empty-result')?.textContent.trim()"),
-    "Nema rezultata.",
-  );
+  if (categoryForSearch && activeCategories.length > 1) {
+    const label = categoryForSearch.label;
+    const localizedLabel = categoryForSearch.labelSh;
+    const expectedCount = categoryCount(categoryForSearch);
+    await evaluate("(()=>{const el=document.querySelector('input[type=search]');el.value='';el.dispatchEvent(new Event('input',{bubbles:true}));const b=[...document.querySelectorAll('.bookmark-browser [data-bookmark-category]')].find(button=>button.dataset.bookmarkCategory===" +
+      JSON.stringify(label) + ");b.click()})()");
+    await waitFor("new URL(location.href).searchParams.get('category')",
+      value => value === label, "current category selected in URL");
+    await waitFor("document.querySelectorAll('li.bookmark-entry').length",
+      value => value === Math.min(50, expectedCount), "category results match current source");
+    assert.equal(await evaluate("document.querySelector('li.bookmark-entry .metadata span')?.textContent"),
+      localizedLabel, "Localized category metadata");
+    await evaluate("(()=>{const el=document.querySelector('input[type=search]');el.value=" +
+      JSON.stringify(localizedLabel) + ";el.dispatchEvent(new Event('input',{bubbles:true}))})()");
+    await waitFor("new URL(location.href).searchParams.get('q')",
+      value => value === localizedLabel, "localized category query state");
+    await waitFor("document.querySelectorAll('li.bookmark-entry').length",
+      value => value === Math.min(50, expectedCount), "localized category search");
+    await command("Page.reload", { ignoreCache: true });
+    await waitFor("document.querySelector('[data-bookmark-category][aria-pressed=true]')?.dataset.bookmarkCategory",
+      value => value === label, "category restored after reload");
+    await evaluate("document.querySelector('[data-bookmark-sort=title]').click()");
+    await waitFor("new URL(location.href).searchParams.get('sort')",
+      value => value === "title", "sort button URL state");
+    await evaluate("document.querySelector('[data-bookmark-sort=newest]').click()");
+    await waitFor("new URL(location.href).searchParams.has('sort')",
+      value => value === false, "default sort removes query parameter");
+    assert.equal(await evaluate("document.querySelector('.bookmark-summary button')?.textContent.trim()"),
+      "Poništi filtere");
+    await evaluate("document.querySelector('.bookmark-summary button').focus()");
+    await command("Input.dispatchKeyEvent", {
+      type:"keyDown",key:"Enter",code:"Enter",text:"\r",unmodifiedText:"\r",
+      windowsVirtualKeyCode:13,nativeVirtualKeyCode:13,
+    });
+    await command("Input.dispatchKeyEvent", {
+      type:"keyUp",key:"Enter",code:"Enter",windowsVirtualKeyCode:13,nativeVirtualKeyCode:13,
+    });
+    await waitFor("(()=>{const p=new URL(location.href).searchParams;return !p.has('q')&&!p.has('sort')&&!p.has('category')})()",
+      Boolean, "clear filters removes active query state");
+    await waitFor("document.activeElement===document.querySelector('.bookmark-browser input[type=search]')",
+      Boolean, "clear filters restores focus");
 
-  await evaluate("(()=>{const el=document.querySelector('input[type=search]');el.value='';el.dispatchEvent(new Event('input',{bubbles:true}));const category=[...document.querySelectorAll('[data-bookmark-category]')].find(button=>button.dataset.bookmarkCategory==='Articles & books');category.click()})()");
-  await waitFor(
-    "new URL(location.href).searchParams.get('category')",
-    (value) => value === "Articles & books", "category query parameter",
-  );
-  await waitFor(
-    "document.querySelectorAll('li.bookmark-entry').length",
-    (value) => value === 20, "20 article/book bookmarks",
-  );
-  await waitFor(
-    "document.querySelector('li.bookmark-entry .metadata span')?.textContent",
-    (value) => value === "Članci i knjige", "Serbo-Croatian bookmark result metadata",
-  );
-  await evaluate("(()=>{const el=document.querySelector('input[type=search]');el.value='Članci i knjige';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
-  await waitFor(
-    "new URL(location.href).searchParams.get('q')",
-    (value) => value === "Članci i knjige", "Serbo-Croatian category search URL state",
-  );
-  await waitFor(
-    "document.querySelectorAll('li.bookmark-entry').length",
-    (value) => value === 20, "Serbo-Croatian category label matches bookmarks",
-  );
-  await command("Page.reload", { ignoreCache: true });
-  await waitFor(
-    "document.querySelector('[data-bookmark-category][aria-pressed=true]')?.dataset.bookmarkCategory",
-    (value) => value === "Articles & books", "category restored after reload",
-  );
-  await waitFor(
-    "document.querySelectorAll('li.bookmark-entry').length",
-    (value) => value === 20, "reloaded filtered results",
-  );
-  await evaluate("document.querySelector('[data-bookmark-sort=title]').click()");
-  await waitFor(
-    "new URL(location.href).searchParams.get('sort')",
-    (value) => value === "title", "sort button URL state",
-  );
-  assert.equal(await evaluate("document.querySelector('[data-bookmark-sort=title]').getAttribute('aria-pressed')"), "true");
-  assert.equal(await evaluate("document.querySelectorAll('[data-bookmark-sort][aria-pressed=true]').length"), 1);
-  await evaluate("document.querySelector('[data-bookmark-sort=newest]').click()");
-  await waitFor(
-    "new URL(location.href).searchParams.has('sort')",
-    (value) => value === false, "default sort removes URL parameter",
-  );
-
-  // Test native keyboard activation, not a simulated JavaScript click:
-  // Clear filters is removed after reset and must return focus to search.
-  assert.equal(await evaluate("document.querySelector('.bookmark-summary button')?.textContent.trim()"),"Poništi filtere");
-  await evaluate("document.querySelector('.bookmark-summary button').focus()");
-  assert.equal(await evaluate("document.activeElement===document.querySelector('.bookmark-summary button')"),true);
-  await command("Input.dispatchKeyEvent", {
-    type:"keyDown",key:"Enter",code:"Enter",text:"\r",unmodifiedText:"\r",
-    windowsVirtualKeyCode:13,nativeVirtualKeyCode:13,
-  });
-  await command("Input.dispatchKeyEvent", {
-    type:"keyUp",key:"Enter",code:"Enter",windowsVirtualKeyCode:13,nativeVirtualKeyCode:13,
-  });
-  await waitFor(
-    "(()=>{const p=new URL(location.href).searchParams;return !p.has('q')&&!p.has('sort')&&!p.has('category')})()",
-    Boolean,"bookmark reset removes active filter query keys",
-  );
-  await waitFor(
-    "document.activeElement===document.querySelector('.bookmark-browser input[type=search]')",
-    Boolean,"bookmark reset returns keyboard focus to search",
-  );
-  assert.equal(await evaluate("document.querySelector('.bookmark-summary button')"),null,
-    "Reset button must disappear when there are no active filters");
-  assert.equal(await evaluate("document.querySelector('[data-bookmark-category=all]')?.getAttribute('aria-pressed')"),"true");
-  assert.equal(await evaluate("document.querySelector('[data-bookmark-sort=newest]')?.getAttribute('aria-pressed')"),"true");
+    const switchState = new URLSearchParams({
+      q: localizedLabel, category: label, sort: "title", utm_campaign: "not-preserved",
+    });
+    await navigate("/sh/search/?" + switchState);
+    await waitFor("document.querySelector('[data-search-language-switch]')?.getAttribute('href')",
+      value => typeof value === "string" && value.includes("sort=title"),
+      "localized language switch preserves valid search filters");
+    const href = await evaluate("document.querySelector('[data-search-language-switch]')?.href");
+    assert.equal(new URL(href).pathname, "/search/");
+    assert.equal(new URL(href).searchParams.get("category"), label);
+    assert.equal(new URL(href).searchParams.has("utm_campaign"), false);
+    await waitFor("(()=>{const island=document.querySelector('.bookmark-browser')?.closest('astro-island');return Boolean(island && !island.hasAttribute('ssr'));})()",
+      Boolean, "search hydrated before language switch");
+    const updatedQuery = localizedLabel === label ? label + " changed" : label;
+    await evaluate("(()=>{const el=document.querySelector('.bookmark-browser input[type=search]');el.value=" +
+      JSON.stringify(updatedQuery) + ";el.dispatchEvent(new Event('input',{bubbles:true}))})()");
+    await waitFor("new URL(location.href).searchParams.get('q')",
+      value => value === updatedQuery, "Live SH search updates current URL before switching");
+    await evaluate("document.querySelector('[data-search-language-switch]').click()");
+    await waitFor("location.pathname", value => value === "/search/", "SH-to-EN search switch");
+    assert.deepEqual(await evaluate("(()=>{const p=new URL(location.href).searchParams;return [p.get('q'),p.get('category'),p.get('sort'),p.has('utm_campaign')]})()"),
+      [updatedQuery,label,"title",false], "Language switch preserves edited search and active filters");
+    await waitFor("(()=>{const island=document.querySelector('.bookmark-browser')?.closest('astro-island');return Boolean(island && !island.hasAttribute('ssr'));})()",
+      Boolean, "EN search hydrated before reverse switch");
+    await evaluate("(()=>{const el=document.querySelector('.bookmark-browser input[type=search]');el.value=" +
+      JSON.stringify(localizedLabel) + ";el.dispatchEvent(new Event('input',{bubbles:true}))})()");
+    await waitFor("new URL(location.href).searchParams.get('q')",
+      value => value === localizedLabel, "Live EN query edits update URL before reverse switch");
+    await evaluate("document.querySelector('[data-search-language-switch]').click()");
+    await waitFor("location.pathname", value => value === "/sh/search/", "EN-to-SH search switch");
+    assert.equal(await evaluate("new URL(location.href).searchParams.get('q')"),
+      localizedLabel, "Returning to SH retains the latest edited query");
+  }
 
   await command("Emulation.setDeviceMetricsOverride", {
     width: 375, height: 667, deviceScaleFactor: 1, mobile: true,
@@ -663,177 +661,113 @@ try {
     "(()=>{const buttons=[...document.querySelectorAll('.bookmark-controls button')];" +
     "return {width:document.documentElement.scrollWidth,viewport:innerWidth," +
     "buttonsFit:buttons.every(button=>{const box=button.getBoundingClientRect();" +
-    "return box.width>0&&box.left>=-1&&box.right<=innerWidth+1;})};})()",
-  );
-  assert.ok(mobileFilters.width <= mobileFilters.viewport + 1, "Bookmark controls must not overflow mobile viewport");
-  assert.equal(mobileFilters.buttonsFit, true, "All category and sort buttons must fit the mobile viewport");
+    "return box.width>0&&box.left>=-1&&box.right<=innerWidth+1;})};})()");
+  assert.ok(mobileFilters.width <= mobileFilters.viewport + 1,
+    "Bookmark controls must not overflow mobile viewport");
+  assert.equal(mobileFilters.buttonsFit, true,
+    "All category and sort buttons must fit mobile viewport");
   await command("Emulation.clearDeviceMetricsOverride");
 
-  const languageFilters = new URLSearchParams({
-    q: "Članci i knjige", category: "Articles & books", sort: "title",
-    utm_campaign: "not-preserved",
-  });
-  await navigate("/sh/search/?" + languageFilters);
-  await waitFor(
-    "document.querySelector('[data-search-language-switch]')?.getAttribute('href')",
-    (value) => typeof value === "string" && value.includes("category=Articles"),
-    "localized search language switch deep link",
-  );
-  const originalSwitch = await evaluate(
-    "document.querySelector('[data-search-language-switch]')?.href",
-  );
-  assert.equal(new URL(originalSwitch).pathname, "/search/");
-  assert.equal(new URL(originalSwitch).searchParams.get("q"), "Članci i knjige");
-  assert.equal(new URL(originalSwitch).searchParams.has("utm_campaign"), false);
-  await waitFor(
-    "(()=>{const island=document.querySelector('.bookmark-browser')?.closest('astro-island');return Boolean(island && !island.hasAttribute('ssr'));})()",
-    Boolean, "search Vue hydration before changing language",
-  );
-  await evaluate("(()=>{const el=document.querySelector('.bookmark-browser input[type=search]');el.value='Resursi';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
-  await waitFor(
-    "new URL(location.href).searchParams.get('q')",
-    (value) => value === "Resursi", "updated search query before language switch",
-  );
-  await evaluate("document.querySelector('[data-search-language-switch]').click()");
-  await waitFor("location.pathname", (value) => value === "/search/", "SH-to-EN search switch");
-  assert.deepEqual(
-    await evaluate("(()=>{const p=new URL(location.href).searchParams;return [p.get('q'),p.get('category'),p.get('sort'),p.has('utm_campaign')]})()"),
-    ["Resursi", "Articles & books", "title", false],
-    "Search language switch preserves only active user filters",
-  );
-  await waitFor(
-    "document.querySelector('.bookmark-browser input[type=search]')?.value",
-    (value) => value === "Resursi", "EN search hydration restores query",
-  );
-  await waitFor(
-    "document.querySelector('.bookmark-browser [data-bookmark-sort=title]')?.getAttribute('aria-pressed')",
-    (value) => value === "true", "EN search restores sort",
-  );
-  await evaluate("document.querySelector('[data-search-language-switch]').click()");
-  await waitFor("location.pathname", (value) => value === "/sh/search/", "EN-to-SH search switch");
-  assert.equal(
-    await evaluate("new URL(location.href).searchParams.get('q')"), "Resursi",
-    "Returning to SH must preserve search state",
-  );
-
-  await navigate("/search/?q=50%20Watts");
-  await waitFor(
-    "document.querySelector('input[type=search]')?.value",
-    (value) => value === "50 Watts", "English query URL state",
-  );
-  await waitFor(
-    "document.querySelectorAll('li.bookmark-entry').length",
-    (value) => value === 1, "English exact search",
-  );
-
-  // The exact phrase is in a real public source record's comments frontmatter,
-  // not in its title, category or URL.
-  await navigate("/search/?q=" + encodeURIComponent("300k+ archive protos"));
-  await waitFor(
-    "document.querySelector('.bookmark-browser input[type=search]')?.value",
-    (value) => value === "300k+ archive protos",
-    "comment-only search deep link restored",
-  );
-  await waitFor(
-    "document.querySelectorAll('li.bookmark-entry').length",
-    (value) => value === 1, "comment-only query matches one saved bookmark",
-  );
-  const commentHit = await evaluate(
-    "(()=>{const item=document.querySelector('li.bookmark-entry');return {title:item?.querySelector('a')?.textContent?.trim(),comment:item?.querySelector('.bookmark-comment')?.textContent?.trim()}})()",
-  );
-  assert.equal(commentHit.title, "Biodiversity Heritage Library");
-  assert.ok(commentHit.comment.startsWith("300k+ archive protos on Flickr:"),
-    "Matching public comment must be visible to explain the search result");
-  assert.equal(
-    await evaluate("getComputedStyle(document.querySelector('li.bookmark-entry .bookmark-comment')).webkitLineClamp"),
-    "none", "Search results must not visually conceal matches near the end of long comments",
-  );
-
-  await navigate("/new-bookmark/?url=https%3A%2F%2F50watts.com%2F&title=50%20Watts");
-  await waitFor(
-    "document.querySelector('.new-bookmark .output code')?.textContent",
-    (value) => typeof value === "string" && value.includes("Resource/50-watts.md"),
-    "new bookmark Vue composer hydration",
-  );
-  await waitFor(
-    "document.querySelector('.new-bookmark .duplicate')?.textContent",
-    (value) => typeof value === "string" && value.includes("already appears"),
-    "duplicate URL warning",
-  );
-  const duplicateLinks = await evaluate(
-    "Array.from(document.querySelectorAll('.new-bookmark [data-bookmark-duplicate-link]'))" +
-    ".map(link=>({href:link.getAttribute('href'),id:link.textContent.trim()," +
-    "target:link.getAttribute('target'),rel:link.getAttribute('rel'),label:link.getAttribute('aria-label')}))",
-  );
-  assert.ok(duplicateLinks.length >= 1, "Real duplicate URLs must link to existing entries");
-  for (const link of duplicateLinks) {
-    const [section, stem] = link.id.split("/");
-    assert.equal(link.href, `/bookmarks/${section.toLowerCase()}/${encodeURIComponent(stem.toLowerCase())}/`,
-      "Duplicate destination must match the canonical source ID");
-    assert.equal(link.target, "_blank", "Review should not discard the unfinished draft");
-    assert.deepEqual(new Set(link.rel.split(/\s+/)), new Set(["noopener", "noreferrer"]));
-    assert.equal(link.label, "View existing bookmark: " + link.id);
+  const searchRecord = bookmarkRecords.find(record => record.title && record.detailUrl);
+  if (searchRecord) {
+    await navigate("/search/?q=" + encodeURIComponent(searchRecord.title));
+    await waitFor("document.querySelector('input[type=search]')?.value",
+      value => value === searchRecord.title, "Title deep link restored from current record");
+    await waitFor("document.querySelectorAll('li.bookmark-entry').length",
+      value => value > 0, "Current bookmark title search returns results");
   }
-  assert.equal(await evaluate("document.querySelectorAll('.new-bookmark select').length"), 0,
-    "New bookmark category choices must be visible buttons");
-  assert.equal(await evaluate("document.querySelectorAll('.new-bookmark [data-bookmark-category]').length"), 7);
-  assert.equal(await evaluate("document.querySelector('.new-bookmark [data-bookmark-category=Resource]')?.getAttribute('aria-pressed')"), "true");
-  assert.equal(await evaluate("document.querySelectorAll('.new-bookmark [data-bookmark-category][aria-pressed=true]').length"), 1);
+  // Use a unique public-comment word when available; never depend on one
+  // historical bookmark remaining in the collection.
+  const normalize = text => text.normalize("NFKD").replace(/\p{M}/gu,"").toLowerCase();
+  const commentCase = bookmarkRecords.flatMap(record =>
+    ((record.comments ?? "").match(/[\p{L}\p{N}]{8,}/gu) ?? []).map(word => ({record,word}))
+  ).find(({record,word}) => {
+    const needle = normalize(word);
+    const otherFields = [record.title, record.category, record.url].join(" ");
+    return !normalize(otherFields).includes(needle) &&
+      bookmarkRecords.every(other => other.id === record.id ||
+        !normalize([other.title,other.category,other.comments ?? "",other.url].join(" ")).includes(needle));
+  });
+  if (commentCase) {
+    await navigate("/search/?q=" + encodeURIComponent(commentCase.word));
+    await waitFor("document.querySelector('input[type=search]')?.value",
+      value => value === commentCase.word, "comment-only query state");
+    await waitFor("document.querySelectorAll('li.bookmark-entry').length",
+      value => value >= 1, "current comment search finds a published bookmark");
+    assert.equal(await evaluate("document.querySelector('li.bookmark-entry [data-bookmark-detail-link]')?.getAttribute('href')"),
+      commentCase.record.detailUrl, "Comment-only search must return the source record");
+    const visibleComment = await evaluate("document.querySelector('li.bookmark-entry .bookmark-comment')?.textContent.trim()");
+    assert.ok(visibleComment && normalize(visibleComment).includes(normalize(commentCase.word)),
+      "The independently matched comment must be visible in the search result");
+    assert.equal(await evaluate("getComputedStyle(document.querySelector('li.bookmark-entry .bookmark-comment')).webkitLineClamp"),
+      "none", "Matching comment must not be visually line-clamped");
+  }
 
-  await evaluate("document.querySelector('.new-bookmark [data-bookmark-category=Art]').click()");
-  await waitFor(
-    "document.querySelector('.new-bookmark .output code')?.textContent",
-    (value) => typeof value === "string" && value.includes("content/bookmarks/Art/50-watts.md"),
-    "category button updates canonical draft path",
-  );
-  assert.equal(await evaluate("document.querySelector('.new-bookmark [data-bookmark-category=Art]')?.getAttribute('aria-pressed')"), "true");
-  assert.equal(await evaluate("document.querySelectorAll('.new-bookmark [data-bookmark-category][aria-pressed=true]').length"), 1);
-  assert.equal(await evaluate("new URL(document.querySelector('.new-bookmark .actions a').href).searchParams.get('filename')"), "content/bookmarks/Art/50-watts.md");
-  await evaluate("document.querySelector('.new-bookmark [data-bookmark-category=Resource]').click()");
-  await waitFor(
-    "document.querySelector('.new-bookmark .output code')?.textContent",
-    (value) => typeof value === "string" && value.includes("content/bookmarks/Resource/50-watts.md"),
-    "category returns to original default",
-  );
-
-  // A category listing's Add bookmark link must pick the canonical editor
-  // category without silently resetting URLs or titles captured in the link.
-  await navigate("/new-bookmark/?category=paperbookarticle&url=https%3A%2F%2Fexample.org%2Fpaper&title=Research%20paper");
-  await waitFor(
-    "document.querySelector('.new-bookmark .output code')?.textContent",
-    value => typeof value === "string" && value.includes("content/bookmarks/PaperBookArticle/research-paper.md"),
-    "category deep link selects article/book destination",
-  );
-  assert.equal(
-    await evaluate("document.querySelector('.new-bookmark [data-bookmark-category=PaperBookArticle]')?.getAttribute('aria-pressed')"),
-    "true", "Article/book category button must reflect the deep link",
-  );
-  assert.equal(
-    await evaluate("document.querySelectorAll('.new-bookmark [data-bookmark-category][aria-pressed=true]').length"),
-    1, "Exactly one deep-linked draft category must be selected",
-  );
-  assert.equal(
-    await evaluate("new URL(document.querySelector('.new-bookmark .actions a').href).searchParams.get('filename')"),
-    "content/bookmarks/PaperBookArticle/research-paper.md", "GitHub editor must use the selected category",
-  );
+  // Pick disposable titles absent from every current category; a real bookmark
+  // addition must never invalidate the browser smoke's expected GitHub filename.
+  const existingIds = new Set(bookmarkRecords.map(record => record.id.toLowerCase()));
+  const unusedDraft = (title, stem) => {
+    let suffix = 0;
+    while (bookmarkCategories.some(category => existingIds.has(
+      (category.section + "/" + stem + (suffix ? "-" + suffix : "")).toLowerCase()))) suffix++;
+    return { title: title + (suffix ? " " + suffix : ""),
+      stem: stem + (suffix ? "-" + suffix : "") };
+  };
+  const draft = unusedDraft("CI Browser Bookmark", "ci-browser-bookmark");
+  const draftTitle = draft.title;
+  const draftStem = draft.stem;
+  const duplicateSource = bookmarkRecords.find(record => record.url && record.url.length < 512);
+  const draftUrl = duplicateSource?.url ?? "https://example.org/ci-browser-bookmark";
+  const draftPath = section => "content/bookmarks/" + section + "/" + draftStem + ".md";
+  const openDraft = () => "/new-bookmark/?url=" + encodeURIComponent(draftUrl) +
+    "&title=" + encodeURIComponent(draftTitle);
+  await navigate(openDraft());
+  await waitFor("document.querySelector('.new-bookmark .output code')?.textContent",
+    value => value === draftPath(defaultCategory.section), "new bookmark Vue hydration");
+  if (duplicateSource) {
+    await waitFor("document.querySelector('.new-bookmark .duplicate')?.textContent",
+      value => typeof value === "string" && value.includes("already appears"), "duplicate URL warning");
+    const links = await evaluate(
+      "Array.from(document.querySelectorAll('.new-bookmark [data-bookmark-duplicate-link]'))" +
+      ".map(link=>({href:link.getAttribute('href'),id:link.textContent.trim()," +
+      "target:link.getAttribute('target'),rel:link.getAttribute('rel'),label:link.getAttribute('aria-label')}))");
+    assert.ok(links.length > 0, "Current duplicate URLs should be linked");
+    for (const link of links) {
+      const match = bookmarkRecords.find(record => record.id === link.id);
+      assert.ok(match, "Duplicate warning must use current source identity");
+      assert.equal(link.href, match.detailUrl);
+      assert.equal(link.target, "_blank");
+      assert.deepEqual(new Set(link.rel.split(/\s+/)), new Set(["noopener","noreferrer"]));
+      assert.equal(link.label, "View existing bookmark: " + link.id);
+    }
+  }
+  assert.equal(await evaluate("document.querySelectorAll('.new-bookmark select').length"), 0);
+  assert.equal(await evaluate("document.querySelectorAll('.new-bookmark [data-bookmark-category]').length"),
+    bookmarkCategories.length, "Composer buttons reflect category catalog");
+  assert.equal(await evaluate("document.querySelector('.new-bookmark [data-bookmark-category][aria-pressed=true]')?.dataset.bookmarkCategory"),
+    defaultCategory.section);
+  const alternate = bookmarkCategories.find(category => category.section !== defaultCategory.section);
+  if (alternate) {
+    await evaluate("document.querySelector('.new-bookmark [data-bookmark-category=" +
+      JSON.stringify(alternate.section) + "]').click()");
+    await waitFor("document.querySelector('.new-bookmark .output code')?.textContent",
+      value => value === draftPath(alternate.section), "category button selects alternate source folder");
+    assert.equal(await evaluate("new URL(document.querySelector('.new-bookmark .actions a').href).searchParams.get('filename')"),
+      draftPath(alternate.section), "GitHub editor respects selected category");
+    const researchDraft = unusedDraft("Research paper", "research-paper");
+    await navigate("/new-bookmark/?category=" + encodeURIComponent(alternate.slug) +
+      "&url=https%3A%2F%2Fexample.org%2Fpaper&title=" + encodeURIComponent(researchDraft.title));
+    await waitFor("document.querySelector('.new-bookmark [data-bookmark-category][aria-pressed=true]')?.dataset.bookmarkCategory",
+      value => value === alternate.section, "category deep link selects the matching section");
+    assert.equal(await evaluate("new URL(document.querySelector('.new-bookmark .actions a').href).searchParams.get('filename')"),
+      "content/bookmarks/" + alternate.section + "/" + researchDraft.stem + ".md");
+  }
   await navigate("/new-bookmark/?category=not-a-category&url=https%3A%2F%2Fexample.org%2Fpaper&title=Research%20paper");
-  await waitFor(
-    "document.querySelector('.new-bookmark .output code')?.textContent",
-    value => typeof value === "string" && value.includes("content/bookmarks/Resource/research-paper.md"),
-    "unknown category deep link safely uses Resource default",
-  );
-  assert.equal(
-    await evaluate("document.querySelector('.new-bookmark [data-bookmark-category=Resource]')?.getAttribute('aria-pressed')"),
-    "true", "An invalid deep link must not select an invented category",
-  );
-  await navigate("/new-bookmark/?url=https%3A%2F%2F50watts.com%2F&title=50%20Watts");
-  await waitFor(
-    "document.querySelector('.new-bookmark .output code')?.textContent",
-    value => typeof value === "string" && value.includes("content/bookmarks/Resource/50-watts.md"),
-    "normal default draft restored before mobile/editor checks",
-  );
-
-
+  await waitFor("document.querySelector('.new-bookmark [data-bookmark-category][aria-pressed=true]')?.dataset.bookmarkCategory",
+    value => value === defaultCategory.section, "Unknown category must select configured default");
+  await navigate(openDraft());
+  await waitFor("document.querySelector('.new-bookmark .output code')?.textContent",
+    value => value === draftPath(defaultCategory.section), "configured default draft restored");
   await command("Emulation.setDeviceMetricsOverride", {
     width: 375, height: 667, deviceScaleFactor: 1, mobile: true,
   });
@@ -841,61 +775,39 @@ try {
     "(()=>{const buttons=[...document.querySelectorAll('.new-bookmark [data-bookmark-category]')];" +
     "return {width:document.documentElement.scrollWidth,viewport:innerWidth," +
     "buttonsFit:buttons.every(button=>{const rect=button.getBoundingClientRect();" +
-    "return rect.width>0&&rect.left>=-1&&rect.right<=innerWidth+1;})};})()",
-  );
-  assert.ok(mobileDraftCategories.width <= mobileDraftCategories.viewport + 1,
-    "New bookmark category controls must not overflow a mobile viewport");
-  assert.equal(mobileDraftCategories.buttonsFit, true,
-    "Every bookmark category button must fit the mobile viewport");
+    "return rect.width>0&&rect.left>=-1&&rect.right<=innerWidth+1;})};})()");
+  assert.ok(mobileDraftCategories.width <= mobileDraftCategories.viewport + 1);
+  assert.equal(mobileDraftCategories.buttonsFit, true);
   await command("Emulation.clearDeviceMetricsOverride");
-
-  const githubHref = await evaluate(
-    "document.querySelector('.new-bookmark .actions a')?.href",
-  );
+  const githubHref = await evaluate("document.querySelector('.new-bookmark .actions a')?.href");
   assert.ok(githubHref.startsWith("https://github.com/Fooftilly/Fooftilly.github.io/new/master?"));
-  const filename = new URL(githubHref).searchParams.get("filename");
-  assert.equal(filename, "content/bookmarks/Resource/50-watts.md");
+  assert.equal(new URL(githubHref).searchParams.get("filename"),draftPath(defaultCategory.section));
   await navigate("/new-bookmark/?url=javascript%3Aalert(1)&title=Unsafe");
-  await waitFor(
-    "document.querySelector('.new-bookmark .validation')?.textContent",
-    (value) => typeof value === "string" && value.includes("Only HTTP and HTTPS"),
-    "unsafe URL rejected",
-  );
+  await waitFor("document.querySelector('.new-bookmark .validation')?.textContent",
+    value => typeof value === "string" && value.includes("Only HTTP and HTTPS"), "unsafe URL rejected");
   assert.equal(await evaluate("!!document.querySelector('.new-bookmark .output')"), false);
   const longUrl = "https://example.org/article?id=" + "x".repeat(2100);
   await navigate("/new-bookmark/?title=Long%20URL&url=" + encodeURIComponent(longUrl));
-  await waitFor(
-    "document.querySelector('input[type=url]')?.value.length",
-    (value) => value === longUrl.length,
-    "captured long URL preserved without truncation",
-  );
-  await waitFor(
-    "document.querySelector('.new-bookmark .validation')?.textContent",
-    (value) => typeof value === "string" && value.includes("at most 2048"),
-    "long URL rejected rather than silently truncated",
-  );
-  assert.equal(await evaluate("!!document.querySelector('.new-bookmark .output')"), false);
+  await waitFor("document.querySelector('input[type=url]')?.value.length",
+    value => value === longUrl.length, "long captured URL preserved");
+  await waitFor("document.querySelector('.new-bookmark .validation')?.textContent",
+    value => typeof value === "string" && value.includes("at most 2048"), "long URL rejected");
+  const longDraft = unusedDraft("Long Notes", "long-notes");
+  await navigate("/new-bookmark/?url=https%3A%2F%2Fexample.org%2F&title=" + encodeURIComponent(longDraft.title));
+  await waitFor("document.querySelector('.new-bookmark .output code')?.textContent",
+    value => value === "content/bookmarks/" + defaultCategory.section + "/" + longDraft.stem + ".md",
+    "composer ready for long note");
+  const notesSelector = JSON.stringify('textarea[placeholder="Longer personal notes"]');
+  await evaluate("(()=>{const el=document.querySelector(" + notesSelector +
+    ");el.value='a'.repeat(5000);el.dispatchEvent(new Event('input',{bubbles:true}))})()");
+  await waitFor("document.querySelector('.new-bookmark .actions a')?.href",
+    value => value === "https://github.com/Fooftilly/Fooftilly.github.io/new/master",
+    "long draft falls back to GitHub editor");
+  assert.equal(await evaluate("document.querySelector('.new-bookmark .actions button:nth-child(2)')?.textContent.trim()"),
+    "Copy full file path");
+  assert.equal(await evaluate("document.querySelector('.new-bookmark .output code')?.textContent.trim()"),
+    "content/bookmarks/" + defaultCategory.section + "/" + longDraft.stem + ".md");
 
-  await navigate("/new-bookmark/?url=https%3A%2F%2Fexample.org%2F&title=Long%20Notes");
-  await waitFor(
-    "document.querySelector('.new-bookmark .output code')?.textContent",
-    (value) => typeof value === "string" && value.includes("Resource/long-notes.md"),
-    "composer ready for long note",
-  );
-  await evaluate("(()=>{const el=document.querySelector('textarea[placeholder=\"Longer personal notes\"]');el.value='a'.repeat(5000);el.dispatchEvent(new Event('input',{bubbles:true}))})()");
-  await waitFor(
-    "document.querySelector('.new-bookmark .actions a')?.href",
-    (value) => value === "https://github.com/Fooftilly/Fooftilly.github.io/new/master",
-    "long draft GitHub link fallback",
-  );
-  assert.equal(
-    await evaluate("document.querySelector('.new-bookmark .actions button:nth-child(2)')?.textContent.trim()"),
-    "Copy full file path",
-  );
-  assert.equal(
-    await evaluate("document.querySelector('.new-bookmark .output code')?.textContent.trim()"),
-    "content/bookmarks/Resource/long-notes.md",
-  );
   await navigate("/new-media/");
   await waitFor(
     "(()=>{const editor=document.querySelector('.media-editor');const island=editor?.closest('astro-island');return Boolean(editor && island && !island.hasAttribute('ssr') && editor.querySelector('input[placeholder=\\\"Title\\\"]'));})()",

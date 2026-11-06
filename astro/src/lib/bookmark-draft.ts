@@ -90,7 +90,7 @@ export function composeBookmarkDraft(input: BookmarkDraftInput, existing: readon
 
 /** Optional GitHub web-editor handoff; the browser never receives a GitHub token. */
 export function githubNewFileUrl(path: string, markdown: string): string {
-  if (!/^content\/bookmarks\/[A-Za-z]+\/[\p{L}\p{N}_-]+\.md$/u.test(path))
+  if (!/^content\/bookmarks\/[A-Za-z][A-Za-z0-9]*\/[\p{L}\p{N}_-]+\.md$/u.test(path))
     throw new Error("Invalid destination filename.");
   const target = new URL("https://github.com/Fooftilly/Fooftilly.github.io/new/master");
   target.searchParams.set("filename", path);

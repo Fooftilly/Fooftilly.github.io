@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { filterAndSortBookmarks } from "../src/lib/bookmark-filter.ts";
+import { BOOKMARK_CATEGORIES } from "../src/lib/bookmark-categories.ts";
 
 const items = [
   { id: "2", title: "Árbol reference", category: "Art", date: "2024-05-01", url: "https://example.org/tree" },
@@ -38,21 +39,25 @@ test("empty query returns all items and missing dates stay last", () => {
   assert.equal(filterAndSortBookmarks(items, { ...defaults, sort: "oldest" }).at(-1).id, "5");
 });
 
-test("Serbo-Croatian category text can be searched without changing canonical filter keys", () => {
+test("Serbo-Croatian category labels are searchable through current category metadata", () => {
+  const category = BOOKMARK_CATEGORIES.find(item => item.labelSh !== item.label && /[^\x00-\x7F]/.test(item.labelSh))
+    ?? BOOKMARK_CATEGORIES.find(item => item.labelSh !== item.label);
+  assert.ok(category, "Expected at least one translated category");
   const articles = [{
-    id: "articles-1", title: "Example page", category: "Articles & books",
+    id: "translated-1", title: "Example page", category: category.label,
     date: "2026-02-01", url: "https://example.org/article",
   }];
   const search = (query, lang) => filterAndSortBookmarks(articles, {
-    ...defaults, query, lang, category: "Articles & books",
+    ...defaults, query, lang, category: category.label,
   }).map(item => item.id);
-  assert.deepEqual(search("Članci i knjige", "sh"), ["articles-1"]);
-  assert.deepEqual(search("clanci i knjige", "sh"), ["articles-1"]);
-  assert.deepEqual(search("Articles & books", "sh"), ["articles-1"]);
-  assert.deepEqual(search("Članci i knjige", "en"), []);
-  assert.deepEqual(search("Članci i knjige", "sh"), ["articles-1"]);
+  assert.deepEqual(search(category.labelSh, "sh"), ["translated-1"]);
+  const unfolded = category.labelSh.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  assert.deepEqual(search(unfolded, "sh"), ["translated-1"],
+    "Serbo-Croatian search must match a diacritic-free form of the displayed label");
+  assert.deepEqual(search(category.label, "sh"), ["translated-1"]);
+  if (category.labelSh !== category.label) assert.deepEqual(search(category.labelSh, "en"), []);
   assert.deepEqual(filterAndSortBookmarks(articles, {
-    ...defaults, lang: "sh", category: "Music", query: "Članci",
+    ...defaults, lang: "sh", category: "not-a-category", query: category.labelSh,
   }), []);
 });
 

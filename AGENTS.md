@@ -4,7 +4,7 @@
 
 The live application is Astro + Vue 3 + TypeScript on GitHub Pages. Use `astro/` for site implementation; `content/` is canonical Markdown; `static/` is copied as public site assets. [Roadmap #11](https://github.com/Fooftilly/Fooftilly.github.io/issues/11) records product and migration decisions. Do not reintroduce Hugo, compatibility routes or a parallel deployment stack.
 
-Preserve 576 existing bookmark metadata records unless a reviewed content change explicitly adjusts them. Preserve English and Serbian-Latin content, feeds, canonical paths, notes, and custom-domain/verification assets. New posts need a complete renderer, not silent omission.
+Bookmark content is living Git-managed Markdown: reviewed additions, edits, renames, moves and deletions are permitted. Validate the current source against every generated route, feed and sitemap entry, without a historical ID/count gate. Category metadata lives exclusively in `astro/src/data/bookmark-categories.json`; adding a category requires its metadata and source folder. Preserve English and Serbian-Latin content, feeds, canonical paths, notes, and custom-domain/verification assets. New posts need a complete renderer, not silent omission.
 
 ## Security and publishing
 

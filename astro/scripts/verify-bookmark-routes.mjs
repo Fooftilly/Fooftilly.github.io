@@ -3,22 +3,16 @@ import assert from "node:assert/strict";
 import { readFile, readdir, stat } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
+import { assertBookmarkSourceParity } from "./bookmark-inventory.mjs";
+import { BOOKMARK_CATEGORIES } from "../src/lib/bookmark-categories.ts";
 
 const root = fileURLToPath(new URL("../dist/", import.meta.url));
 const manifestPath = fileURLToPath(new URL("../.audit/bookmarks-parity.json", import.meta.url));
-const categories = new Map([
-  ["Art", "art"],
-  ["Fun", "fun"],
-  ["Music", "music"],
-  ["PaperBookArticle", "paperbookarticle"],
-  ["Perspectives", "perspectives"],
-  ["Resource", "resource"],
-  ["YouTube", "youtube"],
-]);
+const categories = new Map(BOOKMARK_CATEGORIES.map(({ section, slug }) => [section, slug]));
 
-test("all 576 original bookmark detail URLs are generated with correct canonical URLs", async () => {
+test("all original and new bookmark detail URLs are generated with correct canonical URLs", async () => {
   const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
-  assert.equal(manifest.length, 576);
+  await assertBookmarkSourceParity(manifest, "Generated bookmark routes");
   const expectedPaths = new Set();
   let notesCount = 0;
 

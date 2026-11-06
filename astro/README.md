@@ -20,17 +20,20 @@ to Pages. The old Hugo rollback workflow has been retired only after the accepte
 
 ## Data and content
 
-- `bookmarks` reads `../content/bookmarks/**/*.md` in place. All 576 public
+- `bookmarks` reads `../content/bookmarks/**/*.md` in place. All current public
   source records are validated for metadata parity, and static routes are
-  derived deterministically from category names and file stems.
+  derived deterministically from category names and file stems. Reviewed
+  additions, edits, moves, renames and deletions are supported. Category
+  metadata is defined once in `src/data/bookmark-categories.json` and
+  must match the source category folders.
 - Search, category filtering and date/title sorting share a pure TypeScript
   selector. The Vue browser supports incremental rendering and URL query state.
-- Individual bookmark pages render source Markdown body when present; source
-  records currently contain no nonempty body notes.
-- The site-wide `/index.xml` RSS feed, bookmarks root feed and seven category
-  feeds are generated statically from all 576 bookmarks (no published posts
-  currently exist). The home and posts pages advertise the site feed; CI
-  validates all 9 XML feeds, metadata, links and record ordering.
+- Individual bookmark pages render the current Markdown body when present;
+  new, edited and existing notes are supported without a frozen source snapshot.
+- The site-wide `/index.xml` RSS feed, bookmarks root feed and one feed for each
+  configured category are generated from the current public bookmark collection.
+  The home and posts pages advertise the site feed; CI validates every
+  generated XML feed, metadata, links and record ordering.
 - `sitePages` uses the original English and Serbo-Croatian (Latin) About, posts and search
   Markdown frontmatter. About content is rendered directly from Markdown;
   posts/search routes use original page titles without inventing articles.
@@ -47,8 +50,7 @@ redirects and the compiled-Hugo route comparison have been removed.
 
 Astro copies the repository-level `static/` directory through
 `publicDir`, preserving the domain configuration, icons, robots file and
-other assets. Its sitemap lists only routes Astro actually generates (currently
-600 canonical URLs). Shared layouts provide canonical/social metadata and
+other assets. Its sitemap lists only routes Astro actually generates. Shared layouts provide canonical/social metadata and
 language alternates.
 
 `scripts/verify-bookmark-parity.mjs`, `verify-bookmark-routes.mjs`,

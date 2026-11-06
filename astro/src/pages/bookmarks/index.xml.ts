@@ -5,7 +5,7 @@ import { renderBookmarkRss, rssResponse } from "../../lib/bookmark-rss.ts";
 /** Includes all public bookmarks across their source categories. */
 export const GET: APIRoute = async () => rssResponse(renderBookmarkRss({
   title: "Peroniko — Bookmarks",
-  description: "All public bookmarks across seven categories",
+  description: "All public bookmarks across their source categories",
   path: "/bookmarks/index.xml",
   bookmarks: await loadBookmarks(),
 }));
