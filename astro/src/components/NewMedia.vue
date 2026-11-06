@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue";
+import { computed, nextTick, onMounted, ref } from "vue";
 import { composeMediaDraft, githubMediaEditorUrl, type ExistingMediaRef, type MediaKind, type MediaRecord } from "../lib/media-model.ts";
 
 const props=defineProps<{existing:ExistingMediaRef[]}>();
@@ -15,6 +15,13 @@ const title=ref("");
 const creator=ref("");
 const year=ref<string|number>("");
 const rating=ref(0); // 0 means no rating; saved values are 0.5 through 5.
+const ratingSlider=ref<HTMLInputElement|null>(null);
+async function clearRating():Promise<void> {
+  rating.value=0;
+  // The Clear button disappears at zero, so restore focus to the slider.
+  await nextTick();
+  ratingSlider.value?.focus();
+}
 const ratingText=computed(()=>rating.value===0?"Not rated":`${rating.value.toFixed(1)} / 5`);
 const ratingAriaText=computed(()=>rating.value===0?"Not rated":`${rating.value} out of 5 stars`);
 const kindOptions:{value:MediaKind;label:string}[]=[
@@ -108,11 +115,11 @@ async function copy(value:string,label:string){
                 <span class="stars-empty">★★★★★</span>
                 <span class="stars-filled" :style="{width:(rating*20)+'%'}">★★★★★</span>
               </span>
-              <input v-model.number="rating" data-media-rating type="range" min="0" max="5"
+              <input ref="ratingSlider" v-model.number="rating" data-media-rating type="range" min="0" max="5"
                 step="0.5" aria-label="My rating" :aria-valuetext="ratingAriaText" />
             </div>
             <output class="rating-value" aria-live="polite">{{ ratingText }}</output>
-            <button v-if="rating>0" class="clear-rating" type="button" @click="rating=0">Clear</button>
+            <button v-if="rating>0" class="clear-rating" type="button" @click="clearRating">Clear</button>
           </div>
           <p class="field-hint">Half-star steps; slide to 0 for no rating.</p>
         </fieldset>
