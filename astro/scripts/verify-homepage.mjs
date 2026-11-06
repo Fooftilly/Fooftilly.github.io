@@ -47,8 +47,8 @@ for (const [path, language, heading] of [
     "Recent bookmarks search link must remain in the selected language");
   const latest = html.match(/<ul class="recent-grid"[^>]*>([\s\S]*?)<\/ul>/);
   assert.ok(latest, "Recent list missing: " + path);
-  assert.equal((latest[1].match(/<li\b/g) ?? []).length, 8,
-    "Homepage must show only the latest eight entries");
+  assert.equal((latest[1].match(/<li\b/g) ?? []).length, Math.min(8, records.length),
+    "Homepage recent items must reflect the current public collection");
   // Independently check every recent row against the authoritative bookmark
   // manifest; external title links must remain unchanged after adding detail links.
   const expected = [...records].sort((a, b) =>
