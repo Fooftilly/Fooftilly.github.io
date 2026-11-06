@@ -79,7 +79,7 @@ def check_sitemap():
     expected.update(f'{SITE}/bookmarks/{category["slug"]}/' for category in categories)
     for record in records:
         section, stem = record["id"].split("/")
-        assert section in slug_by_section and re.fullmatch(r"[\\w-]+", stem, flags=re.UNICODE), record["id"]
+        assert section in slug_by_section and re.fullmatch(r"[\w-]+", stem, flags=re.UNICODE), record["id"]
         expected.add(f'{SITE}/bookmarks/{slug_by_section[section]}/{quote(stem.lower(), safe="-._~")}/')
     assert len(expected) == roots_and_projects + len(categories) + len(records), (
         "Sitemap path collisions or omitted bookmark routes"
