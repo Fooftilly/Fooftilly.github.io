@@ -244,10 +244,11 @@ try {
     assert.equal(await evaluate("document.activeElement?.hasAttribute('data-media-clear-filters')"), true,
       "Keyboard focus must reach Clear filters before activation");
     await command("Input.dispatchKeyEvent", {
-      type:"keyDown",key:"Enter",code:"Enter",windowsVirtualKeyCode:13,
+      type:"keyDown",key:"Enter",code:"Enter",
+      text:"\r",unmodifiedText:"\r",windowsVirtualKeyCode:13,nativeVirtualKeyCode:13,
     });
     await command("Input.dispatchKeyEvent", {
-      type:"keyUp",key:"Enter",code:"Enter",windowsVirtualKeyCode:13,
+      type:"keyUp",key:"Enter",code:"Enter",windowsVirtualKeyCode:13,nativeVirtualKeyCode:13,
     });
     await waitFor(
       "(()=>{const p=new URL(location.href).searchParams;return !p.has('q')&&!p.has('sort')})()",
