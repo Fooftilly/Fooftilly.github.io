@@ -61,7 +61,8 @@ def verify_feed(feed_path, expected_records, expected_channel_url):
         item = actual[guid]
         assert item.findtext("title") == record["title"], guid
         assert item.findtext("description") == (record["comments"] or record["title"]), guid
-        assert item.findtext("link") == (record["url"] or SITE + "/bookmarks/"), guid
+        expected_link = record["url"] or SITE + record["detailUrl"]
+        assert item.findtext("link") == expected_link, (guid, expected_link)
         published = item.findtext("pubDate")
         if record["date"]:
             assert published is not None, guid

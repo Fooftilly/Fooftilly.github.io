@@ -30,7 +30,8 @@ test("RSS escaping, stable identifiers, dates and source metadata", () => {
   assert.match(xml, /urn:peroniko:bookmark:Art\/a&amp;b/);
   assert.match(xml, /Text &lt;tag&gt; &amp; source/);
   assert.match(xml, /Sun, 26 May 2024 00:00:00 GMT/);
-  assert.match(xml, /<link>https:\/\/www\.peroniko\.xyz\/bookmarks\/<\/link>/);
+  assert.match(xml, /<link>https:\/\/www\.peroniko\.xyz\/bookmarks\/music\/missing\/<\/link>/,
+    "A bookmark without a safe external URL should link to its own detail page");
   assert.equal((xml.match(/<item>/g) ?? []).length, 2);
   assert.equal((xml.match(/<pubDate>/g) ?? []).length, 1);
   assert.equal((xml.match(/<guid isPermaLink="false">/g) ?? []).length, 2);
@@ -44,4 +45,21 @@ test("RSS strips XML-illegal control characters", () => {
     bookmarks: [{ id: "Art/one", title: "Bad\u0001 name", category: "Art", date: "", url: "", rawLink: "", comments: "" }],
   });
   assert.ok(!xml.includes("\u0001"));
+});
+
+test("RSS preserves valid external destinations and uses exact local route for missing sources", () => {
+  const xml=renderBookmarkRss({
+    title:"Peroniko — RSS",description:"Fallback",path:"/index.xml",
+    bookmarks:[
+      {id:"Art/external",title:"External",category:"Art",date:"2026-01-02",url:"https://example.org/item?a=1&b=2",rawLink:"",comments:""},
+      {id:"PaperBookArticle/članak",title:"No external source",category:"Articles & books",date:"2026-01-01",url:"",rawLink:"",comments:"Public context"},
+    ],
+  });
+  assert.match(xml, /<link>https:\/\/example\.org\/item\?a=1&amp;b=2<\/link>/,
+    "Existing valid external RSS links must remain untouched");
+  assert.match(xml, /<link>https:\/\/www\.peroniko\.xyz\/bookmarks\/paperbookarticle\/%C4%8Dlanak\/<\/link>/,
+    "Missing-source links must point to the encoded canonical detail route");
+  assert.match(xml, /<guid isPermaLink="false">urn:peroniko:bookmark:PaperBookArticle\/članak<\/guid>/,
+    "Stable GUIDs are independent of the updated RSS link destinations");
+  assert.match(xml, /<description>Public context<\/description>/);
 });
