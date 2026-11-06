@@ -80,9 +80,7 @@ jobs:
           test -s astro/dist/404.html
           test -s astro/dist/projects/index.html
           test -s astro/dist/sh/projects/index.html
-          test -s astro/dist/projects/prks/index.html
-          test -s astro/dist/projects/kokoro-extension/index.html
-          test -s astro/dist/projects/local-search-mcp/index.html
+          # release-readiness.mjs already checks every source-driven project route.
           test ! -e astro/dist/admin
           test ! -e astro/dist/migration-audit
           test -s astro/.audit/release-readiness.json
