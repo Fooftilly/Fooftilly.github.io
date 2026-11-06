@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { normalizeMediaSearch, matchesMediaSearch, compareMediaListings, searchableMediaText, mediaNotesExplainSearch, matchesMediaStatus } from "../src/lib/media-browser.ts";
+import { normalizeMediaSearch, matchesMediaSearch, compareMediaListings, searchableMediaText, mediaNotesExplainSearch, matchesMediaStatus, mediaVisiblePage, MEDIA_PAGE_SIZE } from "../src/lib/media-browser.ts";
 
 test("media search is case- and accent-insensitive across visible table fields",()=>{
   assert.equal(normalizeMediaSearch("  CAFÉ\t Émilie "), "cafe emilie");
@@ -66,4 +66,17 @@ test("status filtering distinguishes missing values from the three published sta
     const matched = entries.map((entry,index)=>matchesMediaStatus(entry,filter)?index:-1).filter(index=>index>=0);
     assert.deepEqual(matched,filter==="all"?[0,1,2,3]:[["finished","in-progress","planned","unspecified"].indexOf(filter)]);
   }
+});
+
+test("static media output retains complete source parity while hydrated lists page results",()=>{
+  const entries=Array.from({length:127},(_,i)=>({id:"films/record-"+i,title:"Film "+i}));
+  assert.equal(MEDIA_PAGE_SIZE,50);
+  assert.equal(mediaVisiblePage(entries,MEDIA_PAGE_SIZE,false).length,127,
+    "SSR must keep every source row for crawlers, non-JS visitors and audit parity");
+  assert.deepEqual(mediaVisiblePage(entries,50,true).map(x=>x.id),entries.slice(0,50).map(x=>x.id));
+  assert.deepEqual(mediaVisiblePage(entries,100,true).map(x=>x.id),entries.slice(0,100).map(x=>x.id));
+  assert.deepEqual(mediaVisiblePage(entries,150,true).map(x=>x.id),entries.map(x=>x.id));
+  assert.deepEqual(mediaVisiblePage(entries.slice(2,3),50,true),entries.slice(2,3));
+  assert.deepEqual(mediaVisiblePage([],50,true),[]);
+  assert.equal(entries.length,127,"Hydration must never mutate source records");
 });

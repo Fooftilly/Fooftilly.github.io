@@ -63,6 +63,18 @@ const fixtures = [
     },
   },
 ];
+// Exercise the real browser with more than one hydrated page of film records.
+// Each fixture remains disposable and is validated against complete SSR output.
+for (let index = 0; index < 53; index++) {
+  fixtures.push({
+    folder: "films",
+    record: {
+      schema: 1, kind: "films",
+      title: "CI pagination film " + String(index + 1).padStart(2, "0"),
+      year: 1980 + (index % 20), rating: 2.0, status: "finished",
+    },
+  });
+}
 
 const created = [];
 let createdProjectDirectory = false;

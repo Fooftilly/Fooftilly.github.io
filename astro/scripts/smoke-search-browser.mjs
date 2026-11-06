@@ -234,7 +234,51 @@ try {
       value => value === "", "film collection cleared after real document Back");
     await waitFor("document.querySelector('[data-media-status-filter=all]')?.getAttribute('aria-pressed')",
       value => value === "true", "film collection default status restored after Back");
-    assert.equal(await evaluate("document.querySelectorAll('[data-media-row]').length"), mediaSource.films.length);
+    // The SSR build still contains every row for static audits, but Vue
+    // initially keeps only one live page and progressively reveals the rest.
+    assert.ok(mediaSource.films.length > 50, "The fixture must exceed one page");
+    await waitFor("document.querySelectorAll('[data-media-row]').length",
+      count => count === 50, "Hydrated media table starts with 50 rows");
+    assert.equal(await evaluate("document.querySelector('[data-media-visible-count]')?.textContent.trim()"),
+      "Showing 50 of " + mediaSource.films.length + " matching entries");
+    assert.equal(await evaluate("document.querySelector('[data-media-load-more]')?.textContent.trim()"),
+      "Show more", "Long media catalogs must expose an accessible load-more action");
+    await evaluate("document.querySelector('[data-media-load-more]').click()");
+    await waitFor("document.querySelectorAll('[data-media-row]').length",
+      count => count === Math.min(100, mediaSource.films.length),
+      "Load more reveals the rest of the current fixture catalog");
+    assert.equal(await evaluate("Boolean(document.querySelector('[data-media-load-more]'))"),
+      mediaSource.films.length > 100, "Load-more availability must follow the current catalog size");
+    assert.equal(await evaluate("document.activeElement===document.querySelectorAll('[data-media-row]')[50]?.querySelector('th[scope=row]')"),
+      true, "After Show more, keyboard focus must reach the first newly revealed title");
+    // Reuse the focus-safe control when comparing synthetic rows in catalogs
+    // that may have grown far beyond today's disposable fixtures.
+    const loadUntilFilmPair = async (label) => {
+      for (let page = 0; page <= Math.ceil(mediaSource.films.length / 50); page++) {
+        const titles = await evaluate(
+          "Array.from(document.querySelectorAll('[data-media-row] th[scope=row]')).map(th=>th.textContent.trim())");
+        if (titles.some(title => title.includes(firstFilmTitle)) &&
+            titles.some(title => title.includes(secondFilmTitle))) return titles;
+        const hasMore = await evaluate("Boolean(document.querySelector('[data-media-load-more]'))");
+        if (!hasMore) throw new Error(label + ": fixture film pair not present in rendered matches");
+        const before = titles.length;
+        await evaluate("document.querySelector('[data-media-load-more]').click()");
+        await waitFor("document.querySelectorAll('[data-media-row]').length",
+          value => value > before, label + ": new page rendered");
+      }
+      throw new Error(label + ": excessive pages while looking for fixture films");
+    };
+
+    // Filtering must reset the live page window without changing total matches.
+    await evaluate("(()=>{const el=document.querySelector('[data-media-search]');el.value='ci pagination';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
+    await waitFor("document.querySelector('[data-media-count]')?.textContent.trim()",
+      value => value === mediaCountLabel("films", "ci pagination"), "Filtered source count remains complete");
+    await waitFor("document.querySelectorAll('[data-media-row]').length",
+      count => count === 50, "Search filter resets the hydrated list to one page");
+    await evaluate("(()=>{const el=document.querySelector('[data-media-search]');el.value='';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
+    await waitFor("document.querySelectorAll('[data-media-row]').length",
+      count => count === 50, "Cleared filter resets pagination");
+
     // A link labeled Jazz reviews is a reference, not a searchable media tag.
     await evaluate("(()=>{const el=document.querySelector('[data-media-search]');el.value='jazz';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
     await waitFor(
@@ -275,19 +319,36 @@ try {
       value => value === false, "switching to metadata-only search collapses unused notes",
     );
     await evaluate("(()=>{const el=document.querySelector('[data-media-search]');el.value='';el.dispatchEvent(new Event('input',{bubbles:true}));document.querySelector('[data-media-sort=year]').click()})()");
+    await waitFor("document.querySelector('[data-media-sort=year]')?.getAttribute('aria-pressed')",
+      value => value === "true", "Year sort activated");
     await waitFor("document.querySelectorAll('[data-media-row]').length",
-      count => count === mediaSource.films.length, "All source films remain after year sorting");
-    const yearTitles = await evaluate(
-      "Array.from(document.querySelectorAll('[data-media-row] th[scope=row]')).map(th=>th.textContent.trim())");
+      count => count === 50, "Year sort resets the live window");
+    const yearTitles = await loadUntilFilmPair("Year sorting");
     assert.ok(yearTitles.findIndex(title => title.includes(secondFilmTitle)) >= 0 && yearTitles.findIndex(title => title.includes(firstFilmTitle)) >= 0 &&
       yearTitles.findIndex(title => title.includes(secondFilmTitle)) < yearTitles.findIndex(title => title.includes(firstFilmTitle)),
       "The 2024 synthetic film must precede the 2001 synthetic film by year");
     assert.equal(await evaluate("document.querySelector('[data-media-sort=year]')?.getAttribute('aria-pressed')"),"true");
+    // Always cross the pagination boundary, even if the two representative
+    // records already appeared in the first window.
+    const priorYearRows = await evaluate("document.querySelectorAll('[data-media-row]').length");
+    assert.ok(await evaluate("Boolean(document.querySelector('[data-media-load-more]'))"),
+      "Year-sorted fixture must exercise the next page");
+    await evaluate("document.querySelector('[data-media-load-more]').click()");
+    await waitFor("document.querySelectorAll('[data-media-row]').length",
+      count => count === Math.min(priorYearRows + 50, mediaSource.films.length),
+      "Year sort preserves the additional media page");
+    const orderedYears = await evaluate(
+      "Array.from(document.querySelectorAll('[data-media-row]')).map(row=>{const y=Number(row.querySelector('td:nth-of-type(2)')?.textContent.trim());return Number.isFinite(y)&&y>0?y:null})");
+    for (let i = 1; i < orderedYears.length; i++) {
+      assert.ok((orderedYears[i - 1] ?? -Infinity) >= (orderedYears[i] ?? -Infinity),
+        "Year sorting must remain descending across the loaded-page boundary");
+    }
     await evaluate("document.querySelector('[data-media-sort=rating]').click()");
     await waitFor("document.querySelector('[data-media-sort=rating]')?.getAttribute('aria-pressed')",
       value => value === "true", "Highest-rating sort activated");
-    const ratingTitles = await evaluate(
-      "Array.from(document.querySelectorAll('[data-media-row] th[scope=row]')).map(th=>th.textContent.trim())");
+    await waitFor("document.querySelectorAll('[data-media-row]').length",
+      count => count === 50, "Rating sort resets the live window");
+    const ratingTitles = await loadUntilFilmPair("Rating sorting");
     assert.ok(ratingTitles.findIndex(title => title.includes(firstFilmTitle)) >= 0 && ratingTitles.findIndex(title => title.includes(secondFilmTitle)) >= 0 &&
       ratingTitles.findIndex(title => title.includes(firstFilmTitle)) < ratingTitles.findIndex(title => title.includes(secondFilmTitle)),
       "The 4.5-star synthetic film must precede the 1.5-star film by rating");
@@ -693,6 +754,7 @@ try {
     value => value === 0, "empty search results");
   assert.equal(await evaluate("document.querySelector('.empty-result')?.textContent.trim()"),
     "Nema rezultata.");
+
   // Real browser history events must restore the mounted Vue controls.
   await evaluate("(()=>{history.pushState({test:'bookmarks-history'},'',location.pathname+'?q=history-check-ci&sort=oldest&utm_source=fixture');window.dispatchEvent(new PopStateEvent('popstate'))})()");
   await waitFor("document.querySelector('.bookmark-browser input[type=search]')?.value",

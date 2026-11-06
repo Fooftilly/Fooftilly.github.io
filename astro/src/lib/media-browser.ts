@@ -52,3 +52,13 @@ export function compareMediaListings(a: MediaListing, b: MediaListing, sort: Med
     : sort === "rating" ? descendingOptional(a.rating,b.rating) : 0;
   return numeric || a.title.localeCompare(b.title,"en",{sensitivity:"base"}) || a.id.localeCompare(b.id);
 }
+
+
+/** Preserve all source rows in static SSR HTML. Hydrated Vue limits live DOM
+ * rows while retaining the same full match/count/source semantics.
+ */
+export const MEDIA_PAGE_SIZE = 50;
+export function mediaVisiblePage<T>(matches: readonly T[], limit: number, hydrated: boolean): readonly T[] {
+  if (!hydrated) return matches;
+  return matches.slice(0, Math.max(0, Math.floor(limit)));
+}
