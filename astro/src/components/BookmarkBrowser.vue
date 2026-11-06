@@ -66,7 +66,9 @@ onMounted(() => {
   const params = new URLSearchParams(window.location.search);
   query.value = params.get("q") || "";
   const cat = params.get("category");
-  if (cat && categories.value.includes(cat)) category.value = cat;
+  // A category-specific page already contains only that category. Do not
+  // restore an invisible, redundant category selection from a deep link.
+  if (categories.value.length > 1 && cat && categories.value.includes(cat)) category.value = cat;
   const order = params.get("sort");
   if (order === "title" || order === "oldest") sort.value = order;
 });
@@ -85,7 +87,7 @@ watch([query, category, sort], () => {
 
 <template>
   <section :aria-label="lang === 'sh' ? 'Pregled sačuvanih linkova' : 'Explore bookmarks'" class="bookmark-browser">
-    <div class="bookmark-controls">
+    <div class="bookmark-controls" :class="{ 'single-category': categories.length <= 1 }">
       <label class="search-field">
         <span>{{ labels.search }}</span>
         <input v-model="query" type="search" :placeholder="labels.placeholder" autocomplete="off" />
@@ -100,7 +102,7 @@ watch([query, category, sort], () => {
           </button>
         </div>
       </fieldset>
-      <fieldset class="bookmark-filter-group category-filters">
+      <fieldset v-if="categories.length > 1" class="bookmark-filter-group category-filters">
         <legend>{{ labels.category }}</legend>
         <div class="filter-buttons">
           <button type="button" data-bookmark-category="all" :aria-pressed="category === 'all'"
@@ -147,6 +149,7 @@ watch([query, category, sort], () => {
   grid-template-areas: "search sort" "category category";
   gap: .75rem 1rem; align-items: end;
 }
+.bookmark-controls.single-category { grid-template-areas: "search sort"; }
 .search-field { display: grid; grid-area: search; gap: .35rem; min-width: 0; font-weight: 600; font-size: .9rem; }
 .bookmark-controls input {
   padding: .7rem; width: 100%; font: inherit; min-height: 2.75rem; color: var(--foreground);
@@ -174,5 +177,6 @@ button { font: inherit; padding: .5rem .7rem; border-radius: 0; color: var(--for
 .more-button { display: block; margin: 1.5rem auto; }
 @media (max-width: 750px) {
   .bookmark-controls { grid-template-columns: 1fr; grid-template-areas: "search" "sort" "category"; }
+  .bookmark-controls.single-category { grid-template-areas: "search" "sort"; }
 }
 </style>
