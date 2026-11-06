@@ -519,6 +519,30 @@ try {
     assert.equal(await evaluate("document.querySelector('link[rel=canonical]')?.getAttribute('href')"),
       new URL(detailTarget, "https://www.peroniko.xyz").href,
       "Discovered bookmark detail page must retain its canonical URL");
+    // Exercise adjacent routes from the current source collection, not a fixed category.
+    const links = await evaluate(
+      "Array.from(document.querySelectorAll('.bookmark-neighbors a')).map(a=>({rel:a.getAttribute('rel'),href:a.getAttribute('href')}))");
+    if (selectedCount === 1) {
+      assert.equal(links.length, 0, "Single bookmark categories have no neighbors");
+    } else {
+      assert.ok(links.length >= 1 && links.length <= 2,
+        "Current category must expose its adjacent detail links");
+      const chosen = links.find(link => link.rel === "next") ?? links[0];
+      assert.ok(chosen.href.startsWith("/bookmarks/" + categoryForDetails.slug + "/"),
+        "Navigation must remain in the current category");
+      const reverse = chosen.rel === "next" ? "prev" : "next";
+      await evaluate("document.querySelector('.bookmark-neighbors a[rel=" +
+        JSON.stringify(chosen.rel) + "]').click()");
+      await waitFor("location.pathname", value => value === chosen.href,
+        "Adjacent bookmark link opens a different first-party detail page");
+      assert.notEqual(chosen.href, detailTarget);
+      assert.equal(await evaluate("document.querySelector('link[rel=canonical]')?.getAttribute('href')"),
+        new URL(chosen.href, "https://www.peroniko.xyz").href,
+        "Adjacent bookmark has its own canonical URL");
+      assert.equal(await evaluate("document.querySelector('.bookmark-neighbors a[rel=" +
+        JSON.stringify(reverse) + "]')?.getAttribute('href')"),
+        detailTarget, "Adjacent page must link back to the source record");
+    }
     console.log(`Browser bookmark detail smoke: ${selectedCount} category records have current source-driven links`);
   }
 
