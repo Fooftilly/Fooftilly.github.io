@@ -240,10 +240,22 @@ try {
       value => value === "1 of 2 entries", "reloaded media filter shows expected records",
     );
     assert.equal(await evaluate("document.querySelector('[data-media-clear-filters]')?.textContent.trim()"),"Clear filters");
-    await evaluate("document.querySelector('[data-media-clear-filters]').click()");
+    await evaluate("document.querySelector('[data-media-clear-filters]').focus()");
+    assert.equal(await evaluate("document.activeElement?.hasAttribute('data-media-clear-filters')"), true,
+      "Keyboard focus must reach Clear filters before activation");
+    await command("Input.dispatchKeyEvent", {
+      type:"keyDown",key:"Enter",code:"Enter",windowsVirtualKeyCode:13,
+    });
+    await command("Input.dispatchKeyEvent", {
+      type:"keyUp",key:"Enter",code:"Enter",windowsVirtualKeyCode:13,
+    });
     await waitFor(
       "(()=>{const p=new URL(location.href).searchParams;return !p.has('q')&&!p.has('sort')})()",
       Boolean, "Clear filters removes active search and sort URL parameters",
+    );
+    await waitFor(
+      "document.activeElement===document.querySelector('[data-media-search]')",
+      Boolean, "Clearing filters by keyboard must return focus to the persistent search input",
     );
     await waitFor(
       "document.querySelector('[data-media-count]')?.textContent.trim()",
