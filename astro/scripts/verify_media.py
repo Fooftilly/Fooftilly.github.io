@@ -143,7 +143,7 @@ def expected_row(record, canonical_urls=None):
             normalized(record.get("creator") or "—"),
             rendered_year(record),
             f"{rating:.1f} / 5" if rating is not None else "—",
-            normalized(record.get("status") or "—"),
+            normalized({"finished": "Finished", "in-progress": "In progress", "planned": "Planned"}.get(record.get("status"), "—")),
             normalized("".join(normalized(link["label"]) for link in links)) if links else "—",
         ],
         "links": [(normalized(link["label"]),

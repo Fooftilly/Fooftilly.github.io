@@ -40,7 +40,7 @@ class MediaOutputTests(unittest.TestCase):
             '<details><summary>Notes</summary><p class="notes">A  personal note</p></details>'
             '</th><td>Émilie</td><td>2001</td>'
             '<td aria-label="3.5 out of 5 stars">3.5 / 5</td>'
-            '<td>finished</td>'
+            '<td>Finished</td>'
             '<td><a href="https://letterboxd.com/film/example/">Letterboxd</a></td></tr>'
         )
         (self.astro / "dist" / "films" / "index.html").write_text(
@@ -165,7 +165,7 @@ class MediaOutputTests(unittest.TestCase):
             '<details><summary>Notes</summary><p class="notes">A  personal note</p></details>'
             '</th><td>Émilie</td><td>2001</td>'
             '<td aria-label="3.5 out of 5 stars">3.5 / 5</td>'
-            '<td>finished</td><td>'
+            '<td>Finished</td><td>'
             '<a href="https://xn--fa-hia.de/">First</a>'
             '<a href="https://[2001:db8::1]/">Second</a>'
             '</td></tr>'
@@ -247,7 +247,7 @@ class MediaOutputTests(unittest.TestCase):
             '<details><summary>Notes</summary><p class="notes">Résumé</p></details>'
             '</th><td>Émile</td><td>2001</td>'
             '<td aria-label="3.5 out of 5 stars">3.5 / 5</td>'
-            '<td>finished</td>'
+            '<td>Finished</td>'
             '<td><a href="https://example.org/caf%C3%A9?name=%C3%89mile">Café</a></td></tr>'
         )
         self.put_film(record=record, row=row)
