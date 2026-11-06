@@ -211,6 +211,26 @@ try {
       value => value === "", "media pageshow restores unfiltered list");
     await waitFor("document.querySelector('[data-media-status-filter=all]')?.getAttribute('aria-pressed')",
       value => value === "true", "media pageshow restores default status");
+    // Exercise a genuine same-origin document navigation and Back. Chromium
+    // may restore this page from BFCache or rehydrate it from network; either
+    // path must restore the saved URL controls without a stale Vue island.
+    await evaluate("(()=>{history.replaceState(history.state,'',location.pathname+'?q=emilie&status=finished&sort=year');window.dispatchEvent(new Event('pageshow'))})()");
+    await waitFor("document.querySelector('[data-media-search]')?.value",
+      value => value === "emilie", "film filters applied before leaving the document");
+    await navigate("/music/");
+    await evaluate("history.back()");
+    await waitFor("location.pathname", value => value === "/films/", "real document Back navigation");
+    await waitFor("document.querySelector('[data-media-search]')?.value",
+      value => value === "emilie", "returned film page restores search");
+    await waitFor("document.querySelector('[data-media-status-filter=finished]')?.getAttribute('aria-pressed')",
+      value => value === "true", "returned film page restores status");
+    await waitFor("document.querySelector('[data-media-sort=year]')?.getAttribute('aria-pressed')",
+      value => value === "true", "returned film page restores sorting");
+    await evaluate("(()=>{history.replaceState(history.state,'',location.pathname);window.dispatchEvent(new Event('pageshow'))})()");
+    await waitFor("document.querySelector('[data-media-search]')?.value",
+      value => value === "", "film collection cleared after real document Back");
+    await waitFor("document.querySelector('[data-media-status-filter=all]')?.getAttribute('aria-pressed')",
+      value => value === "true", "film collection default status restored after Back");
     assert.equal(await evaluate("document.querySelectorAll('[data-media-row]').length"), mediaSource.films.length);
     // A link labeled Jazz reviews is a reference, not a searchable media tag.
     await evaluate("(()=>{const el=document.querySelector('[data-media-search]');el.value='jazz';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
