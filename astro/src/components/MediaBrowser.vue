@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, nextTick, onMounted, ref, watch } from "vue";
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
 import { compareMediaListings, matchesMediaSearch, matchesMediaStatus, searchableMediaText, mediaNotesExplainSearch, type MediaSort, type MediaStatusFilter } from "../lib/media-browser.ts";
 import { mediaFilterHref, readMediaQueryState } from "../lib/media-query-state.ts";
 import type { MediaKind, StoredMedia } from "../lib/media-model.ts";
@@ -40,13 +40,24 @@ function syncUrl(): void {
   if (next !== current) window.history.replaceState(window.history.state, "", next);
 }
 
-onMounted(() => {
-  const initial = readMediaQueryState(window.location.search);
-  query.value = initial.query;
-  sort.value = initial.sort;
-  statusFilter.value = initial.status;
+const restoreFilters = (): void => {
+  const state = readMediaQueryState(window.location.search);
+  query.value = state.query;
+  sort.value = state.sort;
+  statusFilter.value = state.status;
   hydrated.value = true;
+  // A restored history entry may carry obsolete or repeated filter values.
   syncUrl();
+};
+onMounted(() => {
+  restoreFilters();
+  window.addEventListener("popstate", restoreFilters);
+  // BFCache navigations do not remount a Vue island; restore the address then.
+  window.addEventListener("pageshow", restoreFilters);
+});
+onUnmounted(() => {
+  window.removeEventListener("popstate", restoreFilters);
+  window.removeEventListener("pageshow", restoreFilters);
 });
 watch([query, sort, statusFilter], syncUrl);
 const visible=computed(()=>props.entries

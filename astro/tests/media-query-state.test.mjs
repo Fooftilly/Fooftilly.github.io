@@ -61,3 +61,30 @@ test("status filters have one canonical query parameter and reset cleanly", () =
   assert.equal(mediaFilterHref("https://www.peroniko.xyz/music/?status=finished&utm_source=fixture",
     "", "rating", "all"),"/music/?utm_source=fixture");
 });
+
+test("restored history URLs round-trip through the public filter codec", () => {
+  const history = [
+    "/films/?q=blue&status=finished&sort=year&utm_source=bookmarks",
+    "/films/?q=green&status=planned",
+    "/films/?sort=unsupported&status=retired&utm_source=bookmarks",
+  ];
+  const expected = [
+    {query:"blue",sort:"year",status:"finished"},
+    {query:"green",sort:"rating",status:"planned"},
+    {query:"",sort:"rating",status:"all"},
+  ];
+  for (const [index, href] of history.entries()) {
+    const restored = readMediaQueryState(new URL(href, "https://www.peroniko.xyz").search);
+    assert.deepEqual(restored, expected[index]);
+    const rewritten = mediaFilterHref("https://www.peroniko.xyz" + href,
+      restored.query, restored.sort, restored.status);
+    const next = new URL(rewritten, "https://www.peroniko.xyz");
+    assert.deepEqual(readMediaQueryState(next.search), restored);
+    assert.equal(next.searchParams.get("utm_source"),
+      index===1 ? null : "bookmarks");
+    if (index===2) {
+      assert.equal(next.searchParams.has("sort"), false);
+      assert.equal(next.searchParams.has("status"), false);
+    }
+  }
+});
