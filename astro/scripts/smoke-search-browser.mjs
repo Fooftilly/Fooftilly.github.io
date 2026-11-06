@@ -185,6 +185,32 @@ try {
       "(()=>{const el=document.querySelector('.media-collection');const island=el?.closest('astro-island');const controls=el?.querySelector('[data-media-controls]');return Boolean(el && island && !island.hasAttribute('ssr') && controls && getComputedStyle(controls).display!=='none');})()",
       Boolean, "media Vue island hydrated with visible controls",
     );
+    // Exercise popstate on the hydrated island and a genuine browser Back,
+    // not just the URL codec used by the server-side fixture assertions.
+    await evaluate("(()=>{history.pushState({media:'history'},'',location.pathname+'?q=emilie&status=finished&sort=year&utm_source=fixture');window.dispatchEvent(new PopStateEvent('popstate'))})()");
+    await waitFor("document.querySelector('[data-media-search]')?.value",
+      value => value === "emilie", "media popstate restores search");
+    await waitFor("document.querySelector('[data-media-status-filter=finished]')?.getAttribute('aria-pressed')",
+      value => value === "true", "media popstate restores status");
+    await waitFor("document.querySelector('[data-media-sort=year]')?.getAttribute('aria-pressed')",
+      value => value === "true", "media popstate restores sort");
+    await evaluate("history.back()");
+    await waitFor("document.querySelector('[data-media-search]')?.value",
+      value => value === "", "media Back navigation restores original search");
+    await waitFor("document.querySelector('[data-media-sort=rating]')?.getAttribute('aria-pressed')",
+      value => value === "true", "media Back navigation restores default sort");
+    await waitFor("document.querySelector('[data-media-status-filter=all]')?.getAttribute('aria-pressed')",
+      value => value === "true", "media Back navigation restores all statuses");
+    await evaluate("(()=>{history.replaceState(history.state,'',location.pathname+'?q=zebra&status=planned');window.dispatchEvent(new Event('pageshow'))})()");
+    await waitFor("document.querySelector('[data-media-search]')?.value",
+      value => value === "zebra", "media pageshow event restores search after cache navigation");
+    await waitFor("document.querySelector('[data-media-status-filter=planned]')?.getAttribute('aria-pressed')",
+      value => value === "true", "media pageshow event restores filter");
+    await evaluate("(()=>{history.replaceState(history.state,'',location.pathname);window.dispatchEvent(new Event('pageshow'))})()");
+    await waitFor("document.querySelector('[data-media-search]')?.value",
+      value => value === "", "media pageshow restores unfiltered list");
+    await waitFor("document.querySelector('[data-media-status-filter=all]')?.getAttribute('aria-pressed')",
+      value => value === "true", "media pageshow restores default status");
     assert.equal(await evaluate("document.querySelectorAll('[data-media-row]').length"), mediaSource.films.length);
     // A link labeled Jazz reviews is a reference, not a searchable media tag.
     await evaluate("(()=>{const el=document.querySelector('[data-media-search]');el.value='jazz';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
