@@ -80,7 +80,13 @@ function run(file, args) {
 
 try {
   for (const [index, {folder, record}] of fixtures.entries()) {
-    const path = join(source, folder, "zz-ci-synthetic-media-fixture-" + index + ".json");
+    const folderPath = join(source, folder);
+    const existing = new Set(await readdir(folderPath));
+    const baseStem = "zz-ci-synthetic-media-fixture-" + index;
+    let stem = baseStem;
+    let suffix = 2;
+    while (existing.has(stem + ".json")) stem = baseStem + "-" + suffix++;
+    const path = join(folderPath, stem + ".json");
     // Exclusive creation: never overwrite or accidentally delete a real entry.
     await writeFile(path, JSON.stringify(record, null, 2) + "\n", { flag: "wx" });
     created.push(path);
