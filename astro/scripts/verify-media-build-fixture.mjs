@@ -4,16 +4,20 @@
  */
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { readFile, readdir, unlink, writeFile } from "node:fs/promises";
+import { readFile, unlink, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { parse } from "yaml";
+import { readPublishedSourceBookmarkIds } from "./bookmark-inventory.mjs";
+import { defaultBookmarkCategory } from "../src/lib/bookmark-categories.ts";
 
 const astro = fileURLToPath(new URL("../", import.meta.url));
 const root = fileURLToPath(new URL("../../", import.meta.url));
 const source = join(root, "content", "media");
 const projectSource = join(root, "content", "projects");
-const bookmarkSource = join(root, "content", "bookmarks", "Resource");
+const bookmarkCategory = defaultBookmarkCategory();
+const bookmarkSource = join(root, "content", "bookmarks", bookmarkCategory.section);
+const bookmarkStem = "zz-ci-new-bookmark-fixture";
+const bookmarkId = bookmarkCategory.section + "/" + bookmarkStem;
 const dist = join(astro, "dist");
 
 const fixtures = [
@@ -93,29 +97,18 @@ try {
     "",
   ].join("\n"),{flag:"wx"});
   created.push(projectFile);
-  // Count the current published source records, not a fixed historical total.
-  // Include future reviewed additions, but exclude draft: true records.
-  let bookmarkCountBeforeFixture = 0;
-  for (const section of ["Art","Fun","Music","PaperBookArticle","Perspectives","Resource","YouTube"]) {
-    const folder = join(root, "content", "bookmarks", section);
-    for (const filename of await readdir(folder)) {
-      if (!filename.endsWith(".md") || filename === "_index.md") continue;
-      const contents = await readFile(join(folder, filename), "utf8");
-      const match = /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/.exec(contents);
-      assert.ok(match, "Bookmark fixture baseline has invalid frontmatter: " + filename);
-      if (parse(match[1]).draft !== true) bookmarkCountBeforeFixture++;
-    }
-  }
+  // Snapshot current published IDs before adding the disposable fixture.
+  const bookmarkIdsBeforeFixture = await readPublishedSourceBookmarkIds();
   // Exercise the complete source/route/feed/release pipeline with a new
   // reviewed-shape bookmark, not only a fixture inserted into the JS selector.
   // The old timestamp prevents this fixture from changing the recent-eight UI.
-  const bookmarkFile = join(bookmarkSource, "zz-ci-new-bookmark-fixture.md");
+  const bookmarkFile = join(bookmarkSource, bookmarkStem + ".md");
   await writeFile(bookmarkFile, [
     "---",
     'title: "CI-only new bookmark (not for publication)"',
     'date: "2000-01-01"',
     'link: "https://example.org/ci-bookmark-growth-fixture"',
-    'comments: "Regression: new bookmark accepted without deleting original entries."',
+    'comments: "Regression: current source inventory is reflected in generated output."',
     "---",
     "",
   ].join("\n"), {flag:"wx"});
@@ -128,11 +121,10 @@ try {
   run("python3", ["scripts/verify-site-seo.py"]);
   run(process.execPath, ["scripts/release-readiness.mjs"]);
   const manifest = JSON.parse(await readFile(join(astro, ".audit", "bookmarks-parity.json"), "utf8"));
-  assert.equal(manifest.length, bookmarkCountBeforeFixture + 1,
-    "Disposable bookmark fixture must add exactly one published source record");
-  assert.ok(manifest.some(row => row.id === "Resource/zz-ci-new-bookmark-fixture"),
-    "New bookmark must be present in the parity manifest");
-  assert.ok((await readFile(join(dist, "bookmarks", "resource", "zz-ci-new-bookmark-fixture", "index.html"), "utf8"))
+  assert.deepEqual(manifest.map(row => row.id).sort(),
+    [...bookmarkIdsBeforeFixture, bookmarkId].sort(),
+    "Disposable fixture must add exactly one record without losing current source entries");
+  assert.ok((await readFile(join(dist, "bookmarks", bookmarkCategory.slug, bookmarkStem, "index.html"), "utf8"))
     .includes("CI-only new bookmark"), "New bookmark detail page was not generated");
   const audit = run("python3", ["scripts/verify_media.py"]);
   for (const {folder, record} of fixtures) {
@@ -155,7 +147,7 @@ try {
   const browserOutput = run(process.execPath, ["scripts/smoke-search-browser.mjs", "--media-fixtures"]);
   assert.match(browserOutput, /Media fixture Chromium smoke: Vue hydration, search, live count and sort passed/);
   console.log(browserOutput.trim());
-  console.log("Actual media rendering, fourth-project routing and 577-record bookmark growth audits passed.");
+  console.log("Actual media rendering, project routing and source-driven bookmark growth audits passed.");
 } finally {
   // CI's next step rebuilds the real public artifact from source after cleanup.
   await Promise.all(created.map((path) => unlink(path)));

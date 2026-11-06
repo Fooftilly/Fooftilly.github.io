@@ -1,35 +1,34 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readdir, readFile } from "node:fs/promises";
+import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
-import { assertLegacyBookmarkInventory } from "../scripts/bookmark-inventory.mjs";
+import { BOOKMARK_CATEGORIES } from "../src/lib/bookmark-categories.ts";
+import {
+  assertBookmarkInventory, assertBookmarkSourceParity, readPublishedSourceBookmarkIds,
+} from "../scripts/bookmark-inventory.mjs";
 
 const base = fileURLToPath(new URL("../../content/bookmarks/", import.meta.url));
-const expected = {
-  Art: 38,
-  Fun: 53,
-  Music: 58,
-  PaperBookArticle: 20,
-  Perspectives: 37,
-  Resource: 54,
-  YouTube: 316,
-};
 
-test("all 576 legacy bookmark records survive while new files may be added", async () => {
-  let total = 0;
-  const found = [];
-  for (const [category, expectedCount] of Object.entries(expected)) {
-    const files = (await readdir(path.join(base, category)))
-      .filter((file) => file.endsWith(".md") && file !== "_index.md");
-    assert.ok(files.length >= expectedCount, `${category}: original category baseline shrank`);
-    for (const name of files) {
-      found.push(`${category}/${name.slice(0, -3)}`);
-      const raw = await readFile(path.join(base, category, name), "utf8");
-      assert.match(raw, /^---\s*\n/m, `${category}/${name}: frontmatter`);
-      assert.match(raw, /^title:\s*.+$/m, `${category}/${name}: title`);
-    }
-    total += files.length;
+test("every current published Markdown file has valid metadata and a unique ID", async () => {
+  const ids = await readPublishedSourceBookmarkIds();
+  assert.equal(await assertBookmarkSourceParity(ids, "Published bookmark source"), ids.length);
+  for (const id of ids) {
+    const [section, stem] = id.split("/");
+    const filename = path.join(base, section, stem + ".md");
+    const raw = await readFile(filename, "utf8");
+    assert.match(raw, /^---\s*\n/m, id + ": frontmatter");
+    assert.match(raw, /^title:\s*.+$/m, id + ": title");
   }
-  assert.equal(assertLegacyBookmarkInventory(found, "Legacy source files"), total);
+});
+
+test("reviewed additions, renames, removals and empty categories do not depend on historical IDs", () => {
+  const first = BOOKMARK_CATEGORIES[0].section;
+  const second = BOOKMARK_CATEGORIES.at(-1).section;
+  assert.equal(assertBookmarkInventory([first + "/one", second + "/two"]), 2);
+  assert.equal(assertBookmarkInventory([first + "/renamed"]), 1);
+  assert.equal(assertBookmarkInventory([]), 0);
+  assert.throws(() => assertBookmarkInventory([first + "/one", first + "/one"]), /duplicate/);
+  assert.throws(() => assertBookmarkInventory(["Unregistered/one"]), /unknown/);
+  assert.throws(() => assertBookmarkInventory([first + "/nested/path"]), /malformed/);
 });
