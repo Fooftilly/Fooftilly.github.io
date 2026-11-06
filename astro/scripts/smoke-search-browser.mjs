@@ -151,30 +151,56 @@ try {
   await command("Runtime.enable");
 
   if (process.argv.includes("--media-fixtures")) {
+    // Synthetic records coexist with any real Git-owned media JSON files.
+    const mediaSource = Object.fromEntries(await Promise.all(
+      ["films", "music", "tv"].map(async kind => {
+        const filenames = (await readdir(resolve("../content/media", kind)))
+          .filter(name => name.endsWith(".json"));
+        const entries = await Promise.all(filenames.map(async name =>
+          JSON.parse(await readFile(resolve("../content/media", kind, name), "utf8"))));
+        return [kind, entries];
+      }),
+    ));
+    const foldMedia = value => String(value ?? "").normalize("NFKD")
+      .replace(/\p{M}/gu, "").toLocaleLowerCase("en").replace(/\s+/gu, " ").trim();
+    const mediaMatchesQuery = (item, query) => {
+      const status = item.status === "in-progress" ? "in-progress In progress" : item.status ?? "";
+      const haystack = foldMedia([item.title, item.creator, item.year, status, item.notes].join(" "));
+      return foldMedia(query).split(" ").filter(Boolean).every(term => haystack.includes(term));
+    };
+    const mediaCount = (kind, query = "", status = "all") => mediaSource[kind]
+      .filter(item => mediaMatchesQuery(item, query) &&
+        (status === "all" || (status === "unspecified" ? !item.status : item.status === status))).length;
+    const mediaCountLabel = (kind, query = "", status = "all") =>
+      mediaCount(kind, query, status) + " of " + mediaSource[kind].length + " entries";
+    const firstFilmTitle = "CI synthetic film (not for publication)";
+    const secondFilmTitle = "Zebra CI synthetic film";
+    assert.ok(mediaSource.films.some(item => item.title === firstFilmTitle));
+    assert.ok(mediaSource.films.some(item => item.title === secondFilmTitle));
     await navigate("/films/");
     await waitFor(
       "(()=>{const el=document.querySelector('.media-collection');const island=el?.closest('astro-island');const controls=el?.querySelector('[data-media-controls]');return Boolean(el && island && !island.hasAttribute('ssr') && controls && getComputedStyle(controls).display!=='none');})()",
       Boolean, "media Vue island hydrated with visible controls",
     );
-    assert.equal(await evaluate("document.querySelectorAll('[data-media-row]').length"), 2);
+    assert.equal(await evaluate("document.querySelectorAll('[data-media-row]').length"), mediaSource.films.length);
     // A link labeled Jazz reviews is a reference, not a searchable media tag.
     await evaluate("(()=>{const el=document.querySelector('[data-media-search]');el.value='jazz';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
     await waitFor(
       "document.querySelector('[data-media-count]')?.textContent.trim()",
-      value => value === "0 of 2 entries", "unrelated link label excluded",
+      value => value === mediaCountLabel("films", "jazz", "all"), "unrelated link label excluded",
     );
     assert.equal(await evaluate("document.querySelectorAll('[data-media-row]').length"),0);
     await evaluate("(()=>{const el=document.querySelector('[data-media-search]');el.value='emilie';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
     await waitFor(
       "document.querySelector('[data-media-count]')?.textContent.trim()",
-      value => value === "1 of 2 entries", "accent-insensitive metadata search",
+      value => value === mediaCountLabel("films", "emilie", "all"), "accent-insensitive metadata search",
     );
     assert.equal(await evaluate("document.querySelector('[data-media-row] details')?.open"), false,
       "A visible creator match does not unnecessarily reveal public notes");
     await evaluate("(()=>{const el=document.querySelector('[data-media-search]');el.value='second';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
     await waitFor(
       "document.querySelector('[data-media-count]')?.textContent.trim()",
-      value => value === "1 of 2 entries", "note-only search finds the correct film",
+      value => value === mediaCountLabel("films", "second", "all"), "note-only search finds the correct film",
     );
     await waitFor(
       "document.querySelector('[data-media-row] details')?.open",
@@ -213,7 +239,7 @@ try {
     );
     await waitFor(
       "document.querySelector('[data-media-count]')?.textContent.trim()",
-      value => value === "1 of 2 entries", "film deep-link filtering restored",
+      value => value === mediaCountLabel("films", "emilie", "all"), "film deep-link filtering restored",
     );
     assert.equal(await evaluate("document.querySelector('[data-media-sort=year]')?.getAttribute('aria-pressed')"),"true",
       "Film deep-link sort must be restored");
@@ -249,7 +275,7 @@ try {
     );
     await waitFor(
       "document.querySelector('[data-media-count]')?.textContent.trim()",
-      value => value === "1 of 2 entries", "reloaded media filter shows expected records",
+      value => value === mediaCountLabel("films", "zebra", "all"), "reloaded media filter shows expected records",
     );
     assert.equal(await evaluate("document.querySelector('[data-media-clear-filters]')?.textContent.trim()"),"Clear filters");
     await evaluate("document.querySelector('[data-media-clear-filters]').focus()");
@@ -272,7 +298,7 @@ try {
     );
     await waitFor(
       "document.querySelector('[data-media-count]')?.textContent.trim()",
-      value => value === "2 of 2 entries", "Clear filters restores all films",
+      value => value === mediaCountLabel("films", "", "all"), "Clear filters restores all films",
     );
     assert.equal(await evaluate("document.querySelector('[data-media-sort=rating]')?.getAttribute('aria-pressed')"),"true",
       "Clear filters restores default rating sort");
@@ -290,7 +316,7 @@ try {
     );
     await waitFor(
       "document.querySelector('[data-media-count]')?.textContent.trim()",
-      value => value === "1 of 1 entries", "music deep-link result",
+      value => value === mediaCountLabel("music", "cafe", "all"), "music deep-link result",
     );
     assert.equal(await evaluate("document.querySelector('[data-media-sort=title]')?.getAttribute('aria-pressed')"), "true");
     assert.equal(await evaluate("document.querySelector('[data-media-clear-filters]')?.textContent.trim()"),"Clear filters",
@@ -298,7 +324,7 @@ try {
     await navigate("/tv/?q=no-matching-show");
     await waitFor(
       "document.querySelector('[data-media-count]')?.textContent.trim()",
-      value => value === "0 of 1 entries", "TV deep-link empty result",
+      value => value === mediaCountLabel("tv", "no-matching-show", "all"), "TV deep-link empty result",
     );
     await navigate("/films/?sort=untrusted");
     await waitFor(
@@ -320,20 +346,20 @@ try {
     );
     await waitFor(
       "document.querySelector('[data-media-count]')?.textContent.trim()",
-      value => value === "1 of 2 entries", "Film status filter hides other statuses",
+      value => value === mediaCountLabel("films", "", "planned"), "Film status filter hides other statuses",
     );
     assert.equal(await evaluate("document.querySelector('[data-media-row] td:nth-of-type(4)')?.textContent.trim()"),"Planned",
       "Media status is displayed in a readable form");
     await evaluate("document.querySelector('[data-media-status-filter=unspecified]').click()");
     await waitFor(
       "document.querySelector('[data-media-count]')?.textContent.trim()",
-      value => value === "0 of 2 entries", "Unspecified status finds no film fixture records",
+      value => value === mediaCountLabel("films", "", "unspecified"), "Unspecified status finds no film fixture records",
     );
     assert.equal(await evaluate("new URL(location.href).searchParams.get('status')"),"unspecified");
     await evaluate("document.querySelector('[data-media-clear-filters]').click()");
     await waitFor(
       "document.querySelector('[data-media-count]')?.textContent.trim()",
-      value => value === "2 of 2 entries", "Clear filters restores all media statuses",
+      value => value === mediaCountLabel("films", "", "all"), "Clear filters restores all media statuses",
     );
     await waitFor(
       "new URL(location.href).searchParams.has('status')",
@@ -347,7 +373,7 @@ try {
     await navigate("/tv/?status=planned");
     await waitFor(
       "document.querySelector('[data-media-count]')?.textContent.trim()",
-      value => value === "1 of 1 entries", "TV planned status filter",
+      value => value === mediaCountLabel("tv", "", "planned"), "TV planned status filter",
     );
     await navigate("/music/?status=unsupported");
     await waitFor(
