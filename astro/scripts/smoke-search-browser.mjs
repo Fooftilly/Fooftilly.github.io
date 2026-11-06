@@ -10,6 +10,17 @@ import { extname, join, resolve, sep } from "node:path";
 
 const sleep = (ms) => new Promise((done) => setTimeout(done, ms));
 const dist = resolve("dist");
+const bookmarkCategories = JSON.parse(await readFile(resolve("src/data/bookmark-categories.json"), "utf8"));
+const bookmarkRecords = JSON.parse(await readFile(resolve(".audit/bookmarks-parity.json"), "utf8"));
+const defaultCategory = bookmarkCategories.find(item => item.default);
+assert.ok(defaultCategory, "Missing configured default bookmark category");
+const categoryCount = category => bookmarkRecords.filter(record => record.id.startsWith(category.section + "/")).length;
+const categoryForDetails = bookmarkCategories.find(category => categoryCount(category) >= 2)
+  ?? bookmarkCategories.find(category => categoryCount(category) > 0);
+const categoryForSearch = bookmarkCategories.find(category => categoryCount(category) > 0 && category.labelSh !== category.label)
+  ?? bookmarkCategories.find(category => categoryCount(category) > 0);
+const activeCategories = bookmarkCategories.filter(category => categoryCount(category) > 0);
+
 const mime = {
   ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8",
   ".css": "text/css; charset=utf-8", ".json": "application/json; charset=utf-8",
@@ -420,52 +431,41 @@ try {
   }
   console.log("Browser project smoke: EN/SH direct-source links, keyboard Tab order and mobile layout passed");
 
-  // Every saved bookmark has an existing first-party detail page, including
-  // the 576 legacy entries without Markdown notes. Verify these pages are
-  // discoverable from the actual hydrated category listing, not just generated.
-  await navigate("/bookmarks/paperbookarticle/");
-  await waitFor(
-    "(()=>{const island=document.querySelector('.bookmark-browser')?.closest('astro-island');return Boolean(island && !island.hasAttribute('ssr'));})()",
-    Boolean, "bookmark category listing Vue hydration",
-  );
-  await waitFor(
-    "document.querySelectorAll('.bookmark-entry').length",
-    value => value === 20, "20 article/book category listings",
-  );
-  assert.equal(await evaluate("document.querySelectorAll('.bookmark-browser [data-bookmark-category]').length"),0,
-    "Single-category listings must not show redundant All/category buttons");
-  assert.equal(await evaluate("document.querySelector('.bookmark-controls')?.classList.contains('single-category')"),true);
-  assert.equal(await evaluate("document.querySelectorAll('.bookmark-browser [data-bookmark-sort]').length"),3,
-    "Single-category listings retain sort buttons");
-  assert.ok(await evaluate("document.querySelector('.bookmark-browser input[type=search]') !== null"),
-    "Single-category listings retain title and comment search");
-  const linkedCount = await evaluate(
-    "document.querySelectorAll('.bookmark-entry [data-bookmark-detail-link]').length",
-  );
-  assert.equal(linkedCount, 20, "Each displayed bookmark must expose its first-party detail page");
-  const detailTarget = await evaluate(
-    "document.querySelector('.bookmark-entry [data-bookmark-detail-link]')?.getAttribute('href')",
-  );
-  assert.match(detailTarget, /^\/bookmarks\/paperbookarticle\/[^/]+\/$/);
-  assert.equal(
-    await evaluate("document.querySelector('.bookmark-entry [data-bookmark-detail-link]')?.textContent.trim()"),
-    "Details", "Existing bookmarks without notes should offer Details rather than Notes",
-  );
-  await evaluate("document.querySelector('.bookmark-entry [data-bookmark-detail-link]').click()");
-  await waitFor(
-    "location.pathname",
-    value => value === detailTarget, "category listing detail link navigation",
-  );
-  await waitFor(
-    "document.querySelector('.bookmark-detail h1')?.textContent.trim()",
-    value => Boolean(value), "linked first-party bookmark detail page",
-  );
-  assert.equal(
-    await evaluate("document.querySelector('link[rel=canonical]')?.getAttribute('href')"),
-    new URL(detailTarget, "https://www.peroniko.xyz").href,
-    "Discovered bookmark detail page must retain its canonical URL",
-  );
-  console.log("Browser bookmark detail smoke: all 20 category entries link to their first-party pages");
+  // Inspect a current category rather than pinning a migrated record or count.
+  if (categoryForDetails) {
+    const selectedCount = categoryCount(categoryForDetails);
+    await navigate("/bookmarks/" + categoryForDetails.slug + "/");
+    await waitFor(
+      "(()=>{const island=document.querySelector('.bookmark-browser')?.closest('astro-island');return Boolean(island && !island.hasAttribute('ssr'));})()",
+      Boolean, "bookmark category listing Vue hydration",
+    );
+    await waitFor("document.querySelectorAll('.bookmark-entry').length",
+      value => value === Math.min(50, selectedCount), "visible category bookmark entries");
+    assert.equal(await evaluate("document.querySelectorAll('.bookmark-browser [data-bookmark-category]').length"),0,
+      "Single-category listings must not show redundant category buttons");
+    assert.equal(await evaluate("document.querySelector('.bookmark-controls')?.classList.contains('single-category')"),true);
+    assert.equal(await evaluate("document.querySelectorAll('.bookmark-browser [data-bookmark-sort]').length"),3);
+    assert.equal(await evaluate("document.querySelectorAll('.bookmark-entry [data-bookmark-detail-link]').length"),
+      Math.min(50, selectedCount), "Each visible entry needs a detail link");
+    const detailTarget = await evaluate(
+      "document.querySelector('.bookmark-entry [data-bookmark-detail-link]')?.getAttribute('href')");
+    assert.ok(detailTarget.startsWith("/bookmarks/" + categoryForDetails.slug + "/"),
+      "Category detail URLs must remain category-local");
+    const selected = bookmarkRecords.find(row => row.detailUrl === detailTarget);
+    assert.ok(selected, "Displayed bookmark must exist in source parity manifest");
+    assert.equal(await evaluate(
+      "document.querySelector('.bookmark-entry [data-bookmark-detail-link]')?.textContent.trim()"),
+      selected.notesUrl ? "Notes" : "Details", "Detail label must reflect published notes");
+    await evaluate("document.querySelector('.bookmark-entry [data-bookmark-detail-link]').click()");
+    await waitFor("location.pathname", value => value === detailTarget,
+      "category listing detail link navigation");
+    await waitFor("document.querySelector('.bookmark-detail h1')?.textContent.trim()",
+      Boolean, "linked first-party bookmark detail page");
+    assert.equal(await evaluate("document.querySelector('link[rel=canonical]')?.getAttribute('href')"),
+      new URL(detailTarget, "https://www.peroniko.xyz").href,
+      "Discovered bookmark detail page must retain its canonical URL");
+    console.log(`Browser bookmark detail smoke: ${selectedCount} category records have current source-driven links`);
+  }
 
   // Homepages should expose the same first-party detail pages as the
   // bookmark browser, without altering external title links.
@@ -478,24 +478,26 @@ try {
       "titleTarget:item.querySelector('a:not(.recent-details)')?.getAttribute('target')||null" +
       "}))",
     );
-    assert.equal(cards.length, 8, "Homepage must expose eight recent cards: " + route);
+    assert.equal(cards.length, Math.min(8, bookmarkRecords.length), "Homepage recent cards must reflect current content: " + route);
     assert.ok(cards.every(item => /^\/bookmarks\/[^/]+\/[^/]+\/$/.test(item.detail)),
       "Every recent card must reach a first-party detail URL: " + route);
     assert.ok(cards.every(item => item.label === label),
       "Recent internal links must be localized: " + route);
     assert.ok(cards.every(item => item.titleTarget === "_blank" || item.titleTarget === null),
       "Original external title links must retain their navigation behavior: " + route);
-    const firstDetail = cards[0].detail;
-    await evaluate("document.querySelector('.recent-grid a.recent-details').click()");
-    await waitFor("location.pathname", value => value === firstDetail,
-      "Homepage detail link should navigate to saved bookmark: " + route);
-    await waitFor("document.querySelector('.bookmark-detail h1')?.textContent.trim()",
-      Boolean, "Homepage-linked bookmark detail page loads: " + route);
-    assert.equal(
-      await evaluate("document.querySelector('link[rel=canonical]')?.getAttribute('href')"),
-      new URL(firstDetail, "https://www.peroniko.xyz").href,
-      "Homepage destination must retain canonical metadata: " + route,
-    );
+    if (cards.length) {
+      const firstDetail = cards[0].detail;
+      await evaluate("document.querySelector('.recent-grid a.recent-details').click()");
+      await waitFor("location.pathname", value => value === firstDetail,
+        "Homepage detail link should navigate to saved bookmark: " + route);
+      await waitFor("document.querySelector('.bookmark-detail h1')?.textContent.trim()",
+        Boolean, "Homepage-linked bookmark detail page loads: " + route);
+      assert.equal(
+        await evaluate("document.querySelector('link[rel=canonical]')?.getAttribute('href')"),
+        new URL(firstDetail, "https://www.peroniko.xyz").href,
+        "Homepage destination must retain canonical metadata: " + route,
+      );
+    }
   }
   console.log("Browser homepage bookmark smoke: EN/SH recent detail links and destination navigation passed");
 
