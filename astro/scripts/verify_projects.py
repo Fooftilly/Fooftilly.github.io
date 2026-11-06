@@ -115,9 +115,9 @@ def verify_card_source_link(cards, slug, repository, label, expected_title):
     ), ("Missing external-link protections", slug, label)
 
 
-def verify_project_disclosures(page: str, slug: str) -> None:
-    """Require meaningful text under each initial project's disclosure heading."""
-    for heading in ("Requirements", "Limitations"):
+def verify_project_disclosures(page: str, slug: str, headings=("Requirements", "Limitations")) -> None:
+    """Require meaningful rendered text for disclosure headings present in source."""
+    for heading in headings:
         # Each heading's content ends at the next heading or closing section.
         # Checking only the heading would allow empty disclosures to ship.
         pattern = r"<h2\b[^>]*>\s*" + heading + r"\s*</h2>(.*?)(?=<h2\b|</section>)"
@@ -174,13 +174,17 @@ def verify_project_license_link(html: str, slug: str, license: str, license_url:
 
 def verify_projects(dist: Path, source: Path, origin: str) -> None:
     items = sorted(source.glob("*.md"))
-    assert len(items) >= 3, "Missing initial project showcase content"
     index = (dist / "projects/index.html").read_text(encoding="utf8")
     assert "<h1" in index and "Projects" in index
     local_index=(dist / "sh/projects/index.html").read_text(encoding="utf8")
     assert "<h1" in local_index and "Projekti" in local_index
     indexes = (("Source code", parse_project_cards(index)),
                ("Izvorni kod", parse_project_cards(local_index)))
+    for label, cards in indexes:
+        assert len(cards) == len(items), ("Project cards must reflect current source", label)
+    expected_details = {item.stem for item in items}
+    actual_details = {page.parent.name for page in (dist / "projects").glob("*/index.html")}
+    assert actual_details == expected_details, ("Project detail source parity", actual_details ^ expected_details)
     for item in items:
         slug = item.stem
         assert slug and all(c.islower() or c.isdigit() or c == "-" for c in slug), slug
@@ -195,21 +199,29 @@ def verify_projects(dist: Path, source: Path, origin: str) -> None:
         assert result.is_file(), ("Missing project detail", slug)
         html = result.read_text(encoding="utf8")
         expected_title = parse_project_heading(html)
-        # Future fixture projects may omit optional disclosure sections.
-        if slug in {"prks", "kokoro-extension", "local-search-mcp"}:
-            verify_project_disclosures(html, slug)
-            # All three source repositories publish LICENSE on master; future
-            # projects may omit the optional licenseUrl or use another path.
-            expected_license_url = repository + "/blob/master/LICENSE"
-            assert f'licenseUrl: "{expected_license_url}"' in body, (
-                "Missing/incorrect canonical project license source", slug
+        # Check each optional source disclosure without pinning original projects.
+        for heading in ("Requirements", "Limitations"):
+            if re.search(r"(?m)^##\s+" + re.escape(heading) + r"\s*$", body):
+                verify_project_disclosures(html, slug, (heading,))
+        license_values = [line.removeprefix("license: ").strip().strip('"').strip("'")
+                          for line in body.splitlines() if line.startswith("license: ")]
+        assert len(license_values) == 1 and license_values[0], (
+            "Missing canonical project license identifier", slug
+        )
+        license_urls = [line.removeprefix("licenseUrl: ").strip().strip('"').strip("'")
+                        for line in body.splitlines() if line.startswith("licenseUrl: ")]
+        assert len(license_urls) <= 1, ("Duplicate project license URL", slug)
+        if license_urls:
+            verify_project_license_link(html, slug, license_values[0], license_urls[0])
+        else:
+            parser = ProjectLicenseParser()
+            parser.feed(html)
+            parser.close()
+            assert not parser.links, ("Unexpected linked license with no source URL", slug)
+            assert "License:" in " ".join(parser.labels), ("Missing license label", slug)
+            assert license_values[0] in " ".join(parser.labels), (
+                "License identifier differs from current source", slug
             )
-            license_values = [line.removeprefix("license: ").strip().strip('"').strip("'")
-                              for line in body.splitlines() if line.startswith("license: ")]
-            assert len(license_values) == 1 and license_values[0], (
-                "Missing canonical project license identifier", slug
-            )
-            verify_project_license_link(html, slug, license_values[0], expected_license_url)
         assert 'href="/projects/' + slug + '/"' in index, ("Missing index entry", slug)
         assert 'href="/projects/' + slug + '/"' in local_index, ("Missing SH index entry", slug)
         # Check source links in each rendered card, not anywhere on the page.

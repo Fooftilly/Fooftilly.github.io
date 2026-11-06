@@ -4,7 +4,7 @@
  */
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { readFile, unlink, writeFile } from "node:fs/promises";
+import { mkdir, readFile, readdir, rmdir, unlink, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { readPublishedSourceBookmarkIds } from "./bookmark-inventory.mjs";
@@ -16,7 +16,12 @@ const source = join(root, "content", "media");
 const projectSource = join(root, "content", "projects");
 const bookmarkCategory = defaultBookmarkCategory();
 const bookmarkSource = join(root, "content", "bookmarks", bookmarkCategory.section);
-const bookmarkStem = "zz-ci-new-bookmark-fixture";
+let bookmarkStem = "zz-ci-new-bookmark-fixture";
+let bookmarkSuffix = 2;
+const existingBookmarkFiles = new Set(await readdir(bookmarkSource));
+while (existingBookmarkFiles.has(bookmarkStem + ".md")) {
+  bookmarkStem = "zz-ci-new-bookmark-fixture-" + bookmarkSuffix++;
+}
 const bookmarkId = bookmarkCategory.section + "/" + bookmarkStem;
 const dist = join(astro, "dist");
 
@@ -60,6 +65,7 @@ const fixtures = [
 ];
 
 const created = [];
+let createdProjectDirectory = false;
 function run(file, args) {
   const result = spawnSync(file, args, {
     cwd: astro, encoding: "utf8", maxBuffer: 8 * 1024 * 1024,
@@ -75,16 +81,36 @@ function run(file, args) {
 
 try {
   for (const [index, {folder, record}] of fixtures.entries()) {
-    const path = join(source, folder, "zz-ci-synthetic-media-fixture-" + index + ".json");
+    const folderPath = join(source, folder);
+    const existing = new Set(await readdir(folderPath));
+    const baseStem = "zz-ci-synthetic-media-fixture-" + index;
+    let stem = baseStem;
+    let suffix = 2;
+    while (existing.has(stem + ".json")) stem = baseStem + "-" + suffix++;
+    const path = join(folderPath, stem + ".json");
     // Exclusive creation: never overwrite or accidentally delete a real entry.
     await writeFile(path, JSON.stringify(record, null, 2) + "\n", { flag: "wx" });
     created.push(path);
   }
   // Verify an entirely new project needs a Markdown entry, not route code.
-  const projectFile=join(projectSource,"zz-ci-project.md");
+  let projectFiles;
+  try { projectFiles = await readdir(projectSource); }
+  catch (error) {
+    if (error.code !== "ENOENT") throw error;
+    await mkdir(projectSource, { recursive: true });
+    createdProjectDirectory = true;
+    projectFiles = [];
+  }
+  const existingProjectFiles = new Set(projectFiles);
+  let projectSlug = "zz-ci-project";
+  let projectSuffix = 2;
+  while (existingProjectFiles.has(projectSlug + ".md")) {
+    projectSlug = "zz-ci-project-" + projectSuffix++;
+  }
+  const projectFile = join(projectSource, projectSlug + ".md");
   await writeFile(projectFile,[
     "---",
-    'title: "CI-only fourth project"',
+    'title: "CI-only synthetic project"',
     'summary: "Disposable source-driven project route test."',
     'repository: "https://github.com/Fooftilly/PRKS"',
     "order: 999",
@@ -138,12 +164,12 @@ try {
   // The existing clean build/browser gate still runs afterward.
   const projectAudit=run("python3",["scripts/verify_projects.py"]);
   assert.match(projectAudit,/Verified \d+ project showcases/);
-  const detail=await readFile(join(dist,"projects","zz-ci-project","index.html"),"utf8");
+  const detail=await readFile(join(dist,"projects",projectSlug,"index.html"),"utf8");
   const index=await readFile(join(dist,"projects","index.html"),"utf8");
   const sitemap=await readFile(join(dist,"sitemap.xml"),"utf8");
-  assert.ok(detail.includes("CI-only fourth project"),"Fourth project did not render");
-  assert.ok(index.includes("/projects/zz-ci-project/"),"Project missing from index");
-  assert.ok(sitemap.includes("/projects/zz-ci-project/"),"Project missing from sitemap");
+  assert.ok(detail.includes("CI-only synthetic project"),"Disposable project did not render");
+  assert.ok(index.includes("/projects/" + projectSlug + "/"),"Project missing from index");
+  assert.ok(sitemap.includes("/projects/" + projectSlug + "/"),"Project missing from sitemap");
   const browserOutput = run(process.execPath, ["scripts/smoke-search-browser.mjs", "--media-fixtures"]);
   assert.match(browserOutput, /Media fixture Chromium smoke: Vue hydration, search, live count and sort passed/);
   console.log(browserOutput.trim());
@@ -151,4 +177,5 @@ try {
 } finally {
   // CI's next step rebuilds the real public artifact from source after cleanup.
   await Promise.all(created.map((path) => unlink(path)));
+  if (createdProjectDirectory) await rmdir(projectSource);
 }
