@@ -4,6 +4,7 @@ import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { parse } from "yaml";
+import { assertLegacyBookmarkInventory } from "./bookmark-inventory.mjs";
 
 const source = fileURLToPath(new URL("../../content/bookmarks/", import.meta.url));
 const manifest = fileURLToPath(new URL("../.audit/bookmarks-parity.json", import.meta.url));
@@ -46,6 +47,7 @@ function safeLink(raw) {
 test("all source bookmark metadata survives Astro collection loading and output", async () => {
   const output = JSON.parse(await readFile(manifest, "utf8"));
   assert.ok(Array.isArray(output), "Expected Astro-generated collection JSON");
+  assertLegacyBookmarkInventory(output, "Astro parity output");
   const actual = new Map();
   for (const row of output) {
     assert.equal(typeof row.id, "string");
@@ -82,7 +84,7 @@ test("all source bookmark metadata survives Astro collection loading and output"
     }
   }
 
-  assert.equal(expected.size, 576, "Legacy 576-record baseline should not silently change");
+  assertLegacyBookmarkInventory([...expected.keys()], "Canonical source inventory");
   assert.equal(actual.size, expected.size, "Astro output must contain every source record");
   for (const [id, row] of expected) {
     assert.deepEqual(actual.get(id), row, `Source-to-output mismatch for ${id}`);
