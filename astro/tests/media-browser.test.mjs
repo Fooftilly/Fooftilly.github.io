@@ -54,6 +54,12 @@ test("matching terms found only in collapsed public notes are revealed", () => {
   assert.equal(mediaNotesExplainSearch({...entry,notes:undefined}, "second"), false);
 });
 
+test("search indexes both displayed status labels and original status tokens",()=>{
+  const entry={title:"Work",status:"in-progress"};
+  assert.equal(matchesMediaSearch(searchableMediaText(entry),"In progress"),true);
+  assert.equal(matchesMediaSearch(searchableMediaText(entry),"in-progress"),true);
+});
+
 test("status filtering distinguishes missing values from the three published statuses",()=>{
   const entries = [{status:"finished"},{status:"in-progress"},{status:"planned"},{}];
   for(const filter of ["all","finished","in-progress","planned","unspecified"]){
