@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
 import { BOOKMARK_CATEGORIES, draftCategoryFromSlug } from "../lib/bookmark-categories.ts";
+import { bookmarkDetailPath } from "../lib/bookmark-path.ts";
 import {
   composeBookmarkDraft,
   githubNewFileUrl,
@@ -113,9 +114,15 @@ async function copy(value: string, description: string) {
     <div v-if="result.draft" class="output">
       <h2>Ready to add</h2>
       <p><strong>GitHub file:</strong> <code>{{ result.draft.path }}</code></p>
-      <p v-if="result.draft.duplicateIds.length" class="duplicate" role="alert">
-        Possible duplicate: this URL already appears in {{ result.draft.duplicateIds.join(", ") }}. Review before committing.
-      </p>
+      <div v-if="result.draft.duplicateIds.length" class="duplicate" role="alert">
+        <p>Possible duplicate: this URL already appears in existing bookmarks. Review before committing:</p>
+        <ul>
+          <li v-for="id in result.draft.duplicateIds" :key="id">
+            <a :href="bookmarkDetailPath(id)" target="_blank" rel="noopener noreferrer"
+              data-bookmark-duplicate-link :aria-label="`View existing bookmark: ${id}`">{{ id }}</a>
+          </li>
+        </ul>
+      </div>
       <label>
         Generated Markdown
         <textarea :value="result.draft.markdown" readonly rows="10" spellcheck="false" />
@@ -172,5 +179,8 @@ textarea { min-height: 5rem; resize: vertical; font-weight: normal; }
 .actions a { color: var(--accent); }
 .privacy-note, .help, .copy-status { color: var(--muted); font-size: .92rem; }
 .validation, .duplicate { color: var(--foreground); border-left: 3px solid var(--accent); padding-left: .75rem; }
+.duplicate ul { margin: .5rem 0; padding-left: 1.5rem; }
+.duplicate li { margin: .3rem 0; overflow-wrap: anywhere; }
+.duplicate a { color: var(--accent); }
 
 </style>

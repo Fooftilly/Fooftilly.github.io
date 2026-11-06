@@ -4,6 +4,7 @@ import { parse } from "yaml";
 import {
   composeBookmarkDraft, parseBookmarkUrl, bookmarkSlug, githubNewFileUrl,
 } from "../src/lib/bookmark-draft.ts";
+import { bookmarkDetailPath } from "../src/lib/bookmark-path.ts";
 
 const valid = {
   title: "Čudesni članak / reference",
@@ -79,4 +80,22 @@ test("non-Latin filenames remain safe and stable", () => {
   const s = bookmarkSlug("Чување линкова / 2026");
   assert.equal(s, "чување-линкова-2026");
   assert.match(composeBookmarkDraft({ ...valid, title: "Чување линкова" }, []).path, /чување-линкова\.md$/);
+});
+
+test("duplicate warnings can link to canonical, existing first-party detail pages", () => {
+  const existing = [
+    {id:"Resource/source",url:valid.url},
+    {id:"PaperBookArticle/same-source",url:valid.url},
+    {id:"Resource/another",url:"https://example.org/other"},
+  ];
+  const draft = composeBookmarkDraft(valid, existing);
+  assert.deepEqual(draft.duplicateIds,["Resource/source","PaperBookArticle/same-source"]);
+  const targets = draft.duplicateIds.map(bookmarkDetailPath);
+  assert.deepEqual(targets,[
+    "/bookmarks/resource/source/",
+    "/bookmarks/paperbookarticle/same-source/",
+  ]);
+  assert.ok(targets.every(target=>target.startsWith("/bookmarks/")&&!target.includes("..")));
+  assert.throws(()=>bookmarkDetailPath("../traversal"),/Unsupported bookmark ID/);
+  assert.throws(()=>bookmarkDetailPath("Resource/file/extra"),/Unsupported bookmark ID/);
 });
