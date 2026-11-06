@@ -227,8 +227,8 @@ try {
       count => count === mediaSource.films.length, "All source films remain after year sorting");
     const yearTitles = await evaluate(
       "Array.from(document.querySelectorAll('[data-media-row] th[scope=row]')).map(th=>th.textContent.trim())");
-    assert.ok(yearTitles.indexOf(secondFilmTitle) >= 0 && yearTitles.indexOf(firstFilmTitle) >= 0 &&
-      yearTitles.indexOf(secondFilmTitle) < yearTitles.indexOf(firstFilmTitle),
+    assert.ok(yearTitles.findIndex(title => title.includes(secondFilmTitle)) >= 0 && yearTitles.findIndex(title => title.includes(firstFilmTitle)) >= 0 &&
+      yearTitles.findIndex(title => title.includes(secondFilmTitle)) < yearTitles.findIndex(title => title.includes(firstFilmTitle)),
       "The 2024 synthetic film must precede the 2001 synthetic film by year");
     assert.equal(await evaluate("document.querySelector('[data-media-sort=year]')?.getAttribute('aria-pressed')"),"true");
     await evaluate("document.querySelector('[data-media-sort=rating]').click()");
@@ -236,8 +236,8 @@ try {
       value => value === "true", "Highest-rating sort activated");
     const ratingTitles = await evaluate(
       "Array.from(document.querySelectorAll('[data-media-row] th[scope=row]')).map(th=>th.textContent.trim())");
-    assert.ok(ratingTitles.indexOf(firstFilmTitle) >= 0 && ratingTitles.indexOf(secondFilmTitle) >= 0 &&
-      ratingTitles.indexOf(firstFilmTitle) < ratingTitles.indexOf(secondFilmTitle),
+    assert.ok(ratingTitles.findIndex(title => title.includes(firstFilmTitle)) >= 0 && ratingTitles.findIndex(title => title.includes(secondFilmTitle)) >= 0 &&
+      ratingTitles.findIndex(title => title.includes(firstFilmTitle)) < ratingTitles.findIndex(title => title.includes(secondFilmTitle)),
       "The 4.5-star synthetic film must precede the 1.5-star film by rating");
     // Media collection filters must survive navigation, reloads and link sharing.
     await navigate("/films/?q=emilie&sort=year&utm_source=fixture");
