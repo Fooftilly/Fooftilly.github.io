@@ -10,17 +10,6 @@ import { extname, join, resolve, sep } from "node:path";
 
 const sleep = (ms) => new Promise((done) => setTimeout(done, ms));
 const dist = resolve("dist");
-const bookmarkCategories = JSON.parse(await readFile(resolve("src/data/bookmark-categories.json"), "utf8"));
-const bookmarkRecords = JSON.parse(await readFile(resolve(".audit/bookmarks-parity.json"), "utf8"));
-const defaultCategory = bookmarkCategories.find(item => item.default);
-assert.ok(defaultCategory, "Missing configured default bookmark category");
-const categoryCount = category => bookmarkRecords.filter(record => record.id.startsWith(category.section + "/")).length;
-const categoryForDetails = bookmarkCategories.find(category => categoryCount(category) >= 2)
-  ?? bookmarkCategories.find(category => categoryCount(category) > 0);
-const categoryForSearch = bookmarkCategories.find(category => categoryCount(category) > 0 && category.labelSh !== category.label)
-  ?? bookmarkCategories.find(category => categoryCount(category) > 0);
-const activeCategories = bookmarkCategories.filter(category => categoryCount(category) > 0);
-
 const mime = {
   ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8",
   ".css": "text/css; charset=utf-8", ".json": "application/json; charset=utf-8",
@@ -103,6 +92,16 @@ try {
     }
   }
   if (!port) throw lastStartupError;
+  const bookmarkCategories = JSON.parse(await readFile(resolve("src/data/bookmark-categories.json"), "utf8"));
+  const bookmarkRecords = JSON.parse(await readFile(resolve(".audit/bookmarks-parity.json"), "utf8"));
+  const defaultCategory = bookmarkCategories.find(item => item.default);
+  assert.ok(defaultCategory, "Missing configured default bookmark category");
+  const categoryCount = category => bookmarkRecords.filter(record => record.id.startsWith(category.section + "/")).length;
+  const categoryForDetails = bookmarkCategories.find(category => categoryCount(category) >= 2)
+    ?? bookmarkCategories.find(category => categoryCount(category) > 0);
+  const categoryForSearch = bookmarkCategories.find(category => categoryCount(category) > 0 && category.labelSh !== category.label)
+    ?? bookmarkCategories.find(category => categoryCount(category) > 0);
+  const activeCategories = bookmarkCategories.filter(category => categoryCount(category) > 0);
   const opened = await fetch("http://127.0.0.1:" + port + "/json/new?about:blank", { method: "PUT" });
   assert.equal(opened.status, 200, "Unable to open browser target");
   const target = await opened.json();
