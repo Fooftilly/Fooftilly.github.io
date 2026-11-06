@@ -755,6 +755,20 @@ try {
   assert.equal(await evaluate("document.querySelector('.empty-result')?.textContent.trim()"),
     "Nema rezultata.");
 
+  // Real browser history events must restore the mounted Vue controls.
+  await evaluate("(()=>{history.pushState({test:'bookmarks-history'},'',location.pathname+'?q=history-check-ci&sort=oldest&utm_source=fixture');window.dispatchEvent(new PopStateEvent('popstate'))})()");
+  await waitFor("document.querySelector('.bookmark-browser input[type=search]')?.value",
+    value => value === "history-check-ci", "bookmark popstate restores search input");
+  await waitFor("document.querySelector('[data-bookmark-sort=oldest]')?.getAttribute('aria-pressed')",
+    value => value === "true", "bookmark popstate restores sort");
+  await evaluate("history.back()");
+  await waitFor("document.querySelector('.bookmark-browser input[type=search]')?.value",
+    value => value === emptyQuery, "browser Back restores prior bookmark query");
+  await waitFor("document.querySelector('[data-bookmark-sort=newest]')?.getAttribute('aria-pressed')",
+    value => value === "true", "browser Back restores prior bookmark sort");
+  assert.equal(await evaluate("new URL(location.href).searchParams.has('utm_source')"), false,
+    "Restoring an earlier history entry must not leak later tracking parameters");
+
   if (categoryForSearch && activeCategories.length > 1) {
     const label = categoryForSearch.label;
     const localizedLabel = categoryForSearch.labelSh;
