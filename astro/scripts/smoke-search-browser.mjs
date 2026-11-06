@@ -881,11 +881,27 @@ try {
   await waitFor("document.querySelector('.rating-value')?.textContent.trim()",
     value=>value==="5.0 / 5","native half-star slider step reaches five stars");
   assert.equal(await evaluate("JSON.parse(document.querySelector('.media-editor .preview textarea[readonly]').value).rating"),5);
-  await evaluate("document.querySelector('.clear-rating').click()");
+  await evaluate("document.querySelector('.clear-rating').focus()");
+  assert.equal(await evaluate("document.activeElement===document.querySelector('.clear-rating')"),true,
+    "Clear rating must be reachable by keyboard");
+  await command("Input.dispatchKeyEvent", {
+    type:"keyDown",key:"Enter",code:"Enter",text:"\r",unmodifiedText:"\r",
+    windowsVirtualKeyCode:13,nativeVirtualKeyCode:13,
+  });
+  await command("Input.dispatchKeyEvent", {
+    type:"keyUp",key:"Enter",code:"Enter",windowsVirtualKeyCode:13,nativeVirtualKeyCode:13,
+  });
   await waitFor(
     "(()=>{const json=document.querySelector('.media-editor .preview textarea[readonly]')?.value;return json?JSON.parse(json).rating===undefined:false})()",
     Boolean,"clear rating omits the optional field",
   );
+  await waitFor(
+    "document.activeElement===document.querySelector('[data-media-rating]')",
+    Boolean,"Clearing rating by keyboard must return focus to the rating slider",
+  );
+  assert.equal(await evaluate("document.querySelector('.clear-rating')"),null,
+    "Clear rating button disappears at the unrated default");
+  assert.equal(await evaluate("document.querySelector('[data-media-rating]')?.getAttribute('aria-valuetext')"),"Not rated");
   assert.equal(await evaluate("document.querySelector('.rating-value')?.textContent.trim()"),"Not rated");
   const mediaHref = await evaluate(
     "document.querySelector('.media-editor .actions a')?.href",
