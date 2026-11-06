@@ -64,7 +64,8 @@ const fixtures = [
   },
 ];
 
-const created = [];\nlet createdProjectDirectory = false;
+const created = [];
+let createdProjectDirectory = false;
 function run(file, args) {
   const result = spawnSync(file, args, {
     cwd: astro, encoding: "utf8", maxBuffer: 8 * 1024 * 1024,
@@ -175,5 +176,6 @@ try {
   console.log("Actual media rendering, project routing and source-driven bookmark growth audits passed.");
 } finally {
   // CI's next step rebuilds the real public artifact from source after cleanup.
-  await Promise.all(created.map((path) => unlink(path)));\n  if (createdProjectDirectory) await rmdir(projectSource);
+  await Promise.all(created.map((path) => unlink(path)));
+  if (createdProjectDirectory) await rmdir(projectSource);
 }
