@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, nextTick, onMounted, ref, watch } from "vue";
 import { compareMediaListings, matchesMediaSearch, searchableMediaText, mediaNotesExplainSearch, type MediaSort } from "../lib/media-browser.ts";
 import { mediaFilterHref, readMediaQueryState } from "../lib/media-query-state.ts";
 import type { MediaKind, StoredMedia } from "../lib/media-model.ts";
@@ -10,6 +10,15 @@ const creatorLabel=computed(()=>props.kind==="music"?"Artist":props.kind==="film
 const query=ref("");
 const sort=ref<MediaSort>("rating");
 const hydrated=ref(false);
+const searchInput=ref<HTMLInputElement|null>(null);
+async function clearFilters():Promise<void> {
+  query.value="";
+  sort.value="rating";
+  // The reset button disappears once filters are cleared. Move keyboard
+  // focus to the persistent search control after Vue has rendered.
+  await nextTick();
+  searchInput.value?.focus();
+}
 const sortOptions:{value:MediaSort;label:string}[]=[
   {value:"rating",label:"Top rated"},
   {value:"title",label:"Title A–Z"},
@@ -44,7 +53,7 @@ const visible=computed(()=>props.entries
       <div v-show="hydrated" class="media-controls" data-media-controls>
         <label :for="'media-search-'+kind">
           Search {{ title.toLowerCase() }}
-          <input :id="'media-search-'+kind" v-model="query" type="search" data-media-search
+          <input ref="searchInput" :id="'media-search-'+kind" v-model="query" type="search" data-media-search
                  autocomplete="off" placeholder="Title, creator, notes..." />
         </label>
         <div class="sort-controls" role="group" :aria-label="'Sort '+title.toLowerCase()">
@@ -52,6 +61,9 @@ const visible=computed(()=>props.entries
             :data-media-sort="option.value" :aria-pressed="sort===option.value"
             @click="sort=option.value">{{ option.label }}</button>
         </div>
+        <button v-if="hydrated && (query || sort !== 'rating')" class="clear-media"
+          type="button" data-media-clear-filters
+          @click="clearFilters">Clear filters</button>
         <p data-media-count role="status" aria-live="polite" aria-atomic="true">
           {{ visible.length }} of {{ entries.length }} entries
         </p>
@@ -104,6 +116,8 @@ const visible=computed(()=>props.entries
 .sort-controls{display:flex;flex-wrap:wrap;gap:.4rem}
 .sort-controls button{padding:.5rem .7rem;border:1px solid var(--border);border-radius: 0;background:var(--surface);color:var(--foreground);font:inherit;cursor:pointer}
 .sort-controls button[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);font-weight:700}
+.clear-media{padding:.5rem .7rem;min-height:2.75rem;border:1px solid var(--border);border-radius:0;background:var(--surface);color:var(--foreground);font:inherit;cursor:pointer}
+.clear-media:hover,.clear-media:focus-visible{border-color:var(--accent)}
 [data-media-count]{color:var(--muted);margin:.3rem 0}
 .media-no-results{color:var(--muted)}
 .media-scroll{overflow-x:auto;margin:1rem 0 2rem}

@@ -239,12 +239,37 @@ try {
       "document.querySelector('[data-media-count]')?.textContent.trim()",
       value => value === "1 of 2 entries", "reloaded media filter shows expected records",
     );
-    await evaluate("(()=>{const el=document.querySelector('[data-media-search]');el.value='';el.dispatchEvent(new Event('input',{bubbles:true}));document.querySelector('[data-media-sort=rating]').click()})()");
+    assert.equal(await evaluate("document.querySelector('[data-media-clear-filters]')?.textContent.trim()"),"Clear filters");
+    await evaluate("document.querySelector('[data-media-clear-filters]').focus()");
+    assert.equal(await evaluate("document.activeElement?.hasAttribute('data-media-clear-filters')"), true,
+      "Keyboard focus must reach Clear filters before activation");
+    await command("Input.dispatchKeyEvent", {
+      type:"keyDown",key:"Enter",code:"Enter",
+      text:"\r",unmodifiedText:"\r",windowsVirtualKeyCode:13,nativeVirtualKeyCode:13,
+    });
+    await command("Input.dispatchKeyEvent", {
+      type:"keyUp",key:"Enter",code:"Enter",windowsVirtualKeyCode:13,nativeVirtualKeyCode:13,
+    });
     await waitFor(
       "(()=>{const p=new URL(location.href).searchParams;return !p.has('q')&&!p.has('sort')})()",
-      Boolean, "default media filters remove obsolete URL parameters",
+      Boolean, "Clear filters removes active search and sort URL parameters",
     );
-    assert.equal(await evaluate("new URL(location.href).searchParams.get('utm_source')"),"fixture");
+    await waitFor(
+      "document.activeElement===document.querySelector('[data-media-search]')",
+      Boolean, "Clearing filters by keyboard must return focus to the persistent search input",
+    );
+    await waitFor(
+      "document.querySelector('[data-media-count]')?.textContent.trim()",
+      value => value === "2 of 2 entries", "Clear filters restores all films",
+    );
+    assert.equal(await evaluate("document.querySelector('[data-media-sort=rating]')?.getAttribute('aria-pressed')"),"true",
+      "Clear filters restores default rating sort");
+    assert.equal(await evaluate("document.querySelector('[data-media-search]')?.value"),"",
+      "Clear filters empties the search field");
+    assert.equal(await evaluate("document.querySelector('[data-media-clear-filters]')"),null,
+      "Clear filters hides when nothing needs resetting");
+    assert.equal(await evaluate("new URL(location.href).searchParams.get('utm_source')"),"fixture",
+      "Clear filters preserves unrelated URL parameters");
 
     await navigate("/music/?q=cafe&sort=title");
     await waitFor(
@@ -256,6 +281,8 @@ try {
       value => value === "1 of 1 entries", "music deep-link result",
     );
     assert.equal(await evaluate("document.querySelector('[data-media-sort=title]')?.getAttribute('aria-pressed')"), "true");
+    assert.equal(await evaluate("document.querySelector('[data-media-clear-filters]')?.textContent.trim()"),"Clear filters",
+      "Music deep links must offer a reset action");
     await navigate("/tv/?q=no-matching-show");
     await waitFor(
       "document.querySelector('[data-media-count]')?.textContent.trim()",
