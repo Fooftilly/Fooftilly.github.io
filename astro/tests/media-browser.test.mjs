@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { normalizeMediaSearch, matchesMediaSearch, compareMediaListings, searchableMediaText, mediaNotesExplainSearch } from "../src/lib/media-browser.ts";
+import { normalizeMediaSearch, matchesMediaSearch, compareMediaListings, searchableMediaText, mediaNotesExplainSearch, matchesMediaStatus } from "../src/lib/media-browser.ts";
 
 test("media search is case- and accent-insensitive across visible table fields",()=>{
   assert.equal(normalizeMediaSearch("  CAFÉ\t Émilie "), "cafe emilie");
@@ -52,4 +52,12 @@ test("matching terms found only in collapsed public notes are revealed", () => {
   assert.equal(mediaNotesExplainSearch(entry, "   "), false,
     "Blank searches keep normal compact table presentation");
   assert.equal(mediaNotesExplainSearch({...entry,notes:undefined}, "second"), false);
+});
+
+test("status filtering distinguishes missing values from the three published statuses",()=>{
+  const entries = [{status:"finished"},{status:"in-progress"},{status:"planned"},{}];
+  for(const filter of ["all","finished","in-progress","planned","unspecified"]){
+    const matched = entries.map((entry,index)=>matchesMediaStatus(entry,filter)?index:-1).filter(index=>index>=0);
+    assert.deepEqual(matched,filter==="all"?[0,1,2,3]:[["finished","in-progress","planned","unspecified"].indexOf(filter)]);
+  }
 });
