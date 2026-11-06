@@ -654,6 +654,20 @@ try {
     (value) => typeof value === "string" && value.includes("already appears"),
     "duplicate URL warning",
   );
+  const duplicateLinks = await evaluate(
+    "Array.from(document.querySelectorAll('.new-bookmark [data-bookmark-duplicate-link]'))" +
+    ".map(link=>({href:link.getAttribute('href'),id:link.textContent.trim()," +
+    "target:link.getAttribute('target'),rel:link.getAttribute('rel'),label:link.getAttribute('aria-label')}))",
+  );
+  assert.ok(duplicateLinks.length >= 1, "Real duplicate URLs must link to existing entries");
+  for (const link of duplicateLinks) {
+    const [section, stem] = link.id.split("/");
+    assert.equal(link.href, `/bookmarks/${section.toLowerCase()}/${encodeURIComponent(stem.toLowerCase())}/`,
+      "Duplicate destination must match the canonical source ID");
+    assert.equal(link.target, "_blank", "Review should not discard the unfinished draft");
+    assert.deepEqual(new Set(link.rel.split(/\s+/)), new Set(["noopener", "noreferrer"]));
+    assert.equal(link.label, "View existing bookmark: " + link.id);
+  }
   assert.equal(await evaluate("document.querySelectorAll('.new-bookmark select').length"), 0,
     "New bookmark category choices must be visible buttons");
   assert.equal(await evaluate("document.querySelectorAll('.new-bookmark [data-bookmark-category]').length"), 7);
