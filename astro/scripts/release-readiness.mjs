@@ -39,7 +39,10 @@ for (const file of [
 // Every generated detail route must match a current Git-reviewed project
 // Markdown entry, including intentional additions, removals and renames.
 const projectSource = resolve(cwd, "../content/projects");
-const projectSlugs = (await readdir(projectSource))
+const projectSlugs = (await readdir(projectSource).catch(error => {
+  if (error.code === "ENOENT") return [];
+  throw error;
+}))
   .filter(name => name.endsWith(".md")).map(name => name.slice(0, -3)).sort();
 for (const slug of projectSlugs) {
   assert.match(slug, /^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Invalid project source slug");

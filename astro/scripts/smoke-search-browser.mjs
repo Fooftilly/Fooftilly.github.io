@@ -102,7 +102,10 @@ try {
   const categoryForSearch = bookmarkCategories.find(category => categoryCount(category) > 0 && category.labelSh !== category.label)
     ?? bookmarkCategories.find(category => categoryCount(category) > 0);
   const activeCategories = bookmarkCategories.filter(category => categoryCount(category) > 0);
-  const sourceProjects = (await readdir(resolve("../content/projects")))
+  const sourceProjects = (await readdir(resolve("../content/projects")).catch(error => {
+    if (error.code === "ENOENT") return [];
+    throw error;
+  }))
     .filter(name => name.endsWith(".md")).map(name => name.slice(0, -3));
   const opened = await fetch("http://127.0.0.1:" + port + "/json/new?about:blank", { method: "PUT" });
   assert.equal(opened.status, 200, "Unable to open browser target");

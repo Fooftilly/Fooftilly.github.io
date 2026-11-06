@@ -19,7 +19,10 @@ for (const [path, language, heading] of [
   assert.ok(html.includes('href="/new-bookmark/"'), "Public bookmark composer link missing: " + path);
   assert.ok(html.includes('href="' + (language === "sh" ? "/sh/projects/" : "/projects/") + '"'),
     "Missing localized project navigation: " + path);
-  const sources=new Set((await readdir("../content/projects"))
+  const sources=new Set((await readdir("../content/projects").catch(error => {
+    if (error.code === "ENOENT") return [];
+    throw error;
+  }))
     .filter(name=>name.endsWith(".md")).map(name=>name.slice(0,-3)));
   const featured=[...html.matchAll(/href="\/projects\/([a-z0-9-]+)\/"/g)]
     .map(match=>match[1]);

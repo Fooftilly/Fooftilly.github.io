@@ -4,7 +4,7 @@
  */
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { readFile, readdir, unlink, writeFile } from "node:fs/promises";
+import { mkdir, readFile, readdir, rmdir, unlink, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { readPublishedSourceBookmarkIds } from "./bookmark-inventory.mjs";
@@ -64,7 +64,7 @@ const fixtures = [
   },
 ];
 
-const created = [];
+const created = [];\nlet createdProjectDirectory = false;
 function run(file, args) {
   const result = spawnSync(file, args, {
     cwd: astro, encoding: "utf8", maxBuffer: 8 * 1024 * 1024,
@@ -92,7 +92,15 @@ try {
     created.push(path);
   }
   // Verify an entirely new project needs a Markdown entry, not route code.
-  const existingProjectFiles = new Set(await readdir(projectSource));
+  let projectFiles;
+  try { projectFiles = await readdir(projectSource); }
+  catch (error) {
+    if (error.code !== "ENOENT") throw error;
+    await mkdir(projectSource, { recursive: true });
+    createdProjectDirectory = true;
+    projectFiles = [];
+  }
+  const existingProjectFiles = new Set(projectFiles);
   let projectSlug = "zz-ci-project";
   let projectSuffix = 2;
   while (existingProjectFiles.has(projectSlug + ".md")) {
@@ -167,5 +175,5 @@ try {
   console.log("Actual media rendering, project routing and source-driven bookmark growth audits passed.");
 } finally {
   // CI's next step rebuilds the real public artifact from source after cleanup.
-  await Promise.all(created.map((path) => unlink(path)));
+  await Promise.all(created.map((path) => unlink(path)));\n  if (createdProjectDirectory) await rmdir(projectSource);
 }
