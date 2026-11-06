@@ -325,6 +325,21 @@ try {
       yearTitles.findIndex(title => title.includes(secondFilmTitle)) < yearTitles.findIndex(title => title.includes(firstFilmTitle)),
       "The 2024 synthetic film must precede the 2001 synthetic film by year");
     assert.equal(await evaluate("document.querySelector('[data-media-sort=year]')?.getAttribute('aria-pressed')"),"true");
+    // Always cross the pagination boundary, even if the two representative
+    // records already appeared in the first window.
+    const priorYearRows = await evaluate("document.querySelectorAll('[data-media-row]').length");
+    assert.ok(await evaluate("Boolean(document.querySelector('[data-media-load-more]'))"),
+      "Year-sorted fixture must exercise the next page");
+    await evaluate("document.querySelector('[data-media-load-more]').click()");
+    await waitFor("document.querySelectorAll('[data-media-row]').length",
+      count => count === Math.min(priorYearRows + 50, mediaSource.films.length),
+      "Year sort preserves the additional media page");
+    const orderedYears = await evaluate(
+      "Array.from(document.querySelectorAll('[data-media-row]')).map(row=>{const y=Number(row.querySelector('td:nth-of-type(2)')?.textContent.trim());return Number.isFinite(y)&&y>0?y:null})");
+    for (let i = 1; i < orderedYears.length; i++) {
+      assert.ok((orderedYears[i - 1] ?? -Infinity) >= (orderedYears[i] ?? -Infinity),
+        "Year sorting must remain descending across the loaded-page boundary");
+    }
     await evaluate("document.querySelector('[data-media-sort=rating]').click()");
     await waitFor("document.querySelector('[data-media-sort=rating]')?.getAttribute('aria-pressed')",
       value => value === "true", "Highest-rating sort activated");
