@@ -4,9 +4,10 @@
  */
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { readFile, unlink, writeFile } from "node:fs/promises";
+import { readFile, readdir, unlink, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { parse } from "yaml";
 
 const astro = fileURLToPath(new URL("../", import.meta.url));
 const root = fileURLToPath(new URL("../../", import.meta.url));
@@ -92,7 +93,20 @@ try {
     "",
   ].join("\n"),{flag:"wx"});
   created.push(projectFile);
-  // Exercise the complete source/route/feed/release pipeline with a 577th
+  // Count the current published source records, not a fixed historical total.
+  // Include future reviewed additions, but exclude draft: true records.
+  let bookmarkCountBeforeFixture = 0;
+  for (const section of ["Art","Fun","Music","PaperBookArticle","Perspectives","Resource","YouTube"]) {
+    const folder = join(root, "content", "bookmarks", section);
+    for (const filename of await readdir(folder)) {
+      if (!filename.endsWith(".md") || filename === "_index.md") continue;
+      const contents = await readFile(join(folder, filename), "utf8");
+      const match = /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/.exec(contents);
+      assert.ok(match, "Bookmark fixture baseline has invalid frontmatter: " + filename);
+      if (parse(match[1]).draft !== true) bookmarkCountBeforeFixture++;
+    }
+  }
+  // Exercise the complete source/route/feed/release pipeline with a new
   // reviewed-shape bookmark, not only a fixture inserted into the JS selector.
   // The old timestamp prevents this fixture from changing the recent-eight UI.
   const bookmarkFile = join(bookmarkSource, "zz-ci-new-bookmark-fixture.md");
@@ -114,7 +128,8 @@ try {
   run("python3", ["scripts/verify-site-seo.py"]);
   run(process.execPath, ["scripts/release-readiness.mjs"]);
   const manifest = JSON.parse(await readFile(join(astro, ".audit", "bookmarks-parity.json"), "utf8"));
-  assert.equal(manifest.length, 577, "Disposable bookmark fixture must increase the source inventory");
+  assert.equal(manifest.length, bookmarkCountBeforeFixture + 1,
+    "Disposable bookmark fixture must add exactly one published source record");
   assert.ok(manifest.some(row => row.id === "Resource/zz-ci-new-bookmark-fixture"),
     "New bookmark must be present in the parity manifest");
   assert.ok((await readFile(join(dist, "bookmarks", "resource", "zz-ci-new-bookmark-fixture", "index.html"), "utf8"))
