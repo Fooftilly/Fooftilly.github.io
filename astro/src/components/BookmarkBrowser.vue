@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { computed, nextTick, onMounted, ref, watch } from "vue";
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
 import { filterAndSortBookmarks, type Bookmark, type BookmarkSort } from "../lib/bookmark-filter.ts";
 import { bookmarkCategoryDisplayLabel } from "../lib/bookmark-categories.ts";
+import { bookmarkFilterHref, readBookmarkQueryState } from "../lib/bookmark-query-state.ts";
 
 const props = withDefaults(defineProps<{ items: Bookmark[]; lang?: "en" | "sh" }>(), {
   lang: "en",
@@ -72,26 +73,35 @@ const matches = computed(() => filterAndSortBookmarks(props.items, {
 }));
 const visible = computed(() => matches.value.slice(0, limit.value));
 
+const hydrated = ref(false);
+const syncAddress = (): void => {
+  if (!hydrated.value || typeof window === "undefined") return;
+  const next = bookmarkFilterHref(window.location.href, {
+    query: query.value, category: category.value, sort: sort.value,
+  });
+  const current = window.location.pathname + window.location.search + window.location.hash;
+  if (next !== current) window.history.replaceState(window.history.state, "", next);
+};
+const restoreFromAddress = (): void => {
+  const restored = readBookmarkQueryState(window.location.search, categories.value);
+  query.value = restored.query;
+  category.value = restored.category;
+  sort.value = restored.sort;
+  limit.value = 50;
+  hydrated.value = true;
+  // Normalize malformed or stale category/sort links without changing history.
+  syncAddress();
+};
+
 onMounted(() => {
-  const params = new URLSearchParams(window.location.search);
-  query.value = params.get("q") || "";
-  const cat = params.get("category");
-  // A category-specific page already contains only that category. Do not
-  // restore an invisible, redundant category selection from a deep link.
-  if (categories.value.length > 1 && cat && categories.value.includes(cat)) category.value = cat;
-  const order = params.get("sort");
-  if (order === "title" || order === "oldest") sort.value = order;
+  restoreFromAddress();
+  window.addEventListener("popstate", restoreFromAddress);
 });
+onUnmounted(() => window.removeEventListener("popstate", restoreFromAddress));
 
 watch([query, category, sort], () => {
   limit.value = 50;
-  if (typeof window === "undefined") return;
-  const url = new URL(window.location.href);
-  for (const key of ["q", "category", "sort"]) url.searchParams.delete(key);
-  if (query.value.trim()) url.searchParams.set("q", query.value.trim());
-  if (category.value !== "all") url.searchParams.set("category", category.value);
-  if (sort.value !== "newest") url.searchParams.set("sort", sort.value);
-  window.history.replaceState(window.history.state, "", url);
+  syncAddress();
 });
 </script>
 
