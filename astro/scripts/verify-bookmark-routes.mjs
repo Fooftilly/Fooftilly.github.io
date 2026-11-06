@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { readFile, readdir, stat } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
+import { assertLegacyBookmarkInventory } from "./bookmark-inventory.mjs";
 
 const root = fileURLToPath(new URL("../dist/", import.meta.url));
 const manifestPath = fileURLToPath(new URL("../.audit/bookmarks-parity.json", import.meta.url));
@@ -16,9 +17,9 @@ const categories = new Map([
   ["YouTube", "youtube"],
 ]);
 
-test("all 576 original bookmark detail URLs are generated with correct canonical URLs", async () => {
+test("all original and new bookmark detail URLs are generated with correct canonical URLs", async () => {
   const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
-  assert.equal(manifest.length, 576);
+  assertLegacyBookmarkInventory(manifest, "Generated bookmark routes");
   const expectedPaths = new Set();
   let notesCount = 0;
 
