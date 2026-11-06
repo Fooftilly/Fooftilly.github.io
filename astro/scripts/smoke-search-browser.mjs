@@ -4,7 +4,7 @@
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
 import { createServer } from "node:http";
-import { mkdtemp, readFile, rm } from "node:fs/promises";
+import { mkdtemp, readFile, readdir, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { extname, join, resolve, sep } from "node:path";
 
@@ -102,6 +102,8 @@ try {
   const categoryForSearch = bookmarkCategories.find(category => categoryCount(category) > 0 && category.labelSh !== category.label)
     ?? bookmarkCategories.find(category => categoryCount(category) > 0);
   const activeCategories = bookmarkCategories.filter(category => categoryCount(category) > 0);
+  const sourceProjects = (await readdir(resolve("../content/projects")))
+    .filter(name => name.endsWith(".md")).map(name => name.slice(0, -3));
   const opened = await fetch("http://127.0.0.1:" + port + "/json/new?about:blank", { method: "PUT" });
   assert.equal(opened.status, 200, "Unable to open browser target");
   const target = await opened.json();
@@ -436,24 +438,28 @@ try {
       "})};})()",
     );
     assert.equal(desktop.language, language, "Project index must declare the correct language: " + route);
-    assert.ok(desktop.cardCount >= 3, "Project showcase must contain all initial cards: " + route);
+    assert.equal(desktop.cardCount, sourceProjects.length,
+      "Project cards must exactly match current source entries: " + route);
     assert.equal(desktop.alternate, true, "Project index language switch is missing: " + route);
     assert.equal(desktop.directSources, true, "Project card source links must be visible and localized: " + route);
 
-    // Start on the detail link, then send a genuine keyboard Tab via DevTools.
-    // The source link should be the next focusable control within the card.
-    await evaluate("document.querySelector('.project-card h3 a').focus()");
-    assert.equal(await evaluate("document.activeElement === document.querySelector('.project-card h3 a')"), true);
-    await command("Input.dispatchKeyEvent", {
-      type: "keyDown", key: "Tab", code: "Tab", windowsVirtualKeyCode: 9,
-    });
-    await command("Input.dispatchKeyEvent", {
-      type: "keyUp", key: "Tab", code: "Tab", windowsVirtualKeyCode: 9,
-    });
-    assert.equal(
-      await evaluate("document.activeElement === document.querySelector('.project-card .project-source a')"),
-      true, "Tab from a project detail link must focus that project's source link: " + route,
-    );
+    if (sourceProjects.length) {
+      // Start on the detail link, then send a genuine keyboard Tab via DevTools.
+      // The source link should be the next focusable control within the card.
+      await evaluate("document.querySelector('.project-card h3 a').focus()");
+      assert.equal(await evaluate("document.activeElement === document.querySelector('.project-card h3 a')"), true);
+      await command("Input.dispatchKeyEvent", {
+        type: "keyDown", key: "Tab", code: "Tab", windowsVirtualKeyCode: 9,
+      });
+      await command("Input.dispatchKeyEvent", {
+        type: "keyUp", key: "Tab", code: "Tab", windowsVirtualKeyCode: 9,
+      });
+      assert.equal(
+        await evaluate("document.activeElement === document.querySelector('.project-card .project-source a')"),
+        true, "Tab from a project detail link must focus that project's source link: " + route,
+      );
+
+    }
 
     await command("Emulation.setDeviceMetricsOverride", {
       width: 375, height: 667, deviceScaleFactor: 1, mobile: true,
