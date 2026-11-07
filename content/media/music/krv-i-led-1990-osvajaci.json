@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Krv i led",
+  "creator": "Osvajači",
+  "year": 1990,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "92917eb4-bd7a-39b3-b568-0eb8bfbc97dd"
+  }
+}

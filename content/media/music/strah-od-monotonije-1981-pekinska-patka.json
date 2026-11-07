@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Strah od monotonije",
+  "creator": "Pekinška Patka",
+  "year": 1981,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "dc3d83a9-b020-30d5-8f7e-d8d9ae35a6fa"
+  }
+}

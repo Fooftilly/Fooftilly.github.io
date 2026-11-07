@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Plitka poezija",
+  "creator": "Pekinška Patka",
+  "year": 1980,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "6ff344a9-f862-342d-8956-6815541d4f6f"
+  }
+}

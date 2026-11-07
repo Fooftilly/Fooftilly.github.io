@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Damnation",
+  "creator": "Opeth",
+  "year": 2003,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "2864ec02-5e6a-36d8-9960-ccd959b9a618"
+  }
+}

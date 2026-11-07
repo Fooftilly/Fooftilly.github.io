@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Unfinished Masterpiece",
+  "creator": "Eddie Palmieri",
+  "year": 1975,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "fe43df00-549e-32c0-8709-2f6c5e2cf770"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Ys",
+  "creator": "Joanna Newsom",
+  "year": 2006,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "34315f68-08a5-3637-8da7-deaad8f45514"
+  }
+}

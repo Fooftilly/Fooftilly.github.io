@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Oktobar 1864",
+  "creator": "Oktobar 1864",
+  "year": 1987,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "fbe4a576-df6a-49b0-9629-e84a1c1b3311"
+  }
+}

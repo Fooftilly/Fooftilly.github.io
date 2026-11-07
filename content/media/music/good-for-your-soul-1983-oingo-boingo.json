@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Good for Your Soul",
+  "creator": "Oingo Boingo",
+  "year": 1983,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "01739532-0a04-39f8-8446-ba6f32fc4fe8"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "La belleza",
+  "creator": "Lido Pimienta",
+  "year": 2025,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "56b2b4a5-cb97-4cfc-8ca9-9024fa101838"
+  }
+}

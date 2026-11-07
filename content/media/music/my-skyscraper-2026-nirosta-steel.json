@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "My Skyscraper",
+  "creator": "Nirosta Steel",
+  "year": 2026,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "d896b75c-554a-41bf-b747-06c756705e11"
+  }
+}

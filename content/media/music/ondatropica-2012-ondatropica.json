@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Ondatrópica",
+  "creator": "Ondatrópica",
+  "year": 2012,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "16200795-03c7-4d93-a183-1a8bc580ca47"
+  }
+}

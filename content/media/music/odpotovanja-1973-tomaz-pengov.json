@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Odpotovanja",
+  "creator": "Tomaž Pengov",
+  "year": 1973,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "977f05b7-f9c2-304e-a0f8-b8db85c627b1"
+  }
+}

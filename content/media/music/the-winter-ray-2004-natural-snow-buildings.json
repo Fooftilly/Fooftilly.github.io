@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "The Winter Ray",
+  "creator": "Natural Snow Buildings",
+  "year": 2004,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "e6cb792c-a4fa-42ec-b361-45ade1c85518"
+  }
+}

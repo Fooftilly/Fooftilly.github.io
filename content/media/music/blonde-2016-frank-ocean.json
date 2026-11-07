@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Blonde",
+  "creator": "Frank Ocean",
+  "year": 2016,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "0da340a0-6ad7-4fc2-a272-6f94393a7831"
+  }
+}

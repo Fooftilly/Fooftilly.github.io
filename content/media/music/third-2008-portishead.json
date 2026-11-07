@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Third",
+  "creator": "Portishead",
+  "year": 2008,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "163339ab-813b-3d29-bba8-e1d5acf63cab"
+  }
+}

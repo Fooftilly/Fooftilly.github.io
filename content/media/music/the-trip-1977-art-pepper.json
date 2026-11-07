@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "The Trip",
+  "creator": "Art Pepper",
+  "year": 1977,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "40db346b-a778-3dac-be08-18db30b5c19a"
+  }
+}

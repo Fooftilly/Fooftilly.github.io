@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Monstera",
+  "creator": "Josephine Odhil",
+  "year": 2025,
+  "rating": 2.5,
+  "refs": {
+    "musicbrainz": "b5f81b0a-d64b-474d-a21f-404b0cdd247f"
+  }
+}

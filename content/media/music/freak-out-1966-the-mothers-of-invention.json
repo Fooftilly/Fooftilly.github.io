@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Freak Out!",
+  "creator": "The Mothers of Invention",
+  "year": 1966,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "44895ae9-5c04-3e65-8ead-672d1b24ac84"
+  }
+}

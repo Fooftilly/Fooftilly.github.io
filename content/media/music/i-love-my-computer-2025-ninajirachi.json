@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "I Love My Computer",
+  "creator": "Ninajirachi",
+  "year": 2025,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "6ab2d1f5-1730-499d-a814-6fe6eb9ec1f0"
+  }
+}
