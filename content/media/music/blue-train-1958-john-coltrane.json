@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Blue Train",
+  "creator": "John Coltrane",
+  "year": 1958,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "12349ce8-2087-3d16-93da-70cd65621774"
+  }
+}

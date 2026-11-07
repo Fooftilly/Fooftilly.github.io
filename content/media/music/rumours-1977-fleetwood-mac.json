@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Rumours",
+  "creator": "Fleetwood Mac",
+  "year": 1977,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "416bb5e5-c7d1-3977-8fd7-7c9daf6c2be6"
+  }
+}

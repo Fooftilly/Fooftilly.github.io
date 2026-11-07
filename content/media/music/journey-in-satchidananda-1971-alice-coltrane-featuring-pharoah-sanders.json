@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Journey in Satchidananda",
+  "creator": "Alice Coltrane featuring Pharoah Sanders",
+  "year": 1971,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "cf154081-2678-3778-95cf-cd31c4ea5dfe"
+  }
+}
