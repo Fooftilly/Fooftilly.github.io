@@ -920,6 +920,23 @@ try {
   await navigate(openDraft());
   await waitFor("document.querySelector('.new-bookmark .output code')?.textContent",
     value => value === draftPath(defaultCategory.section), "new bookmark Vue hydration");
+  await waitFor("document.querySelector('[data-bookmark-tag-input]')",
+    Boolean, "bookmark composer supports optional first-party tags");
+  await evaluate("(()=>{const el=document.querySelector('[data-bookmark-tag-input]');el.value='CI browser tag, Research';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
+  await waitFor("document.querySelector('.new-bookmark .output textarea[readonly]')?.value",
+    value => typeof value === "string" && value.includes('tags: ["CI browser tag","Research"]'),
+    "bookmark tag editor serializes a YAML tag array");
+  assert.ok((await evaluate("new URL(document.querySelector('.new-bookmark .actions a').href).searchParams.get('value')"))
+    .includes('tags: ["CI browser tag","Research"]'),
+    "GitHub editor handoff must preserve public tags");
+  await evaluate("(()=>{const el=document.querySelector('[data-bookmark-tag-input]');el.value='same, SAME';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
+  await waitFor("document.querySelector('.new-bookmark .validation')?.textContent",
+    value => typeof value === "string" && value.includes("Duplicate bookmark tag"),
+    "Case-insensitive duplicate tags must not be silently published");
+  await evaluate("(()=>{const el=document.querySelector('[data-bookmark-tag-input]');el.value='';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
+  await waitFor("document.querySelector('.new-bookmark .validation')",
+    value => value === null, "Clearing invalid tags restores the composer");
+
   if (duplicateSource) {
     await waitFor("document.querySelector('.new-bookmark .duplicate')?.textContent",
       value => typeof value === "string" && value.includes("already appears"), "duplicate URL warning");

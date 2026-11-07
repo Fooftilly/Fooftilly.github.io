@@ -111,3 +111,14 @@ test("duplicate warnings can link to canonical, existing first-party detail page
   assert.throws(()=>bookmarkDetailPath("../traversal"),/Unsupported bookmark ID/);
   assert.throws(()=>bookmarkDetailPath(primary + "/file/extra"),/Unsupported bookmark ID/);
 });
+
+test("optional tags survive GitHub draft serialization as a safe YAML array", () => {
+  const out = composeBookmarkDraft({...valid,tags:["Café culture","Research"]}, []);
+  const frontmatter = parse(out.markdown.split("---")[1]);
+  assert.deepEqual(frontmatter.tags,["Café culture","Research"]);
+  assert.equal(new URL(githubNewFileUrl(out.path,out.markdown)).searchParams.get("value"),out.markdown);
+  assert.equal(composeBookmarkDraft({...valid,tags:[]},[]).markdown.includes("tags:"),false);
+  for (const tags of [["x","X"],["bad,comma"],["abc".repeat(13)]]) {
+    assert.throws(()=>composeBookmarkDraft({...valid,tags},[]),/Duplicate|Tags/);
+  }
+});
