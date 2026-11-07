@@ -4,10 +4,7 @@
   "title": "Before Sunset",
   "year": 2004,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2bcg"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2bcg"
+  }
 }
