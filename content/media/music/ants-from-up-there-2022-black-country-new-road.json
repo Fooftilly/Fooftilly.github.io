@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Ants From Up There",
+  "creator": "Black Country, New Road",
+  "year": 2022,
+  "rating": 5,
+  "refs": {
+    "musicbrainz": "d622ed70-ccc3-4658-8a0a-b7a2d577c28d"
+  }
+}

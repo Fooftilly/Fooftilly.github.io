@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Buena Vista Social Club",
+  "creator": "Buena Vista Social Club",
+  "year": 1997,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "32bbab8e-02c0-30d2-9e23-a19739864b84"
+  }
+}
