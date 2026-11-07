@@ -1,5 +1,5 @@
 ---
-title: "CI synthetic project"
+title: "CI --- synthetic project"
 tags: ["Café & Tools", "Knowledge management"]
 ---
 
