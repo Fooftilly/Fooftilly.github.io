@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "After 5 Clash",
+  "creator": "Toshiki Kadomatsu",
+  "year": 1984,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "87ed1812-6269-4ed2-a087-724545c87889"
+  }
+}
