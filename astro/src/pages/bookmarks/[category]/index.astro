@@ -15,8 +15,8 @@ export const getStaticPaths = (() =>
 const { category } = Astro.props;
 const bookmarks = (await loadBookmarks())
   .filter((record) => record.id.startsWith(`${category.section}/`))
-  .map(({ id, title, category: categoryName, url, date, detailUrl, notesUrl, comments }) => ({
-    id, title, category: categoryName, url, date, detailUrl, notesUrl, comments,
+  .map(({ id, title, category: categoryName, url, date, detailUrl, notesUrl, comments, tags }) => ({
+    id, title, category: categoryName, url, date, detailUrl, notesUrl, comments, tags,
   }));
 const feedPath = bookmarkCategoryFeedPath(category.slug);
 ---

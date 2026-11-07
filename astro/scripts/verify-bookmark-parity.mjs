@@ -60,6 +60,8 @@ test("all source bookmark metadata survives Astro collection loading and output"
       const id = `${section}/${filename.slice(0, -3)}`;
       const rawLink = frontmatter.link ?? "";
       const detailUrl = `/bookmarks/${slug}/${encodeURIComponent(filename.slice(0, -3).toLowerCase())}/`;
+      assert.ok(frontmatter.tags === undefined || Array.isArray(frontmatter.tags),
+        `Invalid source tags: ${id}`);
       const normalized = {
         id,
         title: frontmatter.title,
@@ -69,6 +71,7 @@ test("all source bookmark metadata survives Astro collection loading and output"
         url: safeLink(rawLink),
         detailUrl,
         comments: frontmatter.comments ?? "",
+        ...(frontmatter.tags?.length ? {tags: frontmatter.tags} : {}),
         notesUrl: sourceBody ? detailUrl : "",
       };
       assert.ok(!expected.has(id), `Duplicate source ID: ${id}`);

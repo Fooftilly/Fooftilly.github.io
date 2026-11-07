@@ -8,8 +8,8 @@ const { lang } = Astro.props;
 const key = lang === "sh" ? "search.sh" : "search";
 const entry = await getEntry("sitePages", key);
 if (!entry) throw new Error(`Missing original search page metadata: ${key}`);
-const bookmarks = (await loadBookmarks()).map(({ id, title, category, url, date, detailUrl, notesUrl, comments }) =>
-  ({ id, title, category, url, date, detailUrl, notesUrl, comments })
+const bookmarks = (await loadBookmarks()).map(({ id, title, category, url, date, detailUrl, notesUrl, comments, tags }) =>
+  ({ id, title, category, url, date, detailUrl, notesUrl, comments, tags })
 );
 ---
 <section class="search-page">

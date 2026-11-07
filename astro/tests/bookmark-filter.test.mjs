@@ -82,6 +82,19 @@ test("existing public bookmark comments are searchable but blank comments do not
   assert.deepEqual(select("library"), ["Resource/other", "Resource/archive"].sort((a,b) => records.find(x=>x.id===a).title.localeCompare(records.find(x=>x.id===b).title)));
 });
 
+test("optional content-owned tags are searchable with accents, spaces and AND terms", () => {
+  const records=[
+    {id:"1",title:"Untitled link",category:"Research",date:"",url:"https://example.org/",tags:["Café culture","Long form"]},
+    {id:"2",title:"Another link",category:"Research",date:"",url:"https://example.org/other"},
+  ];
+  const select=query=>filterAndSortBookmarks(records,{...defaults,query}).map(item=>item.id);
+  assert.deepEqual(select("cafe"),["1"]);
+  assert.deepEqual(select("long culture"),["1"]);
+  assert.deepEqual(select("cafe other"),[]);
+  assert.deepEqual(select("long form"),["1"]);
+  assert.equal(records[1].tags,undefined);
+});
+
 test("unhydrated static bookmark HTML exposes every record; hydrated pages load incrementally", () => {
   const records = Array.from({length: 121}, (_, index) => ({id: "book-" + index}));
   assert.equal(BOOKMARK_PAGE_SIZE, 50);

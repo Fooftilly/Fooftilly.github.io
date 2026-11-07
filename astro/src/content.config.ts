@@ -2,6 +2,7 @@ import { defineCollection, z } from "astro:content";
 import { glob } from "astro/loaders";
 import { mediaEntryId } from "./lib/media-model.ts";
 import { PROJECT_SLUG } from "./lib/project-catalog.ts";
+import { validateBookmarkTags } from "./lib/bookmark-tags.ts";
 
 // Load the authoritative legacy Markdown in place; no mass content rewrite.
 // Folder _index.md files are section metadata, not bookmark records.
@@ -16,6 +17,16 @@ const bookmarks = defineCollection({
     date: z.coerce.date().optional(),
     link: z.string().optional(),
     comments: z.string().optional(),
+    tags: z.array(z.string()).superRefine((tags, ctx) => {
+      try {
+        validateBookmarkTags(tags);
+        if (tags.some(tag => tag.trim() !== tag)) {
+          ctx.addIssue({ code: "custom", message: "Bookmark source tags must not contain leading or trailing whitespace" });
+        }
+      } catch (error) {
+        ctx.addIssue({ code: "custom", message: error instanceof Error ? error.message : "Invalid bookmark tags" });
+      }
+    }).optional(),
     draft: z.boolean().optional(),
   }).passthrough(),
 });
