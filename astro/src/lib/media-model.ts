@@ -145,9 +145,13 @@ export function mediaReferenceFromUrl(value: string): {platform:MediaPlatform;id
   }catch{return null;}
 }
 export function mediaSourceLinks(record: Pick<MediaRecord,"refs"|"links">): MediaLink[] {
-  const entries=Object.entries(record.refs??{}) as [MediaPlatform,string][];
+  // Consistent across Git JSON, Astro schema normalization and client hydration.
+  const order: readonly MediaPlatform[]=["imdb","tmdb","wikipedia","letterboxd","musicbrainz"];
   return [
-    ...entries.map(([platform,id])=>({label:MEDIA_REF_LABELS[platform],url:mediaReferenceUrl(platform,id)})),
+    ...order.flatMap(platform=>{
+      const id=record.refs?.[platform];
+      return id===undefined?[]:[{label:MEDIA_REF_LABELS[platform],url:mediaReferenceUrl(platform,id)}];
+    }),
     ...(record.links??[]),
   ];
 }
