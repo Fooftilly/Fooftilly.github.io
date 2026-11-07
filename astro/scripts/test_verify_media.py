@@ -49,6 +49,32 @@ class MediaOutputTests(unittest.TestCase):
         )
         return markup
 
+    def test_nested_ratings_parser_audits_exact_source_values(self):
+        from verify_media import expected_row
+        album = {"schema": 1, "kind": "music", "title": "Album",
+                 "tracks": [{"disc": 1, "number": 1, "title": "Intro", "rating": 4.5},
+                            {"disc": 1, "number": 2, "title": "Second"}]}
+        series = {"schema": 1, "kind": "tv", "title": "Anime",
+                  "seasons": [{"number": 0, "rating": 3,
+                               "episodes": [{"number": 1, "title": "OVA", "rating": 4.5}]}]}
+        album_html = ('<table><tbody><tr><th><details><ol>'
+                      '<li data-media-track=\'{"disc":1,"number":1,"title":"Intro","rating":4.5}\'>Intro</li>'
+                      '<li data-media-track=\'{"disc":1,"number":2,"title":"Second"}\'>Second</li>'
+                      '</ol></details></th></tr></tbody></table>')
+        parsed = MediaParser()
+        parsed.feed(album_html)
+        self.assertEqual(parsed.rows[0]["tracks"], expected_row(album)["tracks"])
+        self.assertNotEqual(parsed.rows[0]["tracks"], [
+            {"disc": 1, "number": 1, "title": "Intro", "rating": 2.0}])
+        season_html = ('<table><tbody><tr><th><details>'
+                       '<section data-media-season=\'{"number":0,"rating":3}\'>'
+                       '<li data-media-episode=\'{"season":0,"number":1,"title":"OVA","rating":4.5}\'>'
+                       '</li></section></details></th></tr></tbody></table>')
+        parsed = MediaParser()
+        parsed.feed(season_html)
+        self.assertEqual(parsed.rows[0]["seasons"], expected_row(series)["seasons"])
+        self.assertEqual(parsed.rows[0]["episodes"], expected_row(series)["episodes"])
+
     def test_empty_collections_are_accepted_without_inventing_ratings(self):
         self.assertEqual(verify_media_output(self.astro), 0)
 
