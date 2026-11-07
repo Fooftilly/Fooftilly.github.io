@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "De todas las flores",
+  "creator": "Natalia Lafourcade",
+  "year": 2022,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "22f502bb-631f-4b4c-8e53-c1b7cdf3c959"
+  }
+}

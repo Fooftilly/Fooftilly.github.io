@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Master of Puppets",
+  "creator": "Metallica",
+  "year": 1986,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "3d00fb45-f8ab-3436-a8e1-b4bfc4d66913"
+  }
+}
