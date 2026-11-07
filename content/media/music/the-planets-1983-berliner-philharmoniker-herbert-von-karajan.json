@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "The Planets",
+  "creator": "Berliner Philharmoniker / Herbert von Karajan",
+  "year": 1983,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "83b6a1d3-057f-3e7c-a054-fa278d2a2202"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Song for Biko",
+  "creator": "Johnny Dyani Quartet",
+  "year": 1994,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "6da171b5-260e-4b92-ba0a-91a959e7e975"
+  }
+}

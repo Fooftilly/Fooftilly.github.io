@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "ボカロ三昧",
+  "creator": "和楽器バンド",
+  "year": 2014,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "feb6027d-e813-4b63-a9dd-074dd9265552"
+  }
+}

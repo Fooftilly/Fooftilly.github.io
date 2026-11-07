@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "The Nutcracker",
+  "creator": "Kirov Orchestra / Valery Gergiev",
+  "year": 1998,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "e42f8cc6-1e96-3226-8460-80c00bfae466"
+  }
+}

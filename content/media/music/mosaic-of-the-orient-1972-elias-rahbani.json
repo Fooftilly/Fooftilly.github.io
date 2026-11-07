@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Mosaic of the Orient",
+  "creator": "Elias Rahbani",
+  "year": 1972,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "f9af36d2-8e32-4031-bee3-fbe03d27f866"
+  }
+}

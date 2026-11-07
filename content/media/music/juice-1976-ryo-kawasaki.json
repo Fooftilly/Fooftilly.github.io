@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Juice",
+  "creator": "Ryo Kawasaki",
+  "year": 1976,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "2029cb07-d20a-3c87-b388-c20bd0011d6c"
+  }
+}

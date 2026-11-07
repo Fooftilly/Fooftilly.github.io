@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Canticles of Ecstasy",
+  "creator": "Sequentia",
+  "year": 1994,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "e8096659-3605-3e82-882c-1d281587c750"
+  }
+}

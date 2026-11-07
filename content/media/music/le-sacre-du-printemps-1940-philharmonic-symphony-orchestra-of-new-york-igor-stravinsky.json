@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Le sacre du printemps",
+  "creator": "Philharmonic-Symphony Orchestra of New York / Igor Stravinsky",
+  "year": 1940,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "53489d2b-ffea-41db-ba6a-f267739620e3"
+  }
+}
