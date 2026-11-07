@@ -922,6 +922,22 @@ try {
     value => value === draftPath(defaultCategory.section), "new bookmark Vue hydration");
   await waitFor("document.querySelector('[data-bookmark-tag-input]')",
     Boolean, "bookmark composer supports optional first-party tags");
+  const publicTagKeys = new Set(bookmarkRecords.flatMap(record => record.tags ?? [])
+    .map(tag => tag.normalize("NFC").toLowerCase()));
+  const suggestions = await evaluate("Array.from(document.querySelectorAll('[data-bookmark-suggest-tag]')).map(button => button.dataset.bookmarkSuggestTag)");
+  assert.ok(suggestions.length <= 12, "Tag suggestions limit live controls, not the allowed tag vocabulary");
+  assert.ok(suggestions.every(tag => publicTagKeys.has(tag.normalize("NFC").toLowerCase())),
+    "Public composer may suggest tags only from published bookmarks");
+  if (suggestions.length) {
+    const suggestion = suggestions[0];
+    await evaluate("Array.from(document.querySelectorAll('[data-bookmark-suggest-tag]')).find(button => button.dataset.bookmarkSuggestTag === " + JSON.stringify(suggestion) + ").click()");
+    await waitFor("document.querySelector('.new-bookmark .output textarea[readonly]')?.value",
+      text => typeof text === "string" && text.includes(JSON.stringify(suggestion)),
+      "Selecting a current tag must add it to the GitHub-reviewed Markdown");
+    await waitFor("Array.from(document.querySelectorAll('[data-bookmark-suggest-tag]')).find(button => button.dataset.bookmarkSuggestTag === " + JSON.stringify(suggestion) + ")?.disabled",
+      Boolean, "Already selected tag suggestions must not create duplicates");
+    await evaluate("(()=>{const el=document.querySelector('[data-bookmark-tag-input]');el.value='';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
+  }
   await evaluate("(()=>{const el=document.querySelector('[data-bookmark-tag-input]');el.value='CI browser tag, Research';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
   await waitFor("document.querySelector('.new-bookmark .output textarea[readonly]')?.value",
     value => typeof value === "string" && value.includes('tags: ["CI browser tag","Research"]'),
