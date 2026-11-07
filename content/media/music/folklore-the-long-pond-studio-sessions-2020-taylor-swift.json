@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Folklore: The Long Pond Studio Sessions",
+  "creator": "Taylor Swift",
+  "year": 2020,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "d931fda7-8710-4212-85c1-b1568d0617fd"
+  }
+}

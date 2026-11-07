@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Pink Floyd at Pompeii: MCMLXXII",
+  "creator": "Pink Floyd",
+  "year": 2025,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "c95a5005-4092-39a8-b7d3-354657d3f85c"
+  }
+}

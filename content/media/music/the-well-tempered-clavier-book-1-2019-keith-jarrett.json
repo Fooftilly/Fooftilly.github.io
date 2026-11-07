@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "The Well-Tempered Clavier, Book 1",
+  "creator": "Keith Jarrett",
+  "year": 2019,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "b2316379-3e38-4f92-ac2f-6bd6b6d6450b"
+  }
+}

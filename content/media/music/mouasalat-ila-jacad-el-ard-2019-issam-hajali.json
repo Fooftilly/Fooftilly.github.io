@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Mouasalat ila jacad el ard",
+  "creator": "Issam Hajali",
+  "year": 2019,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "56121452-77ff-4eea-887d-6a8d8ac2cc48"
+  }
+}

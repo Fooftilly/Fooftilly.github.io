@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Ascension [Edition I]",
+  "creator": "John Coltrane",
+  "year": 1966,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "bc126e06-2f61-300c-afe5-e2fe7b10021f"
+  }
+}
