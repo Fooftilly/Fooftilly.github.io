@@ -2,7 +2,7 @@
 import { computed, onMounted, ref } from "vue";
 import { BOOKMARK_CATEGORIES, draftCategoryFromSlug } from "../lib/bookmark-categories.ts";
 import { bookmarkDetailPath } from "../lib/bookmark-path.ts";
-import { parseBookmarkTags } from "../lib/bookmark-tags.ts";
+import { appendBookmarkTag, parseBookmarkTags } from "../lib/bookmark-tags.ts";
 import {
   composeBookmarkDraft,
   githubNewFileUrl,
@@ -29,8 +29,7 @@ const selectedTagKeys = computed(() => new Set(
 function addSuggestedTag(suggested: string): void {
   if (selectedTagKeys.value.has(suggested.normalize("NFC").toLowerCase())) return;
   try {
-    tags.value = parseBookmarkTags(tags.value.trim()
-      ? tags.value + ", " + suggested : suggested).join(", ");
+    tags.value = appendBookmarkTag(tags.value, suggested);
   } catch (error) {
     status.value = error instanceof Error ? error.message : "Invalid tag.";
   }

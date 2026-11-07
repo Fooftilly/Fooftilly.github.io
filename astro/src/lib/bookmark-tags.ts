@@ -20,6 +20,13 @@ export function parseBookmarkTags(text: string): string[] {
   return text.trim() ? validateBookmarkTags(text.split(",")) : [];
 }
 
+/** Append a suggestion even when the author has left a trailing comma. */
+export function appendBookmarkTag(text: string, suggested: string): string {
+  const current = text.trim();
+  return parseBookmarkTags(current
+    ? current + (current.endsWith(",") ? " " : ", ") + suggested : suggested).join(", ");
+}
+
 /** Suggested labels are derived only from published source records. Never read
  * draft content, and do not impose a static allowed-tag registry.
  */

@@ -34,3 +34,12 @@ test("suggestions are derived from supplied published records and ordered by usa
   assert.deepEqual(bookmarkTagSuggestions([]),[]);
   assert.deepEqual(bookmarkTagSuggestions([{tags:[]}]),[]);
 });
+
+test("selecting a suggested tag after a trailing comma finishes a valid list", async () => {
+  const {appendBookmarkTag} = await import("../src/lib/bookmark-tags.ts");
+  assert.equal(appendBookmarkTag("Research, ", "Git-owned"), "Research, Git-owned");
+  assert.equal(appendBookmarkTag("Research,", "Café culture"), "Research, Café culture");
+  assert.equal(appendBookmarkTag("", "Music"), "Music");
+  assert.throws(() => appendBookmarkTag("one,,two", "three"), /Tags/);
+  assert.throws(() => appendBookmarkTag("Research", "research"), /Duplicate/);
+});
