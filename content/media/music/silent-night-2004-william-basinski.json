@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Silent Night",
+  "creator": "William Basinski",
+  "year": 2004,
+  "rating": 3,
+  "links": [
+    {
+      "label": "MusicBrainz",
+      "url": "https://musicbrainz.org/release-group/9243852f-65e3-3029-8df2-1616e0fc5a31"
+    }
+  ]
+}

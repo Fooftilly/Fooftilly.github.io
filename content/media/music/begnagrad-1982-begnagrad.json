@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Begnagrad",
+  "creator": "Begnagrad",
+  "year": 1982,
+  "rating": 4,
+  "links": [
+    {
+      "label": "MusicBrainz",
+      "url": "https://musicbrainz.org/release-group/20fd5f96-585f-4c56-84fe-63bbeeb3ab6c"
+    }
+  ]
+}

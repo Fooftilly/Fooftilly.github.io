@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Calypso",
+  "creator": "Harry Belafonte",
+  "year": 1956,
+  "rating": 3.5,
+  "links": [
+    {
+      "label": "MusicBrainz",
+      "url": "https://musicbrainz.org/release-group/e984cd67-c053-386f-a912-a873c4fc9ded"
+    }
+  ]
+}

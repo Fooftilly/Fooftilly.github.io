@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "時間",
+  "creator": "betcover!!",
+  "year": 2021,
+  "rating": 3.5,
+  "links": [
+    {
+      "label": "MusicBrainz",
+      "url": "https://musicbrainz.org/release-group/3daf345b-fda5-4713-a326-d419cfd79054"
+    }
+  ]
+}
