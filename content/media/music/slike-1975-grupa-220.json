@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Slike",
+  "creator": "Grupa 220",
+  "year": 1975,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "61ab9b66-2e9a-3d37-afcc-2aeacfaa8102"
+  }
+}

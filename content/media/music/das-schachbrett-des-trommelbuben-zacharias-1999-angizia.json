@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Das Schachbrett des Trommelbuben Zacharias",
+  "creator": "Angizia",
+  "year": 1999,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "a791caff-b8ec-3b2e-a584-ed7da852bcd7"
+  }
+}

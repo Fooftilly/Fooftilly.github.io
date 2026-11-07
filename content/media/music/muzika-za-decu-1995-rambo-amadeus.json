@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Muzika za decu",
+  "creator": "Rambo Amadeus",
+  "year": 1995,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "b71704ee-de08-4e80-812b-db3c3b89a641"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Tezeta",
+  "creator": "Hailu Mergia & The Walias Band",
+  "year": 2021,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "e5130e68-e7d0-4ba6-b217-21e89138c7c4"
+  }
+}
