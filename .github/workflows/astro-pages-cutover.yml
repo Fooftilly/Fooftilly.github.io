@@ -27,6 +27,8 @@ jobs:
       inputs.publish == true
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    outputs:
+      sitemap_sha256: ${{ steps.sitemap.outputs.sha256 }}
     steps:
       - name: Checkout without persisted credentials
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -74,11 +76,20 @@ jobs:
           test -s dist/new-media/index.html
           test -s dist/projects/index.html
           test -s dist/sh/projects/index.html
+          test -s dist/bookmarks/tags/index.html
+          test -s dist/sh/bookmarks/tags/index.html
           # Source-to-render project routes were checked by release-readiness.mjs.
           test -s dist/privacy/index.html
           test -s dist/sh/privacy/index.html
           test ! -e dist/migration-audit
           test ! -e dist/admin
+      - name: Record validated sitemap checksum for post-deploy parity
+        id: sitemap
+        working-directory: astro
+        shell: bash
+        run: |
+          set -euo pipefail
+          sha256sum dist/sitemap.xml | awk '{print "sha256=" $1}' >> "$GITHUB_OUTPUT"
       - name: Upload validated Astro build only
         uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4
         with:
@@ -111,6 +122,8 @@ jobs:
           persist-credentials: false
 
       - name: Verify the public site serves this deployment revision
+        env:
+          EXPECTED_SITEMAP_SHA256: ${{ needs.build.outputs.sitemap_sha256 }}
         shell: bash
         run: |
           set -euo pipefail
@@ -133,9 +146,28 @@ jobs:
             sleep 5
           done
 
+          # Verify byte-for-byte sitemap parity with the same artifact that
+          # passed the pre-publish audits. An HTTP 200 alone is not sufficient.
+          # Fetch after the exact deployed revision is visible, so a stale
+          # GitHub Pages edge cache cannot silently pass this validation.
+          [[ "$EXPECTED_SITEMAP_SHA256" =~ ^[0-9a-f]{64}$ ]] || {
+            echo "::error::Validated sitemap checksum is missing or malformed"
+            exit 1
+          }
+          live_sitemap="$(mktemp)"
+          trap 'rm -f "$live_sitemap"' EXIT
+          curl --fail --location --silent --show-error --max-time 12 \
+            --header 'Cache-Control: no-cache' \
+            --output "$live_sitemap" "$base/sitemap.xml?run=$GITHUB_RUN_ID"
+          observed_sitemap_sha256="$(sha256sum "$live_sitemap" | awk '{print $1}')"
+          if [[ "$observed_sitemap_sha256" != "$EXPECTED_SITEMAP_SHA256" ]]; then
+            echo "::error::Live sitemap differs from the validated published artifact"
+            exit 1
+          fi
+
           # These are required public routes and release artifacts, checked
           # independently after the exact revision is confirmed.
-          for route in / /sh/ /new-bookmark/ /bookmarks/ /search/ /media/ /music/ /films/ /tv/ /new-media/ /projects/ /sh/projects/ /privacy/ /sh/privacy/ /404.html /index.xml /sitemap.xml; do
+          for route in / /sh/ /new-bookmark/ /bookmarks/ /bookmarks/tags/ /sh/bookmarks/tags/ /search/ /media/ /music/ /films/ /tv/ /new-media/ /projects/ /sh/projects/ /privacy/ /sh/privacy/ /404.html /index.xml /sitemap.xml; do
             curl --fail --location --silent --show-error --max-time 12 \
               --output /dev/null "$base$route"
             echo "Verified $route"
@@ -162,5 +194,6 @@ jobs:
             echo ""
             echo "- Live URL: $base/"
             echo "- Verified deployed commit: \`$expected\`"
+            echo "- Sitemap matches validated artifact SHA-256: passed"
             echo "- Critical routes: passed"
           } >> "$GITHUB_STEP_SUMMARY"

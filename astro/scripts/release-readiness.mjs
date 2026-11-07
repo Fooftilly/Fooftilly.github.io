@@ -35,6 +35,7 @@ for (const file of [
   "new-bookmark/index.html", "media/index.html", "music/index.html", "films/index.html", "tv/index.html", "new-media/index.html",
   "privacy/index.html", "sh/privacy/index.html",
   "projects/index.html", "sh/projects/index.html",
+  "bookmarks/tags/index.html", "sh/bookmarks/tags/index.html",
 ]) assert.ok(await exists(join(publicDir, file)), "Missing public release file: " + file);
 // Every generated detail route must match a current Git-reviewed project
 // Markdown entry, including intentional additions, removals and renames.
