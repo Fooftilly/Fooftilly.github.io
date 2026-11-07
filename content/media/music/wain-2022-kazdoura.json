@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Wain",
+  "creator": "Kazdoura",
+  "year": 2022,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "784c27bc-7b1d-4529-91eb-f0a4792341a7"
+  }
+}

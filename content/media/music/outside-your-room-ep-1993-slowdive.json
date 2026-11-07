@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Outside Your Room EP",
+  "creator": "Slowdive",
+  "year": 1993,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "4468ef3d-4817-350f-99c4-0108b2aff104"
+  }
+}

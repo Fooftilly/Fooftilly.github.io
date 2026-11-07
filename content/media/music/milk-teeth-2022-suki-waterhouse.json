@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Milk Teeth",
+  "creator": "Suki Waterhouse",
+  "year": 2022,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "e6ae0efd-e077-48bb-ac6d-859a3e7cf5ff"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Juno Goes to the Big House",
+  "creator": "Sorry Mom",
+  "year": 2021,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "26091cde-2802-4ce0-a5c7-709cb1288cb2"
+  }
+}

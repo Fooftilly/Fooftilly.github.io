@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Solid State",
+  "creator": "Bella Technika",
+  "year": 2023,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "d5a24247-626c-4bd7-8c41-6ccbc5efbf78"
+  }
+}

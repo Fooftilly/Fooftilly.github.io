@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Connla's Well",
+  "creator": "Maruja",
+  "year": 2024,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "1f729469-d070-4109-a3bc-a7494f5c011f"
+  }
+}

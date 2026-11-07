@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Glow in the Dark",
+  "creator": "Kanye West",
+  "year": 2009,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "41efe651-b79a-4120-8599-87ca4b72f1fc"
+  }
+}

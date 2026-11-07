@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Arcade Fire",
+  "creator": "Arcade Fire",
+  "year": 2003,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "8b06c6ae-b029-36df-841a-df52af24a080"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "T.V.",
+  "creator": "Beograd",
+  "year": 2011,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "d0d289aa-a5fb-4c5b-bb6d-c49a44f75503"
+  }
+}

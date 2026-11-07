@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Sugar & Spice",
+  "creator": "Hatchie",
+  "year": 2018,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "bff4d1eb-7ed9-47ff-b688-5f655750d31b"
+  }
+}

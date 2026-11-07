@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Shostakovich Plays Shostakovich",
+  "creator": "Дмитрий Шостакович",
+  "year": 2015,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "3d6850c0-29da-444f-8af2-8f4af9cbaf60"
+  }
+}

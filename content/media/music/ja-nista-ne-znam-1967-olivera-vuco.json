@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Ja ništa ne znam",
+  "creator": "Olivera Vučo",
+  "year": 1967,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "569d20ee-1631-4163-937e-c1f47da6cdac"
+  }
+}

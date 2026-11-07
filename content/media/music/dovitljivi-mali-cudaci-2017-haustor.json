@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Dovitljivi Mali Čudaci",
+  "creator": "Haustor",
+  "year": 2017,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "44d3e157-3800-42c5-a54b-91732b2698be"
+  }
+}

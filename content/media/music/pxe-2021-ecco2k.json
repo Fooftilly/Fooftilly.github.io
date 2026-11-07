@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "PXE",
+  "creator": "Ecco2k",
+  "year": 2021,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "7904123d-2679-46c7-9c21-fb9ce6f974e7"
+  }
+}

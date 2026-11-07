@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Šizika",
+  "creator": "Laki Pingvini",
+  "year": 1983,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "cbe76180-8d49-44b7-b624-52082f868548"
+  }
+}
