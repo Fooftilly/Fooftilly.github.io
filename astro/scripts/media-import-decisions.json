@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "film_rating_conflicts": [
+    {
+      "title": "Before Sunset",
+      "year": 2004,
+      "letterboxd": 3.5,
+      "rym": 4,
+      "selected": "rym"
+    },
+    {
+      "title": "Blue Velvet",
+      "year": 1986,
+      "letterboxd": 4,
+      "rym": 3.5,
+      "selected": "letterboxd"
+    },
+    {
+      "title": "Parker",
+      "year": 2013,
+      "letterboxd": 3.5,
+      "rym": 3,
+      "selected": "letterboxd"
+    },
+    {
+      "title": "Sherlock: The Abominable Bride",
+      "year": 2016,
+      "letterboxd": 3.5,
+      "rym": 3,
+      "selected": "rym"
+    },
+    {
+      "title": "Steamboat Willie",
+      "year": 1928,
+      "letterboxd": 2.5,
+      "rym": 3,
+      "selected": "letterboxd"
+    }
+  ]
+}

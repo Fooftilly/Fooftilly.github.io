@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Before Sunset",
+  "year": 2004,
+  "rating": 4,
+  "status": "finished",
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/2bcg"
+    }
+  ]
+}
