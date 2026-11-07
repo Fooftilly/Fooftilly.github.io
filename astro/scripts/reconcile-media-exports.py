@@ -178,57 +178,15 @@ def reconcile(letterboxd: list[dict], rym_films: list[dict], rym_music: list[dic
     }
 
 
-def apply_rating_decisions(report: dict, choices: dict) -> dict:
-    """Apply only owner-selected ratings, rejecting stale or invented decisions.
-
-    No decisions are inferred from source priority or import order. When a new
-    mismatch appears, the existing choices cannot approve it by accident.
-    """
-    if choices.get("schema") != 1 or not isinstance(choices.get("film_rating_conflicts"), list):
-        raise ValueError("Invalid owner rating decisions")
-    conflicts = {(key(c["title"]), str(c["year"])): c
-                 for c in report["rating_conflicts"]}
-    selected = {}
-    for choice in choices["film_rating_conflicts"]:
-        if not isinstance(choice, dict) or set(choice) != {
-                "title", "year", "letterboxd", "rym", "selected"}:
-            raise ValueError("Invalid rating decision fields")
-        identity = (key(choice["title"]), str(choice["year"]))
-        if identity in selected:
-            raise ValueError("Duplicate rating decision")
-        actual = conflicts.get(identity)
-        if actual is None:
-            raise ValueError("Rating decision does not match an actual conflict: " + choice["title"])
-        if (choice["letterboxd"] != actual["letterboxd"] or
-                choice["rym"] != actual["rym"] or
-                choice["selected"] not in ("letterboxd", "rym")):
-            raise ValueError("Stale or invalid rating decision: " + choice["title"])
-        selected[identity] = {
-            "title": actual["title"], "year": actual["year"],
-            "rating": actual[choice["selected"]],
-            "chosen_from": choice["selected"],
-        }
-    report["resolved_rating_conflicts"] = [selected[identity] for identity in sorted(selected)]
-    report["unresolved_rating_conflicts"] = [
-        value for identity, value in sorted(conflicts.items()) if identity not in selected
-    ]
-    report["summary"]["films_rating_conflicts_resolved"] = len(selected)
-    report["summary"]["films_rating_conflicts_unresolved"] = len(report["unresolved_rating_conflicts"])
-    return report
-
-
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("letterboxd_zip", type=Path)
     parser.add_argument("rym_films_csv", type=Path)
     parser.add_argument("rym_music_csv", type=Path)
     parser.add_argument("--output", type=Path, help="Write local JSON report; never writes public media")
-    parser.add_argument("--decisions", type=Path, help="Owner-confirmed rating choices in JSON")
     args = parser.parse_args()
     report = reconcile(*source_rows(args.letterboxd_zip, args.rym_films_csv,
                                     args.rym_music_csv))
-    if args.decisions:
-        report = apply_rating_decisions(report, json.loads(args.decisions.read_text(encoding="utf-8")))
     if args.output:
         args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n",
                                encoding="utf-8")
