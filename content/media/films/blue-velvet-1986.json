@@ -6,24 +6,14 @@
   "rating": 4,
   "links": [
     {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/29BI"
-    },
-    {
-      "label": "IMDb",
-      "url": "https://www.imdb.com/title/tt0090756/"
-    },
-    {
-      "label": "TMDb",
-      "url": "https://www.themoviedb.org/movie/793"
-    },
-    {
-      "label": "Wikipedia",
-      "url": "https://en.wikipedia.org/wiki/Blue_Velvet_(film)"
-    },
-    {
       "label": "Criterion",
       "url": "https://www.criterion.com/films/29144-blue-velvet"
     }
-  ]
+  ],
+  "refs": {
+    "letterboxd": "29BI",
+    "imdb": "tt0090756",
+    "tmdb": "movie:793",
+    "wikipedia": "en:Blue_Velvet_(film)"
+  }
 }
