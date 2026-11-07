@@ -1,5 +1,6 @@
 """Offline regressions for MusicBrainz album/EP/single verification."""
 import importlib.util
+import json
 from pathlib import Path
 import unittest
 
@@ -45,6 +46,19 @@ class VerifyRymAlbumsTests(unittest.TestCase):
         self.assertEqual(mod.artist_names(row), ["박지하", "Park Jiha"])
         mb = self.release(artist="Park Jiha")
         self.assertEqual(mod.classify(row, mb)["classification"], "album")
+
+    def test_duplicate_rym_editions_never_automatically_share_one_album_identity(self):
+        first = self.row(**{"RYM Album": "123", "Rating": "8"})
+        second = self.row(**{"RYM Album": "456", "Rating": "6"})
+        def cache_key(row):
+            return json.dumps([row["RYM Album"], row["Title"], row["Release_Date"],
+                               mod.artist_names(row)], ensure_ascii=False, separators=(",", ":"))
+        album = self.release()
+        cache = {cache_key(first): album, cache_key(second): album}
+        report = mod.verify([first, second], cache, fetch=False)
+        self.assertEqual(report["summary"]["album"], 0)
+        self.assertEqual(report["summary"]["needs_review"], 2)
+        self.assertTrue(all("editions" in item["reason"] for item in report["releases"]))
 
     def test_offline_defaults_unverified_and_never_fetches(self):
         report = mod.verify([self.row()], {}, fetch=False)
