@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Rani mraz",
+  "creator": "Đorđe Balašević",
+  "year": 2004,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "e26069b3-2be5-311e-a479-d26a9714f8a5"
+  }
+}
