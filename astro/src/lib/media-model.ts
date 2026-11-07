@@ -52,6 +52,27 @@ function publicNotes(raw: unknown): string | undefined {
   }
   return notes;
 }
+/** Present familiar provider names without fabricating a per-title destination.
+ * The URL always comes from an explicit source record, never a search slug.
+ */
+export function mediaSourceLabel(rawUrl: string, fallback: string): string {
+  let host: string;
+  try { host=new URL(rawUrl).hostname.toLowerCase(); }
+  catch { return fallback; }
+  const is=(domain:string)=>host===domain||host.endsWith("."+domain);
+  if(is("imdb.com"))return "IMDb";
+  if(is("themoviedb.org"))return "TMDb";
+  if(is("wikipedia.org"))return "Wikipedia";
+  if(is("bfi.org.uk"))return "BFI";
+  if(is("criterion.com")||is("criterionchannel.com"))return "Criterion";
+  if(is("letterboxd.com")||host==="boxd.it")return "Letterboxd";
+  if(is("rateyourmusic.com"))return "RYM";
+  if(is("musicbrainz.org"))return "MusicBrainz";
+  if(is("allmusic.com"))return "AllMusic";
+  if(is("discogs.com"))return "Discogs";
+  if(is("bandcamp.com"))return "Bandcamp";
+  return fallback;
+}
 export function validateMediaLink(raw: unknown): MediaLink {
   if (!raw || typeof raw !== "object" || Array.isArray(raw)) throw new Error("Invalid external link");
   const obj = raw as Record<string,unknown>;
@@ -62,6 +83,9 @@ export function validateMediaLink(raw: unknown): MediaLink {
   try { url = new URL(value); } catch { throw new Error("Invalid external link URL"); }
   if (!["http:","https:"].includes(url.protocol) || !url.hostname || url.username || url.password) {
     throw new Error("Only absolute HTTP/HTTPS links without credentials are permitted");
+  }
+  if (url.hostname === "trakt.tv" || url.hostname.endsWith(".trakt.tv")) {
+    throw new Error("Trakt links are not supported");
   }
   return { label, url: url.href };
 }
