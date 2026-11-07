@@ -147,11 +147,14 @@ async function showMore(): Promise<void> {
                 {{ item.rating!==undefined?item.rating.toFixed(1)+' / 5':'—' }}
               </td>
               <td>{{ item.status==="in-progress" ? "In progress" : item.status==="finished" ? "Finished" : item.status==="planned" ? "Planned" : "—" }}</td>
-              <td>
-                <template v-if="item.links?.length">
+              <td class="media-link-cell">
+                <div v-if="item.links?.length" class="media-reference-buttons"
+                     :aria-label="'External references for '+item.title">
                   <a v-for="link in item.links" :key="link.url" :href="link.url"
+                     class="media-reference-button" :data-media-provider="link.label"
+                     :aria-label="link.label+' (opens in a new tab)'"
                      target="_blank" rel="noopener noreferrer">{{ link.label }}</a>
-                </template>
+                </div>
                 <template v-else>—</template>
               </td>
             </tr>
@@ -196,7 +199,15 @@ caption{text-align:start;color:var(--muted);padding:.6rem 0}
 th,td{padding:.8rem .65rem;text-align:start;vertical-align:top;border-bottom:1px solid var(--border)}
 tbody th{max-width:25rem;overflow-wrap:anywhere}
 td{overflow-wrap:anywhere}
-td:last-child a{display:block;min-width:4rem;margin-bottom:.35rem}
+.media-reference-buttons{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center}
+.media-reference-button{display:inline-flex;align-items:center;gap:.35rem;justify-content:center;
+ min-height:2.35rem;padding:.35rem .65rem;border:1px solid var(--border);border-radius:0;
+ background:var(--surface);color:var(--foreground);font-size:.78rem;font-weight:600;
+ line-height:1.2;white-space:nowrap;text-decoration:none;transition:border-color .12s ease,background-color .12s ease}
+.media-reference-button::after{content:"↗";font-size:.8em;color:var(--muted)}
+.media-reference-button:hover{border-color:var(--accent);color:var(--accent);background:var(--surface)}
+.media-reference-button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){.media-reference-button{transition:none}}
 details{margin-top:.5rem;font-size:.88rem;font-weight:400}
 details summary{cursor:pointer;color:var(--accent)}
 .notes{max-width:55ch;white-space:pre-wrap}
