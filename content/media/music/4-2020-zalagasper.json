@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "4",
+  "creator": "zalagasper",
+  "year": 2020,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "69caa61f-bf7b-42fc-a9a8-05e8a04333b8"
+  }
+}
