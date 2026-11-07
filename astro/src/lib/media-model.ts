@@ -4,6 +4,9 @@ export type MediaKind = typeof MEDIA_KINDS[number];
 export const MEDIA_STATUSES = ["finished", "in-progress", "planned"] as const;
 export type MediaStatus = typeof MEDIA_STATUSES[number];
 export interface MediaLink { label: string; url: string }
+export interface MediaTrack { disc: number; number: number; title: string; rating?: number }
+export interface MediaEpisode { number: number; title?: string; rating?: number }
+export interface MediaSeason { number: number; title?: string; rating?: number; episodes?: MediaEpisode[] }
 export interface MediaRecord {
   schema: 1;
   kind: MediaKind;
@@ -14,6 +17,8 @@ export interface MediaRecord {
   status?: MediaStatus;
   notes?: string;
   links?: MediaLink[];
+  tracks?: MediaTrack[];
+  seasons?: MediaSeason[];
 }
 export interface StoredMedia extends MediaRecord { id: string; path: string }
 export interface MediaDraft {
@@ -65,12 +70,79 @@ export function validateMediaLink(raw: unknown): MediaLink {
   }
   return { label, url: url.href };
 }
+function ratingOf(raw: unknown, label: string): number {
+  if(typeof raw !== "number" || !Number.isFinite(raw) ||
+     raw < 0.5 || raw > 5 || !Number.isInteger(raw * 2))
+    throw new Error(label + " must be 0.5–5 in half-star steps");
+  return raw;
+}
+function integerOf(raw: unknown, label: string, min: number, max: number): number {
+  if(typeof raw !== "number" || !Number.isInteger(raw) || raw < min || raw > max)
+    throw new Error(label + " must be an integer from " + min + " to " + max);
+  return raw;
+}
+function objectFields(raw: unknown, fields: string[], label: string): Record<string,unknown> {
+  if(!raw || typeof raw !== "object" || Array.isArray(raw))
+    throw new Error(label + " must be an object");
+  const value=raw as Record<string,unknown>;
+  if(Object.keys(value).some(field=>!fields.includes(field)))
+    throw new Error("Unexpected "+label+" field");
+  return value;
+}
+function validateTracks(raw: unknown): MediaTrack[] {
+  if(!Array.isArray(raw) || !raw.length || raw.length>500)
+    throw new Error("Tracks require 1–500 entries");
+  const seen=new Set<string>();
+  return raw.map(item=>{
+    const value=objectFields(item,["disc","number","title","rating"],"track");
+    const disc=integerOf(value.disc,"Disc",1,50);
+    const number=integerOf(value.number,"Track number",1,250);
+    const identity=disc+":"+number;
+    if(seen.has(identity))throw new Error("Duplicate track position "+identity);
+    seen.add(identity);
+    const track:MediaTrack={disc,number,title:safeText(value.title,"Track title",250)};
+    if(value.rating!==undefined)track.rating=ratingOf(value.rating,"Track rating");
+    return track;
+  });
+}
+function validateSeasons(raw: unknown): MediaSeason[] {
+  if(!Array.isArray(raw) || !raw.length || raw.length>200)
+    throw new Error("Seasons require 1–200 entries");
+  const seen=new Set<number>();
+  return raw.map(item=>{
+    const value=objectFields(item,["number","title","rating","episodes"],"season");
+    const number=integerOf(value.number,"Season number",0,200);
+    if(seen.has(number))throw new Error("Duplicate season number "+number);
+    seen.add(number);
+    const season:MediaSeason={number};
+    const title=optionalText(value.title,"Season title",250);
+    if(title)season.title=title;
+    if(value.rating!==undefined)season.rating=ratingOf(value.rating,"Season rating");
+    if(value.episodes!==undefined){
+      if(!Array.isArray(value.episodes) || !value.episodes.length || value.episodes.length>500)
+        throw new Error("Episodes require 1–500 entries");
+      const episodeNumbers=new Set<number>();
+      season.episodes=value.episodes.map(item=>{
+        const fields=objectFields(item,["number","title","rating"],"episode");
+        const num=integerOf(fields.number,"Episode number",1,1000);
+        if(episodeNumbers.has(num))throw new Error("Duplicate episode number "+num);
+        episodeNumbers.add(num);
+        const episode:MediaEpisode={number:num};
+        const episodeTitle=optionalText(fields.title,"Episode title",250);
+        if(episodeTitle)episode.title=episodeTitle;
+        if(fields.rating!==undefined)episode.rating=ratingOf(fields.rating,"Episode rating");
+        return episode;
+      });
+    }
+    return season;
+  });
+}
 export function validateMediaRecord(raw: unknown, expectedKind?: MediaKind): MediaRecord {
   if (!raw || typeof raw !== "object" || Array.isArray(raw)) throw new Error("Invalid media record");
   const obj=raw as Record<string,unknown>;
   if (obj.schema !== 1 || !MEDIA_KINDS.includes(obj.kind as MediaKind)) throw new Error("Unsupported media schema or category");
   if (expectedKind && obj.kind!==expectedKind) throw new Error("Media kind differs from directory");
-  const fields=["schema","kind","title","creator","year","rating","status","notes","links"];
+  const fields=["schema","kind","title","creator","year","rating","status","notes","links","tracks","seasons"];
   if (Object.keys(obj).some(key=>!fields.includes(key))) throw new Error("Unexpected public media field (possible private metadata)");
   const result: MediaRecord={schema:1,kind:obj.kind as MediaKind,title:safeText(obj.title,"Title",250)};
   const creator=optionalText(obj.creator,"Artist/director/creator",220);
@@ -80,11 +152,7 @@ export function validateMediaRecord(raw: unknown, expectedKind?: MediaKind): Med
       throw new Error("Year must be an integer from 1800 to 2200");
     result.year=obj.year;
   }
-  if(obj.rating!==undefined){
-    if(typeof obj.rating!=="number"||obj.rating<0.5||obj.rating>5||!Number.isInteger(obj.rating*2))
-      throw new Error("Rating must be 0.5–5 in half-star steps");
-    result.rating=obj.rating;
-  }
+  if(obj.rating!==undefined) result.rating=ratingOf(obj.rating,"Rating");
   if(obj.status!==undefined){
     if(!MEDIA_STATUSES.includes(obj.status as MediaStatus)) throw new Error("Invalid media status");
     result.status=obj.status as MediaStatus;
@@ -96,6 +164,14 @@ export function validateMediaRecord(raw: unknown, expectedKind?: MediaKind): Med
     const links=obj.links.map(validateMediaLink);
     if(new Set(links.map(l=>l.url)).size!==links.length) throw new Error("Duplicate external URL");
     if(links.length) result.links=links;
+  }
+  if(obj.tracks!==undefined){
+    if(obj.kind!=="music")throw new Error("Tracks apply to music albums only");
+    result.tracks=validateTracks(obj.tracks);
+  }
+  if(obj.seasons!==undefined){
+    if(obj.kind!=="tv")throw new Error("Seasons apply to TV and anime only");
+    result.seasons=validateSeasons(obj.seasons);
   }
   return result;
 }
