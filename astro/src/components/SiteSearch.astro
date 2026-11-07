@@ -17,6 +17,7 @@ const bookmarks = (await loadBookmarks()).map(({ id, title, category, url, date,
   <p>{lang === "sh"
     ? "Pretraži sačuvane linkove."
     : "Search saved bookmarks."}</p>
+  <p><a href={lang === "sh" ? "/sh/bookmarks/tags/" : "/bookmarks/tags/"}>{lang === "sh" ? "Pregled oznaka" : "Browse tags"}</a></p>
   <BookmarkBrowser items={bookmarks} lang={lang} client:load />
 </section>
 <style>

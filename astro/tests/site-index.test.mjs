@@ -16,7 +16,7 @@ test("sitemap uses configured categories and current bookmark IDs", () => {
     assert.ok(paths.includes("/bookmarks/" + category.slug + "/"));
   }
   for (const route of ["/", "/about/", "/bookmarks/", "/sh/", "/sh/about/", "/sh/posts/",
-    "/posts/", "/search/", "/sh/search/", "/new-bookmark/", "/music/", "/films/",
+    "/posts/", "/search/", "/sh/search/", "/bookmarks/tags/", "/sh/bookmarks/tags/", "/new-bookmark/", "/music/", "/films/",
     "/media/", "/tv/", "/new-media/", "/privacy/", "/sh/privacy/", "/projects/", "/sh/projects/"]) {
     assert.ok(paths.includes(route), "Missing site route " + route);
   }

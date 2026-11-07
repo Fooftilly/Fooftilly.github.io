@@ -192,6 +192,15 @@ try {
   const bookmarkDetail = await readFile(join(dist, "bookmarks", bookmarkCategory.slug, bookmarkStem, "index.html"), "utf8");
   assert.ok(bookmarkDetail.includes("CI-only new bookmark"), "New bookmark detail page was not generated");
   assert.ok(bookmarkDetail.includes("CI migration tag"), "Current tags must appear on bookmark detail pages");
+  for (const [url,filter] of [["bookmarks/tags/index.html","/search/"],["sh/bookmarks/tags/index.html","/sh/search/"]]) {
+    const html=await readFile(join(dist,url),"utf8");
+    assert.ok(html.includes('href="'+filter+'?tag=CI+migration+tag"'),
+      "New Git-managed tags must appear in the static EN/SH directory: "+url);
+    assert.ok(html.includes("Git-owned"),
+      "Static tag directory must include source-owned tag labels: "+url);
+    assert.ok(html.includes('href="'+filter+'?tag=Git-owned"'),
+      "Every source-defined tag needs a first-party filtered search link: "+url);
+  }
   assert.ok(bookmarkDetail.includes('href="/search/?tag=CI+migration+tag"'),
     "Tagged bookmark details must navigate to exact-tag search");
   const emptyDetail = await readFile(join(dist,"bookmarks",bookmarkCategory.slug,emptyStem,"index.html"),"utf8");

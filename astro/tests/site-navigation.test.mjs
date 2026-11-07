@@ -32,6 +32,8 @@ test("nested pages mark their parent section as a location, not the current page
     ["/sh/posts/objava/", "posts", "/sh/posts/"],
     ["/bookmarks/paperbookarticle/", "bookmarks", "/bookmarks/"],
     ["/bookmarks/art/example/", "bookmarks", "/bookmarks/"],
+    ["/bookmarks/tags/", "bookmarks", "/bookmarks/"],
+    ["/sh/bookmarks/tags/", "bookmarks", "/bookmarks/"],
     ["/projects/prks/", "projects", "/projects/"],
     ["/films/", "media", "/media/"],
     ["/music/", "media", "/media/"],

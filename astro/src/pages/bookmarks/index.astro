@@ -12,6 +12,7 @@ const bookmarks = (await loadBookmarks()).map(({ id, title, category, url, date,
   <h1>Bookmarks</h1>
   <p><a href="/new-bookmark/">Add bookmark</a></p>
   <p class="collection-intro">Browse saved links by category.</p>
+  <p><a href="/bookmarks/tags/">Browse tags</a></p>
   <nav aria-label="Bookmark categories" class="category-nav">
     {BOOKMARK_CATEGORIES.map((category) => <a href={bookmarkCategoryPath(category.slug)}>{category.label}</a>)}
   </nav>
