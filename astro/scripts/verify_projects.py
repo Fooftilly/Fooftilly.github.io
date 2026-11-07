@@ -3,6 +3,7 @@
 No network calls or external dependencies. Source Markdown is authoritative.
 """
 from html import unescape
+import json
 from html.parser import HTMLParser
 import re
 from pathlib import Path
@@ -85,6 +86,26 @@ class ProjectTagLinkParser(HTMLParser):
             assert self.item is None, "Unclosed project tag"
             self.groups.append(self.group)
             self.group = None
+
+
+def parse_source_project_tags(body: str, slug: str) -> list[str]:
+    """Read the Git-owned technology labels independently of rendered HTML.
+
+    Project frontmatter currently uses JSON-compatible YAML flow arrays. A
+    different representation must be explicitly supported here instead of
+    silently trusting tags from generated detail pages.
+    """
+    frontmatter = body.split("\n---\n", 1)[0]
+    fields = re.findall(r"(?m)^tags:\s*(\[[^\n]*\])\s*$", frontmatter)
+    assert len(fields) == 1, ("Missing or unsupported project source tags", slug)
+    try:
+        tags = json.loads(fields[0])
+    except json.JSONDecodeError as exc:
+        raise AssertionError(("Invalid project source tag array", slug)) from exc
+    assert isinstance(tags, list) and tags and all(
+        isinstance(tag, str) and tag.strip() == tag and tag for tag in tags
+    ), ("Invalid project source tags", slug)
+    return tags
 
 
 def verify_project_tag_links(html: str, language: str, require_groups=True) -> list[list[str]]:
@@ -304,7 +325,12 @@ def verify_projects(dist: Path, source: Path, origin: str) -> None:
         html = result.read_text(encoding="utf8")
         detail_groups = verify_project_tag_links(html, "en")
         assert len(detail_groups) == 1, ("Project detail requires one tag list", slug)
-        source_tag_labels[slug] = detail_groups[0]
+        source_tags = parse_source_project_tags(body, slug)
+        assert detail_groups[0] == source_tags, (
+            "Project detail tags differ from canonical Markdown", slug,
+            source_tags, detail_groups[0]
+        )
+        source_tag_labels[slug] = source_tags
         expected_title = parse_project_heading(html)
         # Check each optional source disclosure without pinning original projects.
         for heading in ("Requirements", "Limitations"):
