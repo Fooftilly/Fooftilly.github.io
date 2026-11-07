@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "A dan je tako lijepo počeo",
+  "creator": "Paraf",
+  "year": 1980,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "12358675-3477-4daa-82d1-d1a150072de1"
+  }
+}

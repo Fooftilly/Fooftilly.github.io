@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Rust Never Sleeps",
+  "creator": "Neil Young & Crazy Horse",
+  "year": 1979,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "a710c7c7-46e6-36ca-9c3c-87c8e79f8daf"
+  }
+}

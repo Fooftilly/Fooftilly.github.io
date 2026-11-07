@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Dance Fever",
+  "creator": "Florence + The Machine",
+  "year": 2022,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "bcdc25a0-7c27-4a77-80fa-f5feb8f49733"
+  }
+}

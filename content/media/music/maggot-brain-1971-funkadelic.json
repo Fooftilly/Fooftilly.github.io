@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Maggot Brain",
+  "creator": "Funkadelic",
+  "year": 1971,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "a334e612-e736-3b4f-82b4-c4dfb774983c"
+  }
+}

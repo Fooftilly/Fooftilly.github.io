@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "New Deal",
+  "creator": "Artan Lili",
+  "year": 2016,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "e24cca3c-9dfc-4d24-9b9f-fa86b25c24f9"
+  }
+}

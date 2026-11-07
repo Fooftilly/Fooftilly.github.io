@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Saudade",
+  "creator": "Thievery Corporation",
+  "year": 2014,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "ba9a0970-bf2b-4f04-a022-f7b7f12e2f06"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Ventilacija",
+  "creator": "Vrooom",
+  "year": 2000,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "7e244f4c-873f-42db-96c7-944b132e59c1"
+  }
+}

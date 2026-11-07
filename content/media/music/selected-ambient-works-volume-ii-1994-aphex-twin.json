@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Selected Ambient Works Volume II",
+  "creator": "Aphex Twin",
+  "year": 1994,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "0e7a233f-81f8-3e63-ad07-6cdfe2faecc3"
+  }
+}

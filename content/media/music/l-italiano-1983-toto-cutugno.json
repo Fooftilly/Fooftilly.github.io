@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "L'Italiano",
+  "creator": "Toto Cutugno",
+  "year": 1983,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "288b9c98-7b31-4bdc-9781-b69d23278f32"
+  }
+}

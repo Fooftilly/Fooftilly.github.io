@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "E·MO·TION",
+  "creator": "Carly Rae Jepsen",
+  "year": 2015,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "9ff8a8fe-6aa7-473a-ae93-8488051e3f2d"
+  }
+}

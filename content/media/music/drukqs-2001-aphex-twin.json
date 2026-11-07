@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Drukqs",
+  "creator": "Aphex Twin",
+  "year": 2001,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "87f1a316-510f-36c3-9f2c-38230b0e56e0"
+  }
+}

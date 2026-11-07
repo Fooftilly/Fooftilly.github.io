@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Meddle",
+  "creator": "Pink Floyd",
+  "year": 1971,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "4e98c9b4-92f6-3049-b9da-a1088b623672"
+  }
+}

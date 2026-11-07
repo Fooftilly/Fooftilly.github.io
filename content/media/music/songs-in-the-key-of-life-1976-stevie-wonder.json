@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Songs in the Key of Life",
+  "creator": "Stevie Wonder",
+  "year": 1976,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "ea88b09b-fd34-33cf-a3e5-25a3a2fb4c6f"
+  }
+}

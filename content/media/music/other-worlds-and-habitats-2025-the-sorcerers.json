@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Other Worlds and Habitats",
+  "creator": "The Sorcerers",
+  "year": 2025,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "0ca302f8-e0bd-4d61-98c2-d7790ac2c393"
+  }
+}

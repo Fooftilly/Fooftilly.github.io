@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "La femme",
+  "creator": "Karlowy Vary",
+  "year": 1985,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "132adc74-6fea-4efa-ae79-44d2bdc0a3c3"
+  }
+}

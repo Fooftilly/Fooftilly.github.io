@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Discipline",
+  "creator": "King Crimson",
+  "year": 1981,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "d498c31d-3b72-3748-a142-df0bf774a920"
+  }
+}

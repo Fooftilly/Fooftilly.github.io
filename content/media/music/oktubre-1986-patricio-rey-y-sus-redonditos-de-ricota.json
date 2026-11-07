@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Oktubre",
+  "creator": "Patricio Rey y Sus Redonditos de Ricota",
+  "year": 1986,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "8b916008-5ced-3e29-a69b-73ecd2fd915c"
+  }
+}

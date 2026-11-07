@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Nevermind",
+  "creator": "Nirvana",
+  "year": 1991,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "1b022e01-4da6-387b-8658-8678046e4cef"
+  }
+}

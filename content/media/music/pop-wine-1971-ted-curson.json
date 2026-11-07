@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Pop Wine",
+  "creator": "Ted Curson",
+  "year": 1971,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "af933b8b-0bc2-4746-8f52-5c76810e2684"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Plays the Music of Twin Peaks",
+  "creator": "Xiu Xiu",
+  "year": 2016,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "ab3023f3-41c8-4b14-8ef9-18a1b62b564d"
+  }
+}

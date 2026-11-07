@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Kiselina",
+  "creator": "Pop mašina",
+  "year": 1973,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "4d822af3-b276-4673-a553-31c691e1f853"
+  }
+}

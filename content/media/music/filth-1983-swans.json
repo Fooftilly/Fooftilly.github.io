@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Filth",
+  "creator": "Swans",
+  "year": 1983,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "68198e00-3c53-368c-9337-1aafd0f461b6"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Pink Moon",
+  "creator": "Nick Drake",
+  "year": 1972,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "740ec10a-e887-38a6-a04d-fe2069c9e2a7"
+  }
+}

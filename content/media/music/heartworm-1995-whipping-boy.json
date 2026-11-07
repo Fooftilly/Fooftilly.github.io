@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Heartworm",
+  "creator": "Whipping Boy",
+  "year": 1995,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "8cf20144-18a2-33eb-b4f6-9013980b080a"
+  }
+}

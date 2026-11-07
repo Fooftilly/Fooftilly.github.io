@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Bitches Brew",
+  "creator": "Miles Davis",
+  "year": 1970,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "a9e30282-5b37-3f92-b897-b9659a1a312b"
+  }
+}

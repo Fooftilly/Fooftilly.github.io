@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Dead Magic",
+  "creator": "Anna von Hausswolff",
+  "year": 2018,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "ecf50db6-6c26-4014-9096-625307fde597"
+  }
+}

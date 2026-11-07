@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Tell Me I'm Pretty",
+  "creator": "Cage the Elephant",
+  "year": 2015,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "865ca6c7-64f2-4b88-a79f-33ca42d49811"
+  }
+}

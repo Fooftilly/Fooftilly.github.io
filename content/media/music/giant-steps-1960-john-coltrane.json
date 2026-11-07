@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Giant Steps",
+  "creator": "John Coltrane",
+  "year": 1960,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "2cdca11d-3e45-3152-93e5-4d2a4ddb1bc6"
+  }
+}

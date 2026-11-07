@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Panta Rei",
+  "creator": "Đorđe Balašević",
+  "year": 1988,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "d69cfcf1-2816-4729-a62f-60e0daa56756"
+  }
+}

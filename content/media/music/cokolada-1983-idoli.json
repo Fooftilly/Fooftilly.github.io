@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Čokolada",
+  "creator": "Idoli",
+  "year": 1983,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "d4030103-fa97-3106-ae04-74bf439fb12e"
+  }
+}

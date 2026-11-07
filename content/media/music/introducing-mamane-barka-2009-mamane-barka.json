@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Introducing Mamane Barka",
+  "creator": "Mamane Barka",
+  "year": 2009,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "7bc3a8d1-1e61-4b28-9416-56037fb2a285"
+  }
+}

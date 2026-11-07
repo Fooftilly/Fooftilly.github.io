@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "The Downward Spiral",
+  "creator": "Nine Inch Nails",
+  "year": 1994,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "7c4cab8d-dead-3870-b501-93c90fd0a580"
+  }
+}

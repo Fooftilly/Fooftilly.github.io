@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Igor",
+  "creator": "Tyler, The Creator",
+  "year": 2019,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "0f1b9e07-b38b-4bba-9794-55e0924d7177"
+  }
+}

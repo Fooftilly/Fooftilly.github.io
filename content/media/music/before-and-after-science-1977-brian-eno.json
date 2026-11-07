@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Before and After Science",
+  "creator": "Brian Eno",
+  "year": 1977,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "6f9e2641-f79b-32f2-a752-f7212e9040e4"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "On the Inside",
+  "creator": "Gotts Street Park",
+  "year": 2023,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "1bd84b8b-e187-44d9-aff0-e32f9e3de987"
+  }
+}

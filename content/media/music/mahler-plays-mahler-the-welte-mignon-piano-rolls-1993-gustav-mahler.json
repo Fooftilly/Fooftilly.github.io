@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Mahler Plays Mahler: The Welte-Mignon Piano Rolls",
+  "creator": "Gustav Mahler",
+  "year": 1993,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "4e00961d-5446-42b8-bcbf-e78b4eca2f9a"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Perception",
+  "creator": "Catalyst",
+  "year": 1973,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "0248cc90-e43a-40fa-8663-1981a32258a3"
+  }
+}

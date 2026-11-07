@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Quiet Signs",
+  "creator": "Jessica Pratt",
+  "year": 2019,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "21951a7a-594a-4389-87f9-9cbad425dcb4"
+  }
+}

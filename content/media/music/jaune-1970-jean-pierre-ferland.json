@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Jaune",
+  "creator": "Jean-Pierre Ferland",
+  "year": 1970,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "f451940d-7d25-32f8-af3a-e8060fc11c63"
+  }
+}

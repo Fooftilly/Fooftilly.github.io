@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Older Terrors",
+  "creator": "Esben and the Witch",
+  "year": 2016,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "35b7cf70-f3eb-4a46-afca-c578191ded3a"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Electric Ladyland",
+  "creator": "The Jimi Hendrix Experience",
+  "year": 1968,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "47ba2d59-5544-34a4-b108-dc08c0956298"
+  }
+}

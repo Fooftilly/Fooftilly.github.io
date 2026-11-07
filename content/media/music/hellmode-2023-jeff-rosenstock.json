@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Hellmode",
+  "creator": "Jeff Rosenstock",
+  "year": 2023,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "8b5918c9-1a8c-4e2a-8a94-7e8f9cd68488"
+  }
+}

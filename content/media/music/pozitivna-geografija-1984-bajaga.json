@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Pozitivna geografija",
+  "creator": "Bajaga",
+  "year": 1984,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "88bdf18d-b1fd-3cf3-adb4-1b9031267a41"
+  }
+}

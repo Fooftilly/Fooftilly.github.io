@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Egotrip",
+  "creator": "John Michel & Anthony James",
+  "year": 2025,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "6eb36179-8a8f-424c-b384-9d4eb2d75010"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Glory",
+  "creator": "Perfume Genius",
+  "year": 2025,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "9026098c-a577-4097-8274-944db1536d13"
+  }
+}

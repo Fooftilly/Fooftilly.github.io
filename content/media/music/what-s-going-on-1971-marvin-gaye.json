@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "What's Going On",
+  "creator": "Marvin Gaye",
+  "year": 1971,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "c1fa4d2c-ec62-37d5-b01d-6df7f8fd2c90"
+  }
+}

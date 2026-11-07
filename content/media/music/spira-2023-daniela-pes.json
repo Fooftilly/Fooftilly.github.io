@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Spira",
+  "creator": "Daniela Pes",
+  "year": 2023,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "ed40f8ea-8c2d-4415-8c12-842b535e6391"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Choke Enough",
+  "creator": "Oklou",
+  "year": 2025,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "45f8261c-e781-4a8f-b1f6-ca6616bd1dfe"
+  }
+}

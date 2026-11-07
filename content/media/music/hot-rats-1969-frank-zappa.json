@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Hot Rats",
+  "creator": "Frank Zappa",
+  "year": 1969,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "3f974fbd-9db8-3dff-9466-b9ae6fd9146c"
+  }
+}

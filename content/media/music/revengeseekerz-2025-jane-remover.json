@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Revengeseekerz",
+  "creator": "Jane Remover",
+  "year": 2025,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "a77018ca-5db9-45ed-918a-a04a30e8136b"
+  }
+}

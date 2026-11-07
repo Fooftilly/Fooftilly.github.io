@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Odessey and Oracle",
+  "creator": "The Zombies",
+  "year": 1968,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "9a4a9ebf-f4f7-3dba-9b80-0b274cbc80f9"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "The Miseducation of Lauryn Hill",
+  "creator": "Lauryn Hill",
+  "year": 1998,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "8691d12c-abd8-385c-b1eb-d841190124f7"
+  }
+}

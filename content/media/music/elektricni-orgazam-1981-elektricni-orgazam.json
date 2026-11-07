@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Električni orgazam",
+  "creator": "Električni Orgazam",
+  "year": 1981,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "885f33f8-0883-3eb7-9d25-4d564a70c93a"
+  }
+}

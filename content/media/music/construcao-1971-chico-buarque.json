@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Construção",
+  "creator": "Chico Buarque",
+  "year": 1971,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "5da13507-7e60-3dec-b2e7-0e75dba03997"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Endless Summer Vacation",
+  "creator": "Miley Cyrus",
+  "year": 2023,
+  "rating": 2.5,
+  "refs": {
+    "musicbrainz": "a09823c3-9fe5-4529-ab5e-aceea40810e2"
+  }
+}

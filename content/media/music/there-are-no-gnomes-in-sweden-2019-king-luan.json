@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "There are no Gnomes in Sweden",
+  "creator": "King Luan",
+  "year": 2019,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "4c35c2f5-d089-4177-bfc4-85165c33bab0"
+  }
+}

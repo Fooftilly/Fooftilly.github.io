@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Ministry of Kultur",
+  "creator": "Kultur Shock",
+  "year": 2011,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "7907ef74-a099-42e6-83cf-5cade7293d98"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Demoni",
+  "creator": "Joker Out",
+  "year": 2022,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "c428d0cd-92ff-458d-b30a-9f09a3d7c2f3"
+  }
+}

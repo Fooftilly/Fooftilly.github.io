@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Paranoid",
+  "creator": "Black Sabbath",
+  "year": 1970,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "cc053745-c447-3566-8f27-bed5438c9133"
+  }
+}

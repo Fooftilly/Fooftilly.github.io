@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "S' vetrom uz lice",
+  "creator": "Ekatarina Velika",
+  "year": 1986,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "7930c325-8be0-3f92-8dfb-119d6c0e9f2f"
+  }
+}

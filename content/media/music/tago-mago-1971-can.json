@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Tago Mago",
+  "creator": "Can",
+  "year": 1971,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "13d08c0e-14e2-30b2-9ad7-5f501761a8ea"
+  }
+}

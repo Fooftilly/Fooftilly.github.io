@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Master of Reality",
+  "creator": "Black Sabbath",
+  "year": 1971,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "e51e9779-2edc-3b39-959c-299fdb5ed940"
+  }
+}

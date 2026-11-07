@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Tender Buttons",
+  "creator": "Broadcast",
+  "year": 2005,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "c1e95023-7208-359a-9056-ab94385c39bc"
+  }
+}

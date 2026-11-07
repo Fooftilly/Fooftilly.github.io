@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Trash Classic",
+  "creator": "Frankie and The Witch Fingers",
+  "year": 2025,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "5ef586c3-367a-41aa-8b40-c061a2f2d11f"
+  }
+}

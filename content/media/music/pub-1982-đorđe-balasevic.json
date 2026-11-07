@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Pub",
+  "creator": "Đorđe Balašević",
+  "year": 1982,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "6a0514fe-7f4e-4e4b-adcd-72361b72eec2"
+  }
+}

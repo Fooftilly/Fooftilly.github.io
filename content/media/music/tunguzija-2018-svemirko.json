@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Tunguzija",
+  "creator": "Svemirko",
+  "year": 2018,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "98a3843f-8827-4587-bce4-9fe2ccb94a8d"
+  }
+}

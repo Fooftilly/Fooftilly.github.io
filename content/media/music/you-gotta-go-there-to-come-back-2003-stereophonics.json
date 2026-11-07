@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "You Gotta Go There to Come Back",
+  "creator": "Stereophonics",
+  "year": 2003,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "38378500-2da4-3011-b98a-bef1e9d0caa2"
+  }
+}

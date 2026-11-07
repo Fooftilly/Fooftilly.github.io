@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Stop Making Sense",
+  "creator": "Talking Heads",
+  "year": 1984,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "2b85ba4e-53bf-4473-87f5-59d0b53020ad"
+  }
+}

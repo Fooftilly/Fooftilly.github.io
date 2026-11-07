@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "U svakom srcu gore svetla",
+  "creator": "Neven",
+  "year": 2024,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "1aa11945-faf8-41b2-862c-cddd61901d59"
+  }
+}

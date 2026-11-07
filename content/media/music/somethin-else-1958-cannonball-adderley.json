@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Somethin' Else",
+  "creator": "Cannonball Adderley",
+  "year": 1958,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "495c22f5-90b3-3e87-8be1-2c55aef3ed82"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Prvi val",
+  "creator": "Boa",
+  "year": 1990,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "f4bf25fc-5510-4479-ab62-27ebb6a5c75d"
+  }
+}

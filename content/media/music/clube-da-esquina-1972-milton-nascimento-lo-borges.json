@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Clube da esquina",
+  "creator": "Milton Nascimento & Lô Borges",
+  "year": 1972,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "b29e94e7-0b0b-3a66-ab06-e02f8fa5054f"
+  }
+}

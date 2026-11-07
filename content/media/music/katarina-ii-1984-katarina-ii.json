@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Katarina II",
+  "creator": "Katarina II",
+  "year": 1984,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "efb0d396-0e89-37bd-a5c7-5296bca86068"
+  }
+}

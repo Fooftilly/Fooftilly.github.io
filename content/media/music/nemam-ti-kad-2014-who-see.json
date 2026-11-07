@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Nemam Ti Kad",
+  "creator": "Who See",
+  "year": 2014,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "9b2a855a-01d9-4553-9320-4e83ee13bfec"
+  }
+}

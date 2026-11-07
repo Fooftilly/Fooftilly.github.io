@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Bezdan",
+  "creator": "Đorđe Balašević",
+  "year": 1986,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "f46ea722-9fe6-3117-8191-eb61fcc6704c"
+  }
+}

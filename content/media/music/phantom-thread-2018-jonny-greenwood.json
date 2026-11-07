@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Phantom Thread",
+  "creator": "Jonny Greenwood",
+  "year": 2018,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "24d69ed1-96d3-488e-ab55-d6426b0620c4"
+  }
+}

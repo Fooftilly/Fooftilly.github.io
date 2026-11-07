@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "The Magnolia Electric Co",
+  "creator": "Songs: Ohia",
+  "year": 2003,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "135d0421-2a60-36ca-97a1-c3f91203b74c"
+  }
+}

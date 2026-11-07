@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Meat Is Murder",
+  "creator": "The Smiths",
+  "year": 1985,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "0d56a04c-045a-37db-bcc3-6c7099e94f16"
+  }
+}

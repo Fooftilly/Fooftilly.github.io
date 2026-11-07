@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "She Hangs Brightly",
+  "creator": "Mazzy Star",
+  "year": 1990,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "328f73a5-37d1-35cc-8538-f880f4f18520"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Ping-pong (umjetnost zdravog đira)",
+  "creator": "The Beat Fleet",
+  "year": 1997,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "d2576e1f-f1e7-3f53-ba4e-68968daf983d"
+  }
+}

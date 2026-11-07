@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Slobodna volja",
+  "creator": "Nemi pesnik",
+  "year": 2021,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "d70d2505-3f28-49e5-b1fb-faae3f27ead8"
+  }
+}

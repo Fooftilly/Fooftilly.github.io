@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Celovečernji the Kid",
+  "creator": "Đorđe Balašević",
+  "year": 1983,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "06a08352-4d3f-4e5b-b1af-01e20444da57"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "The Girl Who Was... Death",
+  "creator": "Devil Doll",
+  "year": 1989,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "12007f67-f2fc-3a1f-8335-29e9375f597a"
+  }
+}

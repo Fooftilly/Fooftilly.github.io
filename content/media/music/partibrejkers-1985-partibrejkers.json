@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Partibrejkers",
+  "creator": "Partibrejkers",
+  "year": 1985,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "6bb6553d-2fd4-39de-8552-bb9d11e7c44d"
+  }
+}

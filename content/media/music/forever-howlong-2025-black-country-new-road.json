@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Forever Howlong",
+  "creator": "Black Country, New Road",
+  "year": 2025,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "23a9b1c2-3dd1-408e-89cb-ca0b81429176"
+  }
+}

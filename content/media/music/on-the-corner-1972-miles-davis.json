@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "On the Corner",
+  "creator": "Miles Davis",
+  "year": 1972,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "d8ced714-bc46-3657-9076-8577c9d50231"
+  }
+}

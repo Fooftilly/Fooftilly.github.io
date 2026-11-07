@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Kultura-Diktatura",
+  "creator": "Kultur Shock",
+  "year": 2004,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "aae45705-926e-356e-97e1-49f14fa5682b"
+  }
+}

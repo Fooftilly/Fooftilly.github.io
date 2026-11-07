@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Bright Future",
+  "creator": "Adrianne Lenker",
+  "year": 2024,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "60db66ba-34f8-4a1d-b91a-67e85cfcb269"
+  }
+}

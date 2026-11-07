@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "The Innocents",
+  "creator": "Weyes Blood",
+  "year": 2014,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "97d131f6-19c0-46c3-8bd5-fd3738e9d818"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Vagabundo",
+  "creator": "Goran Karan",
+  "year": 2000,
+  "rating": 2.5,
+  "refs": {
+    "musicbrainz": "b3508926-522f-44e5-ac88-bb32ddd56203"
+  }
+}

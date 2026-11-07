@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Cavalcade",
+  "creator": "black midi",
+  "year": 2021,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "2ef2d793-4fe4-4947-a476-828ccfad19ad"
+  }
+}

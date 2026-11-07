@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Prodavnica tajni",
+  "creator": "Bajaga i Instruktori",
+  "year": 1988,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "41b780e8-6c4d-309f-b0ca-901764760892"
+  }
+}

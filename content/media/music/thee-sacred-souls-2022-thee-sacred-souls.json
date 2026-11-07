@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Thee Sacred Souls",
+  "creator": "Thee Sacred Souls",
+  "year": 2022,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "8620c885-2c8e-42b1-a622-f332b3acfd60"
+  }
+}

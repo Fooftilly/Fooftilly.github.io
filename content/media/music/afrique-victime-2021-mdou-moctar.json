@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Afrique victime",
+  "creator": "Mdou Moctar",
+  "year": 2021,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "6dad7139-7cd5-41bc-b7fc-6bf20fc1155a"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Ahora o nunca",
+  "creator": "Candelabro",
+  "year": 2023,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "784bbcf3-b9f8-40eb-b2e7-0a7b6e2604e0"
+  }
+}

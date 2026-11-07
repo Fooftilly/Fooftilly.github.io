@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "A što ak’ ja…",
+  "creator": "Detour",
+  "year": 2014,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "bf7cbe0e-9b5f-4d14-aee3-5458aa3172ae"
+  }
+}

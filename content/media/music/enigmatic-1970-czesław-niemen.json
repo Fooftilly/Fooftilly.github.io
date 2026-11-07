@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Enigmatic",
+  "creator": "Czesław Niemen",
+  "year": 1970,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "488726ba-042e-35bb-8432-52c7444bc702"
+  }
+}

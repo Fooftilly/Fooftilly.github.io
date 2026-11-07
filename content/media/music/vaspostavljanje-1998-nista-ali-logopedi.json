@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Vaspostavljanje",
+  "creator": "Ništa ali logopedi",
+  "year": 1998,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "4570d0fb-7a2b-4d8d-afb7-91491181ba6b"
+  }
+}

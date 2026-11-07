@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Over-Nite Sensation",
+  "creator": "The Mothers",
+  "year": 1973,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "d4b98ec7-a4af-37e2-ac83-2f7122d23b36"
+  }
+}

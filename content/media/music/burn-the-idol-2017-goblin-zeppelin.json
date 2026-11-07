@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Burn the Idol",
+  "creator": "Goblin Zeppelin",
+  "year": 2017,
+  "rating": 2,
+  "refs": {
+    "musicbrainz": "944c90fa-2189-4b1b-84d6-3ae518ad397b"
+  }
+}

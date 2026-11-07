@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Gore od ljubavi",
+  "creator": "Ceca",
+  "year": 2004,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "d6d78c64-3c02-314d-9460-c169c813db75"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Closer",
+  "creator": "Joy Division",
+  "year": 1980,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "852f9715-24b3-37d5-b8a5-456f5e19b41e"
+  }
+}

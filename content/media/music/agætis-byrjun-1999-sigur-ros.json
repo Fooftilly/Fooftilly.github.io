@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Ágætis byrjun",
+  "creator": "Sigur Rós",
+  "year": 1999,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "62b427b8-1c52-34e7-b250-da2aa3e44860"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Vespertine",
+  "creator": "Björk",
+  "year": 2001,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "271faeb3-fdd1-3ebb-80aa-97b3116e9341"
+  }
+}

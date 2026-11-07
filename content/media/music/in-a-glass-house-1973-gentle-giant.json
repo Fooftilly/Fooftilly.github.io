@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "In a Glass House",
+  "creator": "Gentle Giant",
+  "year": 1973,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "ba567eb2-9290-3b5e-a4e9-831bbd78abe0"
+  }
+}

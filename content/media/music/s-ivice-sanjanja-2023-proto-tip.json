@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "s ivice sanjanja",
+  "creator": "proto tip",
+  "year": 2023,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "57664b47-6b5a-4f15-913d-61b48efa769a"
+  }
+}

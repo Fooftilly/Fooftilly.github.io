@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "War",
+  "creator": "U2",
+  "year": 1983,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "c6b36664-7e60-3b3e-a24d-d096c67a11e9"
+  }
+}

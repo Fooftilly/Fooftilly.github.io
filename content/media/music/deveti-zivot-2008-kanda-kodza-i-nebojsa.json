@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Deveti život",
+  "creator": "Kanda, Kodža i Nebojša",
+  "year": 2008,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "5f950b25-f668-41d3-ac92-1640357f7395"
+  }
+}

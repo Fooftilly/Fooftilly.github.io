@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Dostrotime",
+  "creator": "Squarepusher",
+  "year": 2024,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "851ac285-0a7c-4d52-aba9-bf77733a4bad"
+  }
+}

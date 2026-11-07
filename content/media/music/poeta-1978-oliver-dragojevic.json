@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Poeta",
+  "creator": "Oliver Dragojević",
+  "year": 1978,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "b4728a58-e6cf-4b8b-8d29-79ceb3fc8c9b"
+  }
+}

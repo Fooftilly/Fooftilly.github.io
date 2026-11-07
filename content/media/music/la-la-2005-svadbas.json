@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "La La",
+  "creator": "Svadbas",
+  "year": 2005,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "5b34d7cc-62ab-3d9b-a52a-9dea9e6c20c0"
+  }
+}

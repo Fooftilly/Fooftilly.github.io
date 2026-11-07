@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "For the First Time",
+  "creator": "Black Country, New Road",
+  "year": 2021,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "968b13bb-026b-410e-831e-a7bb7418ea60"
+  }
+}

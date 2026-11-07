@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Remek depo",
+  "creator": "Beograd",
+  "year": 1983,
+  "rating": 2.5,
+  "refs": {
+    "musicbrainz": "b6946f57-1f5d-3a86-a72c-5ce535778456"
+  }
+}

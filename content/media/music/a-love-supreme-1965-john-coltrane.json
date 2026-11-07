@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "A Love Supreme",
+  "creator": "John Coltrane",
+  "year": 1965,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "77cf47ba-58cd-3f3d-a5f9-79bf89860421"
+  }
+}

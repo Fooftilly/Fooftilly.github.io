@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Dummy",
+  "creator": "Portishead",
+  "year": 1994,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "48140466-cff6-3222-bd55-63c27e43190d"
+  }
+}

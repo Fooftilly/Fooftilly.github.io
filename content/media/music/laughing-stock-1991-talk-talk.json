@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Laughing Stock",
+  "creator": "Talk Talk",
+  "year": 1991,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "3e0de863-6232-3f43-b2a2-7cfbf71b99e9"
+  }
+}

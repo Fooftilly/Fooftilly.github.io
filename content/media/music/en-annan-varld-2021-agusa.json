@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "En annan värld",
+  "creator": "Agusa",
+  "year": 2021,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "5f8ce3c2-e0d3-4379-bfc2-e9962d111123"
+  }
+}

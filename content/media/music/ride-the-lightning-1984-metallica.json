@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Ride the Lightning",
+  "creator": "Metallica",
+  "year": 1984,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "0da580f2-6768-498f-af9d-2becaddf15e0"
+  }
+}

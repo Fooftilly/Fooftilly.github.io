@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Never for Ever",
+  "creator": "Kate Bush",
+  "year": 1980,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "b3c5541a-e1d0-354f-b6c8-565c37dde332"
+  }
+}

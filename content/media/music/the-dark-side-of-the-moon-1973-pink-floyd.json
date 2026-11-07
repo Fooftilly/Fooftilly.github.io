@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "The Dark Side of the Moon",
+  "creator": "Pink Floyd",
+  "year": 1973,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "f5093c06-23e3-404f-aeaa-40f72885ee3a"
+  }
+}

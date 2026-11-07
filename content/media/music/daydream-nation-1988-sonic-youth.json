@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Daydream Nation",
+  "creator": "Sonic Youth",
+  "year": 1988,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "24769a99-8189-3d8c-947e-dbc8574dad5c"
+  }
+}

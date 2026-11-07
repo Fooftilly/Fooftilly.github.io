@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Izgleda da mi smo sami",
+  "creator": "U Škripcu",
+  "year": 1990,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "6288652c-dc76-4b2c-bf34-67c0a790109f"
+  }
+}

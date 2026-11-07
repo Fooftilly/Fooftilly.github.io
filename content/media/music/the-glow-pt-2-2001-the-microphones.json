@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "\"The Glow\" Pt. 2",
+  "creator": "The Microphones",
+  "year": 2001,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "f478fad9-a746-3625-9f14-bc4a74918c0e"
+  }
+}

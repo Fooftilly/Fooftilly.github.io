@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Mashallah Plan",
+  "creator": "The Cyclist Conspiracy",
+  "year": 2023,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "471beff1-abc5-474b-b2f6-0a1fbcc095cd"
+  }
+}

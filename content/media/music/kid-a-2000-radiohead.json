@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Kid A",
+  "creator": "Radiohead",
+  "year": 2000,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "e75c0549-ad55-39e3-8025-c72c5d4a3c5d"
+  }
+}

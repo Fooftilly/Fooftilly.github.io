@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "By the Time I Get to Phoenix",
+  "creator": "Injury Reserve",
+  "year": 2021,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "242b18ed-5d47-4a4b-823d-645785525ae0"
+  }
+}

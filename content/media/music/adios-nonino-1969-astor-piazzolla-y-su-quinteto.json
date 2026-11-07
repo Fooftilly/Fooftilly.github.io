@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Adiós Nonino",
+  "creator": "Astor Piazzolla y su Quinteto",
+  "year": 1969,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "da56c2fc-7d8f-3c6b-9439-774ab9db43a5"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Izleti",
+  "creator": "Paraf",
+  "year": 1981,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "2a5933ec-3a54-4312-9ceb-cc373978ec6a"
+  }
+}

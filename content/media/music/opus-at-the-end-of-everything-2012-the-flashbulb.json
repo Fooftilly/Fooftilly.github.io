@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Opus at the End of Everything",
+  "creator": "The Flashbulb",
+  "year": 2012,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "65e95351-6b4c-4f76-8067-6a3a37f37a68"
+  }
+}

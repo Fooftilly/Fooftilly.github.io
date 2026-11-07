@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Heartbreak Hysteria",
+  "creator": "Sawyer Hill",
+  "year": 2025,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "85a8494a-a917-4ccb-874c-db8ad522f499"
+  }
+}

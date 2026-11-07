@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Horses",
+  "creator": "Patti Smith",
+  "year": 1975,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "ff8f533c-3cb3-3877-9209-11f433edaad2"
+  }
+}

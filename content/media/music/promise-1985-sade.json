@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Promise",
+  "creator": "Sade",
+  "year": 1985,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "d49bd610-a10e-3f14-8bd0-0121f7f20a4d"
+  }
+}

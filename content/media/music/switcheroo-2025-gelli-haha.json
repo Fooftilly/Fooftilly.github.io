@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Switcheroo",
+  "creator": "Gelli Haha",
+  "year": 2025,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "cffa555d-5d3a-4f86-b638-89362e272c03"
+  }
+}

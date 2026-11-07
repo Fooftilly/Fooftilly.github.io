@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Monk's Music",
+  "creator": "Thelonious Monk Septet",
+  "year": 1957,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "1ffc3f4e-0d85-35d0-bb4f-b58f7a576e10"
+  }
+}

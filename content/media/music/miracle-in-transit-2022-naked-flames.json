@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Miracle in Transit",
+  "creator": "Naked Flames",
+  "year": 2022,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "d9f531b2-40c5-450e-beb4-63c311b68433"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "The Sacrilege of Fatal Arms",
+  "creator": "Devil Doll",
+  "year": 1993,
+  "rating": 5,
+  "refs": {
+    "musicbrainz": "14e3a8ff-fe38-313b-940c-e2ee45b657dc"
+  }
+}

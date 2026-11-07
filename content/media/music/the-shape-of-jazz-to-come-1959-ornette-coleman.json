@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "The Shape of Jazz to Come",
+  "creator": "Ornette Coleman",
+  "year": 1959,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "5879cfca-e1d0-3ef4-8014-3b284832ed18"
+  }
+}

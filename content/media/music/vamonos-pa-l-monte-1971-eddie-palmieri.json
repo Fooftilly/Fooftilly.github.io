@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Vámonos pa'l monte",
+  "creator": "Eddie Palmieri",
+  "year": 1971,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "25521872-5cfe-34db-85cc-95e4d0b32253"
+  }
+}

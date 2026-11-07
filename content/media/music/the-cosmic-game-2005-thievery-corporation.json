@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "The Cosmic Game",
+  "creator": "Thievery Corporation",
+  "year": 2005,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "46a4c350-5d39-39e5-8ce8-d94dda896412"
+  }
+}

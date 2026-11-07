@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Paket aranžman",
+  "creator": "Šarlo Akrobata / Idoli / Električni Orgazam",
+  "year": 1981,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "72773a9c-f1c3-3e85-abdc-4a6c9265e40f"
+  }
+}

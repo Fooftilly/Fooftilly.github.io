@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Sunčana strana ulice",
+  "creator": "Azra",
+  "year": 1981,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "d2e85c65-fa21-3e96-9d05-8999e51656ae"
+  }
+}

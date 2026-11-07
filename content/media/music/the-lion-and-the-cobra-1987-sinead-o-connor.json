@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "The Lion and the Cobra",
+  "creator": "Sinéad O'Connor",
+  "year": 1987,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "f7158e4b-87d0-3310-85ae-71b15769f4ef"
+  }
+}

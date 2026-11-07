@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Easter",
+  "creator": "Patti Smith Group",
+  "year": 1978,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "93e9dc29-9c7b-334a-9765-a6fa0186b1e2"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Došlo vreme da se Biće menja",
+  "creator": "Mitsko Biće",
+  "year": 2025,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "4d5cee50-4615-4439-ab59-f6abdf75bc5a"
+  }
+}

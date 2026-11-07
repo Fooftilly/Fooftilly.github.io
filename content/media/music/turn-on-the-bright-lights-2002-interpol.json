@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Turn On the Bright Lights",
+  "creator": "Interpol",
+  "year": 2002,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "e7227840-5ef2-3813-af26-15dab34e1a51"
+  }
+}

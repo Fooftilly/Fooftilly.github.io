@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Blómi",
+  "creator": "Susanne Sundfør",
+  "year": 2023,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "6a368350-ce7c-4537-8360-40ef26b09d65"
+  }
+}

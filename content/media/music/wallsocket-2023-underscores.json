@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Wallsocket",
+  "creator": "underscores",
+  "year": 2023,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "e62dd650-9203-46cc-8d9e-9dcc4e12f136"
+  }
+}

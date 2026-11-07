@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Unknown Pleasures",
+  "creator": "Joy Division",
+  "year": 1979,
+  "rating": 5,
+  "refs": {
+    "musicbrainz": "42352def-1aab-3000-b548-895ebd869cb6"
+  }
+}

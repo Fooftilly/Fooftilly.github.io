@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Imaginal Disk",
+  "creator": "Magdalena Bay",
+  "year": 2024,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "9c710cb4-6b20-47d7-a31a-5adb064c6c6b"
+  }
+}

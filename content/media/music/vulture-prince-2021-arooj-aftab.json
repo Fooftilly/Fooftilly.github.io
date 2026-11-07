@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Vulture Prince",
+  "creator": "Arooj Aftab",
+  "year": 2021,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "68f7ceb6-e159-4326-8ec1-90dddcb2342c"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Saxophone Colossus",
+  "creator": "Sonny Rollins",
+  "year": 1957,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "cf29d6a2-a18a-3bb6-a861-495148baee1f"
+  }
+}

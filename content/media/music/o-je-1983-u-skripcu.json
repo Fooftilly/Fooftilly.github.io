@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "O, je!",
+  "creator": "U Škripcu",
+  "year": 1983,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "001cb614-cec4-4477-81f9-e540225f1f92"
+  }
+}

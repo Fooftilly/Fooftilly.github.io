@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Seventeen Seconds",
+  "creator": "The Cure",
+  "year": 1980,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "7cd31244-186e-36bb-966f-fd6a90c0832c"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Bringing It All Back Home",
+  "creator": "Bob Dylan",
+  "year": 1965,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "6cadda7c-fbd0-3b19-9546-56915e3305d8"
+  }
+}

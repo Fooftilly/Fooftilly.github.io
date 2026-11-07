@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "LP!",
+  "creator": "JPEGMAFIA",
+  "year": 2021,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "c89e9cff-c0c9-4e34-95e7-185056956caf"
+  }
+}

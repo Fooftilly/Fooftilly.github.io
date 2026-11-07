@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Hunky Dory",
+  "creator": "David Bowie",
+  "year": 1971,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "743b0b2e-a23a-3182-950e-232f8cb0dfb7"
+  }
+}

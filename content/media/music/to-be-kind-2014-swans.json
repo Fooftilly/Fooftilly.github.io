@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "To Be Kind",
+  "creator": "Swans",
+  "year": 2014,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "d2df1a2d-4da1-40a3-a825-5674ce117579"
+  }
+}

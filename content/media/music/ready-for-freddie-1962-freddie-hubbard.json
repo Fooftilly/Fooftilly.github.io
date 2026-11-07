@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Ready for Freddie",
+  "creator": "Freddie Hubbard",
+  "year": 1962,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "0131b475-3788-328d-95cf-41759481fcb9"
+  }
+}

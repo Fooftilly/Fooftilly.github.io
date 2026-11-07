@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Atrocity Exhibition",
+  "creator": "Danny Brown",
+  "year": 2016,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "88f4f8e5-ee88-4050-84ad-cf73f7c2b19a"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Maske za dvoje",
+  "creator": "Jakarta",
+  "year": 1984,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "596f29ac-197a-368e-9947-be8d7b55a449"
+  }
+}

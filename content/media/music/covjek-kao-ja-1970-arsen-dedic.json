@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Čovjek kao ja",
+  "creator": "Arsen Dedić",
+  "year": 1970,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "53d12e82-5dda-451d-9db3-318aa36ba279"
+  }
+}

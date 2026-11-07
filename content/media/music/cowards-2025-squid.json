@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Cowards",
+  "creator": "Squid",
+  "year": 2025,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "a86d3224-03dc-450d-8770-f5d259b9635d"
+  }
+}

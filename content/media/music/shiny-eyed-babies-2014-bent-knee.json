@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Shiny Eyed Babies",
+  "creator": "Bent Knee",
+  "year": 2014,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "98187b80-aa77-4ff7-85a6-dea26fcc8067"
+  }
+}

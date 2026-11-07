@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Dünya Günlükleri",
+  "creator": "Adamlar",
+  "year": 2019,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "35dfd622-7f9d-48af-95bc-7157b979f855"
+  }
+}

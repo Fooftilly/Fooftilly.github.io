@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Tunga",
+  "creator": "Mamadou Diabaté",
+  "year": 2000,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "a400a113-e26b-3753-a6fc-3aff9727a18d"
+  }
+}

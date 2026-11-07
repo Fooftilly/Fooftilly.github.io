@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Franz Ferdinand",
+  "creator": "Franz Ferdinand",
+  "year": 2004,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "c145ca26-2556-3780-828f-82729de51f7b"
+  }
+}

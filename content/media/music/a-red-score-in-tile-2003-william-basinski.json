@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "A Red Score in Tile",
+  "creator": "William Basinski",
+  "year": 2003,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "ec83e986-6f36-344a-9688-43baac457dbf"
+  }
+}

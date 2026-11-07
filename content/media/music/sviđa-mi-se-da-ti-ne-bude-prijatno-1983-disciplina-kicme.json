@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Sviđa mi se da ti ne bude prijatno",
+  "creator": "Disciplina Kičme",
+  "year": 1983,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "c4e78c16-2fc9-3687-9e89-e105c466c85c"
+  }
+}

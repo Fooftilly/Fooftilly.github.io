@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Funeral",
+  "creator": "Arcade Fire",
+  "year": 2004,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "05affa96-5959-32da-8d75-1c9eb985ca59"
+  }
+}

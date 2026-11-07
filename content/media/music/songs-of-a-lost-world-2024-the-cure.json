@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Songs of a Lost World",
+  "creator": "The Cure",
+  "year": 2024,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "97650540-f489-40e1-957c-6fd67baa739d"
+  }
+}

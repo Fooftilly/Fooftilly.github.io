@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Tri posleratna druga",
+  "creator": "Đorđe Balašević",
+  "year": 1989,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "ae433d34-7d1e-4b0d-bd5d-1dafcd652a93"
+  }
+}

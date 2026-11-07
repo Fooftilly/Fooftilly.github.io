@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Pamidore",
+  "creator": "Who See",
+  "year": 2017,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "0c473475-4bc8-4935-bae7-65a3e906fd91"
+  }
+}

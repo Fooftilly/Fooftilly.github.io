@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Ćiribu, ćiriba",
+  "creator": "Slavica Ćukteraš",
+  "year": 2006,
+  "rating": 2.5,
+  "refs": {
+    "musicbrainz": "53e80363-25c5-4925-9112-78803d3b3c18"
+  }
+}

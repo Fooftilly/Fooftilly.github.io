@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Akkor",
+  "creator": "Melike Şahin",
+  "year": 2024,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "1a1459ec-2879-45cd-9b30-e78597e1c231"
+  }
+}

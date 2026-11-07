@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Let God Sort Em Out",
+  "creator": "Clipse",
+  "year": 2025,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "18cdc08c-03a1-4e55-9624-b7f9dbb968f5"
+  }
+}

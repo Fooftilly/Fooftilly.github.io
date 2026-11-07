@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Prokletije",
+  "creator": "Nemeček",
+  "year": 2021,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "115903ef-4c12-4267-907c-34ed37c3c51e"
+  }
+}

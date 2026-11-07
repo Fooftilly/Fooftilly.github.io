@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Any Number Can Win",
+  "creator": "Jimmy Smith",
+  "year": 1963,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "f13bf4ca-db3b-38a6-bf3b-ab18d7481b61"
+  }
+}

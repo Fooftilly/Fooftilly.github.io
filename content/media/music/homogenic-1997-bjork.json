@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Homogenic",
+  "creator": "Björk",
+  "year": 1997,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "810272e0-aef1-3d85-b2d3-e512e87fc38c"
+  }
+}

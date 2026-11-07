@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Neon Bible",
+  "creator": "Arcade Fire",
+  "year": 2007,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "c091b282-aa91-3bc0-9c95-938db1f1f930"
+  }
+}

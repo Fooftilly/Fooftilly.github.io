@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Nilam",
+  "creator": "Ganavya",
+  "year": 2025,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "47557584-6552-424c-9967-5f4ed0ce0467"
+  }
+}

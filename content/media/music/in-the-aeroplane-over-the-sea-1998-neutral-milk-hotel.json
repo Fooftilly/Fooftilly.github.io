@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "In the Aeroplane Over the Sea",
+  "creator": "Neutral Milk Hotel",
+  "year": 1998,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "8f310800-045b-3e12-8268-50b3d33a2267"
+  }
+}

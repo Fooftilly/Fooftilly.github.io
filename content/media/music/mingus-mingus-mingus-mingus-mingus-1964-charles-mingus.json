@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Mingus Mingus Mingus Mingus Mingus",
+  "creator": "Charles Mingus",
+  "year": 1964,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "48848da6-67a2-3e36-bb11-3e9fa18c1d9b"
+  }
+}

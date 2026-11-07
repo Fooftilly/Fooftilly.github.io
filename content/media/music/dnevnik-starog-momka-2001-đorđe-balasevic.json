@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Dnevnik starog momka",
+  "creator": "Đorđe Balašević",
+  "year": 2001,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "0edf581f-23a2-39ec-b7f0-4690666f8c31"
+  }
+}

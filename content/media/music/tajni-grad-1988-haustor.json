@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Tajni grad",
+  "creator": "Haustor",
+  "year": 1988,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "5ed106fc-414b-3ad2-a04f-8f863ae9ec3d"
+  }
+}

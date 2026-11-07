@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "When the Pawn",
+  "creator": "Fiona Apple",
+  "year": 1999,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "3d3ff0b9-5858-33f3-9d67-8ba5977899a8"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Prisma sonoro",
+  "creator": "Alessandro Alessandroni",
+  "year": 1974,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "c502cc96-7fac-4210-8b2d-bb0b3936caed"
+  }
+}

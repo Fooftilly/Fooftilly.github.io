@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Glavom kroz zid",
+  "creator": "Parni Valjak",
+  "year": 1977,
+  "rating": 2,
+  "refs": {
+    "musicbrainz": "c32474b7-d601-4678-adbf-75c2d3b94f55"
+  }
+}

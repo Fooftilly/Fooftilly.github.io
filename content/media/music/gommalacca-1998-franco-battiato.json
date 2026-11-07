@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Gommalacca",
+  "creator": "Franco Battiato",
+  "year": 1998,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "f74b8aa8-7e7c-3896-94a9-625b50549f99"
+  }
+}

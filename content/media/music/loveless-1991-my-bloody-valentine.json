@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Loveless",
+  "creator": "my bloody valentine",
+  "year": 1991,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "cb76227e-3ac0-3002-9a10-615a5b73cc59"
+  }
+}

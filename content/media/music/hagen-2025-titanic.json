@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Hagen",
+  "creator": "Titanic",
+  "year": 2025,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "34e731e8-7102-4747-aa8c-698e6a939247"
+  }
+}

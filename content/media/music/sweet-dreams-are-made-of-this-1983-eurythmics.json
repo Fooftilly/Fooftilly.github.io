@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Sweet Dreams (Are Made of This)",
+  "creator": "Eurythmics",
+  "year": 1983,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "b969f851-b5cf-3a3f-9bfe-1280eb271406"
+  }
+}

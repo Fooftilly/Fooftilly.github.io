@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Fine Young Cannibals",
+  "creator": "Fine Young Cannibals",
+  "year": 1985,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "d2b96c45-11e9-3389-a180-79d2ff4538c5"
+  }
+}

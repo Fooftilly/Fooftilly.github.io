@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Is This It",
+  "creator": "The Strokes",
+  "year": 2001,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "efea26d1-a016-30f6-b8e2-bc8c02336b0a"
+  }
+}

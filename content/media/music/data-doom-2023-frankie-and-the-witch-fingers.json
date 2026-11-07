@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Data Doom",
+  "creator": "Frankie and The Witch Fingers",
+  "year": 2023,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "5f84e234-15a1-4775-911c-22db89ddaf3f"
+  }
+}

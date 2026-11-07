@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Chronicles of a Diamond",
+  "creator": "Black Pumas",
+  "year": 2023,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "673e7ff1-ea90-4253-8f86-a224c7505a11"
+  }
+}

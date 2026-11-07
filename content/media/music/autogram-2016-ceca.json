@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Autogram",
+  "creator": "Ceca",
+  "year": 2016,
+  "rating": 2.5,
+  "refs": {
+    "musicbrainz": "c733efaa-8818-49e8-96ba-9b48ec5106e6"
+  }
+}

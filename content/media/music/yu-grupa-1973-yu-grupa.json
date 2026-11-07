@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "YU grupa",
+  "creator": "YU grupa",
+  "year": 1973,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "76a205ca-b8c1-3126-826f-42d62a5f7ca6"
+  }
+}

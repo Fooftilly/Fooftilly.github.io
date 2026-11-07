@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "The Love Serum",
+  "creator": "Felukah",
+  "year": 2022,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "46cb96a2-bbb6-4b1e-bd97-e7ae91c38a66"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "In the Court of the Crimson King",
+  "creator": "King Crimson",
+  "year": 1969,
+  "rating": 5,
+  "refs": {
+    "musicbrainz": "a50636b5-5233-3329-a7f3-dba3d0e00ef7"
+  }
+}

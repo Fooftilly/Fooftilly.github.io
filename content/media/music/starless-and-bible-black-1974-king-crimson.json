@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Starless and Bible Black",
+  "creator": "King Crimson",
+  "year": 1974,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "e65ee097-180e-3116-8b68-599b177947b8"
+  }
+}

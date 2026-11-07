@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Long Season",
+  "creator": "Fishmans",
+  "year": 1996,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "fc38cdba-ea52-328c-aa3d-41edf8811a0c"
+  }
+}

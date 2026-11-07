@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Azra",
+  "creator": "Azra",
+  "year": 1980,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "81b04aba-e457-3576-a43c-3684597dc8ff"
+  }
+}

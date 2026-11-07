@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "This Shame Should Not Be Mine",
+  "creator": "GGGOLDDD",
+  "year": 2022,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "2dd27f39-42c2-420a-ad84-ed2645363e52"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Remain in Light",
+  "creator": "Talking Heads",
+  "year": 1980,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "f6b1b900-6108-32f0-abbd-2855af9151eb"
+  }
+}

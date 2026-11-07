@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Untrue",
+  "creator": "Burial",
+  "year": 2007,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "fddedc4f-7a2e-3d7d-9ec5-1705c416f3f4"
+  }
+}

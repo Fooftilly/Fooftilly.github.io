@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Bad Ideas",
+  "creator": "Tessa Violet",
+  "year": 2019,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "6040fb6e-501a-4d11-95de-3b080066439d"
+  }
+}

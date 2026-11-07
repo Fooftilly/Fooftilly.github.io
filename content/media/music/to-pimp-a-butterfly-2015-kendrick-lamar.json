@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "To Pimp a Butterfly",
+  "creator": "Kendrick Lamar",
+  "year": 2015,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "d9103c72-3807-4378-9ce7-b6f3e8fdd547"
+  }
+}

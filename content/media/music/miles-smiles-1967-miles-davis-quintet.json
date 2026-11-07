@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Miles Smiles",
+  "creator": "Miles Davis Quintet",
+  "year": 1967,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "60fa4ab0-bf92-3184-80ca-6dcadbb5c748"
+  }
+}

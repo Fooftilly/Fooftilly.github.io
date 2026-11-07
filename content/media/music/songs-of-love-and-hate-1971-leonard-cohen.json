@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Songs of Love and Hate",
+  "creator": "Leonard Cohen",
+  "year": 1971,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "964ccc52-2873-3bce-a806-73d71532c539"
+  }
+}

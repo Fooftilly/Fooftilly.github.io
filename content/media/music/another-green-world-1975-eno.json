@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Another Green World",
+  "creator": "Eno",
+  "year": 1975,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "7d5a684e-73a3-325c-a59c-34c9a941d8d6"
+  }
+}

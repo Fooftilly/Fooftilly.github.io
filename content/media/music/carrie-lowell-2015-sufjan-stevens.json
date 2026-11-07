@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Carrie & Lowell",
+  "creator": "Sufjan Stevens",
+  "year": 2015,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "21666540-83c8-4c54-9be1-0363a0848f33"
+  }
+}

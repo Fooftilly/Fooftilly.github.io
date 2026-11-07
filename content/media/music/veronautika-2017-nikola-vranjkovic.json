@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Veronautika",
+  "creator": "Nikola Vranjković",
+  "year": 2017,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "254edca5-db66-4a31-882d-af928222a0b9"
+  }
+}

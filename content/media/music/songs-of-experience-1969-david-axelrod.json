@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Songs of Experience",
+  "creator": "David Axelrod",
+  "year": 1969,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "3e3ca82c-ee44-3230-bddc-2e3fd702041d"
+  }
+}

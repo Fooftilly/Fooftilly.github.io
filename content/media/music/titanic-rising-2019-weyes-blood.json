@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Titanic Rising",
+  "creator": "Weyes Blood",
+  "year": 2019,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "b30447b9-8e32-4e98-a128-9c18d9378e8d"
+  }
+}

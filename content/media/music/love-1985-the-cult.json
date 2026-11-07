@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Love",
+  "creator": "The Cult",
+  "year": 1985,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "e7d22464-a11e-3ff1-8d97-4af3f0c1aeb2"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Soul Mining",
+  "creator": "The The",
+  "year": 1983,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "923e256a-7bf0-31e0-bddc-ec76db526c32"
+  }
+}

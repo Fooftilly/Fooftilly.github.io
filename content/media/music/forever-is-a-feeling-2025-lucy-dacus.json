@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Forever Is a Feeling",
+  "creator": "Lucy Dacus",
+  "year": 2025,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "a4cabd17-ba0f-4c88-a2c4-164c29038cbd"
+  }
+}

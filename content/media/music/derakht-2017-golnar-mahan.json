@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Derakht",
+  "creator": "Golnar & Mahan",
+  "year": 2017,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "d88f848c-c79a-4627-938c-b30d43f6e0e2"
+  }
+}

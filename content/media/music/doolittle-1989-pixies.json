@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Doolittle",
+  "creator": "Pixies",
+  "year": 1989,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "1aa41b19-5a72-341b-bd91-4cf61d1dab6b"
+  }
+}

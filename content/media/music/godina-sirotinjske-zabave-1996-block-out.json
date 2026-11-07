@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Godina sirotinjske zabave",
+  "creator": "Block Out",
+  "year": 1996,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "9d0b1296-0d54-3beb-873f-0a980efa61b3"
+  }
+}

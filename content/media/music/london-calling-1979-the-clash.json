@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "London Calling",
+  "creator": "The Clash",
+  "year": 1979,
+  "rating": 5,
+  "refs": {
+    "musicbrainz": "8d73e45e-7ca1-3cb4-ae28-6da76196c17c"
+  }
+}

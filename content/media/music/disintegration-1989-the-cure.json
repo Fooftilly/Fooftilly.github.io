@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Disintegration",
+  "creator": "The Cure",
+  "year": 1989,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "494bf606-d2f7-36d0-8340-eadad8601d2b"
+  }
+}

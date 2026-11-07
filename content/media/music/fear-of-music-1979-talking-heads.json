@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Fear of Music",
+  "creator": "Talking Heads",
+  "year": 1979,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "f378dcb1-841b-3be1-9d96-779036562de1"
+  }
+}

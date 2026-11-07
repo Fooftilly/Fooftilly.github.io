@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Spirit of Eden",
+  "creator": "Talk Talk",
+  "year": 1988,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "fd29e2cd-9bd7-32c6-adf9-ce80ab1cadfc"
+  }
+}

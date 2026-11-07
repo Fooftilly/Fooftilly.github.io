@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Nocturnal",
+  "creator": "Anastasia",
+  "year": 1998,
+  "rating": 2.5,
+  "refs": {
+    "musicbrainz": "50c53424-870f-3621-8194-a2d67e9c4d6b"
+  }
+}

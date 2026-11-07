@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Portofon",
+  "creator": "Porto Morto",
+  "year": 2019,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "ac143964-1d57-44bf-a6cc-4b768814409a"
+  }
+}

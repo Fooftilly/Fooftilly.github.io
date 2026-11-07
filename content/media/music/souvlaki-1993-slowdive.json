@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Souvlaki",
+  "creator": "Slowdive",
+  "year": 1993,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "46482030-ef12-319c-9c5a-5d04c39d574b"
+  }
+}

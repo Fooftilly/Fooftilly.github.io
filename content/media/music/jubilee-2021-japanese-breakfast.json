@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Jubilee",
+  "creator": "Japanese Breakfast",
+  "year": 2021,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "f4e55ff9-2fe6-417c-a631-f4cf528edc61"
+  }
+}
