@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Magic, Alive!",
+  "creator": "McKinley Dixon",
+  "year": 2025,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "4e3abdbf-998a-4da7-a26a-68e9e006f565"
+  }
+}

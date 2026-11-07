@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "White Pony",
+  "creator": "Deftones",
+  "year": 2000,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "a7d33e96-8e09-3aff-8629-44812a1b8489"
+  }
+}

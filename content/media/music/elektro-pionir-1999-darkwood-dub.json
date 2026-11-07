@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Elektro Pionir",
+  "creator": "Darkwood Dub",
+  "year": 1999,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "dacd057b-bca7-3a4c-8887-b75f7ec893c5"
+  }
+}

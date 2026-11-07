@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Zeleni kader",
+  "creator": "Cinkuši",
+  "year": 1999,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "9536ae6a-e44d-45fa-a59e-c115a856c4cb"
+  }
+}

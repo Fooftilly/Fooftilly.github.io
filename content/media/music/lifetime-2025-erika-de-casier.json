@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Lifetime",
+  "creator": "Erika de Casier",
+  "year": 2025,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "2ed28096-25bd-450a-a340-f75f950bdb14"
+  }
+}

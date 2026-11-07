@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Troupeau bleu",
+  "creator": "Cortex",
+  "year": 1975,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "17beaab5-7f01-3511-848a-7b981d4d92ff"
+  }
+}

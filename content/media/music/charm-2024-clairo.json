@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Charm",
+  "creator": "Clairo",
+  "year": 2024,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "6fb46378-9cb7-4693-b76d-a62f2cc09214"
+  }
+}

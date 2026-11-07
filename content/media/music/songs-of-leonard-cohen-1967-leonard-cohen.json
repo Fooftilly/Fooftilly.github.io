@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Songs of Leonard Cohen",
+  "creator": "Leonard Cohen",
+  "year": 1967,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "34291a49-8df9-304e-bd39-16b11d829d5f"
+  }
+}

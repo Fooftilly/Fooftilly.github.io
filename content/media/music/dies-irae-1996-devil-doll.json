@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Dies Irae",
+  "creator": "Devil Doll",
+  "year": 1996,
+  "rating": 5,
+  "refs": {
+    "musicbrainz": "e9e12101-71b3-3255-b0b3-752dca7e3a2f"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Submarine Bells",
+  "creator": "The Chills",
+  "year": 1990,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "8540adb4-e189-339f-9904-c2f8a91d9b40"
+  }
+}

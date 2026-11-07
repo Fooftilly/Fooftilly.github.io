@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Symbolic",
+  "creator": "Death",
+  "year": 1995,
+  "rating": 2,
+  "refs": {
+    "musicbrainz": "bd675025-abcb-3536-9e19-ba3204c0183d"
+  }
+}

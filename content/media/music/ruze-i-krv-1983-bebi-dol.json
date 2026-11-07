@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Ruže i krv",
+  "creator": "Bebi Dol",
+  "year": 1983,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "5b7d241f-07d9-351a-8d47-87bae63ef25a"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Sacrilegium",
+  "creator": "Devil Doll",
+  "year": 1992,
+  "rating": 5,
+  "refs": {
+    "musicbrainz": "823ce796-1d27-3bb2-b947-eb28a0730d4e"
+  }
+}
