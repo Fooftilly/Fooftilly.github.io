@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref } from "vue";
 import { composeMediaDraft, githubMediaEditorUrl, type ExistingMediaRef, type MediaKind, type MediaRecord } from "../lib/media-model.ts";
+import { nextAvailableMediaPosition } from "../lib/media-editor-positions.ts";
 
 const props=defineProps<{existing:ExistingMediaRef[]}>();
 const kind=ref<MediaKind>("films");
@@ -50,13 +51,21 @@ const numberOf=(value:Position,label:string):number=>{
   return Number(text);
 };
 function addTrack():void {
-  tracks.value.push({disc:1,number:tracks.value.length+1,title:"",rating:0});
+  const disc=1;
+  const existing=tracks.value.filter(track=>Number(track.disc)===disc).map(track=>track.number);
+  tracks.value.push({disc,number:nextAvailableMediaPosition(existing,250),title:"",rating:0});
 }
 function addSeason():void {
-  seasons.value.push({number:seasons.value.length+1,title:"",rating:0,episodes:[]});
+  seasons.value.push({
+    number:nextAvailableMediaPosition(seasons.value.map(season=>season.number),200),
+    title:"",rating:0,episodes:[],
+  });
 }
 function addEpisode(season:SeasonDraft):void {
-  season.episodes.push({number:season.episodes.length+1,title:"",rating:0});
+  season.episodes.push({
+    number:nextAvailableMediaPosition(season.episodes.map(episode=>episode.number),1000),
+    title:"",rating:0,
+  });
 }
 const primaryUrl=ref("");
 const secondaryUrl=ref("");
