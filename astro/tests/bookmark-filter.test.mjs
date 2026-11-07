@@ -105,3 +105,17 @@ test("unhydrated static bookmark HTML exposes every record; hydrated pages load 
   assert.deepEqual(visibleBookmarkPage([], 50, false), []);
   assert.equal(records.length, 121, "Paging must not change source data");
 });
+
+test("exact tag filter is distinct from fuzzy text matching", () => {
+  const records=[
+    {id:"one",title:"Unrelated",category:"Art",date:"2026-11-01",url:"",tags:["Café culture"]},
+    {id:"two",title:"Café culture",category:"Art",date:"2026-11-02",url:"",tags:["Unrelated tag"]},
+    {id:"three",title:"No tags",category:"Art",date:"2026-11-03",url:""},
+  ];
+  const filter={...defaults,tag:"Cafe\u0301 culture"};
+  assert.deepEqual(filterAndSortBookmarks(records,filter).map(item=>item.id),["one"]);
+  assert.deepEqual(filterAndSortBookmarks(records,{...filter,query:"unrelated"}).map(item=>item.id),["one"]);
+  assert.deepEqual(filterAndSortBookmarks(records,{...filter,query:"missing"}),[]);
+  assert.equal(filterAndSortBookmarks(records,{...defaults,tag:"deleted"}).length,0);
+  assert.equal(records.length,3);
+});

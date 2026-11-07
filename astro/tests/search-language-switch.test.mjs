@@ -42,3 +42,14 @@ test("retain the target path and hash without carrying source fragments", () => 
     "/search/#main",
   ), "/search/?category=Music#main");
 });
+
+test("EN/SH search language switching retains tag filters but drops tracking", () => {
+  const href=searchLanguageSwitchHref(
+    "https://www.peroniko.xyz/sh/search/?tag=Caf%C3%A9+culture&q=cafe&utm_source=external",
+    "/search/",
+  );
+  const target=new URL(href,"https://www.peroniko.xyz");
+  assert.equal(target.searchParams.get("tag"),"Café culture");
+  assert.equal(target.searchParams.get("q"),"cafe");
+  assert.equal(target.searchParams.has("utm_source"),false);
+});
