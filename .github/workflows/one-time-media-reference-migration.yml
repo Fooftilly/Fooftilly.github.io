@@ -1,0 +1,36 @@
+name: One-time compact media references (delete before merge)
+on:
+  push:
+    branches:
+      - data/compact-media-reference-ids
+permissions:
+  contents: write
+jobs:
+  compact-media:
+    name: One-time media data rewrite
+    if: github.ref == 'refs/heads/data/compact-media-reference-ids'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout migration branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Setup Node 24
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "24"
+          package-manager-cache: false
+      - name: Convert exact, validated source URLs without changing scores
+        run: node astro/scripts/migrate-media-reference-ids.once.mjs --write
+      - name: Commit the generated data on this feature branch only
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! git diff --quiet -- content/media; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git add -- content/media
+            git commit -m 'Compact canonical source links across existing media records'
+            git push origin HEAD:refs/heads/data/compact-media-reference-ids
+          else
+            echo 'No convertible links found'
+          fi
