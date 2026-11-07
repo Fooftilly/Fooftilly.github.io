@@ -147,11 +147,32 @@ try {
     'date: "2000-01-01"',
     'link: "https://example.org/ci-bookmark-growth-fixture"',
     'comments: "Regression: current source inventory is reflected in generated output."',
-    'tags: ["CI migration tag", "Git-owned"]',
+    'tags: ["CI migration tag", "Git-owned", "Cafe\u0301"]',
     "---",
     "",
   ].join("\n"), {flag:"wx"});
   created.push(bookmarkFile);
+  // Exercise a valid empty tag array as well as a decomposed Unicode label.
+  // Reserve an independent fixture ID so no existing Git-managed file is replaced.
+  const emptyBase = bookmarkStem + "-empty-tags";
+  let emptyStem = emptyBase;
+  let emptySuffix = 2;
+  while (existingBookmarkFiles.has(emptyStem + ".md")) {
+    emptyStem = emptyBase + "-" + emptySuffix++;
+  }
+  const emptyFile = join(bookmarkSource, emptyStem + ".md");
+  const emptyBookmarkId = bookmarkCategory.section + "/" + emptyStem;
+  await writeFile(emptyFile, [
+    "---",
+    'title: "CI empty-tags bookmark"',
+    'date: "2000-01-01"',
+    'link: "https://example.org/ci-bookmark-empty-tags"',
+    'comments: "Empty tags render safely."',
+    "tags: []",
+    "---",
+    "",
+  ].join("\n"), {flag:"wx"});
+  created.push(emptyFile);
   run("npm", ["run", "build"]);
   run("npm", ["run", "test:parity"]);
   run("npm", ["run", "test:routes"]);
@@ -161,14 +182,20 @@ try {
   run(process.execPath, ["scripts/release-readiness.mjs"]);
   const manifest = JSON.parse(await readFile(join(astro, ".audit", "bookmarks-parity.json"), "utf8"));
   assert.deepEqual(manifest.map(row => row.id).sort(),
-    [...bookmarkIdsBeforeFixture, bookmarkId].sort(),
-    "Disposable fixture must add exactly one record without losing current source entries");
+    [...bookmarkIdsBeforeFixture, bookmarkId, emptyBookmarkId].sort(),
+    "Disposable fixtures must add exactly two records without losing current source entries");
   const fixtureRecord = manifest.find(row => row.id === bookmarkId);
-  assert.deepEqual(fixtureRecord?.tags, ["CI migration tag","Git-owned"],
-    "Optional source tags must survive the Astro collection without loss");
+  assert.deepEqual(fixtureRecord?.tags, ["CI migration tag","Git-owned","Cafe\u0301"],
+    "Optional source tags must survive the Astro collection without loss or Unicode rewriting");
+  assert.equal(manifest.find(row => row.id === emptyBookmarkId)?.tags, undefined,
+    "A valid empty tags array must not produce an empty public label list");
   const bookmarkDetail = await readFile(join(dist, "bookmarks", bookmarkCategory.slug, bookmarkStem, "index.html"), "utf8");
   assert.ok(bookmarkDetail.includes("CI-only new bookmark"), "New bookmark detail page was not generated");
   assert.ok(bookmarkDetail.includes("CI migration tag"), "Current tags must appear on bookmark detail pages");
+  const emptyDetail = await readFile(join(dist,"bookmarks",bookmarkCategory.slug,emptyStem,"index.html"),"utf8");
+  assert.ok(emptyDetail.includes("CI empty-tags bookmark"));
+  assert.doesNotMatch(emptyDetail, /<\/p>\s*0\s*<\/article>/,
+    "An empty tag array must not print a stray zero in the generated detail page");
   const audit = run("python3", ["scripts/verify_media.py"]);
   for (const {folder, record} of fixtures) {
     const html = await readFile(join(dist, folder, "index.html"), "utf8");

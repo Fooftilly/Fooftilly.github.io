@@ -19,9 +19,9 @@ const bookmarks = defineCollection({
     comments: z.string().optional(),
     tags: z.array(z.string()).superRefine((tags, ctx) => {
       try {
-        const canonical = validateBookmarkTags(tags);
-        if (canonical.some((tag, index) => tag !== tags[index])) {
-          ctx.addIssue({ code: "custom", message: "Bookmark tags must be trimmed and NFC-normalized" });
+        validateBookmarkTags(tags);
+        if (tags.some(tag => tag.trim() !== tag)) {
+          ctx.addIssue({ code: "custom", message: "Bookmark source tags must not contain leading or trailing whitespace" });
         }
       } catch (error) {
         ctx.addIssue({ code: "custom", message: error instanceof Error ? error.message : "Invalid bookmark tags" });

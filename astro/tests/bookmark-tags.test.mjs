@@ -20,4 +20,6 @@ test("browser locale must not affect duplicate detection in source and editor", 
   assert.throws(() => validateBookmarkTags(["I","i"]), /Duplicate bookmark tag/);
   assert.deepEqual(validateBookmarkTags(["İ","i"]), ["İ","i"]);
   assert.deepEqual(validateBookmarkTags([]), [], "Empty source tag lists remain valid");
+  assert.throws(() => validateBookmarkTags(["Café","Cafe\u0301"]), /Duplicate bookmark tag/,
+    "Composed and decomposed equivalents must have the same identity");
 });
