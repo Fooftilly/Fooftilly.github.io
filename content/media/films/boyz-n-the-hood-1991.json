@@ -4,10 +4,7 @@
   "title": "Boyz n the Hood",
   "year": 1991,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/29Ug"
-    }
-  ]
+  "refs": {
+    "letterboxd": "29Ug"
+  }
 }

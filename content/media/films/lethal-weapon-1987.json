@@ -4,10 +4,7 @@
   "title": "Lethal Weapon",
   "year": 1987,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/29e0"
-    }
-  ]
+  "refs": {
+    "letterboxd": "29e0"
+  }
 }

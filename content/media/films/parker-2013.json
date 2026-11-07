@@ -4,10 +4,7 @@
   "title": "Parker",
   "year": 2013,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3Xr6"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3Xr6"
+  }
 }

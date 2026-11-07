@@ -4,10 +4,7 @@
   "title": "Meeting Place",
   "year": 1989,
   "rating": 4.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5W2o"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5W2o"
+  }
 }

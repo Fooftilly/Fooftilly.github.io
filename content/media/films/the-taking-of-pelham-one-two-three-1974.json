@@ -4,10 +4,7 @@
   "title": "The Taking of Pelham One Two Three",
   "year": 1974,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/20lG"
-    }
-  ]
+  "refs": {
+    "letterboxd": "20lG"
+  }
 }

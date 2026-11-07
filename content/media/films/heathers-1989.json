@@ -4,10 +4,7 @@
   "title": "Heathers",
   "year": 1989,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/26x4"
-    }
-  ]
+  "refs": {
+    "letterboxd": "26x4"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "The Vampires or, The Arch Criminals of Paris",
   "year": 1915,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1ofA"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1ofA"
+  }
 }

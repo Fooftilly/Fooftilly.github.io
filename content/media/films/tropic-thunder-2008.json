@@ -4,10 +4,7 @@
   "title": "Tropic Thunder",
   "year": 2008,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/20WM"
-    }
-  ]
+  "refs": {
+    "letterboxd": "20WM"
+  }
 }

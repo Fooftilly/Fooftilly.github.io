@@ -4,10 +4,7 @@
   "title": "I Am Cuba",
   "year": 1964,
   "rating": 5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1hUQ"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1hUQ"
+  }
 }

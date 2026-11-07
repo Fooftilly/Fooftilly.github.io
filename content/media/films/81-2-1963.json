@@ -4,10 +4,7 @@
   "title": "8½",
   "year": 1963,
   "rating": 4.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2aqm"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2aqm"
+  }
 }

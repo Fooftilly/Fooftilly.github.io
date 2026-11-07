@@ -4,10 +4,7 @@
   "title": "The Cabinet of Dr. Caligari",
   "year": 1920,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2aOo"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2aOo"
+  }
 }

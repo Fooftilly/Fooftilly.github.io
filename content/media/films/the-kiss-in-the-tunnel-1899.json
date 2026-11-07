@@ -4,10 +4,7 @@
   "title": "The Kiss in the Tunnel",
   "year": 1899,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4Ap4"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4Ap4"
+  }
 }

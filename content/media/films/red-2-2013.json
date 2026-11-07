@@ -4,10 +4,7 @@
   "title": "RED 2",
   "year": 2013,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4E4E"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4E4E"
+  }
 }

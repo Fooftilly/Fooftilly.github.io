@@ -4,10 +4,7 @@
   "title": "Monkeyshines, No. 2",
   "year": 1890,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1fKO"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1fKO"
+  }
 }

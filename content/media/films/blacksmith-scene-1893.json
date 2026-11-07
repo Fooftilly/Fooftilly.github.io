@@ -4,10 +4,7 @@
   "title": "Blacksmith Scene",
   "year": 1893,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1JSS"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1JSS"
+  }
 }

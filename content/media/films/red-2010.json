@@ -4,10 +4,7 @@
   "title": "RED",
   "year": 2010,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/13uu"
-    }
-  ]
+  "refs": {
+    "letterboxd": "13uu"
+  }
 }

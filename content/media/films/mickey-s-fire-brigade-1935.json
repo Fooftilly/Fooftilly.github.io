@@ -4,10 +4,7 @@
   "title": "Mickey's Fire Brigade",
   "year": 1935,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/qn0"
-    }
-  ]
+  "refs": {
+    "letterboxd": "qn0"
+  }
 }

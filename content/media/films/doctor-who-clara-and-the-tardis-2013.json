@@ -4,10 +4,7 @@
   "title": "Doctor Who: Clara and the TARDIS",
   "year": 2013,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/iTAo"
-    }
-  ]
+  "refs": {
+    "letterboxd": "iTAo"
+  }
 }

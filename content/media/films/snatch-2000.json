@@ -4,10 +4,7 @@
   "title": "Snatch",
   "year": 2000,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2b7U"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2b7U"
+  }
 }

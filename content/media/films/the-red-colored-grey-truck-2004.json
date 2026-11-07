@@ -4,10 +4,7 @@
   "title": "The Red Colored Grey Truck",
   "year": 2004,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3GWm"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3GWm"
+  }
 }

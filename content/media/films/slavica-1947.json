@@ -4,10 +4,7 @@
   "title": "Slavica",
   "year": 1947,
   "rating": 1.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/7Y0e"
-    }
-  ]
+  "refs": {
+    "letterboxd": "7Y0e"
+  }
 }

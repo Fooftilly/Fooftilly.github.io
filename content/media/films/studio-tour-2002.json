@@ -4,10 +4,7 @@
   "title": "Studio Tour",
   "year": 2002,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5Xds"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5Xds"
+  }
 }

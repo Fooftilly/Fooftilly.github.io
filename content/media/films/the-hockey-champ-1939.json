@@ -4,10 +4,7 @@
   "title": "The Hockey Champ",
   "year": 1939,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2ehS"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2ehS"
+  }
 }

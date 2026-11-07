@@ -4,10 +4,7 @@
   "title": "Petit frère et petite sœur",
   "year": 1897,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/arum"
-    }
-  ]
+  "refs": {
+    "letterboxd": "arum"
+  }
 }

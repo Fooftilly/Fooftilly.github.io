@@ -4,10 +4,7 @@
   "title": "Life Is a Miracle",
   "year": 2004,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1E1k"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1E1k"
+  }
 }

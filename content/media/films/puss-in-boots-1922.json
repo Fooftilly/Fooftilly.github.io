@@ -4,10 +4,7 @@
   "title": "Puss in Boots",
   "year": 1922,
   "rating": 1.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4Rle"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4Rle"
+  }
 }

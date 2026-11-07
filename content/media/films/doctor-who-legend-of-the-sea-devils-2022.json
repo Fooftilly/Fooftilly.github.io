@@ -4,10 +4,7 @@
   "title": "Doctor Who: Legend of the Sea Devils",
   "year": 2022,
   "rating": 1.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/DW1I"
-    }
-  ]
+  "refs": {
+    "letterboxd": "DW1I"
+  }
 }

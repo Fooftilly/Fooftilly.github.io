@@ -4,10 +4,7 @@
   "title": "Broadway by Light",
   "year": 1958,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4cKs"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4cKs"
+  }
 }

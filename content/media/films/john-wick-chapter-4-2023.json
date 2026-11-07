@@ -4,10 +4,7 @@
   "title": "John Wick: Chapter 4",
   "year": 2023,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/mh48"
-    }
-  ]
+  "refs": {
+    "letterboxd": "mh48"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Midnight in a Toy Shop",
   "year": 1930,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2vk0"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2vk0"
+  }
 }

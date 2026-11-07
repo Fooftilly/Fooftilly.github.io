@@ -4,10 +4,7 @@
   "title": "Somm",
   "year": 2012,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5ALc"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5ALc"
+  }
 }

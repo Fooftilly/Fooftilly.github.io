@@ -4,10 +4,7 @@
   "title": "Investigation of a Citizen Above Suspicion",
   "year": 1970,
   "rating": 5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1tRY"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1tRY"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Parade of Characters (Asia in America) St. Louis Exposition",
   "year": 1904,
   "rating": 1,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/ajra"
-    }
-  ]
+  "refs": {
+    "letterboxd": "ajra"
+  }
 }

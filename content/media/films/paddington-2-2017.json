@@ -4,10 +4,7 @@
   "title": "Paddington 2",
   "year": 2017,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/bCF8"
-    }
-  ]
+  "refs": {
+    "letterboxd": "bCF8"
+  }
 }

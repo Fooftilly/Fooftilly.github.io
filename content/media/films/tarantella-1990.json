@@ -4,10 +4,7 @@
   "title": "Tarantella",
   "year": 1990,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/uhUa"
-    }
-  ]
+  "refs": {
+    "letterboxd": "uhUa"
+  }
 }

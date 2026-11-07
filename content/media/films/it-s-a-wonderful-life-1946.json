@@ -4,10 +4,7 @@
   "title": "It's a Wonderful Life",
   "year": 1946,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/28xA"
-    }
-  ]
+  "refs": {
+    "letterboxd": "28xA"
+  }
 }

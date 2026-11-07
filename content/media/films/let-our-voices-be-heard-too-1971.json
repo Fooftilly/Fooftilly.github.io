@@ -4,10 +4,7 @@
   "title": "Let Our Voices Be Heard Too",
   "year": 1971,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/c7UI"
-    }
-  ]
+  "refs": {
+    "letterboxd": "c7UI"
+  }
 }

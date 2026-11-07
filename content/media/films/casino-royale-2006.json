@@ -4,10 +4,7 @@
   "title": "Casino Royale",
   "year": 2006,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1alk"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1alk"
+  }
 }

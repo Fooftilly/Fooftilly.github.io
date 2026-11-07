@@ -6,8 +6,14 @@
   "rating": 4,
   "links": [
     {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/7T2k"
+      "label": "BFI",
+      "url": "https://www.bfi.org.uk/film/337a9bd9-b9af-589e-8607-04105282d41f/ex-machina"
     }
-  ]
+  ],
+  "refs": {
+    "letterboxd": "7T2k",
+    "imdb": "tt0470752",
+    "tmdb": "movie:264660",
+    "wikipedia": "en:Ex_Machina_(film)"
+  }
 }

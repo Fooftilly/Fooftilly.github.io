@@ -4,10 +4,7 @@
   "title": "Chinatown",
   "year": 1974,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/29vU"
-    }
-  ]
+  "refs": {
+    "letterboxd": "29vU"
+  }
 }

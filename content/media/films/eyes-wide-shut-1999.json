@@ -4,10 +4,7 @@
   "title": "Eyes Wide Shut",
   "year": 1999,
   "rating": 4.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2axs"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2axs"
+  }
 }

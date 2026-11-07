@@ -4,10 +4,7 @@
   "title": "Jasenovac",
   "year": 1966,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/xNi4"
-    }
-  ]
+  "refs": {
+    "letterboxd": "xNi4"
+  }
 }

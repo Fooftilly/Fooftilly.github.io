@@ -4,10 +4,7 @@
   "title": "Cruella",
   "year": 2021,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/bbKg"
-    }
-  ]
+  "refs": {
+    "letterboxd": "bbKg"
+  }
 }

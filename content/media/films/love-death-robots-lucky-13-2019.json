@@ -4,10 +4,7 @@
   "title": "Love, Death & Robots: Lucky 13",
   "year": 2019,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/lJGC"
-    }
-  ]
+  "refs": {
+    "letterboxd": "lJGC"
+  }
 }

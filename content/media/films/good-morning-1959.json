@@ -4,10 +4,7 @@
   "title": "Good Morning",
   "year": 1959,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2lkk"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2lkk"
+  }
 }

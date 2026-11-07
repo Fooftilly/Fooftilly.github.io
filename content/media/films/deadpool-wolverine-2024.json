@@ -4,10 +4,7 @@
   "title": "Deadpool & Wolverine",
   "year": 2024,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/jq8s"
-    }
-  ]
+  "refs": {
+    "letterboxd": "jq8s"
+  }
 }

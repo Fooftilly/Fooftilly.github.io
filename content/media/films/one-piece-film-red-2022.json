@@ -4,10 +4,7 @@
   "title": "One Piece Film Red",
   "year": 2022,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/y2b8"
-    }
-  ]
+  "refs": {
+    "letterboxd": "y2b8"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Sky Scrappers",
   "year": 1928,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5KeM"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5KeM"
+  }
 }

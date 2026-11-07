@@ -4,10 +4,7 @@
   "title": "Mon Oncle",
   "year": 1958,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2apy"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2apy"
+  }
 }

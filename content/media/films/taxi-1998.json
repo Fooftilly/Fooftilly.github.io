@@ -4,10 +4,7 @@
   "title": "Taxi",
   "year": 1998,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/26UM"
-    }
-  ]
+  "refs": {
+    "letterboxd": "26UM"
+  }
 }

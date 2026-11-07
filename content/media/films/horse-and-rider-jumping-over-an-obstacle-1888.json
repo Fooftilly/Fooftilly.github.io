@@ -4,10 +4,7 @@
   "title": "Horse and Rider Jumping Over an Obstacle",
   "year": 1888,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/b5Mg"
-    }
-  ]
+  "refs": {
+    "letterboxd": "b5Mg"
+  }
 }

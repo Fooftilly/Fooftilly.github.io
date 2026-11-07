@@ -4,10 +4,7 @@
   "title": "Bringing Out the Dead",
   "year": 1999,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1ZZK"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1ZZK"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Three Little Pigs",
   "year": 1933,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1dQU"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1dQU"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Operation Concrete",
   "year": 1958,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3yPs"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3yPs"
+  }
 }

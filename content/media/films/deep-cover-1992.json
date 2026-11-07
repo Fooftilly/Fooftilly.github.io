@@ -4,10 +4,7 @@
   "title": "Deep Cover",
   "year": 1992,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1D5g"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1D5g"
+  }
 }

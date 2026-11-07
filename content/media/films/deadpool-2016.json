@@ -4,10 +4,7 @@
   "title": "Deadpool",
   "year": 2016,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/9fOC"
-    }
-  ]
+  "refs": {
+    "letterboxd": "9fOC"
+  }
 }

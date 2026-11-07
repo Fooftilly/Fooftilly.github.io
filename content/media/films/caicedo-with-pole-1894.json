@@ -4,10 +4,7 @@
   "title": "Caicedo (with Pole)",
   "year": 1894,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5DJ4"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5DJ4"
+  }
 }

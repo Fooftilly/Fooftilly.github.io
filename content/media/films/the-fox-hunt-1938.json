@@ -4,10 +4,7 @@
   "title": "The Fox Hunt",
   "year": 1938,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2bGK"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2bGK"
+  }
 }

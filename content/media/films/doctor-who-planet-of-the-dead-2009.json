@@ -4,10 +4,7 @@
   "title": "Doctor Who: Planet of the Dead",
   "year": 2009,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/8JMO"
-    }
-  ]
+  "refs": {
+    "letterboxd": "8JMO"
+  }
 }

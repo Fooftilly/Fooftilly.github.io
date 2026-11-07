@@ -4,10 +4,7 @@
   "title": "Le village de Namo - Panorama pris d'une chaise à porteurs",
   "year": 1900,
   "rating": 1.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5Ttw"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5Ttw"
+  }
 }

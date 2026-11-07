@@ -4,10 +4,7 @@
   "title": "Barnyard Olympics",
   "year": 1932,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4UHW"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4UHW"
+  }
 }

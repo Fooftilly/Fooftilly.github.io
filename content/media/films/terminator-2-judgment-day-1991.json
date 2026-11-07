@@ -4,10 +4,7 @@
   "title": "Terminator 2: Judgment Day",
   "year": 1991,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2aGY"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2aGY"
+  }
 }

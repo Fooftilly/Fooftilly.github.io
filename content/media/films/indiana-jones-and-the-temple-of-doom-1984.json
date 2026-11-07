@@ -4,10 +4,7 @@
   "title": "Indiana Jones and the Temple of Doom",
   "year": 1984,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2bb8"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2bb8"
+  }
 }

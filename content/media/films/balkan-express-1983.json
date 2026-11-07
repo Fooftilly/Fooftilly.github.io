@@ -4,10 +4,7 @@
   "title": "Balkan Express",
   "year": 1983,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/tLE"
-    }
-  ]
+  "refs": {
+    "letterboxd": "tLE"
+  }
 }

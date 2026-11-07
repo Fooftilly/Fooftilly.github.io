@@ -4,10 +4,7 @@
   "title": "Sweet Smell of Success",
   "year": 1957,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/29aW"
-    }
-  ]
+  "refs": {
+    "letterboxd": "29aW"
+  }
 }

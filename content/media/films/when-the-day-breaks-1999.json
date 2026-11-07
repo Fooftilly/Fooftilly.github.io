@@ -4,10 +4,7 @@
   "title": "When the Day Breaks",
   "year": 1999,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/50zk"
-    }
-  ]
+  "refs": {
+    "letterboxd": "50zk"
+  }
 }

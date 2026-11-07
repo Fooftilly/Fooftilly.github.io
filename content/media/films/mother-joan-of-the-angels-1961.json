@@ -4,10 +4,7 @@
   "title": "Mother Joan of the Angels",
   "year": 1961,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3Nny"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3Nny"
+  }
 }

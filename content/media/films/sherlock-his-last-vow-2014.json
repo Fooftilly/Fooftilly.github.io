@@ -4,10 +4,7 @@
   "title": "Sherlock: His Last Vow",
   "year": 2014,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/wls4"
-    }
-  ]
+  "refs": {
+    "letterboxd": "wls4"
+  }
 }

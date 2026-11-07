@@ -4,10 +4,7 @@
   "title": "Enoch Arden: Part II",
   "year": 1911,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5LDI"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5LDI"
+  }
 }

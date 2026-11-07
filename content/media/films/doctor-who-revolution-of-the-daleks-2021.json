@@ -4,10 +4,7 @@
   "title": "Doctor Who: Revolution of the Daleks",
   "year": 2021,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/JvxE"
-    }
-  ]
+  "refs": {
+    "letterboxd": "JvxE"
+  }
 }

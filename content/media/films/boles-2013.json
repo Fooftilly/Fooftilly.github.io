@@ -4,10 +4,7 @@
   "title": "Boles",
   "year": 2013,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/6ja6"
-    }
-  ]
+  "refs": {
+    "letterboxd": "6ja6"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "The Country Cousin",
   "year": 1936,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2Pio"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2Pio"
+  }
 }

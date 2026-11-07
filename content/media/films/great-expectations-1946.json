@@ -4,10 +4,7 @@
   "title": "Great Expectations",
   "year": 1946,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1OjS"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1OjS"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "The Da Vinci Code",
   "year": 2006,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2a3i"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2a3i"
+  }
 }

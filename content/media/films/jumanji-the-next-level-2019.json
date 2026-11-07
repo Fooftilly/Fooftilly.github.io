@@ -4,10 +4,7 @@
   "title": "Jumanji: The Next Level",
   "year": 2019,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/ixu4"
-    }
-  ]
+  "refs": {
+    "letterboxd": "ixu4"
+  }
 }

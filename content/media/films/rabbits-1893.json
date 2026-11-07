@@ -4,10 +4,7 @@
   "title": "Rabbits",
   "year": 1893,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/tYtY"
-    }
-  ]
+  "refs": {
+    "letterboxd": "tYtY"
+  }
 }

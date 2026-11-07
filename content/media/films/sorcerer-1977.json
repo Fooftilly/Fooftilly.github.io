@@ -4,10 +4,7 @@
   "title": "Sorcerer",
   "year": 1977,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/14J6"
-    }
-  ]
+  "refs": {
+    "letterboxd": "14J6"
+  }
 }

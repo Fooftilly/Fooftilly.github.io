@@ -4,10 +4,7 @@
   "title": "The Naked Gun",
   "year": 2025,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/Da9k"
-    }
-  ]
+  "refs": {
+    "letterboxd": "Da9k"
+  }
 }

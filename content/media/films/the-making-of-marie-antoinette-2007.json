@@ -4,10 +4,7 @@
   "title": "The Making of Marie Antoinette",
   "year": 2007,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/r5Uc"
-    }
-  ]
+  "refs": {
+    "letterboxd": "r5Uc"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Indochina: Children Gathering Coins Scattered by Western Women",
   "year": 1899,
   "rating": 0.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5PY6"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5PY6"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Lyon, travaux au canal de Jonage: Machine à damer",
   "year": 1897,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5Loo"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5Loo"
+  }
 }

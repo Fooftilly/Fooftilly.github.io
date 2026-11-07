@@ -4,10 +4,7 @@
   "title": "See You in Montevideo",
   "year": 2014,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/7wTU"
-    }
-  ]
+  "refs": {
+    "letterboxd": "7wTU"
+  }
 }

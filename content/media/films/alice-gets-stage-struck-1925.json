@@ -4,10 +4,7 @@
   "title": "Alice Gets Stage Struck",
   "year": 1925,
   "rating": 1.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1aHA"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1aHA"
+  }
 }

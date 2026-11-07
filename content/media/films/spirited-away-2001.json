@@ -4,10 +4,7 @@
   "title": "Spirited Away",
   "year": 2001,
   "rating": 4.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2b4m"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2b4m"
+  }
 }

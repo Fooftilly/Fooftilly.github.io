@@ -4,10 +4,7 @@
   "title": "Kick-Ass",
   "year": 2010,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1zaQ"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1zaQ"
+  }
 }

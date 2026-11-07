@@ -4,10 +4,7 @@
   "title": "Snowball Fight",
   "year": 1897,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4Bem"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4Bem"
+  }
 }

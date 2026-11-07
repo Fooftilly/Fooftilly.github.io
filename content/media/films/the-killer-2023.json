@@ -4,10 +4,7 @@
   "title": "The Killer",
   "year": 2023,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/u6WE"
-    }
-  ]
+  "refs": {
+    "letterboxd": "u6WE"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "In Agony",
   "year": 1982,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/EHjO"
-    }
-  ]
+  "refs": {
+    "letterboxd": "EHjO"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Alphonse and Gaston, No. 3",
   "year": 1903,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5U6y"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5U6y"
+  }
 }

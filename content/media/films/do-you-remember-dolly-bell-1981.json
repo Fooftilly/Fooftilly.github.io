@@ -4,10 +4,7 @@
   "title": "Do You Remember Dolly Bell?",
   "year": 1981,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/EPW"
-    }
-  ]
+  "refs": {
+    "letterboxd": "EPW"
+  }
 }

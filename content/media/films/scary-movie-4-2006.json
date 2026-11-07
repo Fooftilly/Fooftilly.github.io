@@ -4,10 +4,7 @@
   "title": "Scary Movie 4",
   "year": 2006,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/24B4"
-    }
-  ]
+  "refs": {
+    "letterboxd": "24B4"
+  }
 }

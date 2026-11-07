@@ -4,10 +4,7 @@
   "title": "Schindler's List",
   "year": 1993,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2aq2"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2aq2"
+  }
 }

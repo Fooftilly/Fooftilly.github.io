@@ -4,10 +4,7 @@
   "title": "Alpine Climbers",
   "year": 1936,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/7fm"
-    }
-  ]
+  "refs": {
+    "letterboxd": "7fm"
+  }
 }

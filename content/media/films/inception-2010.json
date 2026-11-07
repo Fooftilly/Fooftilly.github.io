@@ -4,10 +4,7 @@
   "title": "Inception",
   "year": 2010,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1skk"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1skk"
+  }
 }

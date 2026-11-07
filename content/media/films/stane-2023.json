@@ -4,10 +4,7 @@
   "title": "Stane",
   "year": 2023,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/Iu16"
-    }
-  ]
+  "refs": {
+    "letterboxd": "Iu16"
+  }
 }

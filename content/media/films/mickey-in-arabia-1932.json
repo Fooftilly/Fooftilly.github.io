@@ -4,10 +4,7 @@
   "title": "Mickey in Arabia",
   "year": 1932,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4UHC"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4UHC"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Alice the Whaler",
   "year": 1927,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/10a2"
-    }
-  ]
+  "refs": {
+    "letterboxd": "10a2"
+  }
 }

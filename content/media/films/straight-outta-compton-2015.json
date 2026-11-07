@@ -4,10 +4,7 @@
   "title": "Straight Outta Compton",
   "year": 2015,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/8rMc"
-    }
-  ]
+  "refs": {
+    "letterboxd": "8rMc"
+  }
 }

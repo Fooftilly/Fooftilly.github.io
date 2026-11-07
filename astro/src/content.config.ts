@@ -67,6 +67,13 @@ const media = defineCollection({
     status: z.enum(["finished","in-progress","planned"]).optional(),
     notes: z.string().min(1).max(5000).optional(),
     links: z.array(z.object({label:z.string().min(1).max(48),url:z.string().url()}).strict()).max(8).optional(),
+    refs: z.object({
+      imdb: z.string().regex(/^tt[0-9]{7,}$/).optional(),
+      tmdb: z.string().regex(/^(movie|tv):[1-9][0-9]*$/).optional(),
+      wikipedia: z.string().regex(/^[a-z]{2,12}:[^\\/?#\x00-\x1f]{1,220}$/u).optional(),
+      letterboxd: z.string().regex(/^[A-Za-z0-9]{2,16}$/).optional(),
+      musicbrainz: z.string().uuid().optional(),
+    }).strict().optional(),
     // Ratings are independent. A release or season score never becomes a
     // guessed track/episode score. Track numbers are disc-relative.
     tracks: z.array(z.object({

@@ -4,10 +4,7 @@
   "title": "Murder on the Orient Express",
   "year": 2017,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/dHjA"
-    }
-  ]
+  "refs": {
+    "letterboxd": "dHjA"
+  }
 }

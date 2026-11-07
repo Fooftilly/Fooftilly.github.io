@@ -4,10 +4,7 @@
   "title": "Deep Cover",
   "year": 2025,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/L6ec"
-    }
-  ]
+  "refs": {
+    "letterboxd": "L6ec"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "The Apology of Socrates and Death",
   "year": 1971,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/EHkC"
-    }
-  ]
+  "refs": {
+    "letterboxd": "EHkC"
+  }
 }

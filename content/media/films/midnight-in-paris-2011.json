@@ -4,10 +4,7 @@
   "title": "Midnight in Paris",
   "year": 2011,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/i4a"
-    }
-  ]
+  "refs": {
+    "letterboxd": "i4a"
+  }
 }

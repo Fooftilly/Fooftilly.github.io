@@ -4,10 +4,7 @@
   "title": "When the Cat's Away",
   "year": 1929,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5KDi"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5KDi"
+  }
 }

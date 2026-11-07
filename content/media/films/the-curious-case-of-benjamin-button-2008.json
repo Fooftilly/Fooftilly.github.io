@@ -4,10 +4,7 @@
   "title": "The Curious Case of Benjamin Button",
   "year": 2008,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/23Fk"
-    }
-  ]
+  "refs": {
+    "letterboxd": "23Fk"
+  }
 }

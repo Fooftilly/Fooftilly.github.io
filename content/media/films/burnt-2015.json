@@ -4,10 +4,7 @@
   "title": "Burnt",
   "year": 2015,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/9mVg"
-    }
-  ]
+  "refs": {
+    "letterboxd": "9mVg"
+  }
 }

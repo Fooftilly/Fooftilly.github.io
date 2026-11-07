@@ -4,10 +4,7 @@
   "title": "Oldboy",
   "year": 2003,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/29R2"
-    }
-  ]
+  "refs": {
+    "letterboxd": "29R2"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Bosko, the Talk-Ink Kid",
   "year": 1929,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4M72"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4M72"
+  }
 }

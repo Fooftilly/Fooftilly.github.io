@@ -4,10 +4,7 @@
   "title": "Alice in Wonderland",
   "year": 1903,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/ZLm"
-    }
-  ]
+  "refs": {
+    "letterboxd": "ZLm"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Captain Marvel",
   "year": 2019,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/9vSA"
-    }
-  ]
+  "refs": {
+    "letterboxd": "9vSA"
+  }
 }

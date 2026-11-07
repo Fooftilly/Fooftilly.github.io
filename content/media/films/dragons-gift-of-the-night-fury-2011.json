@@ -4,10 +4,7 @@
   "title": "Dragons: Gift of the Night Fury",
   "year": 2011,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3d2O"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3d2O"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Raising Arizona",
   "year": 1987,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2avQ"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2avQ"
+  }
 }

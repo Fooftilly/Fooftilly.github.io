@@ -4,10 +4,7 @@
   "title": "The Lord of the Rings: The Two Towers",
   "year": 2002,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2b5E"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2b5E"
+  }
 }

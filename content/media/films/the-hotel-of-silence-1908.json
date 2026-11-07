@@ -4,10 +4,7 @@
   "title": "The Hotel of Silence",
   "year": 1908,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/9E1q"
-    }
-  ]
+  "refs": {
+    "letterboxd": "9E1q"
+  }
 }

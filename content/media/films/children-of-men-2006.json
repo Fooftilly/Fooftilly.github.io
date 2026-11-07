@@ -4,10 +4,7 @@
   "title": "Children of Men",
   "year": 2006,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1Y2i"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1Y2i"
+  }
 }

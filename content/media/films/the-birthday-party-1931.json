@@ -4,10 +4,7 @@
   "title": "The Birthday Party",
   "year": 1931,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/13ZC"
-    }
-  ]
+  "refs": {
+    "letterboxd": "13ZC"
+  }
 }

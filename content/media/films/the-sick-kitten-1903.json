@@ -4,10 +4,7 @@
   "title": "The Sick Kitten",
   "year": 1903,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4AoA"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4AoA"
+  }
 }

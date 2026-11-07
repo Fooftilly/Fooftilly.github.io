@@ -4,10 +4,7 @@
   "title": "An Adventure in Space and Time",
   "year": 2013,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/6hca"
-    }
-  ]
+  "refs": {
+    "letterboxd": "6hca"
+  }
 }

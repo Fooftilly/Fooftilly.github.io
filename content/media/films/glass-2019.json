@@ -4,10 +4,7 @@
   "title": "Glass",
   "year": 2019,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/g3uO"
-    }
-  ]
+  "refs": {
+    "letterboxd": "g3uO"
+  }
 }

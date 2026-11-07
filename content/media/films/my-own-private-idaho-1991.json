@@ -4,10 +4,7 @@
   "title": "My Own Private Idaho",
   "year": 1991,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2ak4"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2ak4"
+  }
 }

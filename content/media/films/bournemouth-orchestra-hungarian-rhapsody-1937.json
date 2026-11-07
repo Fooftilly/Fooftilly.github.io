@@ -4,10 +4,7 @@
   "title": "Bournemouth Orchestra - Hungarian Rhapsody",
   "year": 1937,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/joSe"
-    }
-  ]
+  "refs": {
+    "letterboxd": "joSe"
+  }
 }

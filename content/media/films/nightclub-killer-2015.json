@@ -4,10 +4,7 @@
   "title": "Nightclub Killer",
   "year": 2015,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/xSSc"
-    }
-  ]
+  "refs": {
+    "letterboxd": "xSSc"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Ali Baba and the Forty Thieves",
   "year": 1902,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5LhM"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5LhM"
+  }
 }

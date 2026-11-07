@@ -4,10 +4,7 @@
   "title": "Black Clover: Sword of the Wizard King",
   "year": 2023,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/uAqo"
-    }
-  ]
+  "refs": {
+    "letterboxd": "uAqo"
+  }
 }

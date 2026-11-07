@@ -4,10 +4,7 @@
   "title": "Anyone But You",
   "year": 2023,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/EzA8"
-    }
-  ]
+  "refs": {
+    "letterboxd": "EzA8"
+  }
 }

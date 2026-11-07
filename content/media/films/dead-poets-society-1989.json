@@ -4,10 +4,7 @@
   "title": "Dead Poets Society",
   "year": 1989,
   "rating": 4.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2aSg"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2aSg"
+  }
 }

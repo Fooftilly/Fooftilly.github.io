@@ -4,10 +4,7 @@
   "title": "Holes",
   "year": 2003,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/20mE"
-    }
-  ]
+  "refs": {
+    "letterboxd": "20mE"
+  }
 }

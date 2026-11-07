@@ -4,10 +4,7 @@
   "title": "The Kiss",
   "year": 1896,
   "rating": 1.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3i7u"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3i7u"
+  }
 }

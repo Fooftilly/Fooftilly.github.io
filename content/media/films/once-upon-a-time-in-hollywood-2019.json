@@ -4,10 +4,7 @@
   "title": "Once Upon a Time... in Hollywood",
   "year": 2019,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/gH0O"
-    }
-  ]
+  "refs": {
+    "letterboxd": "gH0O"
+  }
 }

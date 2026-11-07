@@ -4,10 +4,7 @@
   "title": "I Love You",
   "year": 1891,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/b9cw"
-    }
-  ]
+  "refs": {
+    "letterboxd": "b9cw"
+  }
 }

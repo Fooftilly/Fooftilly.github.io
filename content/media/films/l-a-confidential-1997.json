@@ -4,10 +4,7 @@
   "title": "L.A. Confidential",
   "year": 1997,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/27oC"
-    }
-  ]
+  "refs": {
+    "letterboxd": "27oC"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Malcolm X",
   "year": 1992,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/27WE"
-    }
-  ]
+  "refs": {
+    "letterboxd": "27WE"
+  }
 }

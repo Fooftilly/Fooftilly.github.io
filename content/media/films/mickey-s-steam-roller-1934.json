@@ -4,10 +4,7 @@
   "title": "Mickey's Steam Roller",
   "year": 1934,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4nEA"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4nEA"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Outer Space",
   "year": 1999,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3IOY"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3IOY"
+  }
 }

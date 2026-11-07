@@ -4,10 +4,7 @@
   "title": "Downfall",
   "year": 2021,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/Ad3o"
-    }
-  ]
+  "refs": {
+    "letterboxd": "Ad3o"
+  }
 }

@@ -10,6 +10,7 @@ import json
 import re
 import subprocess
 import unicodedata
+from urllib.parse import quote
 
 
 KINDS = {"music": "Music", "films": "Films", "tv": "TV series"}
@@ -210,6 +211,44 @@ def visible_nested(text, kind, value):
             "rating_aria": nested_rating_aria(kind, value)}
 
 
+def source_media_links(record):
+    """Independently reconstruct compact URL references for static parity."""
+    values = []
+    refs = record.get("refs", {})
+    order = ("imdb", "tmdb", "wikipedia", "letterboxd", "musicbrainz")
+    if set(refs).difference(order):
+        raise AssertionError("Unsupported compact reference platform")
+    for platform in order:
+        if platform not in refs:
+            continue
+        identity = refs[platform]
+        if not isinstance(identity, str):
+            raise AssertionError("Invalid source media reference ID")
+        if platform == "imdb" and re.fullmatch(r"tt[0-9]{7,}", identity):
+            url, label = f"https://www.imdb.com/title/{identity}/", "IMDb"
+        elif platform == "tmdb" and re.fullmatch(r"(movie|tv):[1-9][0-9]*", identity):
+            category, number = identity.split(":")
+            url, label = f"https://www.themoviedb.org/{category}/{number}", "TMDb"
+        elif platform == "wikipedia" and re.fullmatch(
+                r"[a-z]{2,12}:[^\\/?#\x00-\x1f]{1,220}", identity):
+            language, title = identity.split(":", 1)
+            url = f"https://{language}.wikipedia.org/wiki/" + quote(
+                title, safe="-_.!~*'()")
+            label = "Wikipedia"
+        elif platform == "letterboxd" and re.fullmatch(r"[A-Za-z0-9]{2,16}", identity):
+            url, label = f"https://boxd.it/{identity}", "Letterboxd"
+        elif platform == "musicbrainz" and re.fullmatch(
+                r"[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}", identity):
+            url, label = "https://musicbrainz.org/release-group/" + identity.lower(), "MusicBrainz"
+        else:
+            raise AssertionError("Invalid compact media reference")
+        values.append({"label": label, "url": url})
+    values.extend(record.get("links", []))
+    if len({entry["url"] for entry in values}) != len(values):
+        raise AssertionError("Duplicate media reference URL")
+    return values
+
+
 def expected_row(record, canonical_urls=None):
     if record["schema"] != 1 or record["kind"] not in KINDS:
         raise AssertionError("Invalid media record schema")
@@ -219,7 +258,7 @@ def expected_row(record, canonical_urls=None):
         or not (0.5 <= rating <= 5) or (rating * 2) % 1
     ):
         raise AssertionError("Invalid rating in public record")
-    links = record.get("links", [])
+    links = source_media_links(record)
     tracks = [normalized_nested_record(t) for t in record.get("tracks", [])]
     seasons = [normalized_nested_record(s) for s in record.get("seasons", [])]
     episodes = [(s["number"], normalized_nested_record(e))
@@ -303,7 +342,7 @@ def verify_media_output(root: Path):
         }, ensure_ascii=False, sort_keys=True) for row in parsed.rows)
         # Batch URL canonicalization once per catalog, not once per record.
         source_urls = list(dict.fromkeys(
-            link["url"] for data in records for link in data.get("links", [])
+            link["url"] for data in records for link in source_media_links(data)
         ))
         canonical_urls = normalize_external_urls(source_urls)
         wanted = Counter(json.dumps(expected_row(data, canonical_urls),

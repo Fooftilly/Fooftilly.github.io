@@ -4,10 +4,7 @@
   "title": "Doctor Who: The Last Day",
   "year": 2013,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/eSWK"
-    }
-  ]
+  "refs": {
+    "letterboxd": "eSWK"
+  }
 }

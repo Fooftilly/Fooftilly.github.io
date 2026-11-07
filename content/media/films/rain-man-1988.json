@@ -4,10 +4,7 @@
   "title": "Rain Man",
   "year": 1988,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2avw"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2avw"
+  }
 }

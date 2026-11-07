@@ -4,10 +4,7 @@
   "title": "The Blues Brothers",
   "year": 1980,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2adi"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2adi"
+  }
 }

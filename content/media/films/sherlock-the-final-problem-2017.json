@@ -4,10 +4,7 @@
   "title": "Sherlock: The Final Problem",
   "year": 2017,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/fl5A"
-    }
-  ]
+  "refs": {
+    "letterboxd": "fl5A"
+  }
 }

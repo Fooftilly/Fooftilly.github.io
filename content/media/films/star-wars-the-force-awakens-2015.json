@@ -4,10 +4,7 @@
   "title": "Star Wars: The Force Awakens",
   "year": 2015,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4vru"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4vru"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "How to Train Your Dragon: Homecoming",
   "year": 2019,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/nGvK"
-    }
-  ]
+  "refs": {
+    "letterboxd": "nGvK"
+  }
 }

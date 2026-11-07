@@ -4,10 +4,7 @@
   "title": "The Karnival Kid",
   "year": 1929,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3oXw"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3oXw"
+  }
 }

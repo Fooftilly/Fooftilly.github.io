@@ -4,10 +4,7 @@
   "title": "Teenage Mutant Ninja Turtles",
   "year": 2014,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3oAs"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3oAs"
+  }
 }

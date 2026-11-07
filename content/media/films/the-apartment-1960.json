@@ -4,10 +4,7 @@
   "title": "The Apartment",
   "year": 1960,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2aGE"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2aGE"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Caravane de chameaux",
   "year": 1897,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/cI3w"
-    }
-  ]
+  "refs": {
+    "letterboxd": "cI3w"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Cordeliers Square",
   "year": 1895,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4bfo"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4bfo"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Amélie",
   "year": 2001,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2aUc"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2aUc"
+  }
 }

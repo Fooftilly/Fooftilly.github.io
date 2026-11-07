@@ -4,10 +4,7 @@
   "title": "Mickey's Orphans",
   "year": 1931,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4lqm"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4lqm"
+  }
 }

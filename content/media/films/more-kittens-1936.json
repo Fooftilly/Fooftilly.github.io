@@ -4,10 +4,7 @@
   "title": "More Kittens",
   "year": 1936,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2gBA"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2gBA"
+  }
 }

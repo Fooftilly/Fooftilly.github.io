@@ -4,10 +4,7 @@
   "title": "Three Palms for Two Punks and a Babe",
   "year": 1998,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3GXE"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3GXE"
+  }
 }

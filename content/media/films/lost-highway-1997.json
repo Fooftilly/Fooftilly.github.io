@@ -4,10 +4,7 @@
   "title": "Lost Highway",
   "year": 1997,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/29Wc"
-    }
-  ]
+  "refs": {
+    "letterboxd": "29Wc"
+  }
 }

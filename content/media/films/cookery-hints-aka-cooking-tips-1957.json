@@ -4,10 +4,7 @@
   "title": "Cookery Hints AKA Cooking Tips",
   "year": 1957,
   "rating": 1.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/ofCw"
-    }
-  ]
+  "refs": {
+    "letterboxd": "ofCw"
+  }
 }

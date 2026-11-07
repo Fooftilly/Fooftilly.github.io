@@ -4,10 +4,7 @@
   "title": "Leisurely Pedestrians, Open Topped Buses and Hansom Cabs with Trotting Horses",
   "year": 1889,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1hbw"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1hbw"
+  }
 }

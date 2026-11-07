@@ -4,10 +4,7 @@
   "title": "Kiss, Kiss, But Don't Lose Your Head",
   "year": 1981,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/sC2"
-    }
-  ]
+  "refs": {
+    "letterboxd": "sC2"
+  }
 }

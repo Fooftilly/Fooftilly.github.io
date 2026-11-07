@@ -4,10 +4,7 @@
   "title": "Captain America: The First Avenger",
   "year": 2011,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/28b0"
-    }
-  ]
+  "refs": {
+    "letterboxd": "28b0"
+  }
 }

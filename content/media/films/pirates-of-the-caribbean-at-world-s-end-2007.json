@@ -4,10 +4,7 @@
   "title": "Pirates of the Caribbean: At World's End",
   "year": 2007,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2aGu"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2aGu"
+  }
 }

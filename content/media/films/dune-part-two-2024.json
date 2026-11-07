@@ -4,10 +4,7 @@
   "title": "Dune: Part Two",
   "year": 2024,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/pUfA"
-    }
-  ]
+  "refs": {
+    "letterboxd": "pUfA"
+  }
 }

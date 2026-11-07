@@ -4,10 +4,7 @@
   "title": "The Circus",
   "year": 1920,
   "rating": 1.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/9oJm"
-    }
-  ]
+  "refs": {
+    "letterboxd": "9oJm"
+  }
 }

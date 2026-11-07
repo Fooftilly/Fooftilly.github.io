@@ -4,10 +4,7 @@
   "title": "Kill Bill: Vol. 1",
   "year": 2003,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/70w"
-    }
-  ]
+  "refs": {
+    "letterboxd": "70w"
+  }
 }

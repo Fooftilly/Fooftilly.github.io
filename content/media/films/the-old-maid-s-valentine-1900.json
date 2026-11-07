@@ -4,10 +4,7 @@
   "title": "The Old Maid's Valentine",
   "year": 1900,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4AoK"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4AoK"
+  }
 }

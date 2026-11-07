@@ -4,10 +4,7 @@
   "title": "Naruto the Movie: Legend of the Stone of Gelel",
   "year": 2005,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1Jvk"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1Jvk"
+  }
 }

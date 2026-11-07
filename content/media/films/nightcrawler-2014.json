@@ -4,10 +4,7 @@
   "title": "Nightcrawler",
   "year": 2014,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/780m"
-    }
-  ]
+  "refs": {
+    "letterboxd": "780m"
+  }
 }

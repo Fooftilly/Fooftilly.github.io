@@ -4,10 +4,7 @@
   "title": "Danse serpentine (Annabelle)",
   "year": 1895,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4Bl8"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4Bl8"
+  }
 }

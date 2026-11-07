@@ -4,10 +4,7 @@
   "title": "Bottlemen",
   "year": 2023,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/H6sg"
-    }
-  ]
+  "refs": {
+    "letterboxd": "H6sg"
+  }
 }

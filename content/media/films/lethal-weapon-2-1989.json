@@ -4,10 +4,7 @@
   "title": "Lethal Weapon 2",
   "year": 1989,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/29dQ"
-    }
-  ]
+  "refs": {
+    "letterboxd": "29dQ"
+  }
 }

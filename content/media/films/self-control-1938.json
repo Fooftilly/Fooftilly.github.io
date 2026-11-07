@@ -4,10 +4,7 @@
   "title": "Self Control",
   "year": 1938,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2bGq"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2bGq"
+  }
 }

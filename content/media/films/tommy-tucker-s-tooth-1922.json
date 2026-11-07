@@ -4,10 +4,7 @@
   "title": "Tommy Tucker's Tooth",
   "year": 1922,
   "rating": 1.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5ocY"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5ocY"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Sea Scouts",
   "year": 1939,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2IUq"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2IUq"
+  }
 }

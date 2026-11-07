@@ -4,10 +4,7 @@
   "title": "Star Wars: Episode I – The Phantom Menace",
   "year": 1999,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/27Vc"
-    }
-  ]
+  "refs": {
+    "letterboxd": "27Vc"
+  }
 }

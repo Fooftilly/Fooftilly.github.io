@@ -4,10 +4,7 @@
   "title": "Love, Death & Robots: Bad Travelling",
   "year": 2022,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/BykM"
-    }
-  ]
+  "refs": {
+    "letterboxd": "BykM"
+  }
 }

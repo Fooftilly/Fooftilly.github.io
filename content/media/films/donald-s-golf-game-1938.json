@@ -4,10 +4,7 @@
   "title": "Donald's Golf Game",
   "year": 1938,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/rVi"
-    }
-  ]
+  "refs": {
+    "letterboxd": "rVi"
+  }
 }

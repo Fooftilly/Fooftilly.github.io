@@ -4,10 +4,7 @@
   "title": "Enemy of the State",
   "year": 1998,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1XME"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1XME"
+  }
 }

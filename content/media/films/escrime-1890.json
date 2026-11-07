@@ -4,10 +4,7 @@
   "title": "Escrime",
   "year": 1890,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/mWCA"
-    }
-  ]
+  "refs": {
+    "letterboxd": "mWCA"
+  }
 }

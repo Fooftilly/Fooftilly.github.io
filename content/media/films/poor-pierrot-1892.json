@@ -4,10 +4,7 @@
   "title": "Poor Pierrot",
   "year": 1892,
   "rating": 1.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/375i"
-    }
-  ]
+  "refs": {
+    "letterboxd": "375i"
+  }
 }

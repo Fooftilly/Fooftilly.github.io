@@ -4,10 +4,7 @@
   "title": "Style Wars",
   "year": 1983,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1n9w"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1n9w"
+  }
 }

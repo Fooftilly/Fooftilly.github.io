@@ -4,10 +4,7 @@
   "title": "The Man Without a Past",
   "year": 2002,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/212g"
-    }
-  ]
+  "refs": {
+    "letterboxd": "212g"
+  }
 }

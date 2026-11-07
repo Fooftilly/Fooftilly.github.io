@@ -4,10 +4,7 @@
   "title": "Percy Jackson & the Olympians: The Lightning Thief",
   "year": 2010,
   "rating": 0.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1gJi"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1gJi"
+  }
 }

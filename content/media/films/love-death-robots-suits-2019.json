@@ -4,10 +4,7 @@
   "title": "Love, Death & Robots: Suits",
   "year": 2019,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/lFOM"
-    }
-  ]
+  "refs": {
+    "letterboxd": "lFOM"
+  }
 }

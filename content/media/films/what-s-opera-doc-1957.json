@@ -4,10 +4,7 @@
   "title": "What's Opera, Doc?",
   "year": 1957,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/x4Y"
-    }
-  ]
+  "refs": {
+    "letterboxd": "x4Y"
+  }
 }

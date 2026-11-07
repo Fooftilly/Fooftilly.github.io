@@ -4,10 +4,7 @@
   "title": "Alice on the Farm",
   "year": 1926,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/14nE"
-    }
-  ]
+  "refs": {
+    "letterboxd": "14nE"
+  }
 }

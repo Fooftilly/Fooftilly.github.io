@@ -4,10 +4,7 @@
   "title": "Chamonix: the Mer de Glace. Descent.",
   "year": 1900,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/cHVs"
-    }
-  ]
+  "refs": {
+    "letterboxd": "cHVs"
+  }
 }

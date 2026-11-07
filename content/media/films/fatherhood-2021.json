@@ -4,10 +4,7 @@
   "title": "Fatherhood",
   "year": 2021,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/mq4w"
-    }
-  ]
+  "refs": {
+    "letterboxd": "mq4w"
+  }
 }

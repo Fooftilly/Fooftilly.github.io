@@ -4,10 +4,7 @@
   "title": "Poison",
   "year": 2023,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/Is7Q"
-    }
-  ]
+  "refs": {
+    "letterboxd": "Is7Q"
+  }
 }

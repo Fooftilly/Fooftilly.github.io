@@ -4,10 +4,7 @@
   "title": "Typhoid Sufferers",
   "year": 1963,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/m6ZW"
-    }
-  ]
+  "refs": {
+    "letterboxd": "m6ZW"
+  }
 }

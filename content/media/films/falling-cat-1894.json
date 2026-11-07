@@ -4,10 +4,7 @@
   "title": "Falling Cat",
   "year": 1894,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4R8a"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4R8a"
+  }
 }

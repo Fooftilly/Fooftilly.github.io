@@ -4,10 +4,7 @@
   "title": "Love, Death & Robots: The Very Pulse of the Machine",
   "year": 2022,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/AW5O"
-    }
-  ]
+  "refs": {
+    "letterboxd": "AW5O"
+  }
 }

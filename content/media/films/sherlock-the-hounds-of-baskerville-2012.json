@@ -4,10 +4,7 @@
   "title": "Sherlock: The Hounds of Baskerville",
   "year": 2012,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/mwHu"
-    }
-  ]
+  "refs": {
+    "letterboxd": "mwHu"
+  }
 }

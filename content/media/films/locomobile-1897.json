@@ -4,10 +4,7 @@
   "title": "Locomobile",
   "year": 1897,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/cI4a"
-    }
-  ]
+  "refs": {
+    "letterboxd": "cI4a"
+  }
 }

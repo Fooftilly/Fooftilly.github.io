@@ -4,10 +4,7 @@
   "title": "The Clown's Little Brother",
   "year": 1920,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5nPg"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5nPg"
+  }
 }

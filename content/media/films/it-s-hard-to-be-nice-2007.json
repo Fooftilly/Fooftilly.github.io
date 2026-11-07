@@ -4,10 +4,7 @@
   "title": "It's Hard to Be Nice",
   "year": 2007,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/36Aa"
-    }
-  ]
+  "refs": {
+    "letterboxd": "36Aa"
+  }
 }

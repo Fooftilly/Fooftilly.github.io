@@ -4,10 +4,7 @@
   "title": "The Bourne Ultimatum",
   "year": 2007,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/26Eu"
-    }
-  ]
+  "refs": {
+    "letterboxd": "26Eu"
+  }
 }

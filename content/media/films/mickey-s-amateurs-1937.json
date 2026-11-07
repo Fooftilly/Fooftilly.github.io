@@ -4,10 +4,7 @@
   "title": "Mickey's Amateurs",
   "year": 1937,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/qtM"
-    }
-  ]
+  "refs": {
+    "letterboxd": "qtM"
+  }
 }

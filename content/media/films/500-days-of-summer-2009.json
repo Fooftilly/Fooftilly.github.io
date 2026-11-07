@@ -4,10 +4,7 @@
   "title": "(500) Days of Summer",
   "year": 2009,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1EmM"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1EmM"
+  }
 }

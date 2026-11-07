@@ -4,10 +4,7 @@
   "title": "Procession of Baby Carriages at a Paris Nursery",
   "year": 1899,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5SYe"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5SYe"
+  }
 }

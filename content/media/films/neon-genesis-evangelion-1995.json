@@ -4,10 +4,7 @@
   "title": "Neon Genesis Evangelion",
   "year": 1995,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/ptEI"
-    }
-  ]
+  "refs": {
+    "letterboxd": "ptEI"
+  }
 }

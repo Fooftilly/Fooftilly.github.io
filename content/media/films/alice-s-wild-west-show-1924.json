@@ -4,10 +4,7 @@
   "title": "Alice's Wild West Show",
   "year": 1924,
   "rating": 1.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4M8k"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4M8k"
+  }
 }

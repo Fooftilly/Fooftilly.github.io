@@ -4,10 +4,7 @@
   "title": "Logistics",
   "year": 2011,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/eSQC"
-    }
-  ]
+  "refs": {
+    "letterboxd": "eSQC"
+  }
 }

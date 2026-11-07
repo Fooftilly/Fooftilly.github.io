@@ -4,10 +4,7 @@
   "title": "E.T. the Extra-Terrestrial",
   "year": 1982,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2a1G"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2a1G"
+  }
 }

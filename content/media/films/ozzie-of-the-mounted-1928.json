@@ -4,10 +4,7 @@
   "title": "Ozzie of the Mounted",
   "year": 1928,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5K5K"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5K5K"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "John Wick: Chapter 2",
   "year": 2017,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/ayGu"
-    }
-  ]
+  "refs": {
+    "letterboxd": "ayGu"
+  }
 }

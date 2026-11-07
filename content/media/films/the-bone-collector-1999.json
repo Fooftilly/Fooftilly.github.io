@@ -4,10 +4,7 @@
   "title": "The Bone Collector",
   "year": 1999,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1Yzw"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1Yzw"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "A Simple Coiffure",
   "year": 1920,
   "rating": 1.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/he8w"
-    }
-  ]
+  "refs": {
+    "letterboxd": "he8w"
+  }
 }

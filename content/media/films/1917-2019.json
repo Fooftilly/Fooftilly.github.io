@@ -4,10 +4,7 @@
   "title": "1917",
   "year": 2019,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/jj4y"
-    }
-  ]
+  "refs": {
+    "letterboxd": "jj4y"
+  }
 }

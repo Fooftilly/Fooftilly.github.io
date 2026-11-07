@@ -4,10 +4,7 @@
   "title": "The Acrobatic Fly",
   "year": 1910,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5sMc"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5sMc"
+  }
 }

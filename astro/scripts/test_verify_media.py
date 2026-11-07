@@ -4,7 +4,7 @@ import json
 import tempfile
 import unittest
 from verify_media import (MediaParser, normalize_external_url,
-                          normalize_external_urls, verify_media_output)
+                          normalize_external_urls, source_media_links, verify_media_output)
 
 
 PAGES = {"music": "Music", "films": "Films", "tv": "TV series"}
@@ -90,6 +90,31 @@ class MediaOutputTests(unittest.TestCase):
             page.write_text(broken, encoding="utf-8")
             with self.assertRaisesRegex(AssertionError, "rendered data mismatch"):
                 verify_media_output(self.astro)
+
+    def test_compact_ids_expand_independently_to_exact_public_urls(self):
+        source = {"refs": {
+            "imdb": "tt0050083", "tmdb": "movie:389",
+            "wikipedia": "en:12_Angry_Men", "letterboxd": "3bf2",
+            "musicbrainz": "05affa96-5959-32da-8d75-1c9eb985ca59",
+        }, "links": [{"label": "Criterion", "url": "https://www.criterion.com/films/example"}]}
+        self.assertEqual(source_media_links(source), [
+            {"label": "IMDb", "url": "https://www.imdb.com/title/tt0050083/"},
+            {"label": "TMDb", "url": "https://www.themoviedb.org/movie/389"},
+            {"label": "Wikipedia", "url": "https://en.wikipedia.org/wiki/12_Angry_Men"},
+            {"label": "Letterboxd", "url": "https://boxd.it/3bf2"},
+            {"label": "MusicBrainz",
+             "url": "https://musicbrainz.org/release-group/05affa96-5959-32da-8d75-1c9eb985ca59"},
+            {"label": "Criterion", "url": "https://www.criterion.com/films/example"},
+        ])
+        for invalid in [
+            {"refs": {"imdb": "wrong"}},
+            {"refs": {"tmdb": "movie:0"}},
+            {"refs": {"trakt": "123"}},
+            {"refs": {"wikipedia": "en:../wrong"}},
+            {"refs": {"musicbrainz": "not-uuid"}},
+        ]:
+            with self.subTest(invalid=invalid), self.assertRaises(AssertionError):
+                source_media_links(invalid)
 
     def test_empty_collections_are_accepted_without_inventing_ratings(self):
         self.assertEqual(verify_media_output(self.astro), 0)

@@ -4,10 +4,7 @@
   "title": "A Film Johnnie",
   "year": 1914,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/wJw"
-    }
-  ]
+  "refs": {
+    "letterboxd": "wJw"
+  }
 }

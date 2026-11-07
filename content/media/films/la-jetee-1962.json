@@ -4,10 +4,7 @@
   "title": "La Jetée",
   "year": 1962,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/29Sk"
-    }
-  ]
+  "refs": {
+    "letterboxd": "29Sk"
+  }
 }

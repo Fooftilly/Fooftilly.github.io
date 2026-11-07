@@ -4,10 +4,7 @@
   "title": "Being John Malkovich",
   "year": 1999,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2ahu"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2ahu"
+  }
 }

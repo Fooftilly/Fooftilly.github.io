@@ -4,10 +4,7 @@
   "title": "Tight Skin",
   "year": 1982,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/CVy"
-    }
-  ]
+  "refs": {
+    "letterboxd": "CVy"
+  }
 }

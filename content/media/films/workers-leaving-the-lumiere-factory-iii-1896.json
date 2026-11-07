@@ -4,10 +4,7 @@
   "title": "Workers Leaving the Lumière Factory, [III]",
   "year": 1896,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/ardg"
-    }
-  ]
+  "refs": {
+    "letterboxd": "ardg"
+  }
 }

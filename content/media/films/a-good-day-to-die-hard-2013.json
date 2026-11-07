@@ -4,10 +4,7 @@
   "title": "A Good Day to Die Hard",
   "year": 2013,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/JrK"
-    }
-  ]
+  "refs": {
+    "letterboxd": "JrK"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "The Pursuit of Happyness",
   "year": 2006,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/28PE"
-    }
-  ]
+  "refs": {
+    "letterboxd": "28PE"
+  }
 }

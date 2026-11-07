@@ -4,10 +4,7 @@
   "title": "The Kremos: Perilous Jumps",
   "year": 1899,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5SRC"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5SRC"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Sugar Loaf",
   "year": 1991,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/CcvA"
-    }
-  ]
+  "refs": {
+    "letterboxd": "CcvA"
+  }
 }

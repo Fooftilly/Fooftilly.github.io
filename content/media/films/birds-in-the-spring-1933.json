@@ -4,10 +4,7 @@
   "title": "Birds in the Spring",
   "year": 1933,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/7eS"
-    }
-  ]
+  "refs": {
+    "letterboxd": "7eS"
+  }
 }

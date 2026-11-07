@@ -4,10 +4,7 @@
   "title": "Dark Star",
   "year": 1974,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/28Ow"
-    }
-  ]
+  "refs": {
+    "letterboxd": "28Ow"
+  }
 }

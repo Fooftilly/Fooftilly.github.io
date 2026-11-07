@@ -4,10 +4,7 @@
   "title": "Mother Pluto",
   "year": 1936,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3Gw4"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3Gw4"
+  }
 }

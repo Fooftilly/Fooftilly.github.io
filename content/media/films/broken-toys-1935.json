@@ -4,10 +4,7 @@
   "title": "Broken Toys",
   "year": 1935,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/7ee"
-    }
-  ]
+  "refs": {
+    "letterboxd": "7ee"
+  }
 }

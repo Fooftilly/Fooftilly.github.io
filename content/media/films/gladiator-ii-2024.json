@@ -4,10 +4,7 @@
   "title": "Gladiator II",
   "year": 2024,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/kqQQ"
-    }
-  ]
+  "refs": {
+    "letterboxd": "kqQQ"
+  }
 }

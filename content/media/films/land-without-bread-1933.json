@@ -4,10 +4,7 @@
   "title": "Land Without Bread",
   "year": 1933,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2bau"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2bau"
+  }
 }

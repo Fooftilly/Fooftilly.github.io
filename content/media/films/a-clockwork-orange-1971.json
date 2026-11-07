@@ -4,10 +4,7 @@
   "title": "A Clockwork Orange",
   "year": 1971,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2aVE"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2aVE"
+  }
 }

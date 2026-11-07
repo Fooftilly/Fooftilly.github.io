@@ -4,10 +4,7 @@
   "title": "The Cookie Carnival",
   "year": 1935,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3GyE"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3GyE"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Copycat",
   "year": 1995,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/28ga"
-    }
-  ]
+  "refs": {
+    "letterboxd": "28ga"
+  }
 }

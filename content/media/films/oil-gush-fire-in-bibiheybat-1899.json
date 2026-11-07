@@ -4,10 +4,7 @@
   "title": "Oil Gush Fire in Bibiheybat",
   "year": 1899,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/6eME"
-    }
-  ]
+  "refs": {
+    "letterboxd": "6eME"
+  }
 }

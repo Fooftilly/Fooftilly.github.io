@@ -4,10 +4,7 @@
   "title": "Pity the Blind, No. 2",
   "year": 1904,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5UcG"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5UcG"
+  }
 }

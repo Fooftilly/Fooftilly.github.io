@@ -4,10 +4,7 @@
   "title": "Blade Runner",
   "year": 1982,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2bcA"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2bcA"
+  }
 }

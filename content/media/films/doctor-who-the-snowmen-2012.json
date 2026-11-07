@@ -4,10 +4,7 @@
   "title": "Doctor Who: The Snowmen",
   "year": 2012,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/cNqg"
-    }
-  ]
+  "refs": {
+    "letterboxd": "cNqg"
+  }
 }

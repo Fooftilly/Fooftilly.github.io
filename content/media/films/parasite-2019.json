@@ -4,10 +4,7 @@
   "title": "Parasite",
   "year": 2019,
   "rating": 4.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/hTha"
-    }
-  ]
+  "refs": {
+    "letterboxd": "hTha"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Zamfir's Zona",
   "year": 2002,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/AtM"
-    }
-  ]
+  "refs": {
+    "letterboxd": "AtM"
+  }
 }

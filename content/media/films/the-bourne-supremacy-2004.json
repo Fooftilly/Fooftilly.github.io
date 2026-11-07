@@ -4,10 +4,7 @@
   "title": "The Bourne Supremacy",
   "year": 2004,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/26EE"
-    }
-  ]
+  "refs": {
+    "letterboxd": "26EE"
+  }
 }

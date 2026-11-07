@@ -4,10 +4,7 @@
   "title": "Report",
   "year": 1967,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/378m"
-    }
-  ]
+  "refs": {
+    "letterboxd": "378m"
+  }
 }

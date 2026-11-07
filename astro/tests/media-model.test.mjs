@@ -2,7 +2,8 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   validateMediaRecord, mediaSlug, mediaPath, composeMediaDraft,
-  sameMedia, githubMediaEditorUrl, mediaEntryId, assertUniqueMediaCatalog,
+  sameMedia, githubMediaEditorUrl, mediaEntryId, assertUniqueMediaCatalog, mediaSourceLabel,
+  mediaReferenceUrl, mediaReferenceFromUrl, mediaSourceLinks, compactMediaLinks,
 } from "../src/lib/media-model.ts";
 
 const film = {
@@ -130,6 +131,92 @@ test("multiple media items may share a generic external reference URL", () => {
     record("content/media/music/first-album.json", "First album"),
     record("content/media/music/second-album.json", "Second album"),
   ]));
+});
+
+test("media link buttons use recognized provider labels without guessing destinations",()=>{
+  const cases=[
+    ["https://www.imdb.com/title/tt0050083/","IMDb"],
+    ["https://www.themoviedb.org/movie/389","TMDb"],
+    ["https://en.wikipedia.org/wiki/12_Angry_Men","Wikipedia"],
+    ["https://www.bfi.org.uk/film/example","BFI"],
+    ["https://www.criterionchannel.com/films/abc","Criterion"],
+    ["https://www.criterion.com/films/abc","Criterion"],
+    ["https://boxd.it/3bf2","Letterboxd"],
+    ["https://musicbrainz.org/release-group/abc","MusicBrainz"],
+    ["https://artist.bandcamp.com/album/example","Bandcamp"],
+  ];
+  for(const [url,expected] of cases){
+    assert.equal(mediaSourceLabel(url,"Other source"),expected);
+  }
+  assert.equal(mediaSourceLabel("https://example.org/film/one","Other source"),"Other source");
+  assert.equal(mediaSourceLabel("https://imdb.com.evil.example/film","External"),"External");
+  assert.throws(()=>validateMediaRecord({...film,links:[
+    {label:"Trakt",url:"https://trakt.tv/movies/something"}]}),/Trakt links are not supported/);
+  assert.throws(()=>validateMediaRecord({...film,links:[
+    {label:"Trakt",url:"https://api.trakt.tv/movies/something"}]}),/Trakt links are not supported/);
+});
+
+test("compact direct references expand to exact source URL and label",()=>{
+  const samples=[
+    ["imdb","tt0050083","https://www.imdb.com/title/tt0050083/","IMDb"],
+    ["tmdb","movie:389","https://www.themoviedb.org/movie/389","TMDb"],
+    ["tmdb","tv:1399","https://www.themoviedb.org/tv/1399","TMDb"],
+    ["wikipedia","en:12_Angry_Men","https://en.wikipedia.org/wiki/12_Angry_Men","Wikipedia"],
+    ["letterboxd","29BI","https://boxd.it/29BI","Letterboxd"],
+    ["musicbrainz","05affa96-5959-32da-8d75-1c9eb985ca59",
+      "https://musicbrainz.org/release-group/05affa96-5959-32da-8d75-1c9eb985ca59","MusicBrainz"],
+  ];
+  for(const [platform,id,url,label] of samples){
+    assert.equal(mediaReferenceUrl(platform,id),url);
+    assert.deepEqual(mediaReferenceFromUrl(url),{platform,id});
+    const record=validateMediaRecord({schema:1,kind:"films",title:"Test",refs:{[platform]:id}});
+    assert.deepEqual(mediaSourceLinks(record),[{label,url}]);
+  }
+  const draft=composeMediaDraft({schema:1,kind:"films",title:"Compact",
+    refs:{imdb:"tt0050083"},links:[{label:"BFI",url:"https://www.bfi.org.uk/film/real"}]},[]);
+  assert.deepEqual(JSON.parse(draft.json).refs,{imdb:"tt0050083"});
+  assert.equal(mediaSourceLinks(JSON.parse(draft.json)).length,2);
+  assert.deepEqual(compactMediaLinks([
+    {label:"IMDB link",url:"https://www.imdb.com/title/tt0050083/"},
+    {label:"Other",url:"https://example.org/review"},
+  ]),{refs:{imdb:"tt0050083"},links:[{label:"Other",url:"https://example.org/review"}]});
+});
+test("invalid or lossy platform identifiers never generate untrusted links",()=>{
+  for(const [platform,id] of [
+    ["imdb","123"],["imdb","tt123"],
+    ["tmdb","movie:0"],["tmdb","movie:2/evil"],["tmdb","person:1"],
+    ["letterboxd","../bad"],["musicbrainz","not-a-uuid"],
+    ["wikipedia","en:../evil"],["wikipedia","en:bad/name"],
+  ]){
+    assert.throws(()=>mediaReferenceUrl(platform,id),/Invalid/);
+  }
+  for(const url of [
+    "https://www.imdb.com/title/tt0050083/?ref_=homepage",
+    "https://www.themoviedb.org/movie/389/cast",
+    "https://imdb.com.evil.example/title/tt0050083/",
+    "https://en.wikipedia.org/wiki/Title#section",
+    "http://boxd.it/2auI",
+    "http://www.imdb.com/title/tt0050083/",
+    "https://www.criterion.com/films/example",
+  ])assert.equal(mediaReferenceFromUrl(url),null);
+  const valid={schema:1,kind:"films",title:"Valid"};
+  assert.throws(()=>validateMediaRecord({...valid,refs:{imdb:"javascript:evil"}}),/Invalid/);
+  assert.throws(()=>validateMediaRecord({...valid,refs:{trakt:"1"}}),/Unexpected media refs field/);
+  assert.throws(()=>validateMediaRecord({...valid,refs:{imdb:"tt0050083"},
+    links:[{label:"IMDb",url:"https://www.imdb.com/title/tt0050083/"}]}),/Duplicate external URL/);
+});
+test("projected existing compact refs prevent duplicate drafts and preserve HTTP URLs",()=>{
+  const stored={schema:1,kind:"films",title:"Original",year:2001,
+    refs:{imdb:"tt0050083"}};
+  const projected={path:"content/media/films/original-2001.json",
+    kind:stored.kind,title:stored.title,year:stored.year,refs:stored.refs};
+  const variant=composeMediaDraft({schema:1,kind:"films",title:"Alternate",year:2002,
+    refs:{imdb:"tt0050083"}},[projected]);
+  assert.deepEqual(variant.duplicatePaths,[projected.path]);
+  const http={label:"Letterboxd",url:"http://boxd.it/29BI"};
+  assert.deepEqual(compactMediaLinks([http]),{links:[http]});
+  assert.deepEqual(mediaSourceLinks(validateMediaRecord({schema:1,kind:"films",
+    title:"HTTP",links:[http]})),[http]);
 });
 
 test("multiline public notes are preserved for real media reviews", () => {

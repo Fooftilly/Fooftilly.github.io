@@ -4,10 +4,7 @@
   "title": "Doodlebug",
   "year": 1997,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/TZC"
-    }
-  ]
+  "refs": {
+    "letterboxd": "TZC"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "28 Days Later",
   "year": 2002,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2aXU"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2aXU"
+  }
 }

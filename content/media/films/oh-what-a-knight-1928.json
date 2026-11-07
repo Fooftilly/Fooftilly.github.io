@@ -4,10 +4,7 @@
   "title": "Oh, What a Knight",
   "year": 1928,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/139G"
-    }
-  ]
+  "refs": {
+    "letterboxd": "139G"
+  }
 }

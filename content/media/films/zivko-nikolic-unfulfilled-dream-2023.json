@@ -4,10 +4,7 @@
   "title": "Živko Nikolić - Unfulfilled Dream",
   "year": 2023,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/JPJq"
-    }
-  ]
+  "refs": {
+    "letterboxd": "JPJq"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "House Comes with a Bird",
   "year": 2022,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/zZiu"
-    }
-  ]
+  "refs": {
+    "letterboxd": "zZiu"
+  }
 }

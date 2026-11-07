@@ -4,10 +4,7 @@
   "title": "Doctor Who: The Christmas Invasion",
   "year": 2005,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/K4ik"
-    }
-  ]
+  "refs": {
+    "letterboxd": "K4ik"
+  }
 }

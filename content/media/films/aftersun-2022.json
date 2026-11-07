@@ -4,10 +4,7 @@
   "title": "Aftersun",
   "year": 2022,
   "rating": 4.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/Arw0"
-    }
-  ]
+  "refs": {
+    "letterboxd": "Arw0"
+  }
 }

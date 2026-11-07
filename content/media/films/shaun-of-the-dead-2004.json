@@ -4,10 +4,7 @@
   "title": "Shaun of the Dead",
   "year": 2004,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/29J8"
-    }
-  ]
+  "refs": {
+    "letterboxd": "29J8"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Three Little Wolves",
   "year": 1936,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3GvA"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3GvA"
+  }
 }

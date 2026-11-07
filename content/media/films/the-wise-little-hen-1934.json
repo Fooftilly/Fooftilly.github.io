@@ -4,10 +4,7 @@
   "title": "The Wise Little Hen",
   "year": 1934,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3dFQ"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3dFQ"
+  }
 }

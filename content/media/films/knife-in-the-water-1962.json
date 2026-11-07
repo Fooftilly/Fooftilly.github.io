@@ -4,10 +4,7 @@
   "title": "Knife in the Water",
   "year": 1962,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1THK"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1THK"
+  }
 }

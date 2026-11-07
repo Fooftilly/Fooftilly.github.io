@@ -4,10 +4,7 @@
   "title": "Aliens Are to Be Blamed for Everything",
   "year": 1991,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/7WpQ"
-    }
-  ]
+  "refs": {
+    "letterboxd": "7WpQ"
+  }
 }

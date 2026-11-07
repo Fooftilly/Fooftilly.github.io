@@ -4,10 +4,7 @@
   "title": "Django Unchained",
   "year": 2012,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2cCk"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2cCk"
+  }
 }

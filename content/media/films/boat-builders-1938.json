@@ -4,10 +4,7 @@
   "title": "Boat Builders",
   "year": 1938,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/7ey"
-    }
-  ]
+  "refs": {
+    "letterboxd": "7ey"
+  }
 }

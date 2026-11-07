@@ -4,10 +4,7 @@
   "title": "Casablanca",
   "year": 1942,
   "rating": 4.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2aG0"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2aG0"
+  }
 }

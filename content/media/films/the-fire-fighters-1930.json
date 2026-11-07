@@ -4,10 +4,7 @@
   "title": "The Fire Fighters",
   "year": 1930,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/54uo"
-    }
-  ]
+  "refs": {
+    "letterboxd": "54uo"
+  }
 }

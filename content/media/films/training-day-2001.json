@@ -4,10 +4,7 @@
   "title": "Training Day",
   "year": 2001,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/27A4"
-    }
-  ]
+  "refs": {
+    "letterboxd": "27A4"
+  }
 }

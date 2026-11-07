@@ -4,10 +4,7 @@
   "title": "Precious Images",
   "year": 1986,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4FkI"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4FkI"
+  }
 }

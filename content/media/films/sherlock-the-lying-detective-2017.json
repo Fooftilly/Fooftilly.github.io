@@ -4,10 +4,7 @@
   "title": "Sherlock: The Lying Detective",
   "year": 2017,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/uBH6"
-    }
-  ]
+  "refs": {
+    "letterboxd": "uBH6"
+  }
 }

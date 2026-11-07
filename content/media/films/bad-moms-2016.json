@@ -4,10 +4,7 @@
   "title": "Bad Moms",
   "year": 2016,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/d5nk"
-    }
-  ]
+  "refs": {
+    "letterboxd": "d5nk"
+  }
 }

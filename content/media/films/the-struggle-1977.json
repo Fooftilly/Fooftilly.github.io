@@ -4,10 +4,7 @@
   "title": "The Struggle",
   "year": 1977,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3SfO"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3SfO"
+  }
 }

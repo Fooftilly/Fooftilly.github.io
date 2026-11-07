@@ -4,10 +4,7 @@
   "title": "Monty Python and the Holy Grail",
   "year": 1975,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/29GI"
-    }
-  ]
+  "refs": {
+    "letterboxd": "29GI"
+  }
 }

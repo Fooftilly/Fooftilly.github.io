@@ -4,10 +4,7 @@
   "title": "Doctor Who: Meanwhile in the TARDIS: Part 1",
   "year": 2010,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/ke5e"
-    }
-  ]
+  "refs": {
+    "letterboxd": "ke5e"
+  }
 }

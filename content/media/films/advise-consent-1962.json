@@ -4,10 +4,7 @@
   "title": "Advise & Consent",
   "year": 1962,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1J2M"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1J2M"
+  }
 }

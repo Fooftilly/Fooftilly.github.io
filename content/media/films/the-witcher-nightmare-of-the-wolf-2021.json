@@ -4,10 +4,7 @@
   "title": "The Witcher: Nightmare of the Wolf",
   "year": 2021,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/oNDI"
-    }
-  ]
+  "refs": {
+    "letterboxd": "oNDI"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Scary Movie 2",
   "year": 2001,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/24Cw"
-    }
-  ]
+  "refs": {
+    "letterboxd": "24Cw"
+  }
 }

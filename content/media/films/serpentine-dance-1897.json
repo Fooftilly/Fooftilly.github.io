@@ -4,10 +4,7 @@
   "title": "Serpentine Dance",
   "year": 1897,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/54si"
-    }
-  ]
+  "refs": {
+    "letterboxd": "54si"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "00:08",
   "year": 2014,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/dAGW"
-    }
-  ]
+  "refs": {
+    "letterboxd": "dAGW"
+  }
 }

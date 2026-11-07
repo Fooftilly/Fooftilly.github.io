@@ -4,10 +4,7 @@
   "title": "Return of the Jedi",
   "year": 1983,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/27Vm"
-    }
-  ]
+  "refs": {
+    "letterboxd": "27Vm"
+  }
 }

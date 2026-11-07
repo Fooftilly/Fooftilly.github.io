@@ -4,10 +4,7 @@
   "title": "Ivan's Childhood",
   "year": 1962,
   "rating": 4.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1j6y"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1j6y"
+  }
 }

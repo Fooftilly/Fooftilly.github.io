@@ -4,10 +4,7 @@
   "title": "The Plowboy",
   "year": 1929,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4SEc"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4SEc"
+  }
 }

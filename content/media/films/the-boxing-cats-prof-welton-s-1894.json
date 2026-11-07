@@ -4,10 +4,7 @@
   "title": "The Boxing Cats (Prof. Welton's)",
   "year": 1894,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4ZWW"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4ZWW"
+  }
 }

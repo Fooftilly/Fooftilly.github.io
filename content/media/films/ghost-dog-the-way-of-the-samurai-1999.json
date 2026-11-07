@@ -4,10 +4,7 @@
   "title": "Ghost Dog: The Way of the Samurai",
   "year": 1999,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/23Ne"
-    }
-  ]
+  "refs": {
+    "letterboxd": "23Ne"
+  }
 }

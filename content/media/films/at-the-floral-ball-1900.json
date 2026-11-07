@@ -4,10 +4,7 @@
   "title": "At the Floral Ball",
   "year": 1900,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3YxY"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3YxY"
+  }
 }

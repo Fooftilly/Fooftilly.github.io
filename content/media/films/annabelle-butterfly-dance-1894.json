@@ -4,10 +4,7 @@
   "title": "Annabelle Butterfly Dance",
   "year": 1894,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3zmG"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3zmG"
+  }
 }

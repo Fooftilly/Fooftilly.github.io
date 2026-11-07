@@ -4,10 +4,7 @@
   "title": "The Coquettish Mantilla - And How To Wear It",
   "year": 1922,
   "rating": 1.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/xfPy"
-    }
-  ]
+  "refs": {
+    "letterboxd": "xfPy"
+  }
 }

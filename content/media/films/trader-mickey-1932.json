@@ -4,10 +4,7 @@
   "title": "Trader Mickey",
   "year": 1932,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4UGu"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4UGu"
+  }
 }

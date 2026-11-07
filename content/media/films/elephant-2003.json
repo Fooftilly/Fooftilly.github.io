@@ -4,10 +4,7 @@
   "title": "Elephant",
   "year": 2003,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/287i"
-    }
-  ]
+  "refs": {
+    "letterboxd": "287i"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Tenet",
   "year": 2020,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/leq4"
-    }
-  ]
+  "refs": {
+    "letterboxd": "leq4"
+  }
 }

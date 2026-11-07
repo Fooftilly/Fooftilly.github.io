@@ -4,10 +4,7 @@
   "title": "Play It Again, Dick",
   "year": 2014,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/tXiq"
-    }
-  ]
+  "refs": {
+    "letterboxd": "tXiq"
+  }
 }

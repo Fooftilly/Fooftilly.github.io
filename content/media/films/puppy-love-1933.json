@@ -4,10 +4,7 @@
   "title": "Puppy Love",
   "year": 1933,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/52YG"
-    }
-  ]
+  "refs": {
+    "letterboxd": "52YG"
+  }
 }

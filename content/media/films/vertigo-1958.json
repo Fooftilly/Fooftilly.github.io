@@ -4,10 +4,7 @@
   "title": "Vertigo",
   "year": 1958,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2apI"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2apI"
+  }
 }

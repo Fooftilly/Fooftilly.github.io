@@ -4,10 +4,7 @@
   "title": "Come and See",
   "year": 1985,
   "rating": 5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1w9q"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1w9q"
+  }
 }

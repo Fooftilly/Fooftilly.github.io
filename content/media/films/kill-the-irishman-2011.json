@@ -4,10 +4,7 @@
   "title": "Kill the Irishman",
   "year": 2011,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/BTw"
-    }
-  ]
+  "refs": {
+    "letterboxd": "BTw"
+  }
 }

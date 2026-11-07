@@ -4,10 +4,7 @@
   "title": "Donald's Penguin",
   "year": 1939,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/rTm"
-    }
-  ]
+  "refs": {
+    "letterboxd": "rTm"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "The Usual Suspects",
   "year": 1995,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/29XE"
-    }
-  ]
+  "refs": {
+    "letterboxd": "29XE"
+  }
 }

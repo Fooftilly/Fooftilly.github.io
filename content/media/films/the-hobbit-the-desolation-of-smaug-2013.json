@@ -4,10 +4,7 @@
   "title": "The Hobbit: The Desolation of Smaug",
   "year": 2013,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/nmS"
-    }
-  ]
+  "refs": {
+    "letterboxd": "nmS"
+  }
 }

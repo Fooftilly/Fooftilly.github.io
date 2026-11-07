@@ -4,10 +4,7 @@
   "title": "Funeral of King Alexander",
   "year": 1934,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/izPy"
-    }
-  ]
+  "refs": {
+    "letterboxd": "izPy"
+  }
 }

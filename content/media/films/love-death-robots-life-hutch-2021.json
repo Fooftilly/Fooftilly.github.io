@@ -4,10 +4,7 @@
   "title": "Love, Death & Robots: Life Hutch",
   "year": 2021,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/vdRe"
-    }
-  ]
+  "refs": {
+    "letterboxd": "vdRe"
+  }
 }

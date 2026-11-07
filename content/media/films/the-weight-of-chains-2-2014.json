@@ -4,10 +4,7 @@
   "title": "The Weight of Chains 2",
   "year": 2014,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/emGq"
-    }
-  ]
+  "refs": {
+    "letterboxd": "emGq"
+  }
 }

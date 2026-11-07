@@ -4,10 +4,7 @@
   "title": "Alice Chops the Suey",
   "year": 1925,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/182g"
-    }
-  ]
+  "refs": {
+    "letterboxd": "182g"
+  }
 }

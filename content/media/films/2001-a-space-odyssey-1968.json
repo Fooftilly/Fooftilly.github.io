@@ -4,10 +4,7 @@
   "title": "2001: A Space Odyssey",
   "year": 1968,
   "rating": 5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2bf0"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2bf0"
+  }
 }

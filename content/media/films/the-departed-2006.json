@@ -4,10 +4,7 @@
   "title": "The Departed",
   "year": 2006,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/28MA"
-    }
-  ]
+  "refs": {
+    "letterboxd": "28MA"
+  }
 }

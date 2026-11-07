@@ -4,10 +4,7 @@
   "title": "Kung Fu Panda",
   "year": 2008,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1Yws"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1Yws"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Mickey's Nightmare",
   "year": 1932,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4UGk"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4UGk"
+  }
 }

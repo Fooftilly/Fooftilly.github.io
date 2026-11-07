@@ -4,10 +4,7 @@
   "title": "Prescription: Murder",
   "year": 1968,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/ipEU"
-    }
-  ]
+  "refs": {
+    "letterboxd": "ipEU"
+  }
 }

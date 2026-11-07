@@ -4,10 +4,7 @@
   "title": "Lord of War",
   "year": 2005,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/284y"
-    }
-  ]
+  "refs": {
+    "letterboxd": "284y"
+  }
 }

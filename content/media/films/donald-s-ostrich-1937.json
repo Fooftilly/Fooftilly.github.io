@@ -4,10 +4,7 @@
   "title": "Donald's Ostrich",
   "year": 1937,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/mdK"
-    }
-  ]
+  "refs": {
+    "letterboxd": "mdK"
+  }
 }

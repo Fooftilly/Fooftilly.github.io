@@ -4,10 +4,7 @@
   "title": "Ninja Scroll",
   "year": 1993,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1Ooe"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1Ooe"
+  }
 }
