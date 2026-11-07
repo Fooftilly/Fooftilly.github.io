@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Radio Retaliation",
+  "creator": "Thievery Corporation",
+  "year": 2008,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "ba5e6de7-49e4-3cb4-b903-2eaf5ae32991"
+  }
+}

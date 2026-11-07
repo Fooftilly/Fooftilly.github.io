@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Toxicity",
+  "creator": "System of a Down",
+  "year": 2001,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "f50fbcb4-bfcd-3784-b4c9-44f4793e66b2"
+  }
+}

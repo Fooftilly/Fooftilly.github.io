@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Symphonik",
+  "creator": "Thievery Corporation",
+  "year": 2020,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "1ca936c1-67ad-4534-9d9c-f54225eee2ed"
+  }
+}

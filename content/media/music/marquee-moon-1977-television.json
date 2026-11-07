@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Marquee Moon",
+  "creator": "Television",
+  "year": 1977,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "2b9f99d8-becf-3fc3-86a6-2bdd4cef93fe"
+  }
+}

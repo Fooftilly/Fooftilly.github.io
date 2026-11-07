@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Home",
+  "creator": "Billy Strings",
+  "year": 2019,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "788162ef-eb1c-4249-85cc-44ae8d3f813f"
+  }
+}

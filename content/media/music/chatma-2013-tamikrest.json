@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Chatma",
+  "creator": "Tamikrest",
+  "year": 2013,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "c33c1bca-4e14-4b38-ba5f-fe14a306fa74"
+  }
+}

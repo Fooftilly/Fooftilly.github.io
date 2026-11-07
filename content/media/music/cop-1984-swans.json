@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Cop",
+  "creator": "Swans",
+  "year": 1984,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "131701d8-f9b9-3930-b1b8-26ff9b7f0bc2"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Vanilija",
+  "creator": "Svemirko",
+  "year": 2017,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "3ccffc8c-fc20-45e2-ac72-65752c140c32"
+  }
+}

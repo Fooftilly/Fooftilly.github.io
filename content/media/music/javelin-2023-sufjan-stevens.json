@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Javelin",
+  "creator": "Sufjan Stevens",
+  "year": 2023,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "56dba069-d0a1-4353-b786-db6fc8269139"
+  }
+}

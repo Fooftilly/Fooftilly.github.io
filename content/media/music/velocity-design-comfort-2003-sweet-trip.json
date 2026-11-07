@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Velocity : Design : Comfort",
+  "creator": "Sweet Trip",
+  "year": 2003,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "a2262a54-b93a-3711-a868-32939624fef5"
+  }
+}

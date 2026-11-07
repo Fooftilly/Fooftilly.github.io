@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "The Seer",
+  "creator": "Swans",
+  "year": 2012,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "eedd18ba-2729-432a-b6ce-f520050f86c0"
+  }
+}

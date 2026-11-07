@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Skalamerija",
+  "creator": "Svemirko",
+  "year": 2020,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "e9a33532-c585-439a-bdc4-d3043385ed8c"
+  }
+}

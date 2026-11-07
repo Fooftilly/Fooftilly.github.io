@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Spiderland",
+  "creator": "Slint",
+  "year": 1991,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "e9f4b96a-94df-36be-9659-c9a811caead6"
+  }
+}

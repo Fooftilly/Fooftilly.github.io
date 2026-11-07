@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "SOS",
+  "creator": "Straw Man Army",
+  "year": 2022,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "9d498f00-a1ec-4470-84d1-c4d526e6060f"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Illinois",
+  "creator": "Sufjan Stevens",
+  "year": 2005,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "1fb75447-c513-38c4-ad8f-1bfc441aa74c"
+  }
+}

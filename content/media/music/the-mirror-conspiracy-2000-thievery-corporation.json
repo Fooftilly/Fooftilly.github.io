@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "The Mirror Conspiracy",
+  "creator": "Thievery Corporation",
+  "year": 2000,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "31fb1b7d-c860-3150-b3e5-8b9951f2dfe4"
+  }
+}

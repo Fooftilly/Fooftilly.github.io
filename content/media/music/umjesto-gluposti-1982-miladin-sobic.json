@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Umjesto gluposti",
+  "creator": "Miladin Šobić",
+  "year": 1982,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "8b91fe98-2949-4b54-9d83-e2cae7a1275f"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Amazonas",
+  "creator": "Cal Tjader",
+  "year": 1976,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "854f5d92-c32f-3ffe-8020-a064647432eb"
+  }
+}

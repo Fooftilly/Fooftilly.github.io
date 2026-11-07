@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Midnights",
+  "creator": "Taylor Swift",
+  "year": 2022,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "0dcc84fb-c592-46e9-ba92-a52bb44dd553"
+  }
+}
