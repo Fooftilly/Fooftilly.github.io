@@ -42,7 +42,8 @@ class MediaParser(HTMLParser):
         elif tag == "tr" and self.in_body:
             if self.row is not None:
                 raise AssertionError("Nested media table rows")
-            self.row = {"cells": [], "links": [], "notes": [], "rating_label": ""}
+            self.row = {"cells": [], "links": [], "notes": [], "rating_label": "",
+                        "tracks": [], "seasons": [], "episodes": []}
         elif tag in ("th", "td") and self.row is not None:
             self.cell = {"text": [], "links": [], "aria": attrs.get("aria-label", "")}
         elif tag == "a" and self.cell is not None:
@@ -51,6 +52,18 @@ class MediaParser(HTMLParser):
             self.details_depth += 1
         elif tag == "p" and self.details_depth and "notes" in (attrs.get("class") or "").split():
             self.capture_notes = True
+
+        # Verify actual source-specific nested scores rendered inside <details>.
+        # The attributes are JSON owned by the static Astro renderer; no reviews
+        # or browser-only state is included in these parity checks.
+        if self.row is not None:
+            for attribute, target in (
+                ("data-media-track", "tracks"),
+                ("data-media-season", "seasons"),
+                ("data-media-episode", "episodes"),
+            ):
+                if attribute in attrs:
+                    self.row[target].append(json.loads(attrs[attribute]))
 
     def handle_data(self, text):
         if self.in_h1:
@@ -153,6 +166,17 @@ def expected_row(record, canonical_urls=None):
         "rating_label": (
             f"{rating:g} out of 5 stars" if rating is not None else "Not rated"
         ),
+        "tracks": record.get("tracks", []),
+        "seasons": [
+            {field: season[field] for field in ("number", "title", "rating")
+             if field in season}
+            for season in record.get("seasons", [])
+        ],
+        "episodes": [
+            {"season": season["number"], **episode}
+            for season in record.get("seasons", [])
+            for episode in season.get("episodes", [])
+        ],
     }
 
 
