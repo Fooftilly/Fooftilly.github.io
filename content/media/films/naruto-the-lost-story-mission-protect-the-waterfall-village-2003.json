@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Naruto: The Lost Story - Mission: Protect the Waterfall Village!",
+  "year": 2003,
+  "rating": 3,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/etey"
+    }
+  ]
+}

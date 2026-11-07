@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "The Passion of Joan of Arc",
+  "year": 1928,
+  "rating": 5,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/29DO"
+    }
+  ]
+}

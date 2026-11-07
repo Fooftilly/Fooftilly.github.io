@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Popeye the Sailor Meets Sindbad the Sailor",
+  "year": 1936,
+  "rating": 3.5,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/2f70"
+    }
+  ]
+}

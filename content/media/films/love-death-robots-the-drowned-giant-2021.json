@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Love, Death & Robots: The Drowned Giant",
+  "year": 2021,
+  "rating": 3,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/vdRo"
+    }
+  ]
+}

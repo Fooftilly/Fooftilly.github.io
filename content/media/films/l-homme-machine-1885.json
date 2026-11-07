@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "L'Homme Machine",
+  "year": 1885,
+  "rating": 1,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/lwWW"
+    }
+  ]
+}

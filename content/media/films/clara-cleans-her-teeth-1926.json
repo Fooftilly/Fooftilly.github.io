@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Clara Cleans Her Teeth",
+  "year": 1926,
+  "rating": 1,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/5J5k"
+    }
+  ]
+}

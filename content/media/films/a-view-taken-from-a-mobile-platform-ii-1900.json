@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "A View Taken from a Mobile Platform II",
+  "year": 1900,
+  "rating": 2,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/5Trq"
+    }
+  ]
+}

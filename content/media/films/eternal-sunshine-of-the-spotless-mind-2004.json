@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Eternal Sunshine of the Spotless Mind",
+  "year": 2004,
+  "rating": 4,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/6YK"
+    }
+  ]
+}

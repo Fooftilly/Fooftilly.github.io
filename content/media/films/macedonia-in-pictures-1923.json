@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Macedonia in Pictures",
+  "year": 1923,
+  "rating": 1.5,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/c4gU"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Perpetuum & Mobile Ltd.",
+  "year": 1961,
+  "rating": 1.5,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/QzMW"
+    }
+  ]
+}

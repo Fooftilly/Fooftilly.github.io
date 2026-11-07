@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Thou Shalt Love thy Symptom as Thyself",
+  "year": 1996,
+  "rating": 3.5,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/jVj2"
+    }
+  ]
+}

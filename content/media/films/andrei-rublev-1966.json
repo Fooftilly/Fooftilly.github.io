@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Andrei Rublev",
+  "year": 1966,
+  "rating": 5,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/29lg"
+    }
+  ]
+}

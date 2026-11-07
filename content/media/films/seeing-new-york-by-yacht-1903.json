@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Seeing New York by Yacht",
+  "year": 1903,
+  "rating": 1,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/5U9s"
+    }
+  ]
+}

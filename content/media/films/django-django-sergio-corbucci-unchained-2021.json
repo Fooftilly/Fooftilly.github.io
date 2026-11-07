@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Django & Django: Sergio Corbucci Unchained",
+  "year": 2021,
+  "rating": 3.5,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/wgjG"
+    }
+  ]
+}

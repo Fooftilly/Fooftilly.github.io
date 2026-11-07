@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Star Wars: Episode II – Attack of the Clones",
+  "year": 2002,
+  "rating": 2.5,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/27V2"
+    }
+  ]
+}

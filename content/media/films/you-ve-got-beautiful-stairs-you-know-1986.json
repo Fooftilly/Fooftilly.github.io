@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "You've Got Beautiful Stairs, You Know...",
+  "year": 1986,
+  "rating": 3,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/7S6g"
+    }
+  ]
+}

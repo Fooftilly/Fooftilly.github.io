@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Love, Death & Robots: In Vaulted Halls Entombed",
+  "year": 2022,
+  "rating": 2.5,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/AW7A"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Dead in a Week (Or Your Money Back)",
+  "year": 2018,
+  "rating": 2,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/gM5E"
+    }
+  ]
+}

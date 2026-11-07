@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Seven Samurai",
+  "year": 1954,
+  "rating": 5,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/2axi"
+    }
+  ]
+}

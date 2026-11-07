@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Harry Potter and the Philosopher's Stone",
+  "year": 2001,
+  "rating": 4,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/29QS"
+    }
+  ]
+}
