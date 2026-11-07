@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Highway 61 Revisited",
+  "creator": "Bob Dylan",
+  "year": 1965,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "fb48b1dc-412f-36aa-8820-1023c08c46c6"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Violator",
+  "creator": "Depeche Mode",
+  "year": 1990,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "71f1482e-e63f-3b2c-811b-939f62708f2a"
+  }
+}

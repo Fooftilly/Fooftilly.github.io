@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Everything I Know About Love",
+  "creator": "Laufey",
+  "year": 2022,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "53dab9a8-4fc7-45f9-b667-79da8bb85a71"
+  }
+}

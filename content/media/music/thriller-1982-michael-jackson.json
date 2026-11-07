@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Thriller",
+  "creator": "Michael Jackson",
+  "year": 1982,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "f32fab67-77dd-3937-addc-9062e28e4c37"
+  }
+}

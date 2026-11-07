@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "A Light for Attracting Attention",
+  "creator": "The Smile",
+  "year": 2022,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "50b9771f-40fd-4511-bc8e-408cd3358b12"
+  }
+}

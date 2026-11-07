@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "The Velvet Underground",
+  "creator": "The Velvet Underground",
+  "year": 1969,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "a616dcf5-7a1f-3afe-a53b-27281c2bf75e"
+  }
+}
