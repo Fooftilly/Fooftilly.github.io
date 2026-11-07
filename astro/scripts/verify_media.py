@@ -78,11 +78,18 @@ class MediaParser(HTMLParser):
                 if kind:
                     assert self.nested_item is None, "Nested media scores must not overlap"
                     self.nested_item = {"kind": kind, "text": [], "rating_aria": None}
-            if tag == "span" and "aria-label" in attrs:
+            if tag == "span":
+                # Adjacent Vue-rendered spans need a semantic separator even
+                # when SSR does not emit a literal whitespace text node.
                 if self.nested_item is not None:
-                    self.nested_item["rating_aria"] = attrs["aria-label"]
-                elif self.season_heading is not None:
-                    self.season_heading["rating_aria"] = attrs["aria-label"]
+                    self.nested_item["text"].append(" ")
+                if self.season_heading is not None:
+                    self.season_heading["text"].append(" ")
+                if "aria-label" in attrs:
+                    if self.nested_item is not None:
+                        self.nested_item["rating_aria"] = attrs["aria-label"]
+                    elif self.season_heading is not None:
+                        self.season_heading["rating_aria"] = attrs["aria-label"]
 
     def handle_data(self, text):
         if self.nested_item is not None:
