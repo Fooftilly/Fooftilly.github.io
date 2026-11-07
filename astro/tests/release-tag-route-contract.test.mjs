@@ -27,6 +27,20 @@ test("Pages release remains manual-only on master with explicit checked publicat
     "Read-only preflight may never receive Pages write permission");
 });
 
+test("deployed sitemap is checked against the exact validated build artifact", () => {
+  const digest = production.jobs.build.steps.find(step => step.id === "sitemap");
+  const live = production.jobs.deploy.steps.find(step =>
+    step.name === "Verify the public site serves this deployment revision");
+  assert.ok(digest && live, "Release digest and live verification must exist");
+  assert.equal(production.jobs.build.outputs.sitemap_sha256,
+    "${{ steps.sitemap.outputs.sha256 }}");
+  assert.match(digest.run, /sha256sum dist\/sitemap\.xml/);
+  assert.equal(live.env.EXPECTED_SITEMAP_SHA256,
+    "${{ needs.build.outputs.sitemap_sha256 }}");
+  assert.match(live.run, /sha256sum "\$live_sitemap"/);
+  assert.match(live.run, /observed_sitemap_sha256.*EXPECTED_SITEMAP_SHA256/);
+  assert.match(live.run, /::error::Live sitemap differs/);
+});
 test("both new tag indexes are covered before packaging, in read-only preflight and after deploy", () => {
   const build = production.jobs.build.steps.find(step =>
     step.name === "Validate every source and generated route")?.run;

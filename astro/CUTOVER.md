@@ -46,8 +46,9 @@ uploads **only** `astro/dist/`, and deploys that artifact using narrowly scoped
 Pages and OIDC permissions in the `github-pages` environment. Before upload,
 it writes a public `deploy-revision.txt` containing the source Git commit and
 includes it in the private SHA-256 release manifest. After deployment, it
-checks the revision at `www.peroniko.xyz` and probes the homepages, bookmark
-editor, both localized tag indexes, search, feeds, sitemap and 404. A post-deploy check failure does not
+checks the revision at `www.peroniko.xyz`, verifies that the live sitemap
+bytes match the SHA-256 of the validated release artifact, and probes the
+homepages, bookmark editor, both localized tag indexes, search, feeds and 404. A post-deploy check failure does not
 undo a Pages publication; review the deployed URL and Actions logs.
 
 The separate **Astro cutover preflight (no deployment)** workflow can still be
