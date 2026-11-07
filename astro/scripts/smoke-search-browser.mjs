@@ -659,8 +659,30 @@ try {
       }
     }
 
+    const firstTag = await evaluate("document.querySelector('.project-card [data-project-tag-link]')?.textContent.trim()");
+    if (firstTag) {
+      await navigate(route + "?tag=" + encodeURIComponent(firstTag));
+      await waitFor("document.querySelector('[data-project-active-tag]')?.textContent",
+        text => text?.includes(firstTag), "Source-owned project tag restores from a shareable link");
+      await waitFor("document.querySelectorAll('.project-card').length",
+        value => value > 0 && value <= sourceProjects.length,
+        "Exact project tag filter retains source-matching projects");
+      assert.equal(await evaluate("Array.from(document.querySelectorAll('.project-card')).every(card=>" +
+        "Array.from(card.querySelectorAll('[data-project-tag-link]')).some(link=>link.textContent.trim()===" +
+        JSON.stringify(firstTag) + "))"), true, "Exact tag filter must never match only a title");
+      await waitFor("new URL(document.querySelector('[data-search-language-switch]').href).searchParams.get('tag')",
+        value => value === firstTag, "Project tag filter survives language switching");
+      await evaluate("document.querySelector('[data-project-clear-tag]').click()");
+      await waitFor("document.querySelectorAll('.project-card').length",
+        value => value === sourceProjects.length, "Cleared project tag shows complete source catalog");
+      await waitFor("new URL(location.href).searchParams.has('tag')",
+        value => value === false, "Clear tag removes only the tag URL state");
+    }
+
     if (sourceProjects.length) {
-      // Start on the detail link, then send a genuine keyboard Tab via DevTools.
+      // Verify keyboard navigation in DOM order. A linked tag appears before
+      // the source-code action, so it must receive focus first.
+
       // The source link should be the next focusable control within the card.
       await evaluate("document.querySelector('.project-card h3 a').focus()");
       assert.equal(await evaluate("document.activeElement === document.querySelector('.project-card h3 a')"), true);
@@ -670,9 +692,19 @@ try {
       await command("Input.dispatchKeyEvent", {
         type: "keyUp", key: "Tab", code: "Tab", windowsVirtualKeyCode: 9,
       });
+      if (await evaluate("document.querySelector('.project-card [data-project-tag-link]') !== null")) {
+        assert.equal(await evaluate("document.activeElement === document.querySelector('.project-card [data-project-tag-link]')"),
+          true, "Linked project tag must be the next keyboard target after detail");
+        for (let i=1, n=await evaluate("document.querySelectorAll('.project-card:first-child [data-project-tag-link]').length"); i<n; i++) {
+          await command("Input.dispatchKeyEvent", {type:"keyDown",key:"Tab",code:"Tab",windowsVirtualKeyCode:9});
+          await command("Input.dispatchKeyEvent", {type:"keyUp",key:"Tab",code:"Tab",windowsVirtualKeyCode:9});
+        }
+        await command("Input.dispatchKeyEvent", {type:"keyDown",key:"Tab",code:"Tab",windowsVirtualKeyCode:9});
+        await command("Input.dispatchKeyEvent", {type:"keyUp",key:"Tab",code:"Tab",windowsVirtualKeyCode:9});
+      }
       assert.equal(
         await evaluate("document.activeElement === document.querySelector('.project-card .project-source a')"),
-        true, "Tab from a project detail link must focus that project's source link: " + route,
+        true, "Keyboard navigation must eventually reach the source link: " + route,
       );
 
     }

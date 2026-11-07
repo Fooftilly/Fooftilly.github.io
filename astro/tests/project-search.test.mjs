@@ -43,3 +43,21 @@ test("search matches the SH status shown on the actual project card", async()=>{
   assert.deepEqual(filterProjects(records,"AKTIVNO").map(x=>x.id),["two"]);
   assert.deepEqual(filterProjects(records,"Arhivirano").map(x=>x.id),["three"]);
 });
+
+test("project labels provide exact shareable tag filtering without title false positives", async () => {
+  const {readProjectTag,projectTagHref} = await import("../src/lib/project-search.ts");
+  const subset=filterProjects(records,"","typescript");
+  assert.deepEqual(subset.map(item=>item.id),["one","two"]);
+  assert.deepEqual(filterProjects(records,"Speech","TypeScript").map(item=>item.id),["two"]);
+  assert.deepEqual(filterProjects(records,"","Café projects"),[]);
+  assert.deepEqual(filterProjects(records,"","Rust").map(item=>item.id),["three"]);
+  const labels=records.flatMap(item=>item.tags);
+  assert.equal(readProjectTag("?tag=typesCRIPT",labels),"TypeScript");
+  assert.equal(readProjectTag("?tag=deprecated",labels),"");
+  assert.equal(projectTagHref("Local-first","sh"),"/sh/projects/?tag=Local-first");
+  const href=projectSearchHref("https://www.peroniko.xyz/projects/?tag=stale&q=old#main","Vue","TypeScript");
+  const u=new URL(href,"https://www.peroniko.xyz");
+  assert.deepEqual(u.searchParams.getAll("tag"),["TypeScript"]);
+  assert.equal(u.hash,"#main");
+  assert.equal(new URL(projectSearchHref(u.href,"",""),"https://www.peroniko.xyz").searchParams.has("tag"),false);
+});

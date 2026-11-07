@@ -19,6 +19,8 @@ export function getPublishedPaths(bookmarkIds: readonly string[], projectSlugs:r
     "/search/",
     "/sh/search/",
     "/bookmarks/",
+    "/bookmarks/tags/",
+    "/sh/bookmarks/tags/",
     "/new-bookmark/",
     "/media/",
     "/music/",
