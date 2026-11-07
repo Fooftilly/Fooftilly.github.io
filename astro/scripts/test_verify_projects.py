@@ -2,6 +2,7 @@
 from html import escape
 from pathlib import Path
 from string import Template
+from urllib.parse import quote_plus
 import unittest
 
 from verify_projects import (
@@ -10,6 +11,7 @@ from verify_projects import (
     verify_card_source_link,
     verify_project_disclosures,
     verify_project_license_link,
+    verify_project_tag_links,
 )
 
 FIXTURES = Path(__file__).resolve().parent / "fixtures"
@@ -151,6 +153,52 @@ class ProjectSourceLinksTest(unittest.TestCase):
             verify_project_license_link(license_markup(url, "AGPL-3.0-only", rel=""),
                                         "prks", "AGPL-3.0-only", url)
 
+
+
+
+class ProjectTagNavigationTest(unittest.TestCase):
+    def tag_html(self, label="Café & Tools", lang="en", href=None):
+        target = "/sh/projects/" if lang == "sh" else "/projects/"
+        url = target + "?tag=" + quote_plus(label) if href is None else href
+        return ('<ul class="project-tags"><li><a href="'
+                + escape(url, quote=True) + '">' + escape(label)
+                + '</a></li></ul>')
+
+    def test_both_locales_link_to_exact_project_search(self):
+        verify_project_tag_links(self.tag_html(), "en")
+        verify_project_tag_links(self.tag_html(lang="sh"), "sh")
+        verify_project_tag_links(self.tag_html(label="Knowledge management"), "en")
+        verify_project_tag_links("", "en", require_groups=False)
+
+    def test_tag_list_requires_a_navigable_link_per_tag(self):
+        for html in [
+            '<ul class="project-tags"><li>Research</li></ul>',
+            '<ul class="project-tags"><li><a href="/projects/?tag=Research">Research</a>'
+            '<a href="/projects/?tag=Research">Research</a></li></ul>',
+            '<ul class="project-tags"></ul>',
+        ]:
+            with self.assertRaises(AssertionError):
+                verify_project_tag_links(html, "en")
+
+    def test_project_tag_links_reject_other_routes_search_and_wrong_locale(self):
+        for href in [
+            "/sh/projects/?tag=Research",
+            "/search/?tag=Research",
+            "https://www.peroniko.xyz/projects/?tag=Research",
+            "/projects/?q=Research",
+            "/projects/?tag=Other",
+            "/projects/?tag=Research&tag=Research",
+            "/projects/?tag=Research&utm_source=tracker",
+            "/projects/?tag=Research#private",
+        ]:
+            with self.assertRaises(AssertionError, msg=href):
+                verify_project_tag_links(self.tag_html(label="Research", href=href), "en")
+
+    def test_tag_audit_rejects_link_text_different_from_visible_label(self):
+        html = ('<ul class="project-tags"><li><a href="/projects/?tag=Research">'
+                'Research</a> EXTERNAL</li></ul>')
+        with self.assertRaisesRegex(AssertionError, "link label differs"):
+            verify_project_tag_links(html, "en")
 
 
 if __name__ == "__main__":

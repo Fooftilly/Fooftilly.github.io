@@ -6,6 +6,7 @@ from html import unescape
 from html.parser import HTMLParser
 import re
 from pathlib import Path
+from urllib.parse import parse_qs, urlsplit
 
 
 class ProjectCardParser(HTMLParser):
@@ -42,6 +43,79 @@ class ProjectCardParser(HTMLParser):
             if self._li_depth == 0:
                 self.cards.append(self._card)
                 self._card = None
+
+
+
+class ProjectTagLinkParser(HTMLParser):
+    """Collect technology tags and their links from rendered Astro lists."""
+
+    def __init__(self):
+        super().__init__()
+        self.groups = []
+        self.group = None
+        self.item = None
+        self.link = None
+
+    def handle_starttag(self, tag, attrs):
+        props = dict(attrs)
+        if tag == "ul" and "project-tags" in props.get("class", "").split():
+            assert self.group is None, "Nested project-tag groups"
+            self.group = []
+        elif self.group is not None and tag == "li":
+            assert self.item is None, "Nested project-tag items"
+            self.item = {"text": "", "links": []}
+            self.group.append(self.item)
+        elif self.item is not None and tag == "a":
+            assert self.link is None, "Nested project-tag links"
+            self.link = {"href": props.get("href"), "text": ""}
+            self.item["links"].append(self.link)
+
+    def handle_data(self, data):
+        if self.item is not None:
+            self.item["text"] += data
+        if self.link is not None:
+            self.link["text"] += data
+
+    def handle_endtag(self, tag):
+        if tag == "a":
+            self.link = None
+        elif tag == "li" and self.group is not None:
+            self.item = None
+        elif tag == "ul" and self.group is not None:
+            assert self.item is None, "Unclosed project tag"
+            self.groups.append(self.group)
+            self.group = None
+
+
+def verify_project_tag_links(html: str, language: str, require_groups=True) -> None:
+    """Every rendered tag links to exact source-tag search in its own locale.
+
+    Accept changing source labels, including Unicode, and disallow links which
+    only appear clickable but select an unrelated or broader search.
+    """
+    assert language in ("en", "sh"), "Unsupported project locale"
+    parser = ProjectTagLinkParser()
+    parser.feed(html)
+    parser.close()
+    assert parser.group is None and parser.item is None, "Unclosed project tag list"
+    if require_groups:
+        assert parser.groups, "Missing project-tag list"
+    destination = "/sh/projects/" if language == "sh" else "/projects/"
+    for group in parser.groups:
+        assert group, "Empty project-tag list"
+        for item in group:
+            links = item["links"]
+            assert len(links) == 1, "Each project tag must have one link"
+            link = links[0]
+            visible = item["text"].strip()
+            assert visible and link["text"].strip() == visible, "Project tag link label differs"
+            href = urlsplit(link["href"] or "")
+            assert (not href.scheme and not href.netloc and not href.fragment
+                    and href.path == destination), "Project tag links to wrong locale or route"
+            query = parse_qs(href.query, keep_blank_values=True)
+            assert list(query) == ["tag"] and query["tag"] == [visible], (
+                "Project tag link must select only its exact visible label", visible, query
+            )
 
 
 def parse_project_cards(page):
@@ -178,6 +252,8 @@ def verify_projects(dist: Path, source: Path, origin: str) -> None:
     assert "<h1" in index and "Projects" in index
     local_index=(dist / "sh/projects/index.html").read_text(encoding="utf8")
     assert "<h1" in local_index and "Projekti" in local_index
+    verify_project_tag_links(index, "en", require_groups=bool(items))
+    verify_project_tag_links(local_index, "sh", require_groups=bool(items))
     indexes = (("Source code", parse_project_cards(index)),
                ("Izvorni kod", parse_project_cards(local_index)))
     for label, cards in indexes:
@@ -198,6 +274,7 @@ def verify_projects(dist: Path, source: Path, origin: str) -> None:
         result = dist / "projects" / slug / "index.html"
         assert result.is_file(), ("Missing project detail", slug)
         html = result.read_text(encoding="utf8")
+        verify_project_tag_links(html, "en")
         expected_title = parse_project_heading(html)
         # Check each optional source disclosure without pinning original projects.
         for heading in ("Requirements", "Limitations"):
@@ -233,6 +310,8 @@ def verify_projects(dist: Path, source: Path, origin: str) -> None:
     for homepage, route in ((dist / "index.html", "/projects/"),
                             (dist / "sh/index.html", "/sh/projects/")):
         html = homepage.read_text(encoding="utf8")
+        verify_project_tag_links(html, "sh" if route.startswith("/sh/") else "en",
+                                 require_groups=bool(items))
         assert f'href="{route}"' in html, ("Missing localized project navigation", homepage)
     print(f"Verified {len(items)} project showcases with source links and static routes")
 
