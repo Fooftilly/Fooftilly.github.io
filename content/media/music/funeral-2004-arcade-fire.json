@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Funeral",
+  "creator": "Arcade Fire",
+  "year": 2004,
+  "rating": 3.5,
+  "links": [
+    {
+      "label": "MusicBrainz",
+      "url": "https://musicbrainz.org/release-group/05affa96-5959-32da-8d75-1c9eb985ca59"
+    }
+  ]
+}

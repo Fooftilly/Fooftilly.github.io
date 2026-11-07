@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Brûler le feu",
+  "creator": "Juliette Armanet",
+  "year": 2021,
+  "rating": 3.5,
+  "links": [
+    {
+      "label": "MusicBrainz",
+      "url": "https://musicbrainz.org/release-group/be8cd39f-4db6-488e-9e8a-f5e15f53e711"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Türk Valsleri",
+  "creator": "Cihat Aşkın",
+  "year": 2019,
+  "rating": 4,
+  "links": [
+    {
+      "label": "MusicBrainz",
+      "url": "https://musicbrainz.org/release-group/3c0542ec-4a86-4b03-ac62-9228676e71bb"
+    }
+  ]
+}

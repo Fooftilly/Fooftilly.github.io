@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Relationship of Command",
+  "creator": "At the Drive-In",
+  "year": 2000,
+  "rating": 4.5,
+  "links": [
+    {
+      "label": "MusicBrainz",
+      "url": "https://musicbrainz.org/release-group/b7f5ed97-bb72-31fb-acd8-4bad86d95a58"
+    }
+  ]
+}

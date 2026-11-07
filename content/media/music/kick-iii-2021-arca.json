@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Kick III",
+  "creator": "Arca",
+  "year": 2021,
+  "rating": 3,
+  "links": [
+    {
+      "label": "MusicBrainz",
+      "url": "https://musicbrainz.org/release-group/d36553b5-d136-45ca-bda4-91e9adfd40d9"
+    }
+  ]
+}
