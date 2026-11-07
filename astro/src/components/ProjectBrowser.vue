@@ -65,7 +65,7 @@ async function clearSearch(): Promise<void> {
 </script>
 
 <template>
-  <section class="project-browser" aria-label="Project directory">
+  <section class="project-browser" :aria-label="lang === 'sh' ? 'Pregled projekata' : 'Project directory'">
     <div v-if="hydrated" class="project-controls">
       <label>
         {{ labels.label }}
