@@ -76,7 +76,14 @@ the site works without their accounts, APIs or continued availability.
 The static `/media/`, `/films/`, `/tv/` and `/music/` routes read only
 these files, with no fabricated ratings. Ratings are optional (0.5–5 stars).
 A record can contain a title, creator/artist, year, progress status, public
-notes and up to eight external links. Every build checks the entire catalog for
+notes and up to eight external links. Collection pages display **compact,
+square-edge link buttons** for source URLs that actually appear in that
+record—no guessed IMDb/TMDb/Wikipedia identifiers and no search-page
+substitutes. The new-media editor recognizes IMDb, TMDb, Wikipedia, BFI,
+Criterion, Letterboxd, RYM, MusicBrainz, AllMusic, Discogs and Bandcamp
+by hostname and uses recognizable labels; other sources retain their
+explicit label. Trakt references are excluded.
+Every build checks the entire catalog for
 case-insensitive duplicate paths and matching media identities, including
 hand-edited JSON records. Generic external references (such as an artist's
 homepage) may be shared by distinct entries.
