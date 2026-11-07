@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Meeting the Man: James Baldwin in Paris",
+  "creator": "Terence Dixon",
+  "year": 1970,
+  "rating": 4,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/oKjA"
+    }
+  ]
+}
