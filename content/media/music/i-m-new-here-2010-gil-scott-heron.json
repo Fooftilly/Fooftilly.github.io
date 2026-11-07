@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "I'm New Here",
+  "creator": "Gil Scott-Heron",
+  "year": 2010,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "bb4e7426-9e29-4883-84c8-4822a8cf10a4"
+  }
+}

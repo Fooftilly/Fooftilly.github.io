@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Odlazi cirkus",
+  "creator": "Rani Mraz",
+  "year": 1980,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "94f42e26-dc0d-47fa-81a3-8e5cd1e5450a"
+  }
+}

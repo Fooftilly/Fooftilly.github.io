@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Buna je počela",
+  "creator": "Seljačka buna",
+  "year": 2011,
+  "rating": 2.5,
+  "refs": {
+    "musicbrainz": "a2807b7e-3b00-4ab4-a6e3-984a4d0c5ec2"
+  }
+}

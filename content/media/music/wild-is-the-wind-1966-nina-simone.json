@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Wild Is the Wind",
+  "creator": "Nina Simone",
+  "year": 1966,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "b4433a3e-d5ad-3d99-965c-96bfb6a0f071"
+  }
+}

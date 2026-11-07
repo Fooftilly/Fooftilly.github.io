@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Music",
+  "creator": "Satellite Lovers",
+  "year": 1994,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "c39ac07b-996d-4c84-aa2a-0f6a13cc3cdf"
+  }
+}

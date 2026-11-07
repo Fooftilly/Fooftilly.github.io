@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "The Race for Space",
+  "creator": "Public Service Broadcasting",
+  "year": 2015,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "38d7dd30-0b1c-45f5-bde4-a0794dc0ec7c"
+  }
+}

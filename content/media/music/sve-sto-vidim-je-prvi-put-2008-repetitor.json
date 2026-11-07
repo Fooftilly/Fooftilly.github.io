@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Sve što vidim je prvi put",
+  "creator": "Repetitor",
+  "year": 2008,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "52363dcd-25b0-3c7d-861e-94f6dc68f2d4"
+  }
+}

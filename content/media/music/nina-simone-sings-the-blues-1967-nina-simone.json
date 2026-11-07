@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Nina Simone Sings the Blues",
+  "creator": "Nina Simone",
+  "year": 1967,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "3e756ef5-ffa4-3d48-83ae-f7f856a2b989"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "The Reds",
+  "creator": "The Reds",
+  "year": 1979,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "7df69b03-d3fb-43f3-a3ea-e1048efb3249"
+  }
+}

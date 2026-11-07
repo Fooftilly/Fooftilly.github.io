@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Map of a Blue City",
+  "creator": "Marc Ribot",
+  "year": 2025,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "038881b3-45d4-4fd6-9e21-ed116a952d6f"
+  }
+}

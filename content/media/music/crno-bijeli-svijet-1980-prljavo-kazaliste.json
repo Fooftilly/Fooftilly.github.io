@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Crno bijeli svijet",
+  "creator": "Prljavo Kazalište",
+  "year": 1980,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "b7efb2fc-7d47-32e2-8d6c-0df30872d186"
+  }
+}

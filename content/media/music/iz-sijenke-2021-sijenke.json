@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Iz sijenke",
+  "creator": "Sijenke",
+  "year": 2021,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "6358f102-056e-4110-a00f-755f21507730"
+  }
+}

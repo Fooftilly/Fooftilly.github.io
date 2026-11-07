@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Kosači",
+  "creator": "Boban Rajović",
+  "year": 2008,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "b08a80f6-20cb-40c9-8e47-89bf7ae809d1"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Mojoj mami, umesto maturske slike u izlogu",
+  "creator": "Rani Mraz",
+  "year": 1979,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "f540f0f6-671a-307f-b01c-1aac1cf3a573"
+  }
+}

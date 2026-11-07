@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "It Takes a Nation of Millions to Hold Us Back",
+  "creator": "Public Enemy",
+  "year": 1988,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "01921d99-9d15-3fce-8734-46e58327cfb7"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Esto sí es lo mío",
+  "creator": "Ismael Rivera y sus Cachimbos",
+  "year": 1978,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "ba39bf82-a0f6-38ca-9516-8f0e01774009"
+  }
+}

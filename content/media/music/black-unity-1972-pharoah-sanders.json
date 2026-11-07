@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Black Unity",
+  "creator": "Pharoah Sanders",
+  "year": 1972,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "f13253d0-122c-3e29-88d8-343fb569272f"
+  }
+}

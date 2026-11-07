@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Addison",
+  "creator": "Addison Rae",
+  "year": 2025,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "f6a46f72-4ed2-4595-8698-045e334a6716"
+  }
+}

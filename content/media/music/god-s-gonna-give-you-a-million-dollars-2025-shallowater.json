@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "God's Gonna Give You a Million Dollars",
+  "creator": "Shallowater",
+  "year": 2025,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "f6965ebb-5f54-4ba9-add4-58c1a3a3311a"
+  }
+}

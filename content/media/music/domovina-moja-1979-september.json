@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Domovina moja",
+  "creator": "September",
+  "year": 1979,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "a446053b-3d10-4d7d-8044-51af3e3e4c6f"
+  }
+}

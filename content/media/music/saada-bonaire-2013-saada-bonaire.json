@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Saâda Bonaire",
+  "creator": "Saâda Bonaire",
+  "year": 2013,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "d52a50b7-ce16-4a6f-a969-38d4452d00b4"
+  }
+}

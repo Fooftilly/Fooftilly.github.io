@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Philosophy of the World",
+  "creator": "The Shaggs",
+  "year": 1969,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "831ee78a-3da6-39db-b37b-107c3acd7ce7"
+  }
+}
