@@ -195,6 +195,8 @@ test("invalid or lossy platform identifiers never generate untrusted links",()=>
     "https://www.themoviedb.org/movie/389/cast",
     "https://imdb.com.evil.example/title/tt0050083/",
     "https://en.wikipedia.org/wiki/Title#section",
+    "http://boxd.it/2auI",
+    "http://www.imdb.com/title/tt0050083/",
     "https://www.criterion.com/films/example",
   ])assert.equal(mediaReferenceFromUrl(url),null);
   const valid={schema:1,kind:"films",title:"Valid"};
@@ -203,6 +205,20 @@ test("invalid or lossy platform identifiers never generate untrusted links",()=>
   assert.throws(()=>validateMediaRecord({...valid,refs:{imdb:"tt0050083"},
     links:[{label:"IMDb",url:"https://www.imdb.com/title/tt0050083/"}]}),/Duplicate external URL/);
 });
+test("projected existing compact refs prevent duplicate drafts and preserve HTTP URLs",()=>{
+  const stored={schema:1,kind:"films",title:"Original",year:2001,
+    refs:{imdb:"tt0050083"}};
+  const projected={path:"content/media/films/original-2001.json",
+    kind:stored.kind,title:stored.title,year:stored.year,refs:stored.refs};
+  const variant=composeMediaDraft({schema:1,kind:"films",title:"Alternate",year:2002,
+    refs:{imdb:"tt0050083"}},[projected]);
+  assert.deepEqual(variant.duplicatePaths,[projected.path]);
+  const http={label:"Letterboxd",url:"http://boxd.it/29BI"};
+  assert.deepEqual(compactMediaLinks([http]),{links:[http]});
+  assert.deepEqual(mediaSourceLinks(validateMediaRecord({schema:1,kind:"films",
+    title:"HTTP",links:[http]})),[http]);
+});
+
 test("multiline public notes are preserved for real media reviews", () => {
   const item = validateMediaRecord({...film, notes:"First paragraph.\r\nSecond paragraph."});
   assert.equal(item.notes, "First paragraph.\nSecond paragraph.");
