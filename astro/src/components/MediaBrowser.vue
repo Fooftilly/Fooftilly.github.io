@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
-import { compareMediaListings, matchesMediaSearch, matchesMediaStatus, searchableMediaText, mediaNotesExplainSearch, mediaVisiblePage, MEDIA_PAGE_SIZE, type MediaSort, type MediaStatusFilter } from "../lib/media-browser.ts";
+import { compareMediaListings, matchesMediaSearch, matchesMediaStatus, matchesMediaMinimumRating, searchableMediaText, mediaNotesExplainSearch, mediaVisiblePage, MEDIA_PAGE_SIZE, type MediaSort, type MediaStatusFilter } from "../lib/media-browser.ts";
 import { mediaFilterHref, readMediaQueryState } from "../lib/media-query-state.ts";
 import type { MediaKind, StoredMedia } from "../lib/media-model.ts";
 
@@ -10,6 +10,8 @@ const creatorLabel=computed(()=>props.kind==="music"?"Artist":props.kind==="film
 const query=ref("");
 const sort=ref<MediaSort>("rating");
 const statusFilter=ref<MediaStatusFilter>("all");
+const minRating=ref(0);
+const minRatingLabel=computed(()=>minRating.value === 0 ? "Any rating (includes unrated)" : minRating.value.toFixed(1) + " stars or more");
 const limit=ref(MEDIA_PAGE_SIZE);
 const hydrated=ref(false);
 const searchInput=ref<HTMLInputElement|null>(null);
@@ -18,6 +20,7 @@ async function clearFilters():Promise<void> {
   query.value="";
   sort.value="rating";
   statusFilter.value="all";
+  minRating.value=0;
   // The reset button disappears once filters are cleared. Move keyboard
   // focus to the persistent search control after Vue has rendered.
   await nextTick();
@@ -37,7 +40,7 @@ const sortOptions:{value:MediaSort;label:string}[]=[
 ];
 function syncUrl(): void {
   if (typeof window === "undefined" || !hydrated.value) return;
-  const next = mediaFilterHref(window.location.href, query.value, sort.value, statusFilter.value);
+  const next = mediaFilterHref(window.location.href, query.value, sort.value, statusFilter.value, minRating.value);
   const current = window.location.pathname + window.location.search + window.location.hash;
   if (next !== current) window.history.replaceState(window.history.state, "", next);
 }
@@ -47,6 +50,7 @@ const restoreFilters = (): void => {
   query.value = state.query;
   sort.value = state.sort;
   statusFilter.value = state.status;
+  minRating.value = state.minRating;
   hydrated.value = true;
   // A restored history entry may carry obsolete or repeated filter values.
   syncUrl();
@@ -61,12 +65,12 @@ onUnmounted(() => {
   window.removeEventListener("popstate", restoreFilters);
   window.removeEventListener("pageshow", restoreFilters);
 });
-watch([query, sort, statusFilter], () => {
+watch([query, sort, statusFilter, minRating], () => {
   limit.value = MEDIA_PAGE_SIZE;
   syncUrl();
 });
 const matches=computed(()=>props.entries
-  .filter(item=>matchesMediaSearch(searchableMediaText(item),query.value) && matchesMediaStatus(item,statusFilter.value))
+  .filter(item=>matchesMediaSearch(searchableMediaText(item),query.value) && matchesMediaStatus(item,statusFilter.value) && matchesMediaMinimumRating(item,minRating.value))
   .sort((a,b)=>compareMediaListings(a,b,sort.value))
 );
 // Server-render the complete source-owned catalog for non-JS visitors and
@@ -108,7 +112,13 @@ async function showMore(): Promise<void> {
             :data-media-status-filter="option.value" :aria-pressed="statusFilter===option.value"
             @click="statusFilter=option.value">{{ option.label }}</button>
         </div>
-        <button v-if="hydrated && (query || sort !== 'rating' || statusFilter !== 'all')" class="clear-media"
+        <label class="rating-control">
+          Minimum rating
+          <input v-model.number="minRating" data-media-min-rating type="range" min="0" max="5" step="0.5"
+            :aria-valuetext="minRatingLabel" />
+          <output data-media-min-rating-label aria-live="polite">{{ minRatingLabel }}</output>
+        </label>
+        <button v-if="hydrated && (query || sort !== 'rating' || statusFilter !== 'all' || minRating > 0)" class="clear-media"
           type="button" data-media-clear-filters
           @click="clearFilters">Clear filters</button>
         <p data-media-count role="status" aria-live="polite" aria-atomic="true">
@@ -166,6 +176,9 @@ async function showMore(): Promise<void> {
 .media-controls{display:flex;flex-wrap:wrap;align-items:end;gap:.75rem 1.25rem;margin:1rem 0}
 .media-controls label{display:grid;gap:.25rem;font-weight:600;min-width:min(100%,18rem)}
 .media-controls input{padding:.55rem .7rem;border:1px solid var(--border);border-radius: 0;background:var(--surface);color:var(--foreground);font:inherit;width:100%}
+.media-controls .rating-control{min-width:min(100%,15rem);display:grid;gap:.3rem;font-weight:600}
+.media-controls .rating-control input{padding:0;accent-color:var(--accent)}
+.rating-control output{font-size:.85rem;font-weight:400;color:var(--muted)}
 .sort-controls,.status-controls{display:flex;flex-wrap:wrap;gap:.4rem}
 .sort-controls button,.status-controls button{padding:.5rem .7rem;border:1px solid var(--border);border-radius: 0;background:var(--surface);color:var(--foreground);font:inherit;cursor:pointer}
 .sort-controls button[aria-pressed="true"],.status-controls button[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);font-weight:700}

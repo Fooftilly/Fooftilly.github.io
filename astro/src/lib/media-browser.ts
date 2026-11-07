@@ -8,6 +8,10 @@ export function matchesMediaStatus(entry: {status?: string}, filter: MediaStatus
   return filter === "all" || (filter === "unspecified" ? !entry.status : entry.status === filter);
 }
 
+/** 0 keeps the entire collection, including unrated records. */
+export function matchesMediaMinimumRating(entry: {rating?: number}, minimum: number): boolean {
+  return minimum === 0 || (entry.rating !== undefined && entry.rating >= minimum);
+}
 export interface MediaListing { title: string; id: string; year?: number; rating?: number }
 
 export const normalizeMediaSearch = (value: string): string => value.normalize("NFKD")
