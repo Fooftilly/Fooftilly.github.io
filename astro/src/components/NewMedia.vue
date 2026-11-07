@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref } from "vue";
-import { composeMediaDraft, githubMediaEditorUrl, mediaSourceLabel, type ExistingMediaRef, type MediaKind, type MediaRecord } from "../lib/media-model.ts";
+import { compactMediaLinks, composeMediaDraft, githubMediaEditorUrl, mediaSourceLabel, type ExistingMediaRef, type MediaKind, type MediaRecord } from "../lib/media-model.ts";
 import { nextAvailableMediaPosition } from "../lib/media-editor-positions.ts";
 
 const props=defineProps<{existing:ExistingMediaRef[]}>();
@@ -93,7 +93,7 @@ const drafted=computed(()=>{
       label:mediaSourceLabel(secondaryUrl.value.trim(),"Additional reference"),
       url:secondaryUrl.value.trim()
     });
-    if(links.length) input.links=links;
+    if(links.length) Object.assign(input,compactMediaLinks(links));
     if(kind.value==="music" && tracks.value.length) input.tracks=tracks.value.map(track=>({
       disc:numberOf(track.disc,"Disc"),number:numberOf(track.number,"Track number"),
       title:track.title,
