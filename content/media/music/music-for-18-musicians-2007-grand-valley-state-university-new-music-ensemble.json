@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Music for 18 Musicians",
+  "creator": "Grand Valley State University New Music Ensemble",
+  "year": 2007,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "148a7fb2-3cb1-3c63-9669-60d7d661616d"
+  }
+}

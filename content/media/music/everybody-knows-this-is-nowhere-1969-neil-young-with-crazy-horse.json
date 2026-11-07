@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Everybody Knows This Is Nowhere",
+  "creator": "Neil Young with Crazy Horse",
+  "year": 1969,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "f61603ab-ef6b-386b-a5e0-aaefc00543f1"
+  }
+}

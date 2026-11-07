@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Swans Are Dead",
+  "creator": "Swans",
+  "year": 1998,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "2ea72a55-4fb8-39d3-9bd9-5ad738460a0e"
+  }
+}

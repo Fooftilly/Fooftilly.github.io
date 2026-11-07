@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Lux",
+  "creator": "Rosalía",
+  "year": 2025,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "bb3ec118-57df-4eb9-a8fe-a26a70a7dbe0"
+  }
+}

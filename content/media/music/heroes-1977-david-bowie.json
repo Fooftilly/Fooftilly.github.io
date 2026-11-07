@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "\"Heroes\"",
+  "creator": "David Bowie",
+  "year": 1977,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "1f5ef8d3-10ca-30eb-b41e-85b16987d412"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Something Beautiful",
+  "creator": "Miley Cyrus",
+  "year": 2025,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "a2ba3c58-0d5d-43b3-81aa-d0a72e9e262b"
+  }
+}
