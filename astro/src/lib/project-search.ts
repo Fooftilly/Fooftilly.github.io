@@ -22,21 +22,34 @@ export function projectStatusLabel(status: PublicProject["status"], lang: "en" |
 function fold(value: string): string {
   return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 }
-export function filterProjects<T extends PublicProject>(projects: readonly T[], query: string): T[] {
+/** Exact tag selection complements, rather than replaces, free-text search. */
+export function filterProjects<T extends PublicProject>(projects: readonly T[], query: string, tag = ""): T[] {
   const terms = fold(query.trim()).split(/\s+/).filter(Boolean);
+  const selected = tag.normalize("NFC").toLowerCase();
   return projects.filter(project => {
+    if (selected && !project.tags.some(label => label.normalize("NFC").toLowerCase() === selected)) return false;
     const text = fold([project.title,project.summary,project.summarySh ?? "",
       project.status ?? "",projectStatusLabel(project.status, "sh"),...project.tags].join(" "));
     return terms.every(term => text.includes(term));
   });
 }
+/** Resolve only a label currently present in the repository's public source. */
+export function readProjectTag(search: string, availableTags: readonly string[]): string {
+  const request = new URLSearchParams(search).get("tag")?.normalize("NFC").toLowerCase();
+  return availableTags.find(label => label.normalize("NFC").toLowerCase() === request) ?? "";
+}
+export function projectTagHref(tag: string, lang: "en" | "sh" = "en"): string {
+  return (lang === "sh" ? "/sh/projects/" : "/projects/") + "?" + new URLSearchParams({tag});
+}
 export function readProjectSearchQuery(search: string): string {
   return (new URLSearchParams(search).get("q") ?? "").trim();
 }
 /** Keep unrelated link state without adding a history entry for every keypress. */
-export function projectSearchHref(href: string, query: string): string {
+export function projectSearchHref(href: string, query: string, tag = ""): string {
   const next = new URL(href);
   next.searchParams.delete("q");
+  next.searchParams.delete("tag");
   if (query.trim()) next.searchParams.set("q",query.trim());
+  if (tag) next.searchParams.set("tag",tag);
   return next.pathname + next.search + next.hash;
 }

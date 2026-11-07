@@ -1,6 +1,6 @@
 /** Preserve bookmark filters (and only filters) when changing search language. */
 const SEARCH_FILTER_KEYS = ["q", "category", "sort", "tag"] as const;
-const PROJECT_QUERY_KEYS = ["q"] as const;
+const PROJECT_QUERY_KEYS = ["q", "tag"] as const;
 
 export function searchLanguageSwitchHref(currentHref: string, alternateHref: string): string {
   const current = new URL(currentHref);

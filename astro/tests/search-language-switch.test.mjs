@@ -64,3 +64,12 @@ test("project index language switch preserves only active project search", () =>
   assert.deepEqual([...next.searchParams.keys()],["q"]);
   assert.equal(next.searchParams.get("q"),"Istraživanje");
 });
+
+test("project language switch retains exact tag links without unrelated search filters",()=>{
+  const href=searchLanguageSwitchHref("https://www.peroniko.xyz/sh/projects/?q=rust&tag=TypeScript&category=ignored&utm_source=mail","/projects/");
+  const next=new URL(href,"https://www.peroniko.xyz");
+  assert.equal(next.searchParams.get("q"),"rust");
+  assert.equal(next.searchParams.get("tag"),"TypeScript");
+  assert.equal(next.searchParams.has("category"),false);
+  assert.equal(next.searchParams.has("utm_source"),false);
+});
