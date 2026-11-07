@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Chunky Shrapnel",
+  "creator": "King Gizzard and The Lizard Wizard",
+  "year": 2020,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "4c8b20d3-87c3-4eb2-9aa7-d6fe55de784e"
+  }
+}

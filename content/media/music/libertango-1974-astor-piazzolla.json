@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Libertango",
+  "creator": "Astor Piazzolla",
+  "year": 1974,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "b41a5356-03cf-3f8e-a997-9af6adf0f785"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "万能青年旅店",
+  "creator": "万能青年旅店",
+  "year": 2010,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "860dc2de-b1d5-4fc2-b872-f7072316cac1"
+  }
+}

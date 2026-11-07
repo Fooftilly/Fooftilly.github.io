@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Close to You",
+  "creator": "Carpenters",
+  "year": 1970,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "ca8d0ba2-f227-3665-9104-30e3c09eafae"
+  }
+}

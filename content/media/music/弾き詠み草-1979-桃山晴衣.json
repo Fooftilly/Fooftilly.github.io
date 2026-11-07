@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "弾き詠み草",
+  "creator": "桃山晴衣",
+  "year": 1979,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "0e6ea68b-b697-4d58-bd97-b356d1d2c3d1"
+  }
+}

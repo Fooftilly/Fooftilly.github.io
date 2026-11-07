@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Black Messiah",
+  "creator": "D'Angelo and The Vanguard",
+  "year": 2014,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "b3d96626-4d46-4012-b6cb-e8d8b192a4f1"
+  }
+}

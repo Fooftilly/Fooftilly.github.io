@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "The Infamous",
+  "creator": "Mobb Deep",
+  "year": 1995,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "03f3c216-bd40-322b-ac8a-254816ff5573"
+  }
+}

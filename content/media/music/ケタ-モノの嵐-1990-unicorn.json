@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "ケダモノの嵐",
+  "creator": "UNICORN",
+  "year": 1990,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "42547adc-73e8-31b7-aa4a-84491e13eb2a"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "The Inner Mounting Flame",
+  "creator": "The Mahavishnu Orchestra with John McLaughlin",
+  "year": 1971,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "cc166f72-5bb4-3534-941f-e974b20604aa"
+  }
+}

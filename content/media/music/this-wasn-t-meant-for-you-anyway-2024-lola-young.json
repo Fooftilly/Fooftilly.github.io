@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "This Wasn't Meant for You Anyway",
+  "creator": "Lola Young",
+  "year": 2024,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "1f428f20-2d3b-4535-a11d-85d28aa37203"
+  }
+}

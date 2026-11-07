@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Shelter",
+  "creator": "Alice Phoebe Lou",
+  "year": 2023,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "8ed5a50a-597e-41ae-a459-6946fd477831"
+  }
+}

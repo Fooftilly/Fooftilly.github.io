@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Out of Season",
+  "creator": "Beth Gibbons & Rustin Man",
+  "year": 2002,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "20c64f88-7893-3ff1-8ec2-ff53ac7fcf33"
+  }
+}

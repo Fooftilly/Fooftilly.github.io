@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "空洞です",
+  "creator": "ゆらゆら帝国",
+  "year": 2007,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "032c8dfb-2662-38bf-96fa-2c5f81c1526d"
+  }
+}

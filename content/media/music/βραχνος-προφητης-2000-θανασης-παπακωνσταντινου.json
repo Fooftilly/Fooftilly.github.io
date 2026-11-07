@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Βραχνός προφήτης",
+  "creator": "Θανάσης Παπακωνσταντίνου",
+  "year": 2000,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "59fa57ab-03a1-3382-992b-222caaa47576"
+  }
+}

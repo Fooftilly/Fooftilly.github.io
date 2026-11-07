@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Take Me Back to Eden",
+  "creator": "Sleep Token",
+  "year": 2023,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "cffd54b1-1ce7-4a99-a0a9-3947a08137df"
+  }
+}
