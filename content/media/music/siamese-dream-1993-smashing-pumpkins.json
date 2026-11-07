@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Siamese Dream",
+  "creator": "Smashing Pumpkins",
+  "year": 1993,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "a159e102-18bb-42ca-a59e-5f96a7eff241"
+  }
+}

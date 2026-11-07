@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "The Goldberg Variations",
+  "creator": "Glenn Gould",
+  "year": 1982,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "7c8f2d45-d764-347a-9ab9-0aa771a3447d"
+  }
+}

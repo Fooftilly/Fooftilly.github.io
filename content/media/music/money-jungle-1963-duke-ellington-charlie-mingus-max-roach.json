@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Money Jungle",
+  "creator": "Duke Ellington, Charlie Mingus & Max Roach",
+  "year": 1963,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "1c18538e-e9be-3449-8be1-f3cdc7b493e0"
+  }
+}

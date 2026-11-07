@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Promises",
+  "creator": "Floating Points, Pharoah Sanders & The London Symphony Orchestra",
+  "year": 2021,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "970f689d-1778-4953-b3ed-48d057625724"
+  }
+}

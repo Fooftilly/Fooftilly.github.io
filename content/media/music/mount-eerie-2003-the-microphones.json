@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Mount Eerie",
+  "creator": "The Microphones",
+  "year": 2003,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "15408c1f-f9ab-3d90-a9c3-0068465d1d76"
+  }
+}

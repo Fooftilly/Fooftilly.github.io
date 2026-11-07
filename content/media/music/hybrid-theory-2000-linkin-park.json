@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Hybrid Theory",
+  "creator": "Linkin Park",
+  "year": 2000,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "b5b4bb4b-8ba5-3acf-88cb-4cae2699d8da"
+  }
+}

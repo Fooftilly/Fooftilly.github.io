@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Art Blakey and The Jazz Messengers [Moanin']",
+  "creator": "Art Blakey and The Jazz Messengers",
+  "year": 1959,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "e809b0f3-5683-3248-b39a-e7ee8e86d2d9"
+  }
+}
