@@ -21,6 +21,7 @@ export interface BookmarkFilters {
   query: string;
   category: string;
   sort: BookmarkSort;
+  tag?: string;
   lang?: "en" | "sh";
 }
 
@@ -37,8 +38,11 @@ export function filterAndSortBookmarks<T extends Bookmark>(
   filters: BookmarkFilters,
 ): T[] {
   const terms = fold(filters.query.trim()).split(/\s+/).filter(Boolean);
+  const activeTag = filters.tag?.normalize("NFC").toLowerCase();
   const filtered = items.filter((item) => {
     if (filters.category !== "all" && item.category !== filters.category) return false;
+    if (activeTag && !(item.tags ?? []).some(tag =>
+      tag.normalize("NFC").toLowerCase() === activeTag)) return false;
     const translatedCategory = filters.lang === "sh" ? bookmarkCategoryDisplayLabel(item.category, "sh") : "";
     const haystack = fold([item.title, item.category, translatedCategory, item.url, item.comments ?? "", ...(item.tags ?? [])].join(" "));
     return terms.every((term) => haystack.includes(term));

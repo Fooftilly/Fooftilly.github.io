@@ -2,7 +2,7 @@
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
 import { filterAndSortBookmarks, visibleBookmarkPage, BOOKMARK_PAGE_SIZE, type Bookmark, type BookmarkSort } from "../lib/bookmark-filter.ts";
 import { bookmarkCategoryDisplayLabel } from "../lib/bookmark-categories.ts";
-import { bookmarkFilterHref, readBookmarkQueryState } from "../lib/bookmark-query-state.ts";
+import { bookmarkFilterHref, bookmarkTagSearchHref, readBookmarkQueryState } from "../lib/bookmark-query-state.ts";
 
 const props = withDefaults(defineProps<{ items: Bookmark[]; lang?: "en" | "sh" }>(), {
   lang: "en",
@@ -24,6 +24,8 @@ const labels = computed(() => props.lang === "sh" ? {
   more: "Prikaži još",
   notes: "Bilješke",
   details: "Detalji",
+  activeTag: "Oznaka",
+  clearTag: "Ukloni oznaku",
 } : {
   search: "Search links",
   placeholder: "Title, category, tags, website or comment",
@@ -41,6 +43,8 @@ const labels = computed(() => props.lang === "sh" ? {
   more: "Show more",
   notes: "Notes",
   details: "Details",
+  activeTag: "Tag",
+  clearTag: "Clear tag",
 });
 const query = ref("");
 const searchInput = ref<HTMLInputElement | null>(null);
@@ -48,6 +52,7 @@ async function clearFilters(): Promise<void> {
   query.value = "";
   category.value = "all";
   sort.value = "newest";
+  tag.value = "";
   // The reset button is removed when filters become default; keep keyboard
   // focus in the browser controls rather than falling back to the document.
   await nextTick();
@@ -55,9 +60,13 @@ async function clearFilters(): Promise<void> {
 }
 const category = ref("all");
 const sort = ref<BookmarkSort>("newest");
+const tag = ref("");
 const limit = ref(BOOKMARK_PAGE_SIZE);
 const categories = computed(() =>
   [...new Set(props.items.map((item) => item.category))].sort((a, b) => a.localeCompare(b))
+);
+const availableTags = computed(() =>
+  [...new Set(props.items.flatMap(item => item.tags ?? []))].sort((a, b) => a.localeCompare(b))
 );
 const sortOptions = computed(() => [
   { value: "newest" as BookmarkSort, label: labels.value.newest },
@@ -69,6 +78,7 @@ const matches = computed(() => filterAndSortBookmarks(props.items, {
   query: query.value,
   category: category.value,
   sort: sort.value,
+  tag: tag.value,
   lang: props.lang,
 }));
 const visible = computed(() => visibleBookmarkPage(matches.value, limit.value, hydrated.value));
@@ -77,16 +87,17 @@ const hydrated = ref(false);
 const syncAddress = (): void => {
   if (!hydrated.value || typeof window === "undefined") return;
   const next = bookmarkFilterHref(window.location.href, {
-    query: query.value, category: category.value, sort: sort.value,
+    query: query.value, category: category.value, sort: sort.value, tag: tag.value,
   });
   const current = window.location.pathname + window.location.search + window.location.hash;
   if (next !== current) window.history.replaceState(window.history.state, "", next);
 };
 const restoreFromAddress = (): void => {
-  const restored = readBookmarkQueryState(window.location.search, categories.value);
+  const restored = readBookmarkQueryState(window.location.search, categories.value, availableTags.value);
   query.value = restored.query;
   category.value = restored.category;
   sort.value = restored.sort;
+  tag.value = restored.tag;
   limit.value = BOOKMARK_PAGE_SIZE;
   hydrated.value = true;
   // Normalize malformed or stale category/sort links without changing history.
@@ -99,7 +110,7 @@ onMounted(() => {
 });
 onUnmounted(() => window.removeEventListener("popstate", restoreFromAddress));
 
-watch([query, category, sort], () => {
+watch([query, category, sort, tag], () => {
   limit.value = BOOKMARK_PAGE_SIZE;
   syncAddress();
 });
@@ -133,11 +144,15 @@ watch([query, category, sort], () => {
         </div>
       </fieldset>
     </div>
+    <p v-if="tag" class="active-bookmark-tag" data-active-bookmark-tag>
+      {{ labels.activeTag }}: <strong>{{ tag }}</strong>
+      <button type="button" data-clear-bookmark-tag @click="tag = ''">{{ labels.clearTag }}</button>
+    </p>
     <div class="bookmark-summary">
       <p role="status" aria-live="polite">
         {{ labels.showing }} {{ visible.length }} {{ labels.of }} {{ matches.length }} {{ labels.bookmarks }}
       </p>
-      <button v-if="query || category !== 'all' || sort !== 'newest'" type="button"
+      <button v-if="query || category !== 'all' || sort !== 'newest' || tag" type="button"
         @click="clearFilters">
         {{ labels.clear }}
       </button>
@@ -152,7 +167,9 @@ watch([query, category, sort], () => {
           <a v-if="item.detailUrl || item.notesUrl" :href="item.detailUrl || item.notesUrl" :aria-label="`${item.notesUrl ? labels.notes : labels.details}: ${item.title}`" data-bookmark-detail-link>{{ item.notesUrl ? labels.notes : labels.details }}</a>
         </div>
         <ul v-if="item.tags?.length" class="bookmark-tags" :aria-label="lang === 'sh' ? 'Oznake' : 'Tags'">
-          <li v-for="tag in item.tags" :key="tag">{{ tag }}</li>
+          <li v-for="itemTag in item.tags" :key="itemTag">
+            <a :href="bookmarkTagSearchHref(itemTag, lang)" :aria-label="`${labels.activeTag}: ${itemTag}`" data-bookmark-tag-link>{{ itemTag }}</a>
+          </li>
         </ul>
         <p v-if="query.trim() && item.comments" class="bookmark-comment">{{ item.comments }}</p>
       </li>
@@ -197,6 +214,8 @@ button { font: inherit; padding: .5rem .7rem; border-radius: 0; color: var(--for
 .metadata { display: flex; flex-wrap: wrap; gap: 1rem; color: var(--muted); font-size: .83rem; margin-top: .3rem; }
 .bookmark-tags { display: flex; flex-wrap: wrap; list-style: none; gap: .3rem; margin: .45rem 0 0; padding: 0; }
 .bookmark-tags li { border: 1px solid var(--border); border-radius: 0; font-size: .8rem; padding: .1rem .4rem; }
+.bookmark-tags a { color: inherit; text-decoration: underline; text-underline-offset: .2em; }
+.active-bookmark-tag { display: flex; align-items: center; flex-wrap: wrap; gap: .45rem; margin: 1rem 0 0; color: var(--muted); }
 .bookmark-comment { color: var(--muted); font-size: .88rem; margin: .4rem 0 0; overflow-wrap: anywhere; white-space: pre-wrap; max-width: 70ch; }
 .empty-result { padding: 2rem 0; }
 .more-button { display: block; margin: 1.5rem auto; }

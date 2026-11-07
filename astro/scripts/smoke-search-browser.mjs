@@ -864,6 +864,27 @@ try {
     "All category and sort buttons must fit mobile viewport");
   await command("Emulation.clearDeviceMetricsOverride");
 
+  const tagged = bookmarkRecords.find(record => record.tags?.length);
+  if (tagged) {
+    const currentTag = tagged.tags[0];
+    const sameTag = bookmarkRecords.filter(record => record.tags?.some(label =>
+      label.normalize("NFC").toLowerCase() === currentTag.normalize("NFC").toLowerCase()));
+    await navigate("/search/?tag=" + encodeURIComponent(currentTag));
+    await waitFor("document.querySelector('[data-active-bookmark-tag]')?.textContent",
+      text => typeof text === "string" && text.includes(currentTag),
+      "Exact bookmark tag link restores its label after Vue hydration");
+    await waitFor("document.querySelectorAll('li.bookmark-entry').length",
+      count => count === Math.min(50, sameTag.length),
+      "Exact-tag browsing uses source tag metadata instead of fuzzy title matching");
+    assert.equal(await evaluate("new URL(location.href).searchParams.get('tag')"), currentTag);
+    await evaluate("document.querySelector('[data-clear-bookmark-tag]').click()");
+    await waitFor("new URL(location.href).searchParams.has('tag')",
+      value => value === false, "Clear-tag action removes only the exact-tag URL filter");
+    await navigate("/search/?tag=" + encodeURIComponent("tag-no-longer-in-source-zz"));
+    await waitFor("new URL(location.href).searchParams.has('tag')",
+      value => value === false, "Removed source tags are normalized away from shared links");
+  }
+
   const searchRecord = bookmarkRecords.find(record => record.title && record.detailUrl);
   if (searchRecord) {
     await navigate("/search/?q=" + encodeURIComponent(searchRecord.title));
