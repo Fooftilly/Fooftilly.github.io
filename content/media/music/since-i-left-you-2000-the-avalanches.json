@@ -5,10 +5,7 @@
   "creator": "The Avalanches",
   "year": 2000,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "MusicBrainz",
-      "url": "https://musicbrainz.org/release-group/28438e4f-3710-459f-a332-a1eba9dd1f26"
-    }
-  ]
+  "refs": {
+    "musicbrainz": "28438e4f-3710-459f-a332-a1eba9dd1f26"
+  }
 }

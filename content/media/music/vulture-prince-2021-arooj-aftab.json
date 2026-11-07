@@ -5,10 +5,7 @@
   "creator": "Arooj Aftab",
   "year": 2021,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "MusicBrainz",
-      "url": "https://musicbrainz.org/release-group/68f7ceb6-e159-4326-8ec1-90dddcb2342c"
-    }
-  ]
+  "refs": {
+    "musicbrainz": "68f7ceb6-e159-4326-8ec1-90dddcb2342c"
+  }
 }

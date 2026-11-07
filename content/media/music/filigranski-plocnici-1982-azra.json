@@ -5,10 +5,7 @@
   "creator": "Azra",
   "year": 1982,
   "rating": 5,
-  "links": [
-    {
-      "label": "MusicBrainz",
-      "url": "https://musicbrainz.org/release-group/cc9427b4-e3dc-3070-93af-3224f0dacf1b"
-    }
-  ]
+  "refs": {
+    "musicbrainz": "cc9427b4-e3dc-3070-93af-3224f0dacf1b"
+  }
 }

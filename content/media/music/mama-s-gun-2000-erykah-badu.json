@@ -5,10 +5,7 @@
   "creator": "Erykah Badu",
   "year": 2000,
   "rating": 4,
-  "links": [
-    {
-      "label": "MusicBrainz",
-      "url": "https://musicbrainz.org/release-group/25bdfd28-72ca-3d1f-88fc-dcf67df91720"
-    }
-  ]
+  "refs": {
+    "musicbrainz": "25bdfd28-72ca-3d1f-88fc-dcf67df91720"
+  }
 }

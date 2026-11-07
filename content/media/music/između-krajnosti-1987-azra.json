@@ -5,10 +5,7 @@
   "creator": "Azra",
   "year": 1987,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "MusicBrainz",
-      "url": "https://musicbrainz.org/release-group/338b1a43-1b8f-46b0-af26-f0b136775f0e"
-    }
-  ]
+  "refs": {
+    "musicbrainz": "338b1a43-1b8f-46b0-af26-f0b136775f0e"
+  }
 }

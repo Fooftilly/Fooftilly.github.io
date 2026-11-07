@@ -5,10 +5,7 @@
   "creator": "Đorđe Balašević",
   "year": 1996,
   "rating": 4,
-  "links": [
-    {
-      "label": "MusicBrainz",
-      "url": "https://musicbrainz.org/release-group/ec860d2c-b45a-3663-8c46-85d9376b9d99"
-    }
-  ]
+  "refs": {
+    "musicbrainz": "ec860d2c-b45a-3663-8c46-85d9376b9d99"
+  }
 }

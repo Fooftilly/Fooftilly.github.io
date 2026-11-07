@@ -5,10 +5,7 @@
   "creator": "Atomsko sklonište",
   "year": 1978,
   "rating": 3,
-  "links": [
-    {
-      "label": "MusicBrainz",
-      "url": "https://musicbrainz.org/release-group/3dac105d-21b1-4fee-8dc5-7a4f92517868"
-    }
-  ]
+  "refs": {
+    "musicbrainz": "3dac105d-21b1-4fee-8dc5-7a4f92517868"
+  }
 }

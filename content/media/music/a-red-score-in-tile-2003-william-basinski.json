@@ -5,10 +5,7 @@
   "creator": "William Basinski",
   "year": 2003,
   "rating": 3,
-  "links": [
-    {
-      "label": "MusicBrainz",
-      "url": "https://musicbrainz.org/release-group/ec83e986-6f36-344a-9688-43baac457dbf"
-    }
-  ]
+  "refs": {
+    "musicbrainz": "ec83e986-6f36-344a-9688-43baac457dbf"
+  }
 }

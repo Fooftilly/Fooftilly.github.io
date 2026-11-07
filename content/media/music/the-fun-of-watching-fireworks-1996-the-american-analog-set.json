@@ -5,10 +5,7 @@
   "creator": "The American Analog Set",
   "year": 1996,
   "rating": 3,
-  "links": [
-    {
-      "label": "MusicBrainz",
-      "url": "https://musicbrainz.org/release-group/ec8f645c-e9af-3e46-a012-ce3cbbab26d9"
-    }
-  ]
+  "refs": {
+    "musicbrainz": "ec8f645c-e9af-3e46-a012-ce3cbbab26d9"
+  }
 }

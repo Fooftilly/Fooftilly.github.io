@@ -5,10 +5,7 @@
   "creator": "Bajaga",
   "year": 1984,
   "rating": 3,
-  "links": [
-    {
-      "label": "MusicBrainz",
-      "url": "https://musicbrainz.org/release-group/88bdf18d-b1fd-3cf3-adb4-1b9031267a41"
-    }
-  ]
+  "refs": {
+    "musicbrainz": "88bdf18d-b1fd-3cf3-adb4-1b9031267a41"
+  }
 }

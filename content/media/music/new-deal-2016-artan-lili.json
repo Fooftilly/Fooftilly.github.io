@@ -5,10 +5,7 @@
   "creator": "Artan Lili",
   "year": 2016,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "MusicBrainz",
-      "url": "https://musicbrainz.org/release-group/e24cca3c-9dfc-4d24-9b9f-fa86b25c24f9"
-    }
-  ]
+  "refs": {
+    "musicbrainz": "e24cca3c-9dfc-4d24-9b9f-fa86b25c24f9"
+  }
 }

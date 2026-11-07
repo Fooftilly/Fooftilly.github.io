@@ -5,10 +5,7 @@
   "creator": "The Beach Boys",
   "year": 1966,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "MusicBrainz",
-      "url": "https://musicbrainz.org/release-group/fdd96703-7b21-365e-bdea-38029fbeb84e"
-    }
-  ]
+  "refs": {
+    "musicbrainz": "fdd96703-7b21-365e-bdea-38029fbeb84e"
+  }
 }

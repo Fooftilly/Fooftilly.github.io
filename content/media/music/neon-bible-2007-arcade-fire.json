@@ -5,10 +5,7 @@
   "creator": "Arcade Fire",
   "year": 2007,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "MusicBrainz",
-      "url": "https://musicbrainz.org/release-group/c091b282-aa91-3bc0-9c95-938db1f1f930"
-    }
-  ]
+  "refs": {
+    "musicbrainz": "c091b282-aa91-3bc0-9c95-938db1f1f930"
+  }
 }

@@ -5,10 +5,7 @@
   "creator": "Đorđe Balašević",
   "year": 1985,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "MusicBrainz",
-      "url": "https://musicbrainz.org/release-group/a3883581-eb0a-4c57-b532-978b749e9caa"
-    }
-  ]
+  "refs": {
+    "musicbrainz": "a3883581-eb0a-4c57-b532-978b749e9caa"
+  }
 }

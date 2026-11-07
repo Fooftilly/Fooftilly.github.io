@@ -5,10 +5,7 @@
   "creator": "Đorđe Balašević",
   "year": 2001,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "MusicBrainz",
-      "url": "https://musicbrainz.org/release-group/0edf581f-23a2-39ec-b7f0-4690666f8c31"
-    }
-  ]
+  "refs": {
+    "musicbrainz": "0edf581f-23a2-39ec-b7f0-4690666f8c31"
+  }
 }

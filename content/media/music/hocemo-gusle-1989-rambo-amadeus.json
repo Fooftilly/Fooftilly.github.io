@@ -5,10 +5,7 @@
   "creator": "Rambo Amadeus",
   "year": 1989,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "MusicBrainz",
-      "url": "https://musicbrainz.org/release-group/8c58ab81-4a18-3970-b8a8-89c7430928f2"
-    }
-  ]
+  "refs": {
+    "musicbrainz": "8c58ab81-4a18-3970-b8a8-89c7430928f2"
+  }
 }

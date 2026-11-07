@@ -5,10 +5,7 @@
   "creator": "Aphex Twin",
   "year": 2001,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "MusicBrainz",
-      "url": "https://musicbrainz.org/release-group/87f1a316-510f-36c3-9f2c-38230b0e56e0"
-    }
-  ]
+  "refs": {
+    "musicbrainz": "87f1a316-510f-36c3-9f2c-38230b0e56e0"
+  }
 }

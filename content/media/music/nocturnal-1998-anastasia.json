@@ -5,10 +5,7 @@
   "creator": "Anastasia",
   "year": 1998,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "MusicBrainz",
-      "url": "https://musicbrainz.org/release-group/50c53424-870f-3621-8194-a2d67e9c4d6b"
-    }
-  ]
+  "refs": {
+    "musicbrainz": "50c53424-870f-3621-8194-a2d67e9c4d6b"
+  }
 }

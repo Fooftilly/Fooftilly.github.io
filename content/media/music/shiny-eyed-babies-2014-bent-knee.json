@@ -5,10 +5,7 @@
   "creator": "Bent Knee",
   "year": 2014,
   "rating": 4,
-  "links": [
-    {
-      "label": "MusicBrainz",
-      "url": "https://musicbrainz.org/release-group/98187b80-aa77-4ff7-85a6-dea26fcc8067"
-    }
-  ]
+  "refs": {
+    "musicbrainz": "98187b80-aa77-4ff7-85a6-dea26fcc8067"
+  }
 }

@@ -5,10 +5,7 @@
   "creator": "Animal Collective",
   "year": 2005,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "MusicBrainz",
-      "url": "https://musicbrainz.org/release-group/5438d2fd-1499-3daa-9f85-091a497d270b"
-    }
-  ]
+  "refs": {
+    "musicbrainz": "5438d2fd-1499-3daa-9f85-091a497d270b"
+  }
 }

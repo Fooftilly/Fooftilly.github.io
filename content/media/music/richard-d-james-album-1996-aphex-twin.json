@@ -5,10 +5,7 @@
   "creator": "Aphex Twin",
   "year": 1996,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "MusicBrainz",
-      "url": "https://musicbrainz.org/release-group/84d79dbe-7ac1-3ebc-9b36-238ddfb8229c"
-    }
-  ]
+  "refs": {
+    "musicbrainz": "84d79dbe-7ac1-3ebc-9b36-238ddfb8229c"
+  }
 }

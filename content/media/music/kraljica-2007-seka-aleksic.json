@@ -5,10 +5,7 @@
   "creator": "Seka Aleksić",
   "year": 2007,
   "rating": 3,
-  "links": [
-    {
-      "label": "MusicBrainz",
-      "url": "https://musicbrainz.org/release-group/2fb7e499-c68d-47c8-967d-3767e2ca242f"
-    }
-  ]
+  "refs": {
+    "musicbrainz": "2fb7e499-c68d-47c8-967d-3767e2ca242f"
+  }
 }

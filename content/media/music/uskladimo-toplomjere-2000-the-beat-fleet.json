@@ -5,10 +5,7 @@
   "creator": "The Beat Fleet",
   "year": 2000,
   "rating": 4,
-  "links": [
-    {
-      "label": "MusicBrainz",
-      "url": "https://musicbrainz.org/release-group/7d6364e7-c158-346c-9e72-3b9c37dc396a"
-    }
-  ]
+  "refs": {
+    "musicbrainz": "7d6364e7-c158-346c-9e72-3b9c37dc396a"
+  }
 }

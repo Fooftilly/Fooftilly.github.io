@@ -5,10 +5,7 @@
   "creator": "Azra",
   "year": 1983,
   "rating": 4.5,
-  "links": [
-    {
-      "label": "MusicBrainz",
-      "url": "https://musicbrainz.org/release-group/e0ebf80a-291e-3885-9a66-cd9690555317"
-    }
-  ]
+  "refs": {
+    "musicbrainz": "e0ebf80a-291e-3885-9a66-cd9690555317"
+  }
 }

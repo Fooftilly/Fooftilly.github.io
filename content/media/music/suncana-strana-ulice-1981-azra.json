@@ -5,10 +5,7 @@
   "creator": "Azra",
   "year": 1981,
   "rating": 4.5,
-  "links": [
-    {
-      "label": "MusicBrainz",
-      "url": "https://musicbrainz.org/release-group/d2e85c65-fa21-3e96-9d05-8999e51656ae"
-    }
-  ]
+  "refs": {
+    "musicbrainz": "d2e85c65-fa21-3e96-9d05-8999e51656ae"
+  }
 }

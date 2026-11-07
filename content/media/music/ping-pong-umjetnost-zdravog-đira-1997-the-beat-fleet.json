@@ -5,10 +5,7 @@
   "creator": "The Beat Fleet",
   "year": 1997,
   "rating": 4,
-  "links": [
-    {
-      "label": "MusicBrainz",
-      "url": "https://musicbrainz.org/release-group/d2576e1f-f1e7-3f53-ba4e-68968daf983d"
-    }
-  ]
+  "refs": {
+    "musicbrainz": "d2576e1f-f1e7-3f53-ba4e-68968daf983d"
+  }
 }

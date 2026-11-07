@@ -5,10 +5,7 @@
   "creator": "Aska",
   "year": 1984,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "MusicBrainz",
-      "url": "https://musicbrainz.org/release-group/c67e8a5e-665d-4e73-aab8-fd9b1a8a7538"
-    }
-  ]
+  "refs": {
+    "musicbrainz": "c67e8a5e-665d-4e73-aab8-fd9b1a8a7538"
+  }
 }

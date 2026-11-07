@@ -5,10 +5,7 @@
   "creator": "David Axelrod",
   "year": 1969,
   "rating": 4,
-  "links": [
-    {
-      "label": "MusicBrainz",
-      "url": "https://musicbrainz.org/release-group/3e3ca82c-ee44-3230-bddc-2e3fd702041d"
-    }
-  ]
+  "refs": {
+    "musicbrainz": "3e3ca82c-ee44-3230-bddc-2e3fd702041d"
+  }
 }

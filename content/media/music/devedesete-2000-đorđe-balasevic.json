@@ -5,10 +5,7 @@
   "creator": "Đorđe Balašević",
   "year": 2000,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "MusicBrainz",
-      "url": "https://musicbrainz.org/release-group/aca289fb-09f8-3358-9b34-0b050ce972bb"
-    }
-  ]
+  "refs": {
+    "musicbrainz": "aca289fb-09f8-3358-9b34-0b050ce972bb"
+  }
 }

@@ -5,10 +5,7 @@
   "creator": "Đorđe Balašević",
   "year": 1982,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "MusicBrainz",
-      "url": "https://musicbrainz.org/release-group/6a0514fe-7f4e-4e4b-adcd-72361b72eec2"
-    }
-  ]
+  "refs": {
+    "musicbrainz": "6a0514fe-7f4e-4e4b-adcd-72361b72eec2"
+  }
 }

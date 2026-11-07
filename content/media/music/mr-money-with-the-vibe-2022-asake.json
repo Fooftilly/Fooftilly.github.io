@@ -5,10 +5,7 @@
   "creator": "Asake",
   "year": 2022,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "MusicBrainz",
-      "url": "https://musicbrainz.org/release-group/9cca4369-76b5-4121-98da-ba5f23872a17"
-    }
-  ]
+  "refs": {
+    "musicbrainz": "9cca4369-76b5-4121-98da-ba5f23872a17"
+  }
 }
