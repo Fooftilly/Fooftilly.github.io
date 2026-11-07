@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Azra",
+  "creator": "Azra",
+  "year": 1980,
+  "rating": 4.5,
+  "links": [
+    {
+      "label": "MusicBrainz",
+      "url": "https://musicbrainz.org/release-group/81b04aba-e457-3576-a43c-3684597dc8ff"
+    }
+  ]
+}

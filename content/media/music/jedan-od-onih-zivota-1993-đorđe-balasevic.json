@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Jedan od onih života",
+  "creator": "Đorđe Balašević",
+  "year": 1993,
+  "rating": 3.5,
+  "links": [
+    {
+      "label": "MusicBrainz",
+      "url": "https://musicbrainz.org/release-group/64ec7c84-0daa-3a21-80af-5bf5987d8662"
+    }
+  ]
+}

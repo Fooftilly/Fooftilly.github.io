@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Swaken",
+  "creator": "Bab L' Bluz",
+  "year": 2024,
+  "rating": 4,
+  "links": [
+    {
+      "label": "MusicBrainz",
+      "url": "https://musicbrainz.org/release-group/e5a12915-1441-4230-bcdf-81a9f4974d78"
+    }
+  ]
+}

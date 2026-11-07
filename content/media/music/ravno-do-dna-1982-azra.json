@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Ravno do dna",
+  "creator": "Azra",
+  "year": 1982,
+  "rating": 4,
+  "links": [
+    {
+      "label": "MusicBrainz",
+      "url": "https://musicbrainz.org/release-group/5ac8e924-6d47-3352-baee-b86ac73332d4"
+    }
+  ]
+}
