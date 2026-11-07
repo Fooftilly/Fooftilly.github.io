@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Marim ja...",
+  "creator": "Đorđe Balašević",
+  "year": 1991,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "8262d122-1504-4587-b77f-f0a6528e929b"
+  }
+}

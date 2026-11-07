@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Night Reign",
+  "creator": "Arooj Aftab",
+  "year": 2024,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "4af815ea-5fe3-4649-a342-1e964aa3d6fd"
+  }
+}

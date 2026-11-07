@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Tether",
+  "creator": "Annahstasia",
+  "year": 2025,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "ae371a9b-95de-4c92-b0ff-cac39ea05c7a"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "O tugo jesenja",
+  "creator": "Rambo Amadeus",
+  "year": 1988,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "b6d50946-9f4f-3b35-9aab-f60bb68685c7"
+  }
+}

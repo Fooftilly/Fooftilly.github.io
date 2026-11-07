@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Fôrça bruta",
+  "creator": "Jorge Ben",
+  "year": 1970,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "9be4876d-be66-312e-8027-38756d42eb4c"
+  }
+}

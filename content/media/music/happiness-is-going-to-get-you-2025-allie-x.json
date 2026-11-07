@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Happiness Is Going to Get You",
+  "creator": "Allie X",
+  "year": 2025,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "19d87288-e1a4-40c5-b595-f6f3bede1791"
+  }
+}
