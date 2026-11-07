@@ -67,7 +67,7 @@ def check_sitemap():
     assert len(ids) == len(set(ids)), "Duplicate bookmark in sitemap source"
     categories = load_categories()
     slug_by_section = {item["section"]: item["slug"] for item in categories}
-    expected = {SITE + "/", SITE + "/about/", SITE + "/sh/", SITE + "/sh/about/", SITE + "/posts/", SITE + "/sh/posts/", SITE + "/search/", SITE + "/sh/search/", SITE + "/bookmarks/", SITE + "/new-bookmark/", SITE + "/media/", SITE + "/music/", SITE + "/films/", SITE + "/tv/", SITE + "/new-media/", SITE + "/privacy/", SITE + "/sh/privacy/"}
+    expected = {SITE + "/", SITE + "/about/", SITE + "/sh/", SITE + "/sh/about/", SITE + "/posts/", SITE + "/sh/posts/", SITE + "/search/", SITE + "/sh/search/", SITE + "/bookmarks/", SITE + "/bookmarks/tags/", SITE + "/sh/bookmarks/tags/", SITE + "/new-bookmark/", SITE + "/media/", SITE + "/music/", SITE + "/films/", SITE + "/tv/", SITE + "/new-media/", SITE + "/privacy/", SITE + "/sh/privacy/"}
     project_sources = sorted((ASTRO.parent / "content/projects").glob("*.md"))
     slugs = {src.stem for src in project_sources}
     assert len(project_sources) == len(slugs), "Duplicate project IDs"
@@ -109,6 +109,8 @@ def check_metadata():
         "/search/": DIST / "search/index.html",
         "/sh/search/": DIST / "sh/search/index.html",
         "/bookmarks/": DIST / "bookmarks/index.html",
+        "/bookmarks/tags/": DIST / "bookmarks/tags/index.html",
+        "/sh/bookmarks/tags/": DIST / "sh/bookmarks/tags/index.html",
         "/new-bookmark/": DIST / "new-bookmark/index.html",
         "/music/": DIST / "music/index.html",
         "/films/": DIST / "films/index.html",
@@ -169,6 +171,8 @@ def check_metadata():
             "/sh/search/": ("/search/", "EN", "en"),
             "/privacy/": ("/sh/privacy/", "SH", "sh"),
             "/sh/privacy/": ("/privacy/", "EN", "en"),
+            "/bookmarks/tags/": ("/sh/bookmarks/tags/", "SH", "sh"),
+            "/sh/bookmarks/tags/": ("/bookmarks/tags/", "EN", "en"),
             "/projects/": ("/sh/projects/", "SH", "sh"),
             "/sh/projects/": ("/projects/", "EN", "en"),
         }

@@ -79,7 +79,7 @@ def expected_nav_link(path: str):
         return (path, "page")
     if path.startswith(("/sh/posts/", "/posts/")):
         href = "/sh/posts/" if path.startswith("/sh/") else "/posts/"
-    elif path.startswith("/bookmarks/"):
+    elif path.startswith(("/bookmarks/", "/sh/bookmarks/")):
         href = "/bookmarks/"
     elif path.startswith(("/media/", "/films/", "/music/", "/tv/", "/new-media/")):
         href = "/media/"

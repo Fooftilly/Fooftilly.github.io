@@ -8,7 +8,7 @@ export type NavigationSection =
 export function navigationSectionForPath(pathname: string): NavigationSection | undefined {
   if (pathname === "/" || pathname === "/sh/") return "home";
   if (/^\/(?:sh\/)?posts(?:\/|$)/.test(pathname)) return "posts";
-  if (/^\/bookmarks(?:\/|$)/.test(pathname)) return "bookmarks";
+  if (/^\/(?:sh\/)?bookmarks(?:\/|$)/.test(pathname)) return "bookmarks";
   if (/^\/(?:media|films|music|tv|new-media)(?:\/|$)/.test(pathname)) return "media";
   if (/^\/(?:sh\/)?projects(?:\/|$)/.test(pathname)) return "projects";
   if (/^\/(?:sh\/)?search(?:\/|$)/.test(pathname)) return "search";
@@ -28,6 +28,9 @@ export function currentNavigationLink(
   if (pathname === href) return "page";
   // A parent URL is current only for pages beneath it, not a different locale.
   if (href.endsWith("/") && pathname.startsWith(href)) return "location";
+  // Both locale-specific tag indexes share the same public bookmark header.
+  if (section === "bookmarks" && href === "/bookmarks/"
+      && pathname.startsWith("/sh/bookmarks/")) return "location";
   // Films, music, TV and the media editor share the /media/ header link.
   if (section === "media" && href === "/media/"
       && /^\/(?:films|music|tv|new-media)(?:\/|$)/.test(pathname)) return "location";
