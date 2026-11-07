@@ -13,6 +13,7 @@ from verify_projects import (
     verify_project_license_link,
     verify_project_tag_links,
     verify_card_tag_parity,
+    project_source_tags,
 )
 
 FIXTURES = Path(__file__).resolve().parent / "fixtures"
@@ -206,6 +207,21 @@ class ProjectTagNavigationTest(unittest.TestCase):
         self.assertEqual(verify_project_tag_links(self.tag_html(), "en"),
                          [["Café & Tools"]])
 
+
+    def test_project_tag_source_parser_matches_reviewed_markdown(self):
+        source = (FIXTURES / "project-tags-source.md").read_text(encoding="utf-8")
+        self.assertEqual(project_source_tags(source, "fixture"),
+                         ["Café & Tools", "Knowledge management"])
+        self.assertRaisesRegex(AssertionError, "Invalid source project tags",
+                               project_source_tags, source.replace(
+                                   'tags: ["Café & Tools", "Knowledge management"]',
+                                   'tags: []'), "fixture")
+        self.assertRaisesRegex(AssertionError, "Missing or duplicate source project tags",
+                               project_source_tags, source.replace("tags:", "topics:"), "fixture")
+        self.assertRaisesRegex(AssertionError, "quoted flow array",
+                               project_source_tags, source.replace(
+                                   'tags: ["Café & Tools", "Knowledge management"]',
+                                   'tags: [Café & Tools, Knowledge management]'), "fixture")
 
 if __name__ == "__main__":
     unittest.main()

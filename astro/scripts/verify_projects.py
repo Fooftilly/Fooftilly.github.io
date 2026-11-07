@@ -3,8 +3,8 @@
 No network calls or external dependencies. Source Markdown is authoritative.
 """
 from html import unescape
-import json
 from html.parser import HTMLParser
+import json
 import re
 from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
@@ -47,6 +47,34 @@ class ProjectCardParser(HTMLParser):
 
 
 
+def project_source_tags(markdown: str, slug: str) -> list[str]:
+    """Read canonical flow-array tags independently from Markdown frontmatter.
+
+    The Git-managed project entries use JSON-style YAML flow arrays. Fail
+    closed on a change of representation rather than silently guessing tags.
+    Astro's collection schema remains the authoritative metadata validator.
+    """
+    parts = markdown.split("---", 2)
+    assert len(parts) >= 3 and not parts[0].strip(), (
+        "Missing project frontmatter", slug
+    )
+    candidates = [line.removeprefix("tags: ").strip()
+                  for line in parts[1].splitlines() if line.startswith("tags: ")]
+    assert len(candidates) == 1, ("Missing or duplicate source project tags", slug)
+    try:
+        tags = json.loads(candidates[0])
+    except json.JSONDecodeError as error:
+        raise AssertionError((
+            "Project tags must be a source-owned quoted flow array for parity audit",
+            slug,
+        )) from error
+    assert isinstance(tags, list) and tags and all(
+        isinstance(tag, str) and tag.strip() == tag and tag
+        for tag in tags
+    ), ("Invalid source project tags", slug)
+    return tags
+
+
 class ProjectTagLinkParser(HTMLParser):
     """Collect technology tags and their links from rendered Astro lists."""
 
@@ -86,26 +114,6 @@ class ProjectTagLinkParser(HTMLParser):
             assert self.item is None, "Unclosed project tag"
             self.groups.append(self.group)
             self.group = None
-
-
-def parse_source_project_tags(body: str, slug: str) -> list[str]:
-    """Read the Git-owned technology labels independently of rendered HTML.
-
-    Project frontmatter currently uses JSON-compatible YAML flow arrays. A
-    different representation must be explicitly supported here instead of
-    silently trusting tags from generated detail pages.
-    """
-    frontmatter = body.split("\n---\n", 1)[0]
-    fields = re.findall(r"(?m)^tags:\s*(\[[^\n]*\])\s*$", frontmatter)
-    assert len(fields) == 1, ("Missing or unsupported project source tags", slug)
-    try:
-        tags = json.loads(fields[0])
-    except json.JSONDecodeError as exc:
-        raise AssertionError(("Invalid project source tag array", slug)) from exc
-    assert isinstance(tags, list) and tags and all(
-        isinstance(tag, str) and tag.strip() == tag and tag for tag in tags
-    ), ("Invalid project source tags", slug)
-    return tags
 
 
 def verify_project_tag_links(html: str, language: str, require_groups=True) -> list[list[str]]:
@@ -315,6 +323,7 @@ def verify_projects(dist: Path, source: Path, origin: str) -> None:
         assert slug and all(c.islower() or c.isdigit() or c == "-" for c in slug), slug
         body = item.read_text(encoding="utf8")
         assert body.startswith("---\n"), ("Missing frontmatter", item)
+        canonical_tags = project_source_tags(body, slug)
         repositories = [line.removeprefix("repository: ").strip('"').strip("'")
                         for line in body.splitlines() if line.startswith("repository: ")]
         assert len(repositories) == 1, ("Missing source repository", item)
@@ -325,12 +334,11 @@ def verify_projects(dist: Path, source: Path, origin: str) -> None:
         html = result.read_text(encoding="utf8")
         detail_groups = verify_project_tag_links(html, "en")
         assert len(detail_groups) == 1, ("Project detail requires one tag list", slug)
-        source_tags = parse_source_project_tags(body, slug)
-        assert detail_groups[0] == source_tags, (
-            "Project detail tags differ from canonical Markdown", slug,
-            source_tags, detail_groups[0]
+        assert detail_groups[0] == canonical_tags, (
+            "Project detail tag labels differ from canonical Markdown",
+            slug, canonical_tags, detail_groups[0]
         )
-        source_tag_labels[slug] = source_tags
+        source_tag_labels[slug] = canonical_tags
         expected_title = parse_project_heading(html)
         # Check each optional source disclosure without pinning original projects.
         for heading in ("Requirements", "Limitations"):
