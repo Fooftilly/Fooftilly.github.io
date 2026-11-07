@@ -80,6 +80,8 @@ jobs:
           test -s astro/dist/404.html
           test -s astro/dist/projects/index.html
           test -s astro/dist/sh/projects/index.html
+          test -s astro/dist/bookmarks/tags/index.html
+          test -s astro/dist/sh/bookmarks/tags/index.html
           # release-readiness.mjs already checks every source-driven project route.
           test ! -e astro/dist/admin
           test ! -e astro/dist/migration-audit
