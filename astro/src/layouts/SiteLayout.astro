@@ -19,6 +19,7 @@ const socialImage = new URL("/avatar-full.webp", Astro.site);
 const alternateUrl = languageAlternate ? new URL(languageAlternate, Astro.site).href : undefined;
 const languageLabel = lang === "sh" ? "EN" : "SH";
 const isSearchRoute = Astro.url.pathname === "/search/" || Astro.url.pathname === "/sh/search/";
+const isProjectIndex = Astro.url.pathname === "/projects/" || Astro.url.pathname === "/sh/projects/";
 const homeHref = lang === "sh" ? "/sh/" : "/";
 const privacyHref = lang === "sh" ? "/sh/privacy/" : "/privacy/";
 const navLinks = [
@@ -78,7 +79,7 @@ const socialLinks = [
           {navLinks.map(({ section, href, label }) => (
             <a href={href} aria-current={currentNavigationLink(Astro.url.pathname, section, href)}>{label}</a>
           ))}
-          {languageAlternate && <a href={languageAlternate} lang={lang === "sh" ? "en" : "sh"} hreflang={lang === "sh" ? "en" : "sh"} data-search-language-switch={isSearchRoute ? "" : undefined}>{languageLabel}</a>}
+          {languageAlternate && <a href={languageAlternate} lang={lang === "sh" ? "en" : "sh"} hreflang={lang === "sh" ? "en" : "sh"} data-search-language-switch={isSearchRoute || isProjectIndex ? "" : undefined}>{languageLabel}</a>}
         </div>
       </nav>
     </header>

@@ -1,10 +1,13 @@
 /** Preserve bookmark filters (and only filters) when changing search language. */
 const SEARCH_FILTER_KEYS = ["q", "category", "sort"] as const;
+const PROJECT_QUERY_KEYS = ["q"] as const;
 
 export function searchLanguageSwitchHref(currentHref: string, alternateHref: string): string {
   const current = new URL(currentHref);
   const alternate = new URL(alternateHref, current);
-  for (const key of SEARCH_FILTER_KEYS) {
+  const keys = current.pathname === "/projects/" || current.pathname === "/sh/projects/"
+    ? PROJECT_QUERY_KEYS : SEARCH_FILTER_KEYS;
+  for (const key of keys) {
     alternate.searchParams.delete(key);
     const value = current.searchParams.get(key);
     if (value) alternate.searchParams.set(key, value);

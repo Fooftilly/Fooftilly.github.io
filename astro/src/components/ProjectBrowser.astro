@@ -1,0 +1,18 @@
+---
+import { getCollection } from "astro:content";
+import { sortProjects } from "../lib/project-catalog.ts";
+import ProjectBrowser from "./ProjectBrowser.vue";
+
+interface Props { lang?: "en" | "sh" }
+const { lang = "en" } = Astro.props;
+const projects = sortProjects(await getCollection("projects")).map(({ id, data }) => ({
+  id,
+  title: data.title,
+  summary: data.summary,
+  summarySh: data.summarySh,
+  repository: data.repository,
+  tags: data.tags,
+  status: data.status,
+}));
+---
+<ProjectBrowser projects={projects} lang={lang} client:load />
