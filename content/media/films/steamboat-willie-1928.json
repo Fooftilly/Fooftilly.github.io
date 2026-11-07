@@ -4,10 +4,7 @@
   "title": "Steamboat Willie",
   "year": 1928,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/wgk"
-    }
-  ]
+  "refs": {
+    "letterboxd": "wgk"
+  }
 }
