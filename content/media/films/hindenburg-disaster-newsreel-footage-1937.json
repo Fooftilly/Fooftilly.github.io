@@ -4,10 +4,7 @@
   "title": "Hindenburg Disaster Newsreel Footage",
   "year": 1937,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4F2O"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4F2O"
+  }
 }

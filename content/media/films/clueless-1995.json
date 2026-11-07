@@ -4,10 +4,7 @@
   "title": "Clueless",
   "year": 1995,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1Ygk"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1Ygk"
+  }
 }

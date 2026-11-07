@@ -4,10 +4,7 @@
   "title": "About a Boy",
   "year": 2002,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2aMC"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2aMC"
+  }
 }

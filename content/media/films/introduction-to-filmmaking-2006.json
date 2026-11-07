@@ -4,10 +4,7 @@
   "title": "Introduction to Filmmaking",
   "year": 2006,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/EUjM"
-    }
-  ]
+  "refs": {
+    "letterboxd": "EUjM"
+  }
 }

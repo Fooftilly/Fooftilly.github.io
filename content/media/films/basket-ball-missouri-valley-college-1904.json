@@ -4,10 +4,7 @@
   "title": "Basket Ball, Missouri Valley College",
   "year": 1904,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/6POW"
-    }
-  ]
+  "refs": {
+    "letterboxd": "6POW"
+  }
 }

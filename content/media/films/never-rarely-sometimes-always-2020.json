@@ -4,10 +4,7 @@
   "title": "Never Rarely Sometimes Always",
   "year": 2020,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/lWJk"
-    }
-  ]
+  "refs": {
+    "letterboxd": "lWJk"
+  }
 }

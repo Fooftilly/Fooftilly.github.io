@@ -4,10 +4,7 @@
   "title": "A Poem in Images",
   "year": 2004,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/sOzA"
-    }
-  ]
+  "refs": {
+    "letterboxd": "sOzA"
+  }
 }

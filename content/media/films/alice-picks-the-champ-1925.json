@@ -4,10 +4,7 @@
   "title": "Alice Picks the Champ",
   "year": 1925,
   "rating": 1.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5B2W"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5B2W"
+  }
 }

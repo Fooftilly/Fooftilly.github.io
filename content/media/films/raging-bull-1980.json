@@ -4,10 +4,7 @@
   "title": "Raging Bull",
   "year": 1980,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/28yI"
-    }
-  ]
+  "refs": {
+    "letterboxd": "28yI"
+  }
 }

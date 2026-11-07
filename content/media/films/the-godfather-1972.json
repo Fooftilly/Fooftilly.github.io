@@ -4,10 +4,7 @@
   "title": "The Godfather",
   "year": 1972,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2aNK"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2aNK"
+  }
 }

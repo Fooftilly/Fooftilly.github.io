@@ -4,10 +4,7 @@
   "title": "24th Chasseurs Alpins: Boxing Lesson",
   "year": 1897,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5PXW"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5PXW"
+  }
 }

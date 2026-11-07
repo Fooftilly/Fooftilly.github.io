@@ -4,10 +4,7 @@
   "title": "Nomadland",
   "year": 2020,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/lnRy"
-    }
-  ]
+  "refs": {
+    "letterboxd": "lnRy"
+  }
 }

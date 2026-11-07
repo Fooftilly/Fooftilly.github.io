@@ -4,10 +4,7 @@
   "title": "Knives Out",
   "year": 2019,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/jWEA"
-    }
-  ]
+  "refs": {
+    "letterboxd": "jWEA"
+  }
 }

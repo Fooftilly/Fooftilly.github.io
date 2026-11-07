@@ -4,10 +4,7 @@
   "title": "Paradise: Love",
   "year": 2012,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3wTW"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3wTW"
+  }
 }

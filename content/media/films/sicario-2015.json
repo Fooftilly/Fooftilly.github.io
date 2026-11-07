@@ -4,10 +4,7 @@
   "title": "Sicario",
   "year": 2015,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/8i7u"
-    }
-  ]
+  "refs": {
+    "letterboxd": "8i7u"
+  }
 }

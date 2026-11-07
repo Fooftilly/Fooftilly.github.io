@@ -4,10 +4,7 @@
   "title": "Tootsie",
   "year": 1982,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1YkG"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1YkG"
+  }
 }

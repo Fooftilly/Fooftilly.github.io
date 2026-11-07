@@ -4,10 +4,7 @@
   "title": "Mickey's Polo Team",
   "year": 1936,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2gDG"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2gDG"
+  }
 }

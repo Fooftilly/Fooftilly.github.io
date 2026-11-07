@@ -4,10 +4,7 @@
   "title": "Second Žika's Dynasty",
   "year": 1986,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/sB4"
-    }
-  ]
+  "refs": {
+    "letterboxd": "sB4"
+  }
 }

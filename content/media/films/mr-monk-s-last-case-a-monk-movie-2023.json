@@ -4,10 +4,7 @@
   "title": "Mr. Monk's Last Case: A Monk Movie",
   "year": 2023,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/FEcM"
-    }
-  ]
+  "refs": {
+    "letterboxd": "FEcM"
+  }
 }

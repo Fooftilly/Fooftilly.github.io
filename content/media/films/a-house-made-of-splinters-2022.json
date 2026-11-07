@@ -4,10 +4,7 @@
   "title": "A House Made of Splinters",
   "year": 2022,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/ypmy"
-    }
-  ]
+  "refs": {
+    "letterboxd": "ypmy"
+  }
 }

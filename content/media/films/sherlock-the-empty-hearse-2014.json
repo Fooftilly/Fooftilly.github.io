@@ -4,10 +4,7 @@
   "title": "Sherlock: The Empty Hearse",
   "year": 2014,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/mwIM"
-    }
-  ]
+  "refs": {
+    "letterboxd": "mwIM"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Psycho",
   "year": 1960,
   "rating": 4.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2ab2"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2ab2"
+  }
 }

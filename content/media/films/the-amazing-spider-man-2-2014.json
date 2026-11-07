@@ -4,10 +4,7 @@
   "title": "The Amazing Spider-Man 2",
   "year": 2014,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3utM"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3utM"
+  }
 }

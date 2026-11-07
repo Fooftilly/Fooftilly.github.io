@@ -4,10 +4,7 @@
   "title": "Hidden Figures",
   "year": 2016,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/dgS4"
-    }
-  ]
+  "refs": {
+    "letterboxd": "dgS4"
+  }
 }

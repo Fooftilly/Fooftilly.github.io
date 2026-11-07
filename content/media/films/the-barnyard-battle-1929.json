@@ -4,10 +4,7 @@
   "title": "The Barnyard Battle",
   "year": 1929,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4Nqa"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4Nqa"
+  }
 }

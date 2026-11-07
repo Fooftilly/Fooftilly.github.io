@@ -4,10 +4,7 @@
   "title": "How to Sweep",
   "year": 2012,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/qzFu"
-    }
-  ]
+  "refs": {
+    "letterboxd": "qzFu"
+  }
 }

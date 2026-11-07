@@ -4,10 +4,7 @@
   "title": "Hallo, Munich",
   "year": 1968,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/gpN4"
-    }
-  ]
+  "refs": {
+    "letterboxd": "gpN4"
+  }
 }

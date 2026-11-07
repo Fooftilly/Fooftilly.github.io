@@ -4,10 +4,7 @@
   "title": "Disneyland",
   "year": 1968,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/sWhE"
-    }
-  ]
+  "refs": {
+    "letterboxd": "sWhE"
+  }
 }

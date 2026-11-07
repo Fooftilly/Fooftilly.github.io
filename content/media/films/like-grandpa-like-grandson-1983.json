@@ -4,10 +4,7 @@
   "title": "Like Grandpa, Like Grandson",
   "year": 1983,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/sBI"
-    }
-  ]
+  "refs": {
+    "letterboxd": "sBI"
+  }
 }

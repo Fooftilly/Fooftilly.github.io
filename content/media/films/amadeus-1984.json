@@ -4,10 +4,7 @@
   "title": "Amadeus",
   "year": 1984,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2aH8"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2aH8"
+  }
 }

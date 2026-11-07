@@ -4,10 +4,7 @@
   "title": "The Dancing Skeleton",
   "year": 1898,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4aIa"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4aIa"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "The Autograph Hound",
   "year": 1939,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/wxg"
-    }
-  ]
+  "refs": {
+    "letterboxd": "wxg"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "We Are Not Angels 2",
   "year": 2005,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1faQ"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1faQ"
+  }
 }

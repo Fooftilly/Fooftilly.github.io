@@ -4,10 +4,7 @@
   "title": "Back to the Future Part II",
   "year": 1989,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2aYI"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2aYI"
+  }
 }

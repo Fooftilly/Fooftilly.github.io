@@ -4,10 +4,7 @@
   "title": "Panorama of the Grand Canal Taken from a Boat",
   "year": 1896,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5LrW"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5LrW"
+  }
 }

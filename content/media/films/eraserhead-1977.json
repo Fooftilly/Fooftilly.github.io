@@ -4,10 +4,7 @@
   "title": "Eraserhead",
   "year": 1977,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/299u"
-    }
-  ]
+  "refs": {
+    "letterboxd": "299u"
+  }
 }

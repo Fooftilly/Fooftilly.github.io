@@ -4,10 +4,7 @@
   "title": "The Bucket List",
   "year": 2007,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/20Ye"
-    }
-  ]
+  "refs": {
+    "letterboxd": "20Ye"
+  }
 }

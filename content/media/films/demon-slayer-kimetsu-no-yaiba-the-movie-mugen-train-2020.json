@@ -4,10 +4,7 @@
   "title": "Demon Slayer -Kimetsu no Yaiba- The Movie: Mugen Train",
   "year": 2020,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/nyLU"
-    }
-  ]
+  "refs": {
+    "letterboxd": "nyLU"
+  }
 }

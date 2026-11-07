@@ -4,10 +4,7 @@
   "title": "Zoolander",
   "year": 2001,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1YMA"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1YMA"
+  }
 }

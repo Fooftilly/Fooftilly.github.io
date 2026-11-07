@@ -4,10 +4,7 @@
   "title": "In Single File on Glaciers With Snowshoes, l. Montée",
   "year": 1899,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/cI4E"
-    }
-  ]
+  "refs": {
+    "letterboxd": "cI4E"
+  }
 }

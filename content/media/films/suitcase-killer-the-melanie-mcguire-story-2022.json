@@ -4,10 +4,7 @@
   "title": "Suitcase Killer: The Melanie McGuire Story",
   "year": 2022,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/Bi0c"
-    }
-  ]
+  "refs": {
+    "letterboxd": "Bi0c"
+  }
 }

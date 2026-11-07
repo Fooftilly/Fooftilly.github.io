@@ -4,10 +4,7 @@
   "title": "Sherlock: A Study in Pink (Unaired Pilot)",
   "year": 2011,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/qBjq"
-    }
-  ]
+  "refs": {
+    "letterboxd": "qBjq"
+  }
 }

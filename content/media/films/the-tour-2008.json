@@ -4,10 +4,7 @@
   "title": "The Tour",
   "year": 2008,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1JdK"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1JdK"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "National Lampoon's Loaded Weapon 1",
   "year": 1993,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1Y9I"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1Y9I"
+  }
 }

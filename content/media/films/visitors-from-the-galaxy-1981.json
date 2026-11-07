@@ -4,10 +4,7 @@
   "title": "Visitors from the Galaxy",
   "year": 1981,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/7lj2"
-    }
-  ]
+  "refs": {
+    "letterboxd": "7lj2"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Overlord",
   "year": 1975,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/s3w"
-    }
-  ]
+  "refs": {
+    "letterboxd": "s3w"
+  }
 }

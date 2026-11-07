@@ -4,10 +4,7 @@
   "title": "Naruto Shippuden the Movie: The Lost Tower",
   "year": 2010,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/CZ6"
-    }
-  ]
+  "refs": {
+    "letterboxd": "CZ6"
+  }
 }

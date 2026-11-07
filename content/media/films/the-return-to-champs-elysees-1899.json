@@ -4,10 +4,7 @@
   "title": "The Return to Champs-Élysées",
   "year": 1899,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/kTEO"
-    }
-  ]
+  "refs": {
+    "letterboxd": "kTEO"
+  }
 }

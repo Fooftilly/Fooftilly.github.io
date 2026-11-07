@@ -4,10 +4,7 @@
   "title": "Doctor Strange in the Multiverse of Madness",
   "year": 2022,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/gaTc"
-    }
-  ]
+  "refs": {
+    "letterboxd": "gaTc"
+  }
 }

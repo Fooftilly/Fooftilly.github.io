@@ -4,10 +4,7 @@
   "title": "Fast mail, Northern Pacific Railroad",
   "year": 1897,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5SuI"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5SuI"
+  }
 }

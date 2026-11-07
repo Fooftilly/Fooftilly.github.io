@@ -4,10 +4,7 @@
   "title": "Creed",
   "year": 2015,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/a2qk"
-    }
-  ]
+  "refs": {
+    "letterboxd": "a2qk"
+  }
 }

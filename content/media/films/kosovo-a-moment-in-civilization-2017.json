@@ -4,10 +4,7 @@
   "title": "Kosovo: A Moment in Civilization",
   "year": 2017,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/muaI"
-    }
-  ]
+  "refs": {
+    "letterboxd": "muaI"
+  }
 }

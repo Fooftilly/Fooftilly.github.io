@@ -4,10 +4,7 @@
   "title": "Rocky III",
   "year": 1982,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/28Tw"
-    }
-  ]
+  "refs": {
+    "letterboxd": "28Tw"
+  }
 }

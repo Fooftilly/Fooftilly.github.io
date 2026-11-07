@@ -4,10 +4,7 @@
   "title": "The Kiss",
   "year": 1882,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/kOza"
-    }
-  ]
+  "refs": {
+    "letterboxd": "kOza"
+  }
 }

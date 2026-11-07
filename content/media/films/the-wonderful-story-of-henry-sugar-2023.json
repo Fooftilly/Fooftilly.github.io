@@ -4,10 +4,7 @@
   "title": "The Wonderful Story of Henry Sugar",
   "year": 2023,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/yNyo"
-    }
-  ]
+  "refs": {
+    "letterboxd": "yNyo"
+  }
 }

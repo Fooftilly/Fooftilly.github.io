@@ -4,10 +4,7 @@
   "title": "The Lord of the Rings: The Return of the King",
   "year": 2003,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2b5u"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2b5u"
+  }
 }

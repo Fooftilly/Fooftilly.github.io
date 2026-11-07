@@ -4,10 +4,7 @@
   "title": "The Thursday Murder Club",
   "year": 2025,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/rXju"
-    }
-  ]
+  "refs": {
+    "letterboxd": "rXju"
+  }
 }

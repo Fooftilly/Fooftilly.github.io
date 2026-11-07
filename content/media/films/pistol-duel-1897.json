@@ -4,10 +4,7 @@
   "title": "Pistol Duel",
   "year": 1897,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5QeS"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5QeS"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Dickson Experimental Sound Film",
   "year": 1894,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3xUm"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3xUm"
+  }
 }

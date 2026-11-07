@@ -4,10 +4,7 @@
   "title": "The Birth of a Nation",
   "year": 1915,
   "rating": 1.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/29Zg"
-    }
-  ]
+  "refs": {
+    "letterboxd": "29Zg"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Hit & Run",
   "year": 2012,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3GFA"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3GFA"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Come Along, Do!",
   "year": 1898,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5tjg"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5tjg"
+  }
 }

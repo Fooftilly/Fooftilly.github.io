@@ -4,10 +4,7 @@
   "title": "Santa's Workshop",
   "year": 1932,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2gvi"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2gvi"
+  }
 }

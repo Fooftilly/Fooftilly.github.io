@@ -4,10 +4,7 @@
   "title": "Love, Death & Robots: The Tall Grass",
   "year": 2021,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/vdQU"
-    }
-  ]
+  "refs": {
+    "letterboxd": "vdQU"
+  }
 }

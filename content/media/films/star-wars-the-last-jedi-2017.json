@@ -4,10 +4,7 @@
   "title": "Star Wars: The Last Jedi",
   "year": 2017,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5xme"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5xme"
+  }
 }

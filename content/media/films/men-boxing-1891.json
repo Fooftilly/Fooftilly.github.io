@@ -4,10 +4,7 @@
   "title": "Men Boxing",
   "year": 1891,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1fKk"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1fKk"
+  }
 }

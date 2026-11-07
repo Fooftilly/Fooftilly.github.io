@@ -4,10 +4,7 @@
   "title": "A Short Story",
   "year": 2022,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/zDD6"
-    }
-  ]
+  "refs": {
+    "letterboxd": "zDD6"
+  }
 }

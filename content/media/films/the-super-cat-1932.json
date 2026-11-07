@@ -4,10 +4,7 @@
   "title": "The Super Cat",
   "year": 1932,
   "rating": 1.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/oKhE"
-    }
-  ]
+  "refs": {
+    "letterboxd": "oKhE"
+  }
 }

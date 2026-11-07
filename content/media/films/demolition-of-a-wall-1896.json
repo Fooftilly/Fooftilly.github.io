@@ -4,10 +4,7 @@
   "title": "Demolition of a Wall",
   "year": 1896,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4eFO"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4eFO"
+  }
 }

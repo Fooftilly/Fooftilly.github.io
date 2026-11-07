@@ -4,10 +4,7 @@
   "title": "The Tantalizing Fly",
   "year": 1919,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5nks"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5nks"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Sideways",
   "year": 2004,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1Y5c"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1Y5c"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Lancement du 'Varèse' à Livourne",
   "year": 1899,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5W4O"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5W4O"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "The Thing",
   "year": 1982,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/294O"
-    }
-  ]
+  "refs": {
+    "letterboxd": "294O"
+  }
 }

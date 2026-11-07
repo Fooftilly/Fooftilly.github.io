@@ -4,10 +4,7 @@
   "title": "The Sprinkler Sprinkled, [II]",
   "year": 1897,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/atvG"
-    }
-  ]
+  "refs": {
+    "letterboxd": "atvG"
+  }
 }

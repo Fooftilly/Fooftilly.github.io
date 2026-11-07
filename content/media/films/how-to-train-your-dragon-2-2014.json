@@ -4,10 +4,7 @@
   "title": "How to Train Your Dragon 2",
   "year": 2014,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2TRW"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2TRW"
+  }
 }

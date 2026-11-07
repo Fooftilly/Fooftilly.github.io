@@ -4,10 +4,7 @@
   "title": "Emily the Criminal",
   "year": 2022,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/wBOq"
-    }
-  ]
+  "refs": {
+    "letterboxd": "wBOq"
+  }
 }

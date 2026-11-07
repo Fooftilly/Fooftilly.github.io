@@ -4,10 +4,7 @@
   "title": "The Life and Death of 9413: A Hollywood Extra",
   "year": 1928,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3Rjg"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3Rjg"
+  }
 }

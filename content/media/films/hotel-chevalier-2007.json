@@ -4,10 +4,7 @@
   "title": "Hotel Chevalier",
   "year": 2007,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/21Ic"
-    }
-  ]
+  "refs": {
+    "letterboxd": "21Ic"
+  }
 }

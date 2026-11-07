@@ -4,10 +4,7 @@
   "title": "Love Letter to Plywood",
   "year": 2012,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/qzDo"
-    }
-  ]
+  "refs": {
+    "letterboxd": "qzDo"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Father Noah's Ark",
   "year": 1933,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3Dq8"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3Dq8"
+  }
 }

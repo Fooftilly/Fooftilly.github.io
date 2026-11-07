@@ -4,10 +4,7 @@
   "title": "Naruto OVA 12: The Day Naruto Became Hokage",
   "year": 2016,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/CskS"
-    }
-  ]
+  "refs": {
+    "letterboxd": "CskS"
+  }
 }

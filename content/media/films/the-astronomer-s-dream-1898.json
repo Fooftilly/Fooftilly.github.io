@@ -4,10 +4,7 @@
   "title": "The Astronomer's Dream",
   "year": 1898,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3yr6"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3yr6"
+  }
 }

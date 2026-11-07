@@ -4,10 +4,7 @@
   "title": "Good Will Hunting",
   "year": 1997,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2ahY"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2ahY"
+  }
 }

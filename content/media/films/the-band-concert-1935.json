@@ -4,10 +4,7 @@
   "title": "The Band Concert",
   "year": 1935,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2ftq"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2ftq"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Michael Clayton",
   "year": 2007,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2466"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2466"
+  }
 }

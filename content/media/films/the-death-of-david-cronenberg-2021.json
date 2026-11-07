@@ -4,10 +4,7 @@
   "title": "The Death of David Cronenberg",
   "year": 2021,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/x1EG"
-    }
-  ]
+  "refs": {
+    "letterboxd": "x1EG"
+  }
 }

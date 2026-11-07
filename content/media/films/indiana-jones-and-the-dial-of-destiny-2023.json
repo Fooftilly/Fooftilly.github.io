@@ -4,10 +4,7 @@
   "title": "Indiana Jones and the Dial of Destiny",
   "year": 2023,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/b8vM"
-    }
-  ]
+  "refs": {
+    "letterboxd": "b8vM"
+  }
 }

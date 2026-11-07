@@ -4,10 +4,7 @@
   "title": "Pranks of Buster Brown and His Dog Tige",
   "year": 1904,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5UeC"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5UeC"
+  }
 }

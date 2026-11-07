@@ -4,10 +4,7 @@
   "title": "Drive",
   "year": 2011,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/IG"
-    }
-  ]
+  "refs": {
+    "letterboxd": "IG"
+  }
 }

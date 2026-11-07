@@ -4,10 +4,7 @@
   "title": "Drama at the Puppets' House",
   "year": 1908,
   "rating": 1.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5VgY"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5VgY"
+  }
 }

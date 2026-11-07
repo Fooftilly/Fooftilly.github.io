@@ -4,10 +4,7 @@
   "title": "Ani*Kuri15: Good Morning",
   "year": 2007,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/fqQc"
-    }
-  ]
+  "refs": {
+    "letterboxd": "fqQc"
+  }
 }

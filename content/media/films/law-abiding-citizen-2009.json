@@ -4,10 +4,7 @@
   "title": "Law Abiding Citizen",
   "year": 2009,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1A2I"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1A2I"
+  }
 }

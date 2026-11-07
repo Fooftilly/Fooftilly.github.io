@@ -4,10 +4,7 @@
   "title": "Newark Athlete",
   "year": 1891,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3z3k"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3z3k"
+  }
 }

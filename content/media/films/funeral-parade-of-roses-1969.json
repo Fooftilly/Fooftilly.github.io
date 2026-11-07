@@ -4,10 +4,7 @@
   "title": "Funeral Parade of Roses",
   "year": 1969,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/28Cg"
-    }
-  ]
+  "refs": {
+    "letterboxd": "28Cg"
+  }
 }

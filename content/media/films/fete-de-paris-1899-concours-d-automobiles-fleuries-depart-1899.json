@@ -4,10 +4,7 @@
   "title": "Fête de Paris 1899: Concours d'automobiles fleuries (départ)",
   "year": 1899,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/7OD6"
-    }
-  ]
+  "refs": {
+    "letterboxd": "7OD6"
+  }
 }

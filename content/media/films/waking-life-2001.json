@@ -4,10 +4,7 @@
   "title": "Waking Life",
   "year": 2001,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1Zdc"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1Zdc"
+  }
 }

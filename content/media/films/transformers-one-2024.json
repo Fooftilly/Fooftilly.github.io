@@ -4,10 +4,7 @@
   "title": "Transformers One",
   "year": 2024,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/q7bc"
-    }
-  ]
+  "refs": {
+    "letterboxd": "q7bc"
+  }
 }

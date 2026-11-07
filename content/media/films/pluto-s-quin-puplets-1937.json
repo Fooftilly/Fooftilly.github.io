@@ -4,10 +4,7 @@
   "title": "Pluto's Quin-puplets",
   "year": 1937,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2d7s"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2d7s"
+  }
 }

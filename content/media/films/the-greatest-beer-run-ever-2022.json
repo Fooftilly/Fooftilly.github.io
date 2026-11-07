@@ -4,10 +4,7 @@
   "title": "The Greatest Beer Run Ever",
   "year": 2022,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/m2tC"
-    }
-  ]
+  "refs": {
+    "letterboxd": "m2tC"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Mirror",
   "year": 1975,
   "rating": 5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/28Q8"
-    }
-  ]
+  "refs": {
+    "letterboxd": "28Q8"
+  }
 }

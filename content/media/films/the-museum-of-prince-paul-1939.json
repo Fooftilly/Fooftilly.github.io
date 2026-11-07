@@ -4,10 +4,7 @@
   "title": "The Museum of Prince Paul",
   "year": 1939,
   "rating": 1.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/EBY2"
-    }
-  ]
+  "refs": {
+    "letterboxd": "EBY2"
+  }
 }

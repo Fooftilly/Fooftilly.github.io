@@ -4,10 +4,7 @@
   "title": "Arrival of the Train",
   "year": 2020,
   "rating": 1.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/zC82"
-    }
-  ]
+  "refs": {
+    "letterboxd": "zC82"
+  }
 }

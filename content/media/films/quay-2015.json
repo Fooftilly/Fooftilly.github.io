@@ -4,10 +4,7 @@
   "title": "Quay",
   "year": 2015,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/bQZm"
-    }
-  ]
+  "refs": {
+    "letterboxd": "bQZm"
+  }
 }

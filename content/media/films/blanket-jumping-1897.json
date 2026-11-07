@@ -4,10 +4,7 @@
   "title": "Blanket Jumping",
   "year": 1897,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/cUQA"
-    }
-  ]
+  "refs": {
+    "letterboxd": "cUQA"
+  }
 }

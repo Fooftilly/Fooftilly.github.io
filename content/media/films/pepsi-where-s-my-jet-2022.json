@@ -4,10 +4,7 @@
   "title": "Pepsi, Where's My Jet?",
   "year": 2022,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/DIR6"
-    }
-  ]
+  "refs": {
+    "letterboxd": "DIR6"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Roundhay Garden Scene",
   "year": 1888,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1K32"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1K32"
+  }
 }

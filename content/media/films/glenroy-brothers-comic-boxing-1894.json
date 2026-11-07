@@ -4,10 +4,7 @@
   "title": "Glenroy Brothers (Comic Boxing)",
   "year": 1894,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4NwW"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4NwW"
+  }
 }

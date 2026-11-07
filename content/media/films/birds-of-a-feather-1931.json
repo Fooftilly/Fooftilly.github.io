@@ -4,10 +4,7 @@
   "title": "Birds of a Feather",
   "year": 1931,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3ASy"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3ASy"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "The Watermelon Woman",
   "year": 1996,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/RRc"
-    }
-  ]
+  "refs": {
+    "letterboxd": "RRc"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "The Presumption of Justice",
   "year": 2012,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/cJGO"
-    }
-  ]
+  "refs": {
+    "letterboxd": "cJGO"
+  }
 }

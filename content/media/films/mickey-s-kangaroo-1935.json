@@ -4,10 +4,7 @@
   "title": "Mickey's Kangaroo",
   "year": 1935,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5BBM"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5BBM"
+  }
 }

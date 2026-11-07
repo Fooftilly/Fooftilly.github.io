@@ -4,10 +4,7 @@
   "title": "Sherlock: A Study in Pink",
   "year": 2010,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/mueU"
-    }
-  ]
+  "refs": {
+    "letterboxd": "mueU"
+  }
 }

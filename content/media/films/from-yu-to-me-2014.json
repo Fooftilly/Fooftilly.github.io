@@ -4,10 +4,7 @@
   "title": "From .yu to Me",
   "year": 2014,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/lX5K"
-    }
-  ]
+  "refs": {
+    "letterboxd": "lX5K"
+  }
 }

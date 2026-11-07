@@ -4,10 +4,7 @@
   "title": "The Day of the Jackal",
   "year": 2024,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/Rr4a"
-    }
-  ]
+  "refs": {
+    "letterboxd": "Rr4a"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Ghost in the Shell",
   "year": 1995,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1YYc"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1YYc"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "The Consequences of Feminism",
   "year": 1906,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3YMY"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3YMY"
+  }
 }

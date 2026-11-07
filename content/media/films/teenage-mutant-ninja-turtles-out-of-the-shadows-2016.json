@@ -4,10 +4,7 @@
   "title": "Teenage Mutant Ninja Turtles: Out of the Shadows",
   "year": 2016,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/9T2e"
-    }
-  ]
+  "refs": {
+    "letterboxd": "9T2e"
+  }
 }

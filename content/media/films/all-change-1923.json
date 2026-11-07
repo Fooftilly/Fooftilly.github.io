@@ -4,10 +4,7 @@
   "title": "All Change",
   "year": 1923,
   "rating": 1.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/f3T8"
-    }
-  ]
+  "refs": {
+    "letterboxd": "f3T8"
+  }
 }

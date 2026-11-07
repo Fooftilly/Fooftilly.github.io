@@ -4,10 +4,7 @@
   "title": "Black Mirror: Fifteen Million Merits",
   "year": 2011,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/hQYU"
-    }
-  ]
+  "refs": {
+    "letterboxd": "hQYU"
+  }
 }

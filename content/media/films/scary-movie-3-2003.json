@@ -4,10 +4,7 @@
   "title": "Scary Movie 3",
   "year": 2003,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/24Be"
-    }
-  ]
+  "refs": {
+    "letterboxd": "24Be"
+  }
 }

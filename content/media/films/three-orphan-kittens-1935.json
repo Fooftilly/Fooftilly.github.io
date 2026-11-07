@@ -4,10 +4,7 @@
   "title": "Three Orphan Kittens",
   "year": 1935,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2fkI"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2fkI"
+  }
 }

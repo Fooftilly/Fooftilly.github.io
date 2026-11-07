@@ -4,10 +4,7 @@
   "title": "Prisoners",
   "year": 2013,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4E5i"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4E5i"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Fahrenheit 9/11",
   "year": 2004,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/28a2"
-    }
-  ]
+  "refs": {
+    "letterboxd": "28a2"
+  }
 }

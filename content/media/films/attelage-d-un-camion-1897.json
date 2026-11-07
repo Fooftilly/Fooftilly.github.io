@@ -4,10 +4,7 @@
   "title": "Attelage d'un camion",
   "year": 1897,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5SwE"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5SwE"
+  }
 }

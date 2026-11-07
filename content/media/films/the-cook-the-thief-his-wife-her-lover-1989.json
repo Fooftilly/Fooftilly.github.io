@@ -4,10 +4,7 @@
   "title": "The Cook, the Thief, His Wife & Her Lover",
   "year": 1989,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/20VO"
-    }
-  ]
+  "refs": {
+    "letterboxd": "20VO"
+  }
 }

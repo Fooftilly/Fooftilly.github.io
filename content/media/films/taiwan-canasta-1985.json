@@ -4,10 +4,7 @@
   "title": "Taiwan Canasta",
   "year": 1985,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/7Lge"
-    }
-  ]
+  "refs": {
+    "letterboxd": "7Lge"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Blum: Masters of Their Own Destiny",
   "year": 2024,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/EMDO"
-    }
-  ]
+  "refs": {
+    "letterboxd": "EMDO"
+  }
 }

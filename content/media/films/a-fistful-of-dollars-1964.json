@@ -4,10 +4,7 @@
   "title": "A Fistful of Dollars",
   "year": 1964,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2auo"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2auo"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "ted",
   "year": 2024,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/KN1y"
-    }
-  ]
+  "refs": {
+    "letterboxd": "KN1y"
+  }
 }

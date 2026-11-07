@@ -4,10 +4,7 @@
   "title": "Funny Little Bunnies",
   "year": 1934,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3DEY"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3DEY"
+  }
 }

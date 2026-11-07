@@ -4,10 +4,7 @@
   "title": "The Four Musicians of Bremen",
   "year": 1922,
   "rating": 1.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4RkU"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4RkU"
+  }
 }

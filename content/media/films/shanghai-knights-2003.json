@@ -4,10 +4,7 @@
   "title": "Shanghai Knights",
   "year": 2003,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/228a"
-    }
-  ]
+  "refs": {
+    "letterboxd": "228a"
+  }
 }

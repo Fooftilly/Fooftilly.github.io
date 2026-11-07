@@ -4,10 +4,7 @@
   "title": "Scarface",
   "year": 1983,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2b7g"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2b7g"
+  }
 }

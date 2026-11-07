@@ -4,10 +4,7 @@
   "title": "Alice Loses Out",
   "year": 1925,
   "rating": 1.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/15Fk"
-    }
-  ]
+  "refs": {
+    "letterboxd": "15Fk"
+  }
 }

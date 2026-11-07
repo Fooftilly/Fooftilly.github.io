@@ -4,10 +4,7 @@
   "title": "Traffic in King's Road, Chelsea",
   "year": 1890,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/c1vi"
-    }
-  ]
+  "refs": {
+    "letterboxd": "c1vi"
+  }
 }

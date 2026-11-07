@@ -4,10 +4,7 @@
   "title": "The Ambush",
   "year": 1969,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/7VxY"
-    }
-  ]
+  "refs": {
+    "letterboxd": "7VxY"
+  }
 }

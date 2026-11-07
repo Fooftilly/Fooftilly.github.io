@@ -4,10 +4,7 @@
   "title": "Police Academy 2: Their First Assignment",
   "year": 1985,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1WWI"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1WWI"
+  }
 }

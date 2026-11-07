@@ -4,10 +4,7 @@
   "title": "Live Free or Die Hard",
   "year": 2007,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/28zQ"
-    }
-  ]
+  "refs": {
+    "letterboxd": "28zQ"
+  }
 }

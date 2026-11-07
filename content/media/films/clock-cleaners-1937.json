@@ -4,10 +4,7 @@
   "title": "Clock Cleaners",
   "year": 1937,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/7cW"
-    }
-  ]
+  "refs": {
+    "letterboxd": "7cW"
+  }
 }

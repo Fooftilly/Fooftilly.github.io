@@ -4,10 +4,7 @@
   "title": "Spider-Man 2",
   "year": 2004,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2a88"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2a88"
+  }
 }

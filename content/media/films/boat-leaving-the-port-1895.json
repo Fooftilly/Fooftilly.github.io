@@ -4,10 +4,7 @@
   "title": "Boat Leaving the Port",
   "year": 1895,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4e02"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4e02"
+  }
 }

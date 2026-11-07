@@ -4,10 +4,7 @@
   "title": "When Harry Met Sally...",
   "year": 1989,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/29W2"
-    }
-  ]
+  "refs": {
+    "letterboxd": "29W2"
+  }
 }

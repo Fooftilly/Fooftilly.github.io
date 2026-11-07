@@ -4,10 +4,7 @@
   "title": "Badlands",
   "year": 1973,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/25Fm"
-    }
-  ]
+  "refs": {
+    "letterboxd": "25Fm"
+  }
 }

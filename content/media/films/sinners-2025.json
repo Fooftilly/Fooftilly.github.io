@@ -4,10 +4,7 @@
   "title": "Sinners",
   "year": 2025,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/KQMM"
-    }
-  ]
+  "refs": {
+    "letterboxd": "KQMM"
+  }
 }

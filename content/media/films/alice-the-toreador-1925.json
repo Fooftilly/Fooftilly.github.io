@@ -4,10 +4,7 @@
   "title": "Alice the Toreador",
   "year": 1925,
   "rating": 1.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1gl6"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1gl6"
+  }
 }

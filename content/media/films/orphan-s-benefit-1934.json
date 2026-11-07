@@ -4,10 +4,7 @@
   "title": "Orphan's Benefit",
   "year": 1934,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5m6u"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5m6u"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb",
   "year": 1964,
   "rating": 5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/29eY"
-    }
-  ]
+  "refs": {
+    "letterboxd": "29eY"
+  }
 }

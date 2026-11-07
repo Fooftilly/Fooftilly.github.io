@@ -4,10 +4,7 @@
   "title": "Dark Shadows",
   "year": 2012,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/bQ2"
-    }
-  ]
+  "refs": {
+    "letterboxd": "bQ2"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "The Man from U.N.C.L.E.",
   "year": 2015,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/67lG"
-    }
-  ]
+  "refs": {
+    "letterboxd": "67lG"
+  }
 }

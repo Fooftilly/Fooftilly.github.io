@@ -4,10 +4,7 @@
   "title": "Dumb and Dumber",
   "year": 1994,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/206m"
-    }
-  ]
+  "refs": {
+    "letterboxd": "206m"
+  }
 }

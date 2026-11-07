@@ -4,10 +4,7 @@
   "title": "A Hand Shake",
   "year": 1892,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3zna"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3zna"
+  }
 }

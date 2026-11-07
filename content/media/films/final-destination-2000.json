@@ -4,10 +4,7 @@
   "title": "Final Destination",
   "year": 2000,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1YrC"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1YrC"
+  }
 }

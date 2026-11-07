@@ -4,10 +4,7 @@
   "title": "The Miller and the Sweep",
   "year": 1897,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5tBE"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5tBE"
+  }
 }

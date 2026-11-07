@@ -4,10 +4,7 @@
   "title": "The Jazz Fool",
   "year": 1929,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5KMO"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5KMO"
+  }
 }

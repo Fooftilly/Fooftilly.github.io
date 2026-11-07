@@ -4,10 +4,7 @@
   "title": "Golden Nunchakas",
   "year": 2007,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/ipys"
-    }
-  ]
+  "refs": {
+    "letterboxd": "ipys"
+  }
 }

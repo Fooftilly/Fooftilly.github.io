@@ -4,10 +4,7 @@
   "title": "Blended",
   "year": 2014,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/6QQY"
-    }
-  ]
+  "refs": {
+    "letterboxd": "6QQY"
+  }
 }

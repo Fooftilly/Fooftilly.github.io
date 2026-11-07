@@ -4,10 +4,7 @@
   "title": "The Intouchables",
   "year": 2011,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2FT0"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2FT0"
+  }
 }

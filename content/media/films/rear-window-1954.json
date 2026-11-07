@@ -4,10 +4,7 @@
   "title": "Rear Window",
   "year": 1954,
   "rating": 4.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2a6Q"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2a6Q"
+  }
 }

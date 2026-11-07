@@ -4,10 +4,7 @@
   "title": "The Magic Sword",
   "year": 1950,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/7Wyy"
-    }
-  ]
+  "refs": {
+    "letterboxd": "7Wyy"
+  }
 }

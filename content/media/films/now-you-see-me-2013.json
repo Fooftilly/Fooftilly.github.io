@@ -4,10 +4,7 @@
   "title": "Now You See Me",
   "year": 2013,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2Bsu"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2Bsu"
+  }
 }

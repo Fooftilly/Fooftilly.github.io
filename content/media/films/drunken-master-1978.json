@@ -4,10 +4,7 @@
   "title": "Drunken Master",
   "year": 1978,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1Ujk"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1Ujk"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Goofy and Wilbur",
   "year": 1939,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/77C"
-    }
-  ]
+  "refs": {
+    "letterboxd": "77C"
+  }
 }

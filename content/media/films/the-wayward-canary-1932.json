@@ -4,10 +4,7 @@
   "title": "The Wayward Canary",
   "year": 1932,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/52BC"
-    }
-  ]
+  "refs": {
+    "letterboxd": "52BC"
+  }
 }

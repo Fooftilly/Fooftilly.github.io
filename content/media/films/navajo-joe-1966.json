@@ -4,10 +4,7 @@
   "title": "Navajo Joe",
   "year": 1966,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/21Ek"
-    }
-  ]
+  "refs": {
+    "letterboxd": "21Ek"
+  }
 }

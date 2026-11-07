@@ -4,10 +4,7 @@
   "title": "Road to Ninja: Naruto the Movie",
   "year": 2012,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3VMG"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3VMG"
+  }
 }

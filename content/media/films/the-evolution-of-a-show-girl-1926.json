@@ -4,10 +4,7 @@
   "title": "The Evolution of a \"Show Girl\"",
   "year": 1926,
   "rating": 1.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/AN56"
-    }
-  ]
+  "refs": {
+    "letterboxd": "AN56"
+  }
 }

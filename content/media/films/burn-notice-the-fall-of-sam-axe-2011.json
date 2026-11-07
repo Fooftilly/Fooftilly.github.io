@@ -4,10 +4,7 @@
   "title": "Burn Notice: The Fall of Sam Axe",
   "year": 2011,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/dqq"
-    }
-  ]
+  "refs": {
+    "letterboxd": "dqq"
+  }
 }

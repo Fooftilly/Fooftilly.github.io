@@ -4,10 +4,7 @@
   "title": "Star Wars",
   "year": 1977,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/72s"
-    }
-  ]
+  "refs": {
+    "letterboxd": "72s"
+  }
 }

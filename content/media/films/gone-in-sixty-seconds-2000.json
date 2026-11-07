@@ -4,10 +4,7 @@
   "title": "Gone in Sixty Seconds",
   "year": 2000,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1Y4y"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1Y4y"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Virile Games",
   "year": 1988,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1FP6"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1FP6"
+  }
 }

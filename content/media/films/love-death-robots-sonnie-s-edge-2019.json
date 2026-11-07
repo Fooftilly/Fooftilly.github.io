@@ -4,10 +4,7 @@
   "title": "Love, Death & Robots: Sonnie's Edge",
   "year": 2019,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/lECg"
-    }
-  ]
+  "refs": {
+    "letterboxd": "lECg"
+  }
 }

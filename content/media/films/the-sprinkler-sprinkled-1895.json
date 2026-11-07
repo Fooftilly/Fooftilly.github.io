@@ -4,10 +4,7 @@
   "title": "The Sprinkler Sprinkled",
   "year": 1895,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2Slq"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2Slq"
+  }
 }

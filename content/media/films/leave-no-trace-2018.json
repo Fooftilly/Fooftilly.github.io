@@ -4,10 +4,7 @@
   "title": "Leave No Trace",
   "year": 2018,
   "rating": 4.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/fMfM"
-    }
-  ]
+  "refs": {
+    "letterboxd": "fMfM"
+  }
 }

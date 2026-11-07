@@ -4,10 +4,7 @@
   "title": "Kung Fu Panda 3",
   "year": 2016,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4uRQ"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4uRQ"
+  }
 }

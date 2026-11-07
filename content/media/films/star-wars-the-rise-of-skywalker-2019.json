@@ -4,10 +4,7 @@
   "title": "Star Wars: The Rise of Skywalker",
   "year": 2019,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5xlK"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5xlK"
+  }
 }

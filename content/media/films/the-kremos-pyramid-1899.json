@@ -4,10 +4,7 @@
   "title": "The Kremos: Pyramid",
   "year": 1899,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/7hBQ"
-    }
-  ]
+  "refs": {
+    "letterboxd": "7hBQ"
+  }
 }

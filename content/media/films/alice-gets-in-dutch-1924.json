@@ -4,10 +4,7 @@
   "title": "Alice Gets in Dutch",
   "year": 1924,
   "rating": 1.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/Azq"
-    }
-  ]
+  "refs": {
+    "letterboxd": "Azq"
+  }
 }

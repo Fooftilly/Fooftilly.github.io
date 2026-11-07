@@ -4,10 +4,7 @@
   "title": "Nancy Drew",
   "year": 2007,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1OSe"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1OSe"
+  }
 }

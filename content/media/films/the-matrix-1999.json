@@ -4,10 +4,7 @@
   "title": "The Matrix",
   "year": 1999,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2a1m"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2a1m"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Donald and Pluto",
   "year": 1936,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2ywe"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2ywe"
+  }
 }

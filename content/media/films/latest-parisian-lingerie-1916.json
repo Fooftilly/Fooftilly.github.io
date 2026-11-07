@@ -4,10 +4,7 @@
   "title": "Latest Parisian Lingerie",
   "year": 1916,
   "rating": 1,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/xfPS"
-    }
-  ]
+  "refs": {
+    "letterboxd": "xfPS"
+  }
 }

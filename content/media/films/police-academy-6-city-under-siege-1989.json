@@ -4,10 +4,7 @@
   "title": "Police Academy 6: City Under Siege",
   "year": 1989,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1SPI"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1SPI"
+  }
 }

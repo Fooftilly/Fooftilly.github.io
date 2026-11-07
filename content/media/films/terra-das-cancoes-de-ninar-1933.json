@@ -4,10 +4,7 @@
   "title": "Terra das Canções de Ninar",
   "year": 1933,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3DF8"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3DF8"
+  }
 }

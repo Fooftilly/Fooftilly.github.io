@@ -4,10 +4,7 @@
   "title": "The Taste of Others",
   "year": 2000,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1VBY"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1VBY"
+  }
 }

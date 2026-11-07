@@ -4,10 +4,7 @@
   "title": "Cat's Lunch",
   "year": 1897,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5Qf2"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5Qf2"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "The Disobedient Robot",
   "year": 1956,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/byys"
-    }
-  ]
+  "refs": {
+    "letterboxd": "byys"
+  }
 }

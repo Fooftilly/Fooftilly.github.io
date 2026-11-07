@@ -4,10 +4,7 @@
   "title": "The Sea Beast",
   "year": 2022,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/kv3a"
-    }
-  ]
+  "refs": {
+    "letterboxd": "kv3a"
+  }
 }

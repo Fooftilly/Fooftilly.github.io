@@ -4,10 +4,7 @@
   "title": "Tall Timber",
   "year": 1928,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5Kf6"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5Kf6"
+  }
 }

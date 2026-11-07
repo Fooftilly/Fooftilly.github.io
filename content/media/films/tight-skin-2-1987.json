@@ -4,10 +4,7 @@
   "title": "Tight Skin 2",
   "year": 1987,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/szC"
-    }
-  ]
+  "refs": {
+    "letterboxd": "szC"
+  }
 }

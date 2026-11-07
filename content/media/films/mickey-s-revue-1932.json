@@ -4,10 +4,7 @@
   "title": "Mickey's Revue",
   "year": 1932,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4UHi"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4UHi"
+  }
 }

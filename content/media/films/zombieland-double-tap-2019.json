@@ -4,10 +4,7 @@
   "title": "Zombieland: Double Tap",
   "year": 2019,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/bgb6"
-    }
-  ]
+  "refs": {
+    "letterboxd": "bgb6"
+  }
 }

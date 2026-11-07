@@ -4,10 +4,7 @@
   "title": "Chasing Luck(y)",
   "year": 2005,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/szW"
-    }
-  ]
+  "refs": {
+    "letterboxd": "szW"
+  }
 }

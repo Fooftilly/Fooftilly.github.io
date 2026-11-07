@@ -4,10 +4,7 @@
   "title": "Babes in the Woods",
   "year": 1932,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2Pie"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2Pie"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "World of Brilliance",
   "year": 1956,
   "rating": 1.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/t9Jw"
-    }
-  ]
+  "refs": {
+    "letterboxd": "t9Jw"
+  }
 }

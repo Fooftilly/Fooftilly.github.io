@@ -4,10 +4,7 @@
   "title": "The Hobbit: An Unexpected Journey",
   "year": 2012,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/GZk"
-    }
-  ]
+  "refs": {
+    "letterboxd": "GZk"
+  }
 }

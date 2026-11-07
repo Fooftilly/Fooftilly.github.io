@@ -4,10 +4,7 @@
   "title": "Tedders",
   "year": 1897,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5SuS"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5SuS"
+  }
 }

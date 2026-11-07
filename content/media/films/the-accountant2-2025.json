@@ -4,10 +4,7 @@
   "title": "The Accountant²",
   "year": 2025,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/wOm0"
-    }
-  ]
+  "refs": {
+    "letterboxd": "wOm0"
+  }
 }

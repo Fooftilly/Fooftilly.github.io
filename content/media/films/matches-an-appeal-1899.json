@@ -4,10 +4,7 @@
   "title": "Matches: An Appeal",
   "year": 1899,
   "rating": 1.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5Tf0"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5Tf0"
+  }
 }

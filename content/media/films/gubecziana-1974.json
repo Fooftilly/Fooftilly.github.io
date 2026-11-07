@@ -4,10 +4,7 @@
   "title": "Gubecziana",
   "year": 1974,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/Q9xQ"
-    }
-  ]
+  "refs": {
+    "letterboxd": "Q9xQ"
+  }
 }

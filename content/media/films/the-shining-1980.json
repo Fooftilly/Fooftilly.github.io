@@ -4,10 +4,7 @@
   "title": "The Shining",
   "year": 1980,
   "rating": 4.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/29Nu"
-    }
-  ]
+  "refs": {
+    "letterboxd": "29Nu"
+  }
 }

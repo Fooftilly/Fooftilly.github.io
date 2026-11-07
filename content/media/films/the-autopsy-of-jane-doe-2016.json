@@ -4,10 +4,7 @@
   "title": "The Autopsy of Jane Doe",
   "year": 2016,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/dUu2"
-    }
-  ]
+  "refs": {
+    "letterboxd": "dUu2"
+  }
 }

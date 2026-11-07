@@ -4,10 +4,7 @@
   "title": "The Photographical Congress Arrives in Lyon",
   "year": 1895,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/6ek6"
-    }
-  ]
+  "refs": {
+    "letterboxd": "6ek6"
+  }
 }

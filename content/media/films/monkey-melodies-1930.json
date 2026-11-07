@@ -4,10 +4,7 @@
   "title": "Monkey Melodies",
   "year": 1930,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2gC4"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2gC4"
+  }
 }

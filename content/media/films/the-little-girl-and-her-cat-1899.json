@@ -4,10 +4,7 @@
   "title": "The Little Girl and Her Cat",
   "year": 1899,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5SRs"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5SRs"
+  }
 }

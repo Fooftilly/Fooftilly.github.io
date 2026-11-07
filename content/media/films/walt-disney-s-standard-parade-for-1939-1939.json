@@ -4,10 +4,7 @@
   "title": "Walt Disney's Standard Parade for 1939",
   "year": 1939,
   "rating": 1.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/6Xna"
-    }
-  ]
+  "refs": {
+    "letterboxd": "6Xna"
+  }
 }

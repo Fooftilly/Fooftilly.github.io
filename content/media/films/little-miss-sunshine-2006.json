@@ -4,10 +4,7 @@
   "title": "Little Miss Sunshine",
   "year": 2006,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/29EW"
-    }
-  ]
+  "refs": {
+    "letterboxd": "29EW"
+  }
 }

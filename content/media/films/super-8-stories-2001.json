@@ -4,10 +4,7 @@
   "title": "Super 8 Stories",
   "year": 2001,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3zCu"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3zCu"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Three Colours: Red",
   "year": 1994,
   "rating": 4.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2b7q"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2b7q"
+  }
 }

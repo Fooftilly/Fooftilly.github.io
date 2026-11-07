@@ -4,10 +4,7 @@
   "title": "Reptile",
   "year": 2023,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/wKjc"
-    }
-  ]
+  "refs": {
+    "letterboxd": "wKjc"
+  }
 }

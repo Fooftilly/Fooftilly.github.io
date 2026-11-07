@@ -4,10 +4,7 @@
   "title": "Apotheose",
   "year": 1895,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5QRq"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5QRq"
+  }
 }

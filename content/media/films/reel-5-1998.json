@@ -4,10 +4,7 @@
   "title": "\"...\" Reel 5",
   "year": 1998,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/55oc"
-    }
-  ]
+  "refs": {
+    "letterboxd": "55oc"
+  }
 }

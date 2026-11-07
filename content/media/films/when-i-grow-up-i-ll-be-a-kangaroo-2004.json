@@ -4,10 +4,7 @@
   "title": "When I Grow Up, I'll Be a Kangaroo",
   "year": 2004,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/syY"
-    }
-  ]
+  "refs": {
+    "letterboxd": "syY"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "The Barnyard Broadcast",
   "year": 1931,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/53D0"
-    }
-  ]
+  "refs": {
+    "letterboxd": "53D0"
+  }
 }

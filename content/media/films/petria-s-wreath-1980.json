@@ -4,10 +4,7 @@
   "title": "Petria's Wreath",
   "year": 1980,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/8K9y"
-    }
-  ]
+  "refs": {
+    "letterboxd": "8K9y"
+  }
 }

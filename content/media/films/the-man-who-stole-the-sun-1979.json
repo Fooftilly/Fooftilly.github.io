@@ -4,10 +4,7 @@
   "title": "The Man Who Stole the Sun",
   "year": 1979,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/igK"
-    }
-  ]
+  "refs": {
+    "letterboxd": "igK"
+  }
 }

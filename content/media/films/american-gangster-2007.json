@@ -4,10 +4,7 @@
   "title": "American Gangster",
   "year": 2007,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/23wi"
-    }
-  ]
+  "refs": {
+    "letterboxd": "23wi"
+  }
 }

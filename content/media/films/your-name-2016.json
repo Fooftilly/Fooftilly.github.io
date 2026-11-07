@@ -4,10 +4,7 @@
   "title": "Your Name.",
   "year": 2016,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/cUqs"
-    }
-  ]
+  "refs": {
+    "letterboxd": "cUqs"
+  }
 }

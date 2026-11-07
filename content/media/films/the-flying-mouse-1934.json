@@ -4,10 +4,7 @@
   "title": "The Flying Mouse",
   "year": 1934,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/u76"
-    }
-  ]
+  "refs": {
+    "letterboxd": "u76"
+  }
 }

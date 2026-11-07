@@ -4,10 +4,7 @@
   "title": "Panorama des rives de la Seine, IV",
   "year": 1897,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/jzIE"
-    }
-  ]
+  "refs": {
+    "letterboxd": "jzIE"
+  }
 }

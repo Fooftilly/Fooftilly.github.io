@@ -4,10 +4,7 @@
   "title": "Red Notice",
   "year": 2021,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/ixtq"
-    }
-  ]
+  "refs": {
+    "letterboxd": "ixtq"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Great Guns",
   "year": 1927,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/139c"
-    }
-  ]
+  "refs": {
+    "letterboxd": "139c"
+  }
 }

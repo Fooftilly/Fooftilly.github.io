@@ -4,10 +4,7 @@
   "title": "London's Trafalgar Square",
   "year": 1890,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1fKE"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1fKE"
+  }
 }

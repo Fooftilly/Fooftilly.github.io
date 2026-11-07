@@ -4,10 +4,7 @@
   "title": "Balkan Express 2",
   "year": 1988,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/tK2"
-    }
-  ]
+  "refs": {
+    "letterboxd": "tK2"
+  }
 }

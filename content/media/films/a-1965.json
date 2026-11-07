@@ -4,10 +4,7 @@
   "title": "A",
   "year": 1965,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/8rMw"
-    }
-  ]
+  "refs": {
+    "letterboxd": "8rMw"
+  }
 }

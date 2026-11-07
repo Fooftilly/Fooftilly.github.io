@@ -4,10 +4,7 @@
   "title": "Come to Me and Go from Me",
   "year": 1983,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/sBy"
-    }
-  ]
+  "refs": {
+    "letterboxd": "sBy"
+  }
 }

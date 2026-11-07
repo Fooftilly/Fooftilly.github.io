@@ -4,10 +4,7 @@
   "title": "Danseuse de ballet",
   "year": 1897,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/6O60"
-    }
-  ]
+  "refs": {
+    "letterboxd": "6O60"
+  }
 }

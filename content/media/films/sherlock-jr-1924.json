@@ -4,10 +4,7 @@
   "title": "Sherlock Jr.",
   "year": 1924,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/298m"
-    }
-  ]
+  "refs": {
+    "letterboxd": "298m"
+  }
 }

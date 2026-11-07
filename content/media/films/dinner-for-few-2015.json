@@ -4,10 +4,7 @@
   "title": "Dinner for Few",
   "year": 2015,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/bIsa"
-    }
-  ]
+  "refs": {
+    "letterboxd": "bIsa"
+  }
 }

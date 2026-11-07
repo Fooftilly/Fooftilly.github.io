@@ -4,10 +4,7 @@
   "title": "Harold & Kumar Go to White Castle",
   "year": 2004,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1Ueu"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1Ueu"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Chainsaw Man",
   "year": 2022,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/J6t8"
-    }
-  ]
+  "refs": {
+    "letterboxd": "J6t8"
+  }
 }

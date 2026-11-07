@@ -4,10 +4,7 @@
   "title": "Ransom for a Dead Man",
   "year": 1971,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/cgXm"
-    }
-  ]
+  "refs": {
+    "letterboxd": "cgXm"
+  }
 }

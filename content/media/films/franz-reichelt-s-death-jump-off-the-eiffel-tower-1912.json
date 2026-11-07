@@ -4,10 +4,7 @@
   "title": "Franz Reichelt’s Death Jump off the Eiffel Tower",
   "year": 1912,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/d3dM"
-    }
-  ]
+  "refs": {
+    "letterboxd": "d3dM"
+  }
 }

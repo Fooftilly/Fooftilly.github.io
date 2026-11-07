@@ -4,10 +4,7 @@
   "title": "Rush Hour 2",
   "year": 2001,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/23ga"
-    }
-  ]
+  "refs": {
+    "letterboxd": "23ga"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Police Academy 5: Assignment Miami Beach",
   "year": 1988,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1T02"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1T02"
+  }
 }

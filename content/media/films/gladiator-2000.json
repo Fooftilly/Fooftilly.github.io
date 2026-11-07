@@ -4,10 +4,7 @@
   "title": "Gladiator",
   "year": 2000,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2b9m"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2b9m"
+  }
 }

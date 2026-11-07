@@ -4,10 +4,7 @@
   "title": "Long Toast",
   "year": 2020,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/zHPq"
-    }
-  ]
+  "refs": {
+    "letterboxd": "zHPq"
+  }
 }

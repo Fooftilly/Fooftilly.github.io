@@ -4,10 +4,7 @@
   "title": "Apocalypse Now",
   "year": 1979,
   "rating": 4.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/6ZS"
-    }
-  ]
+  "refs": {
+    "letterboxd": "6ZS"
+  }
 }

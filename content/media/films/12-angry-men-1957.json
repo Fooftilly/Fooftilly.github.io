@@ -4,22 +4,10 @@
   "title": "12 Angry Men",
   "year": 1957,
   "rating": 4.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2auI"
-    },
-    {
-      "label": "IMDb",
-      "url": "https://www.imdb.com/title/tt0050083/"
-    },
-    {
-      "label": "TMDb",
-      "url": "https://www.themoviedb.org/movie/389"
-    },
-    {
-      "label": "Wikipedia",
-      "url": "https://en.wikipedia.org/wiki/12_Angry_Men"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2auI",
+    "imdb": "tt0050083",
+    "tmdb": "movie:389",
+    "wikipedia": "en:12_Angry_Men"
+  }
 }

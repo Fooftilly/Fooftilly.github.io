@@ -4,10 +4,7 @@
   "title": "How Ned Got the Raise",
   "year": 1912,
   "rating": 1.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/ePYI"
-    }
-  ]
+  "refs": {
+    "letterboxd": "ePYI"
+  }
 }

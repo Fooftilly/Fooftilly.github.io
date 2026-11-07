@@ -4,10 +4,7 @@
   "title": "War Dogs",
   "year": 2016,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/9SlO"
-    }
-  ]
+  "refs": {
+    "letterboxd": "9SlO"
+  }
 }

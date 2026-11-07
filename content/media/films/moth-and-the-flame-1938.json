@@ -4,10 +4,7 @@
   "title": "Moth and the Flame",
   "year": 1938,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/v7m"
-    }
-  ]
+  "refs": {
+    "letterboxd": "v7m"
+  }
 }

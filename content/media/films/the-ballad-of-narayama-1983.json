@@ -4,10 +4,7 @@
   "title": "The Ballad of Narayama",
   "year": 1983,
   "rating": 4.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/XI6"
-    }
-  ]
+  "refs": {
+    "letterboxd": "XI6"
+  }
 }

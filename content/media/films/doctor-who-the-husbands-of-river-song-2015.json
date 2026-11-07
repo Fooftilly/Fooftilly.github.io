@@ -4,10 +4,7 @@
   "title": "Doctor Who: The Husbands of River Song",
   "year": 2015,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/cTHM"
-    }
-  ]
+  "refs": {
+    "letterboxd": "cTHM"
+  }
 }

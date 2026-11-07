@@ -4,10 +4,7 @@
   "title": "Eye Myth",
   "year": 1967,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3mQ4"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3mQ4"
+  }
 }

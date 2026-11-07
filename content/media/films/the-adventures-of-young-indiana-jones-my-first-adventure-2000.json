@@ -4,10 +4,7 @@
   "title": "The Adventures of Young Indiana Jones: My First Adventure",
   "year": 2000,
   "rating": 1,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/6Aj0"
-    }
-  ]
+  "refs": {
+    "letterboxd": "6Aj0"
+  }
 }

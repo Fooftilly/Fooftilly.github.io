@@ -4,10 +4,7 @@
   "title": "Good Morning, Vietnam",
   "year": 1987,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/29Aq"
-    }
-  ]
+  "refs": {
+    "letterboxd": "29Aq"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Fantastic Beasts and Where to Find Them",
   "year": 2016,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/7FPC"
-    }
-  ]
+  "refs": {
+    "letterboxd": "7FPC"
+  }
 }

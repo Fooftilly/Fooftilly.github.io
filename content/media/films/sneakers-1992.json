@@ -4,10 +4,7 @@
   "title": "Sneakers",
   "year": 1992,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/26VU"
-    }
-  ]
+  "refs": {
+    "letterboxd": "26VU"
+  }
 }

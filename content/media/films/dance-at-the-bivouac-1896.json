@@ -4,10 +4,7 @@
   "title": "Dance at the Bivouac",
   "year": 1896,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5QUa"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5QUa"
+  }
 }

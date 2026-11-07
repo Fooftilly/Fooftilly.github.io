@@ -4,10 +4,7 @@
   "title": "Spy Kids",
   "year": 2001,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1Xcw"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1Xcw"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Dickson Greeting",
   "year": 1891,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1fSy"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1fSy"
+  }
 }

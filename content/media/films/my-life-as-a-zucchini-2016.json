@@ -4,10 +4,7 @@
   "title": "My Life as a Zucchini",
   "year": 2016,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/dL2y"
-    }
-  ]
+  "refs": {
+    "letterboxd": "dL2y"
+  }
 }

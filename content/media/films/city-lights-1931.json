@@ -4,10 +4,7 @@
   "title": "City Lights",
   "year": 1931,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/29ki"
-    }
-  ]
+  "refs": {
+    "letterboxd": "29ki"
+  }
 }

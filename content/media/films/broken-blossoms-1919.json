@@ -4,10 +4,7 @@
   "title": "Broken Blossoms",
   "year": 1919,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/29kC"
-    }
-  ]
+  "refs": {
+    "letterboxd": "29kC"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Vacation Friends",
   "year": 2021,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/ohEO"
-    }
-  ]
+  "refs": {
+    "letterboxd": "ohEO"
+  }
 }

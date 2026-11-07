@@ -4,10 +4,7 @@
   "title": "At the Foot of the Flatiron",
   "year": 1903,
   "rating": 1,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5Lbu"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5Lbu"
+  }
 }

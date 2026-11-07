@@ -4,10 +4,7 @@
   "title": "Forrest Gump",
   "year": 1994,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/728"
-    }
-  ]
+  "refs": {
+    "letterboxd": "728"
+  }
 }

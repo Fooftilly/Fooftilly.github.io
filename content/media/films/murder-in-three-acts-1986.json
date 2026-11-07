@@ -4,10 +4,7 @@
   "title": "Murder in Three Acts",
   "year": 1986,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2248"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2248"
+  }
 }

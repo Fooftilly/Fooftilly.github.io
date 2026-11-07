@@ -4,10 +4,7 @@
   "title": "The Grand Budapest Hotel",
   "year": 2014,
   "rating": 4.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3ZqO"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3ZqO"
+  }
 }

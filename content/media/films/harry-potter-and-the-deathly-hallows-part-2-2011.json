@@ -4,10 +4,7 @@
   "title": "Harry Potter and the Deathly Hallows: Part 2",
   "year": 2011,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1RYk"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1RYk"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "history of the entire world, i guess",
   "year": 2017,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/rQx0"
-    }
-  ]
+  "refs": {
+    "letterboxd": "rQx0"
+  }
 }

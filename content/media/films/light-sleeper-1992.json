@@ -4,10 +4,7 @@
   "title": "Light Sleeper",
   "year": 1992,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1aKa"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1aKa"
+  }
 }

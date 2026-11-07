@@ -4,10 +4,7 @@
   "title": "Doctor Who: Last Christmas",
   "year": 2014,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/afjm"
-    }
-  ]
+  "refs": {
+    "letterboxd": "afjm"
+  }
 }

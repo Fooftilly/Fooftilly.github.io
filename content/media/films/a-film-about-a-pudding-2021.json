@@ -4,10 +4,7 @@
   "title": "A Film about a Pudding",
   "year": 2021,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/veW0"
-    }
-  ]
+  "refs": {
+    "letterboxd": "veW0"
+  }
 }

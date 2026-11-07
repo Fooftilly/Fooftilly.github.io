@@ -4,10 +4,7 @@
   "title": "Children Digging for Shrimp",
   "year": 1896,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4NT2"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4NT2"
+  }
 }

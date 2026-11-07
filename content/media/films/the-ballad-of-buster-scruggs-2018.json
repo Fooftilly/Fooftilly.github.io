@@ -4,10 +4,7 @@
   "title": "The Ballad of Buster Scruggs",
   "year": 2018,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/jB2q"
-    }
-  ]
+  "refs": {
+    "letterboxd": "jB2q"
+  }
 }

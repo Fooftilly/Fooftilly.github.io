@@ -4,10 +4,7 @@
   "title": "Balkan Spy",
   "year": 1984,
   "rating": 4.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1jbS"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1jbS"
+  }
 }

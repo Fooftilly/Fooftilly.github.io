@@ -4,10 +4,7 @@
   "title": "The Running Jumping & Standing Still Film",
   "year": 1959,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3AdK"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3AdK"
+  }
 }

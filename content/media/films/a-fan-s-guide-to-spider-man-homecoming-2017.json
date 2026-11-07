@@ -4,10 +4,7 @@
   "title": "A Fan's Guide to Spider-Man Homecoming",
   "year": 2017,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/nc9k"
-    }
-  ]
+  "refs": {
+    "letterboxd": "nc9k"
+  }
 }

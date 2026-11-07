@@ -4,10 +4,7 @@
   "title": "Revenger",
   "year": 1958,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/ft0S"
-    }
-  ]
+  "refs": {
+    "letterboxd": "ft0S"
+  }
 }

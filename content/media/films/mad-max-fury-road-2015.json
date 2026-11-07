@@ -4,10 +4,7 @@
   "title": "Mad Max: Fury Road",
   "year": 2015,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2DjO"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2DjO"
+  }
 }

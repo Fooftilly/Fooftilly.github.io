@@ -4,10 +4,7 @@
   "title": "Jackie Brown",
   "year": 1997,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2aVO"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2aVO"
+  }
 }

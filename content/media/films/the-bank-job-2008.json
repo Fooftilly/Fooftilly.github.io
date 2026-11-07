@@ -4,10 +4,7 @@
   "title": "The Bank Job",
   "year": 2008,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1ZL4"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1ZL4"
+  }
 }

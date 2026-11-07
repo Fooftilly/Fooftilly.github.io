@@ -4,10 +4,7 @@
   "title": "Baby's Meal",
   "year": 1895,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/426C"
-    }
-  ]
+  "refs": {
+    "letterboxd": "426C"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "The Barn Dance",
   "year": 1929,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3MYI"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3MYI"
+  }
 }

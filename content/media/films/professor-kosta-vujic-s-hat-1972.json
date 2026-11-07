@@ -4,10 +4,7 @@
   "title": "Professor Kosta Vujic's Hat",
   "year": 1972,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/l3au"
-    }
-  ]
+  "refs": {
+    "letterboxd": "l3au"
+  }
 }

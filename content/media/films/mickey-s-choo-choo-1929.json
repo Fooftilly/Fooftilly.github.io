@@ -4,10 +4,7 @@
   "title": "Mickey's Choo-Choo",
   "year": 1929,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5vqy"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5vqy"
+  }
 }

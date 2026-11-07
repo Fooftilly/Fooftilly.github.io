@@ -4,10 +4,7 @@
   "title": "Jérusalem : porte de Jaffa, côté Est",
   "year": 1897,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5RCQ"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5RCQ"
+  }
 }

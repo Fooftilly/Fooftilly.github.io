@@ -4,10 +4,7 @@
   "title": "Springtime",
   "year": 1929,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2gu0"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2gu0"
+  }
 }

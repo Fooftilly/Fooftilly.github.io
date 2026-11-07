@@ -4,10 +4,7 @@
   "title": "Meet Joe Black",
   "year": 1998,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2aEI"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2aEI"
+  }
 }

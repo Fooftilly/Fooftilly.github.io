@@ -4,10 +4,7 @@
   "title": "Mickey Steps Out",
   "year": 1931,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/54lc"
-    }
-  ]
+  "refs": {
+    "letterboxd": "54lc"
+  }
 }

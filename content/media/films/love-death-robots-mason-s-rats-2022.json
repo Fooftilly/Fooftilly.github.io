@@ -4,10 +4,7 @@
   "title": "Love, Death & Robots: Mason's Rats",
   "year": 2022,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/AW76"
-    }
-  ]
+  "refs": {
+    "letterboxd": "AW76"
+  }
 }

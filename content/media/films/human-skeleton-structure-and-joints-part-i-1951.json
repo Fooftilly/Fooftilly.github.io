@@ -4,10 +4,7 @@
   "title": "Human skeleton, structure and joints - Part I",
   "year": 1951,
   "rating": 1,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/ELPa"
-    }
-  ]
+  "refs": {
+    "letterboxd": "ELPa"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Green Fish",
   "year": 1997,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3jCy"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3jCy"
+  }
 }

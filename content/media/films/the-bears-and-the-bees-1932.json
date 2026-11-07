@@ -4,10 +4,7 @@
   "title": "The Bears and the Bees",
   "year": 1932,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2ftg"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2ftg"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Winter",
   "year": 1930,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2eVo"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2eVo"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Japanese Sword Fencing",
   "year": 1897,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5RAK"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5RAK"
+  }
 }

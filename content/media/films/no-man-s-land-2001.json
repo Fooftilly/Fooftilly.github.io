@@ -4,10 +4,7 @@
   "title": "No Man's Land",
   "year": 2001,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/20kI"
-    }
-  ]
+  "refs": {
+    "letterboxd": "20kI"
+  }
 }

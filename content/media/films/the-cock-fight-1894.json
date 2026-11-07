@@ -4,10 +4,7 @@
   "title": "The Cock Fight",
   "year": 1894,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4NwM"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4NwM"
+  }
 }

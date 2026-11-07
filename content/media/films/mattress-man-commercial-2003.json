@@ -4,10 +4,7 @@
   "title": "Mattress Man Commercial",
   "year": 2003,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5yDK"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5yDK"
+  }
 }

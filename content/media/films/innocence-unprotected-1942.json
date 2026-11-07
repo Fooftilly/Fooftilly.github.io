@@ -4,10 +4,7 @@
   "title": "Innocence Unprotected",
   "year": 1942,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/beUy"
-    }
-  ]
+  "refs": {
+    "letterboxd": "beUy"
+  }
 }

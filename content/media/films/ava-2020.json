@@ -4,10 +4,7 @@
   "title": "Ava",
   "year": 2020,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/jFH8"
-    }
-  ]
+  "refs": {
+    "letterboxd": "jFH8"
+  }
 }

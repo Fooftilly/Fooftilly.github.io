@@ -4,10 +4,7 @@
   "title": "Psych 3: This Is Gus",
   "year": 2021,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/vgAK"
-    }
-  ]
+  "refs": {
+    "letterboxd": "vgAK"
+  }
 }

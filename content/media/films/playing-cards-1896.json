@@ -4,10 +4,7 @@
   "title": "Playing Cards",
   "year": 1896,
   "rating": 1.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3y8o"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3y8o"
+  }
 }
