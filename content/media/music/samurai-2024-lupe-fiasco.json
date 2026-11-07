@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Samurai",
+  "creator": "Lupe Fiasco",
+  "year": 2024,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "461fb938-6f99-4554-89e7-5f84ef699b78"
+  }
+}

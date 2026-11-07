@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Plays Duke Ellington",
+  "creator": "World Saxophone Quartet",
+  "year": 1986,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "29929f8c-9800-3ed1-94d5-8a1e2fac33e4"
+  }
+}

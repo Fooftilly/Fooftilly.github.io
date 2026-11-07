@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Dawn FM",
+  "creator": "The Weeknd",
+  "year": 2022,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "3344452a-3da9-4b4f-8954-ae23a86c2ecf"
+  }
+}

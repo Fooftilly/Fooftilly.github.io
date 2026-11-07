@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Manger on McNichols",
+  "creator": "Boldy James & Sterling Toles",
+  "year": 2020,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "25e4f39d-228a-4f04-aa08-9ff1d0c2950a"
+  }
+}
