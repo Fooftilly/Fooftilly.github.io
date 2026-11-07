@@ -8,6 +8,7 @@ import { bookmarkDetailParams, bookmarkDetailPath } from "../../../../lib/bookma
 import { bookmarkNeighborMap, type BookmarkAdjacency } from "../../../../lib/bookmark-neighbors.ts";
 import { categoryBySection, bookmarkCategoryPath } from "../../../../lib/bookmark-categories.ts";
 import { publicBookmarkUrl } from "../../../../lib/bookmark-public-url.ts";
+import { bookmarkTagSearchHref } from "../../../../lib/bookmark-query-state.ts";
 
 export const getStaticPaths = (async () => {
   const entries = await getCollection("bookmarks", ({ id, data }) =>
@@ -47,7 +48,7 @@ const tags = entry.data.tags ?? [];
     {externalUrl && <p><a href={externalUrl} target="_blank" rel="noopener noreferrer">Open original link</a></p>}
     {entry.data.comments && <p class="bookmark-comment">{entry.data.comments}</p>}
     {tags.length > 0 && <ul class="bookmark-tags" aria-label="Bookmark tags">
-      {tags.map(tag => <li>{tag}</li>)}
+      {tags.map(tag => <li><a href={bookmarkTagSearchHref(tag)}>{tag}</a></li>)}
     </ul>}
     {hasBody && <section class="bookmark-notes" aria-label="Bookmark notes"><Content /></section>}
   </article>

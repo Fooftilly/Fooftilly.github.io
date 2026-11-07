@@ -192,6 +192,8 @@ try {
   const bookmarkDetail = await readFile(join(dist, "bookmarks", bookmarkCategory.slug, bookmarkStem, "index.html"), "utf8");
   assert.ok(bookmarkDetail.includes("CI-only new bookmark"), "New bookmark detail page was not generated");
   assert.ok(bookmarkDetail.includes("CI migration tag"), "Current tags must appear on bookmark detail pages");
+  assert.ok(bookmarkDetail.includes('href="/search/?tag=CI+migration+tag"'),
+    "Tagged bookmark details must navigate to exact-tag search");
   const emptyDetail = await readFile(join(dist,"bookmarks",bookmarkCategory.slug,emptyStem,"index.html"),"utf8");
   assert.ok(emptyDetail.includes("CI empty-tags bookmark"));
   assert.doesNotMatch(emptyDetail, /<\/p>\s*0\s*<\/article>/,
