@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Figura",
+  "creator": "The Canyon Observer",
+  "year": 2023,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "feb31830-d363-43f3-8c9e-cf1db40bd50f"
+  }
+}

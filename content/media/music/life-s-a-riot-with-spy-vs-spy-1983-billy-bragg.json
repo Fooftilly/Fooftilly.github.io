@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Life's a Riot With Spy vs. Spy",
+  "creator": "Billy Bragg",
+  "year": 1983,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "56b50d0f-37ad-32b3-bcac-2304f44bc9a8"
+  }
+}

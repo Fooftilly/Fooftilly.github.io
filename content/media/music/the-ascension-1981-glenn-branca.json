@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "The Ascension",
+  "creator": "Glenn Branca",
+  "year": 1981,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "72ecced1-276c-3e53-afa1-fb898f8381d7"
+  }
+}

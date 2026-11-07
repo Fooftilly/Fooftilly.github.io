@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "The Rise and Fall of Ziggy Stardust and The Spiders From Mars",
+  "creator": "David Bowie",
+  "year": 1972,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "6c9ae3dd-32ad-472c-96be-69d0a3536261"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Caifanes",
+  "creator": "Caifanes",
+  "year": 1988,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "3b2e5354-d3da-36ab-88f9-d33a99db8a8a"
+  }
+}

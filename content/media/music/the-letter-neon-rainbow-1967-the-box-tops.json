@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "The Letter / Neon Rainbow",
+  "creator": "The Box Tops",
+  "year": 1967,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "a7f9cb97-4ee3-389c-bd2d-1c8155295383"
+  }
+}

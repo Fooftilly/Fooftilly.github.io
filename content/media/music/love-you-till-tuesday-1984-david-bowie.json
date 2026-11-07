@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Love You Till Tuesday",
+  "creator": "David Bowie",
+  "year": 1984,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "96c14aa4-c378-33d5-99f9-3cade6f1ecb3"
+  }
+}

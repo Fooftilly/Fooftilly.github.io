@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Let the Festivities Begin!",
+  "creator": "Los Bitchos",
+  "year": 2022,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "e0b87466-740f-480c-894c-100ef3e2ab61"
+  }
+}

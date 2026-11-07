@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Celebrity Therapist",
+  "creator": "The Callous Daoboys",
+  "year": 2022,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "2c23131c-085d-4051-934e-0321d6646fd1"
+  }
+}
