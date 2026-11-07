@@ -108,6 +108,27 @@ Only release groups independently identified as actual albums should
 be included. Prefer MusicBrainz `primary-type=Album` (or equally
 authoritative release metadata), and exclude Singles/EPs/Other.
 
+A strictly opt-in offline-first verifier is included:
+
+```sh
+python3 astro/scripts/verify-rym-albums.py \
+  /private/path/rym-music-export.csv \
+  --cache /private/path/verified-musicbrainz-cache.json \
+  --output /private/path/verified-album-types.json
+# The command above reads cached responses only. To request missing public
+# metadata from MusicBrainz at no more than 1 request/second, rerun with --fetch.
+```
+
+The report approves an album only when MusicBrainz supplies one unique
+title/artist/first-release-year match with `primary-type: Album`.
+EPs, singles, other types, missing matches, different editions and ambiguous
+identities are rejected or held for review. Network access is opt-in,
+rate-limited and not used by CI, runtime pages or publication. Only public
+artist/title metadata is queried; ratings and ownership are not transmitted.
+MusicBrainz documents release-group primary types and API rate limits:
+[release-group search](https://musicbrainz.org/doc/MusicBrainz_API/Search/ReleaseGroupSearch),
+[rate limiting](https://musicbrainz.org/doc/MusicBrainz_API/Rate_Limiting).
+
 The music export also contains native-script and localized artist names
 for different entries. No display-name preference has been assumed:
 affected entries need explicit owner choice before import.
