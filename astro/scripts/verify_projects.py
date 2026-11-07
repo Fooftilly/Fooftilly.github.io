@@ -87,7 +87,7 @@ class ProjectTagLinkParser(HTMLParser):
             self.group = None
 
 
-def verify_project_tag_links(html: str, language: str, require_groups=True) -> None:
+def verify_project_tag_links(html: str, language: str, require_groups=True) -> list[list[str]]:
     """Every rendered tag links to exact source-tag search in its own locale.
 
     Accept changing source labels, including Unicode, and disallow links which
@@ -116,6 +116,23 @@ def verify_project_tag_links(html: str, language: str, require_groups=True) -> N
             assert list(query) == ["tag"] and query["tag"] == [visible], (
                 "Project tag link must select only its exact visible label", visible, query
             )
+    return [[item["text"].strip() for item in group] for group in parser.groups]
+
+
+def verify_card_tag_parity(cards, slug, expected_tags, language) -> None:
+    """Compare one independently rendered card to that project's detail tags."""
+    detail_url = f"/projects/{slug}/"
+    matched = [card for card in cards
+               if any(link["attrs"].get("href") == detail_url for link in card)]
+    assert len(matched) == 1, ("Missing project card for tag parity", slug, language)
+    target = "/sh/projects/" if language == "sh" else "/projects/"
+    tag_links = [link for link in matched[0]
+                 if (link["attrs"].get("href") or "").startswith(target + "?tag=")]
+    rendered_labels = [link["text"].strip() for link in tag_links]
+    assert rendered_labels == expected_tags, (
+        "Project card tags differ from current detail/source tags",
+        slug, language, expected_tags, rendered_labels
+    )
 
 
 def parse_project_cards(page):
@@ -252,8 +269,18 @@ def verify_projects(dist: Path, source: Path, origin: str) -> None:
     assert "<h1" in index and "Projects" in index
     local_index=(dist / "sh/projects/index.html").read_text(encoding="utf8")
     assert "<h1" in local_index and "Projekti" in local_index
-    verify_project_tag_links(index, "en", require_groups=bool(items))
-    verify_project_tag_links(local_index, "sh", require_groups=bool(items))
+    assert "<noscript>" in index and "Search and tag filtering require JavaScript" in index, (
+        "EN project index must explain its complete no-JS fallback"
+    )
+    assert "<noscript>" in local_index and "Pretraga i filtriranje oznaka" in local_index, (
+        "SH project index must explain its complete no-JS fallback"
+    )
+    assert len(verify_project_tag_links(index, "en", require_groups=bool(items))) == len(items), (
+        "EN directory omitted a project's tag list"
+    )
+    assert len(verify_project_tag_links(local_index, "sh", require_groups=bool(items))) == len(items), (
+        "SH directory omitted a project's tag list"
+    )
     indexes = (("Source code", parse_project_cards(index)),
                ("Izvorni kod", parse_project_cards(local_index)))
     for label, cards in indexes:
@@ -261,6 +288,7 @@ def verify_projects(dist: Path, source: Path, origin: str) -> None:
     expected_details = {item.stem for item in items}
     actual_details = {page.parent.name for page in (dist / "projects").glob("*/index.html")}
     assert actual_details == expected_details, ("Project detail source parity", actual_details ^ expected_details)
+    source_tag_labels = {}
     for item in items:
         slug = item.stem
         assert slug and all(c.islower() or c.isdigit() or c == "-" for c in slug), slug
@@ -274,7 +302,9 @@ def verify_projects(dist: Path, source: Path, origin: str) -> None:
         result = dist / "projects" / slug / "index.html"
         assert result.is_file(), ("Missing project detail", slug)
         html = result.read_text(encoding="utf8")
-        verify_project_tag_links(html, "en")
+        detail_groups = verify_project_tag_links(html, "en")
+        assert len(detail_groups) == 1, ("Project detail requires one tag list", slug)
+        source_tag_labels[slug] = detail_groups[0]
         expected_title = parse_project_heading(html)
         # Check each optional source disclosure without pinning original projects.
         for heading in ("Requirements", "Limitations"):
@@ -304,14 +334,27 @@ def verify_projects(dist: Path, source: Path, origin: str) -> None:
         # Check source links in each rendered card, not anywhere on the page.
         for label, cards in indexes:
             verify_card_source_link(cards, slug, repository, label, expected_title)
+            verify_card_tag_parity(cards, slug, source_tag_labels[slug],
+                                   "sh" if label == "Izvorni kod" else "en")
         assert 'href="' + repository + '"' in html, ("Missing source link", slug)
         assert origin + "/projects/" + slug + "/" in html, ("Missing canonical URL", slug)
         assert "<h1" in html and "<iframe" not in html, ("Project page missing heading or embeds", slug)
     for homepage, route in ((dist / "index.html", "/projects/"),
                             (dist / "sh/index.html", "/sh/projects/")):
         html = homepage.read_text(encoding="utf8")
-        verify_project_tag_links(html, "sh" if route.startswith("/sh/") else "en",
-                                 require_groups=bool(items))
+        language = "sh" if route.startswith("/sh/") else "en"
+        cards = parse_project_cards(html)
+        tag_groups = verify_project_tag_links(html, language, require_groups=bool(items))
+        assert len(tag_groups) == len(cards), (
+            "Homepage project preview omitted tag lists", homepage
+        )
+        for card in cards:
+            detail_urls = [link["attrs"].get("href") for link in card
+                           if re.fullmatch(r"/projects/[a-z0-9-]+/", link["attrs"].get("href") or "")]
+            assert len(detail_urls) == 1, ("Homepage card must have one project detail", homepage)
+            slug = detail_urls[0].split("/")[2]
+            assert slug in source_tag_labels, ("Unexpected homepage preview project", slug)
+            verify_card_tag_parity(cards, slug, source_tag_labels[slug], language)
         assert f'href="{route}"' in html, ("Missing localized project navigation", homepage)
     print(f"Verified {len(items)} project showcases with source links and static routes")
 
