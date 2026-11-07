@@ -158,6 +158,23 @@ def verify(rows: list[dict[str, str]], cache: dict, fetch: bool) -> dict:
                             "reason": "no cached public metadata; run with --fetch"})
         else:
             results.append(classify(row, cached))
+    # A MusicBrainz release group identifies an album work, not a specific
+    # physical/digital edition or which personal RYM rating is authoritative.
+    # Never import two source rows as the same album, even if both classify as
+    # Album. Hold the entire ambiguous group rather than pick one by order.
+    groups = {}
+    source_ids = {}
+    for entry in results:
+        source_ids.setdefault(entry["rym_id"], []).append(entry)
+        if entry["classification"] == "album":
+            groups.setdefault(entry["musicbrainz_release_group"], []).append(entry)
+    for duplicates in list(groups.values()) + list(source_ids.values()):
+        if len(duplicates) > 1:
+            for entry in duplicates:
+                entry["classification"] = "needs_review"
+                entry["reason"] = "multiple RYM editions or duplicate source IDs require owner review"
+                entry.pop("musicbrainz_release_group", None)
+                entry.pop("primary_type", None)
     counts = {k: sum(item["classification"] == k for item in results)
               for k in ("album", "not_album", "needs_review")}
     return {"summary": counts, "releases": results}
