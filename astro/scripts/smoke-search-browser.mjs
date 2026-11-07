@@ -1286,6 +1286,45 @@ try {
       "document.querySelector('.media-editor .preview textarea[readonly]')?.value",
     );
     assert.equal(JSON.parse(json).kind, kind);
+    if (kind === "music") {
+      await evaluate("document.querySelector('[data-add-track]').click()");
+      await evaluate(`(()=>{
+        const scope=document.querySelector('[data-album-tracks]');
+        const title=scope.querySelector('input[type=text]');
+        title.value='Prelude';
+        title.dispatchEvent(new Event('input',{bubbles:true}));
+        const slider=scope.querySelector('input[type=range]');
+        slider.value='4.5';
+        slider.dispatchEvent(new Event('input',{bubbles:true}));
+      })()`);
+      await waitFor(
+        "(()=>{const value=document.querySelector('.media-editor .preview textarea[readonly]')?.value;return value?JSON.parse(value).tracks?.[0]?.rating===4.5:false})()",
+        Boolean,"album track half-star rating remains independent of album score");
+      const album=JSON.parse(await evaluate("document.querySelector('.media-editor .preview textarea[readonly]').value"));
+      assert.deepEqual(album.tracks,[{disc:1,number:1,title:"Prelude",rating:4.5}]);
+      assert.equal(album.rating,undefined);
+    }
+    if (kind === "tv") {
+      await evaluate("document.querySelector('[data-add-season]').click()");
+      await evaluate("document.querySelector('[data-tv-seasons] .nested-actions .edit-nested').click()");
+      await evaluate(`(()=>{
+        const scope=document.querySelector('[data-tv-seasons]');
+        const season=scope.querySelector('.nested-entry');
+        const sliders=season.querySelectorAll('input[type=range]');
+        sliders[0].value='3.5';sliders[0].dispatchEvent(new Event('input',{bubbles:true}));
+        sliders[1].value='4.5';sliders[1].dispatchEvent(new Event('input',{bubbles:true}));
+        const episodeTitle=season.querySelector('.episode-entry input[type=text]');
+        episodeTitle.value='Pilot';episodeTitle.dispatchEvent(new Event('input',{bubbles:true}));
+      })()`);
+      await waitFor(
+        "(()=>{const value=document.querySelector('.media-editor .preview textarea[readonly]')?.value;return value?JSON.parse(value).seasons?.[0]?.episodes?.[0]?.rating===4.5:false})()",
+        Boolean,"TV season/episode rating editor generates first-party JSON");
+      const series=JSON.parse(await evaluate("document.querySelector('.media-editor .preview textarea[readonly]').value"));
+      assert.equal(series.seasons[0].rating,3.5);
+      assert.equal(series.seasons[0].episodes[0].title,"Pilot");
+      assert.equal(series.seasons[0].episodes[0].rating,4.5);
+      assert.equal(series.rating,undefined);
+    }
   }
   await navigate("/new-media/?kind=untrusted");
   await waitFor(
