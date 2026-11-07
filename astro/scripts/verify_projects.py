@@ -54,7 +54,7 @@ def project_source_tags(markdown: str, slug: str) -> list[str]:
     closed on a change of representation rather than silently guessing tags.
     Astro's collection schema remains the authoritative metadata validator.
     """
-    parts = markdown.split("---", 2)
+    parts = re.split(r"(?m)^---[ \t]*$", markdown, maxsplit=2)
     assert len(parts) >= 3 and not parts[0].strip(), (
         "Missing project frontmatter", slug
     )
