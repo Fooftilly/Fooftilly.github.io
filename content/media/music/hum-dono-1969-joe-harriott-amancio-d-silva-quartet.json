@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Hum Dono",
+  "creator": "Joe Harriott & Amancio D'Silva Quartet",
+  "year": 1969,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "76f02ded-1649-4df9-990d-c746384bdaac"
+  }
+}

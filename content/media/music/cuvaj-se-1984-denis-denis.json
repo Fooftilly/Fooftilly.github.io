@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Čuvaj se!",
+  "creator": "Denis & Denis",
+  "year": 1984,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "62ef3be8-8748-320a-b063-9c022927c7d7"
+  }
+}

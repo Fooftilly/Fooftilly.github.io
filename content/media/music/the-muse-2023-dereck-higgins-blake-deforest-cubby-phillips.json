@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "The Muse",
+  "creator": "Dereck Higgins, Blake DeForest & Cubby Phillips",
+  "year": 2023,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "9245d7d9-7c8c-4930-a712-3ed81ec13ee3"
+  }
+}

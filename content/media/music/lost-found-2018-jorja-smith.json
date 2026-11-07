@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Lost & Found",
+  "creator": "Jorja Smith",
+  "year": 2018,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "a5138f9a-eca0-4f13-ad19-87d5cbc9ba78"
+  }
+}

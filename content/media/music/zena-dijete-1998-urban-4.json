@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Žena dijete",
+  "creator": "Urban & 4",
+  "year": 1998,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "be30549b-a8ef-3b03-a30d-13996fe5527f"
+  }
+}
