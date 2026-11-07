@@ -94,6 +94,11 @@ try {
   if (!port) throw lastStartupError;
   const bookmarkCategories = JSON.parse(await readFile(resolve("src/data/bookmark-categories.json"), "utf8"));
   const bookmarkRecords = JSON.parse(await readFile(resolve(".audit/bookmarks-parity.json"), "utf8"));
+  // A non-JavaScript visitor must see *all* current source bookmarks in
+  // Astro's generated HTML, not only the first page of the hydrated Vue view.
+  const staticBookmarks = await readFile(join(dist, "bookmarks", "index.html"), "utf8");
+  assert.equal((staticBookmarks.match(/class="bookmark-entry"/g) ?? []).length, bookmarkRecords.length,
+    "Unhydrated bookmark listing must contain the complete current source collection");
   const defaultCategory = bookmarkCategories.find(item => item.default);
   assert.ok(defaultCategory, "Missing configured default bookmark category");
   const categoryCount = category => bookmarkRecords.filter(record => record.id.startsWith(category.section + "/")).length;

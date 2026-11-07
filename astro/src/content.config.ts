@@ -2,6 +2,7 @@ import { defineCollection, z } from "astro:content";
 import { glob } from "astro/loaders";
 import { mediaEntryId } from "./lib/media-model.ts";
 import { PROJECT_SLUG } from "./lib/project-catalog.ts";
+import { validateBookmarkTags } from "./lib/bookmark-tags.ts";
 
 // Load the authoritative legacy Markdown in place; no mass content rewrite.
 // Folder _index.md files are section metadata, not bookmark records.
@@ -16,13 +17,16 @@ const bookmarks = defineCollection({
     date: z.coerce.date().optional(),
     link: z.string().optional(),
     comments: z.string().optional(),
-    tags: z.array(z.string().min(1).max(36).refine(tag =>
-      tag === tag.trim() && !/[,\u0000-\u001f\u007f]/u.test(tag),
-      "Tag must be printable, trimmed and comma-free",
-    )).max(12).refine(tags =>
-      new Set(tags.map(tag => tag.normalize("NFC").toLocaleLowerCase())).size === tags.length,
-      "Duplicate bookmark tag",
-    ).optional(),
+    tags: z.array(z.string()).superRefine((tags, ctx) => {
+      try {
+        const canonical = validateBookmarkTags(tags);
+        if (canonical.some((tag, index) => tag !== tags[index])) {
+          ctx.addIssue({ code: "custom", message: "Bookmark tags must be trimmed and NFC-normalized" });
+        }
+      } catch (error) {
+        ctx.addIssue({ code: "custom", message: error instanceof Error ? error.message : "Invalid bookmark tags" });
+      }
+    }).optional(),
     draft: z.boolean().optional(),
   }).passthrough(),
 });

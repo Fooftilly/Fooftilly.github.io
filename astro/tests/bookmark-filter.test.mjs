@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { filterAndSortBookmarks } from "../src/lib/bookmark-filter.ts";
+import { filterAndSortBookmarks, visibleBookmarkPage, BOOKMARK_PAGE_SIZE } from "../src/lib/bookmark-filter.ts";
 import { BOOKMARK_CATEGORIES } from "../src/lib/bookmark-categories.ts";
 
 const items = [
@@ -93,4 +93,15 @@ test("optional content-owned tags are searchable with accents, spaces and AND te
   assert.deepEqual(select("cafe other"),[]);
   assert.deepEqual(select("long form"),["1"]);
   assert.equal(records[1].tags,undefined);
+});
+
+test("unhydrated static bookmark HTML exposes every record; hydrated pages load incrementally", () => {
+  const records = Array.from({length: 121}, (_, index) => ({id: "book-" + index}));
+  assert.equal(BOOKMARK_PAGE_SIZE, 50);
+  assert.equal(visibleBookmarkPage(records, 50, false).length, records.length);
+  assert.deepEqual(visibleBookmarkPage(records, 50, true), records.slice(0, 50));
+  assert.deepEqual(visibleBookmarkPage(records, 100, true), records.slice(0, 100));
+  assert.deepEqual(visibleBookmarkPage(records, 150, true), records);
+  assert.deepEqual(visibleBookmarkPage([], 50, false), []);
+  assert.equal(records.length, 121, "Paging must not change source data");
 });
