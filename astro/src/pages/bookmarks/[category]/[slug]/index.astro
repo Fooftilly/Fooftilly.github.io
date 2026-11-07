@@ -33,6 +33,7 @@ const hasBody = Boolean(entry.body?.trim());
 const externalUrl = publicBookmarkUrl(entry.data.link ?? "");
 const date = entry.data.date?.toISOString().slice(0, 10) ?? "";
 const categoryPath = bookmarkCategoryPath(category.slug);
+const tags = entry.data.tags ?? [];
 ---
 <SiteLayout title={entry.data.title} description={`${category.label} bookmark`}>
   <nav aria-label="Bookmark context" class="breadcrumb">
@@ -45,8 +46,8 @@ const categoryPath = bookmarkCategoryPath(category.slug);
     {date && <p class="meta"><time datetime={date}>{date}</time></p>}
     {externalUrl && <p><a href={externalUrl} target="_blank" rel="noopener noreferrer">Open original link</a></p>}
     {entry.data.comments && <p class="bookmark-comment">{entry.data.comments}</p>}
-    {(entry.data.tags?.length ?? 0) > 0 && <ul class="bookmark-tags" aria-label="Bookmark tags">
-      {entry.data.tags.map(tag => <li>{tag}</li>)}
+    {tags.length > 0 && <ul class="bookmark-tags" aria-label="Bookmark tags">
+      {tags.map(tag => <li>{tag}</li>)}
     </ul>}
     {hasBody && <section class="bookmark-notes" aria-label="Bookmark notes"><Content /></section>}
   </article>
