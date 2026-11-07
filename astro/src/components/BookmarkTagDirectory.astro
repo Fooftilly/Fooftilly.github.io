@@ -1,0 +1,33 @@
+---
+import { loadBookmarks } from "../lib/bookmark-data.ts";
+import { bookmarkTagCounts } from "../lib/bookmark-tag-index.ts";
+import { bookmarkTagSearchHref } from "../lib/bookmark-query-state.ts";
+interface Props { lang?: "en" | "sh" }
+const { lang = "en" } = Astro.props;
+const tags = bookmarkTagCounts(await loadBookmarks());
+const sh = lang === "sh";
+---
+<section class="bookmark-tag-directory">
+  <h1>{sh ? "Oznake" : "Tags"}</h1>
+  <p>{sh ? "Oznake iz objavljenih linkova." : "Tags from published bookmarks."}</p>
+  {tags.length ? (
+    <ul class="tag-index" aria-label={sh ? "Oznake i broj linkova" : "Tags and bookmark counts"}>
+      {tags.map(({label,count}) => <li>
+        <a href={bookmarkTagSearchHref(label,lang)}>{label}</a>
+        <span>{count}</span>
+      </li>)}
+    </ul>
+  ) : (
+    <p class="no-tags">{sh ? "Još nema oznaka na objavljenim linkovima." : "No published bookmark tags yet."}</p>
+  )}
+  <p><a href="/bookmarks/">{sh ? "Svi linkovi" : "All bookmarks"}</a></p>
+</section>
+<style>
+.bookmark-tag-directory{max-width:70rem}
+.bookmark-tag-directory>p{color:var(--muted)}
+.tag-index{list-style:none;display:flex;flex-wrap:wrap;gap:.55rem;padding:0;margin:1.5rem 0}
+.tag-index li{border:1px solid var(--border);border-radius:0;display:flex;align-items:center;gap:.6rem;padding:.45rem .7rem;background:var(--surface)}
+.tag-index li span{color:var(--muted);font-variant-numeric:tabular-nums}
+.tag-index li a{overflow-wrap:anywhere}
+.no-tags{padding:1rem 0}
+</style>
