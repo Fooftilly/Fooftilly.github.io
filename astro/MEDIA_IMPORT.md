@@ -37,8 +37,10 @@ Owner decisions: **rated films and albums only**. Exclude unrated RYM
 entries (owner identifies them as singles), Letterboxd watchlist/diary,
 and all reviews. No TV/anime scores are available for import yet.
 
-Draft PR #99 stages 2,079 rated-film records without review, diary or
-ownership fields. An independently coded pass canonicalized 12
+Draft PR #99 stages **2,082 rated-film records** without review, diary or
+ownership fields. That is 2,079 conservative export candidates plus two
+separately identified 1922 `Cinderella` films and one Letterboxd film with
+no recorded release year. The last three use no guessed metadata or reviews. An independently coded pass canonicalized 12
 Unicode-derived paths to the website's exact `mediaSlug` behavior.
 The film batch passed required Astro staging, TypeScript/JavaScript
 analysis, workflow syntax, and actions security checks.
@@ -70,7 +72,11 @@ Metadata verified independently:
   Reiniger and Walt Disney), not duplicates.
   [Reiniger](https://letterboxd.com/film/cinderella-1922/),
   [Disney](https://letterboxd.com/film/cinderella-1922-1/).
-  Exact user-export shortlink-to-director mapping remains unresolved.
+  Both distinct works are now staged as independent records with their
+  verified directors and identical owner-provided 1.5-star scores, **without
+  assigning the two unverified export shortlinks** to either work.
+- The rated Letterboxd `Fashions - Filmed In Paris` entry is now staged
+  with **no year** because the source omits one. Do not fabricate a release year.
 - `Marie Antoinette` (2006) and `Marie-Antoinette` (2006) need
   independent identity matching against their source IDs before the
   extra RYM record is imported. Never merge the records by title/year.
