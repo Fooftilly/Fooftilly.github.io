@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Sounds From the Thievery Hi-Fi",
+  "creator": "Thievery Corporation",
+  "year": 1997,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "58d91845-3734-344b-ba10-fcae524f22c1"
+  }
+}

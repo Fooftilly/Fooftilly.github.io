@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Shake It Up",
+  "creator": "The Cars",
+  "year": 1981,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "a3b93384-c6b9-3350-8e21-06b550897e2f"
+  }
+}

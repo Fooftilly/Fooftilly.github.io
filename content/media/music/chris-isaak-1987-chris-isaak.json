@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Chris Isaak",
+  "creator": "Chris Isaak",
+  "year": 1987,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "221c72d2-5f0e-3d48-a487-f03ee609a469"
+  }
+}
