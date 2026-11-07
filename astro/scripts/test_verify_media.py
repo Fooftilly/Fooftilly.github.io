@@ -57,19 +57,13 @@ class MediaOutputTests(unittest.TestCase):
         series = {"schema": 1, "kind": "tv", "title": "Anime",
                   "seasons": [{"number": 0, "rating": 3,
                                "episodes": [{"number": 1, "title": "OVA", "rating": 4.5}]}]}
-        album_html = ('<table><tbody><tr><th><details><ol>'
-                      '<li data-media-track=\'{"disc":1,"number":1,"title":"Intro","rating":4.5}\'>Intro</li>'
-                      '<li data-media-track=\'{"disc":1,"number":2,"title":"Second"}\'>Second</li>'
-                      '</ol></details></th></tr></tbody></table>')
+        album_html = (Path(__file__).with_name("fixtures") / "media-album-subratings.html").read_text(encoding="utf-8")
         parsed = MediaParser()
         parsed.feed(album_html)
         self.assertEqual(parsed.rows[0]["tracks"], expected_row(album)["tracks"])
         self.assertNotEqual(parsed.rows[0]["tracks"], [
             {"disc": 1, "number": 1, "title": "Intro", "rating": 2.0}])
-        season_html = ('<table><tbody><tr><th><details>'
-                       '<section data-media-season=\'{"number":0,"rating":3}\'>'
-                       '<li data-media-episode=\'{"season":0,"number":1,"title":"OVA","rating":4.5}\'>'
-                       '</li></section></details></th></tr></tbody></table>')
+        season_html = (Path(__file__).with_name("fixtures") / "media-series-subratings.html").read_text(encoding="utf-8")
         parsed = MediaParser()
         parsed.feed(season_html)
         self.assertEqual(parsed.rows[0]["seasons"], expected_row(series)["seasons"])
