@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Head Hunters",
+  "creator": "Herbie Hancock",
+  "year": 1973,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "322f18bb-5491-38e9-9044-c0a468651eec"
+  }
+}

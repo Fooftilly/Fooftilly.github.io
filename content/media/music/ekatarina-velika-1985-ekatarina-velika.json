@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Ekatarina Velika",
+  "creator": "Ekatarina Velika",
+  "year": 1985,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "b812dc07-0623-34db-94d0-3e60efc626fd"
+  }
+}

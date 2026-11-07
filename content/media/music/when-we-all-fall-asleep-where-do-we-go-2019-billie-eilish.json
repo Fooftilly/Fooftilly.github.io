@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "When We All Fall Asleep, Where Do We Go?",
+  "creator": "Billie Eilish",
+  "year": 2019,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "72375978-a9a1-4254-b957-85565c716b7e"
+  }
+}

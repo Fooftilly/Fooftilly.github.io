@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Apsurdistan",
+  "creator": "Dubioza Kolektiv",
+  "year": 2013,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "43383a75-ba2f-4476-b20b-423b984d3538"
+  }
+}

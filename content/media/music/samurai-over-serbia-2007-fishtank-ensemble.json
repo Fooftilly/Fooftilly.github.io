@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Samurai Over Serbia",
+  "creator": "Fishtank Ensemble",
+  "year": 2007,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "80bec4ea-978a-3e1c-845f-2db22d559fba"
+  }
+}

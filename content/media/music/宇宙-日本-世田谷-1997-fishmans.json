@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "宇宙 日本 世田谷",
+  "creator": "Fishmans",
+  "year": 1997,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "a695e424-ab39-33e6-9fb9-8a5ef8282cb1"
+  }
+}

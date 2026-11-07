@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Blood on the Tracks",
+  "creator": "Bob Dylan",
+  "year": 1975,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "9c1b8072-eb1d-33d2-af8c-984d46e40902"
+  }
+}

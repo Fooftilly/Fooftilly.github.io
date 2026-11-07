@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Broken English",
+  "creator": "Marianne Faithfull",
+  "year": 1979,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "96e40648-a0e2-320b-9592-fff4a49d9395"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Ljubav",
+  "creator": "Ekatarina Velika",
+  "year": 1987,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "ff4a5201-75f5-3c6c-aa6f-9abfb82b76ee"
+  }
+}

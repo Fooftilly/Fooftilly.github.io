@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Blonde on Blonde",
+  "creator": "Bob Dylan",
+  "year": 1966,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "329fb554-2a81-3d8a-8e22-ec2c66810019"
+  }
+}

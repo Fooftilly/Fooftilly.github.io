@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Neko nas posmatra",
+  "creator": "Ekatarina Velika",
+  "year": 1993,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "8424aeea-d9df-395a-ab72-3614e459d304"
+  }
+}

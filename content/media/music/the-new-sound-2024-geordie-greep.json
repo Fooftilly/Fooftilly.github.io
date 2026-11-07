@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "The New Sound",
+  "creator": "Geordie Greep",
+  "year": 2024,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "171db008-7f7b-48d3-a3b5-640d6ea41aa7"
+  }
+}

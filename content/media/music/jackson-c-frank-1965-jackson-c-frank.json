@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Jackson C. Frank",
+  "creator": "Jackson C. Frank",
+  "year": 1965,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "2d7b621f-7243-353f-86fd-100ff54d071d"
+  }
+}

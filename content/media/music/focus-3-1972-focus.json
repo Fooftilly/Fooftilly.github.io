@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Focus 3",
+  "creator": "Focus",
+  "year": 1972,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "b7591e01-e9a6-4a73-b9e2-1a3d510f5065"
+  }
+}
