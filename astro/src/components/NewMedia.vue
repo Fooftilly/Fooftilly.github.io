@@ -46,7 +46,7 @@ const tracks=ref<TrackDraft[]>([]);
 const seasons=ref<SeasonDraft[]>([]);
 const numberOf=(value:Position,label:string):number=>{
   const text=String(value??"").trim();
-  if(!/^\\d+$/.test(text))throw new Error(label+" must be a nonnegative integer");
+  if(!/^\d+$/.test(text))throw new Error(label+" must be a nonnegative integer");
   return Number(text);
 };
 function addTrack():void {
