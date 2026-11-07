@@ -101,7 +101,8 @@ def group(items: list[dict]) -> dict[tuple[str, str], list[dict]]:
 
 def reconcile(letterboxd: list[dict], rym_films: list[dict], rym_music: list[dict]) -> dict:
     lb = group([film_item(row, "Letterboxd") for row in letterboxd if row["Rating"].strip()])
-    ry = group([film_item(row, "RYM") for row in rym_films if row["Rating"].strip()])
+    ry = group([film_item(row, "RYM") for row in rym_films
+                if row["Rating"].strip() and rating(row["Rating"], "RYM") is not None])
     all_keys = sorted(set(lb) | set(ry))
     missing_year_films = [item for values in (lb, ry) for records in values.values()
                           for item in records if not item["year"]]
