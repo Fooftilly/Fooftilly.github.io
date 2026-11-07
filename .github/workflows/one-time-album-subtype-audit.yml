@@ -1,0 +1,21 @@
+name: One-time album release-group subtype audit (remove before merge)
+on:
+  push:
+    branches: [feat/import-verified-rym-albums]
+permissions:
+  contents: read
+jobs:
+  subtype-audit:
+    name: Check album versus compilation subtypes
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "24"
+          package-manager-cache: false
+      - name: Verify release-group subtypes against MusicBrainz (read-only)
+        run: node astro/scripts/audit-album-subtypes.once.mjs
