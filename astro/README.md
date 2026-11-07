@@ -76,13 +76,18 @@ the site works without their accounts, APIs or continued availability.
 The static `/media/`, `/films/`, `/tv/` and `/music/` routes read only
 these files, with no fabricated ratings. Ratings are optional (0.5–5 stars).
 A record can contain a title, creator/artist, year, progress status, public
-notes and up to eight external links. Collection pages display **compact,
-square-edge link buttons** for source URLs that actually appear in that
-record—no guessed IMDb/TMDb/Wikipedia identifiers and no search-page
-substitutes. The new-media editor recognizes IMDb, TMDb, Wikipedia, BFI,
-Criterion, Letterboxd, RYM, MusicBrainz, AllMusic, Discogs and Bandcamp
-by hostname and uses recognizable labels; other sources retain their
-explicit label. Trakt references are excluded.
+notes and up to eight external references. Stable platforms are stored
+compactly as optional `refs` IDs and expanded to real, direct links only when
+rendering buttons, e.g. `"refs":{"imdb":"tt0050083","tmdb":"movie:389"}`.
+Supported: IMDb title ID, TMDb movie/TV ID, Wikipedia language + article title,
+Letterboxd `boxd.it` shortlink ID, MusicBrainz release-group UUID.
+Unusual URLs (including BFI and Criterion) remain in `links` with exact
+destinations. Neither the importer nor the UI invents IDs from title text.
+Collection pages display **compact, square-edge link buttons**. The new-media
+editor converts pasted canonical platform URLs to IDs when safe and retains
+full URLs for anything else. Recognized labels include IMDb, TMDb, Wikipedia,
+BFI, Criterion, Letterboxd, RYM, MusicBrainz, AllMusic, Discogs and Bandcamp.
+Trakt references are excluded.
 Every build checks the entire catalog for
 case-insensitive duplicate paths and matching media identities, including
 hand-edited JSON records. Generic external references (such as an artist's
