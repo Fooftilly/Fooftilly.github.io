@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref } from "vue";
-import { composeMediaDraft, githubMediaEditorUrl, type ExistingMediaRef, type MediaKind, type MediaRecord } from "../lib/media-model.ts";
+import { composeMediaDraft, githubMediaEditorUrl, mediaSourceLabel, type ExistingMediaRef, type MediaKind, type MediaRecord } from "../lib/media-model.ts";
 
 const props=defineProps<{existing:ExistingMediaRef[]}>();
 const kind=ref<MediaKind>("films");
@@ -55,8 +55,14 @@ const drafted=computed(()=>{
     if(status.value) input.status=status.value;
     if(notes.value.trim()) input.notes=notes.value.trim();
     const links=[];
-    if(primaryUrl.value.trim()) links.push({label:"Primary reference",url:primaryUrl.value.trim()});
-    if(secondaryUrl.value.trim()) links.push({label:"Additional reference",url:secondaryUrl.value.trim()});
+    if(primaryUrl.value.trim()) links.push({
+      label:mediaSourceLabel(primaryUrl.value.trim(),"Primary reference"),
+      url:primaryUrl.value.trim()
+    });
+    if(secondaryUrl.value.trim()) links.push({
+      label:mediaSourceLabel(secondaryUrl.value.trim(),"Additional reference"),
+      url:secondaryUrl.value.trim()
+    });
     if(links.length) input.links=links;
     return {value:composeMediaDraft(input,props.existing),error:""};
   } catch(error){
