@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Natalia Lafourcade Live at Carnegie Hall",
+  "creator": "Natalia Lafourcade",
+  "year": 2024,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "8b098b8d-09f2-444e-907e-a2720a20577e"
+  }
+}

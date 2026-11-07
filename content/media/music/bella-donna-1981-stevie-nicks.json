@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Bella donna",
+  "creator": "Stevie Nicks",
+  "year": 1981,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "87c584fc-02a5-34f8-a492-85c20de4835d"
+  }
+}

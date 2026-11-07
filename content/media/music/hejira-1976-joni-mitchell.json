@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Hejira",
+  "creator": "Joni Mitchell",
+  "year": 1976,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "039f2ae4-36dd-3608-9103-67ce7f6c9288"
+  }
+}
