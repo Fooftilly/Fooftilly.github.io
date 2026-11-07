@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Alina",
+  "creator": "Vladimir Spivakov / Sergej Bezrodny / Dietmar Schwalke / Alexander Malter",
+  "year": 1999,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "03c79af2-34bf-3c8d-acc4-6a2d767d5a3d"
+  }
+}

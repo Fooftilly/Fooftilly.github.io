@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Pale Blue Dot",
+  "creator": "Benn Jordan",
+  "year": 2008,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "83b80443-6732-3b08-aeff-55ac92d33890"
+  }
+}
