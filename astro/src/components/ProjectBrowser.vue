@@ -41,6 +41,9 @@ function syncAddress(): void {
   const next = projectSearchHref(window.location.href, query.value);
   const current = window.location.pathname + window.location.search + window.location.hash;
   if (next !== current) window.history.replaceState(window.history.state, "", next);
+  // replaceState never emits popstate. Keep the canonical language link fresh
+  // for click, keyboard activation, middle-click and context-menu sharing.
+  window.dispatchEvent(new Event("peroniko:search-state-change"));
 }
 function restoreFromAddress(): void {
   query.value = readProjectSearchQuery(window.location.search);

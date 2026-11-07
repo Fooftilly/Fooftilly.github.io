@@ -30,4 +30,7 @@ export function wireSearchLanguageSwitch(): void {
   link.addEventListener("auxclick", refresh);
   link.addEventListener("contextmenu", refresh);
   link.addEventListener("focus", refresh);
+  window.addEventListener("peroniko:search-state-change", refresh);
+  window.addEventListener("popstate", refresh);
+  window.addEventListener("pageshow", refresh);
 }
