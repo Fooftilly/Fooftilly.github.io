@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Alvvays",
+  "creator": "Alvvays",
+  "year": 2014,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "6e53a449-47b8-46e9-be4d-d818d3d64d70"
+  }
+}
