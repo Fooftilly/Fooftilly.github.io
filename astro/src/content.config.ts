@@ -19,7 +19,7 @@ const bookmarks = defineCollection({
     comments: z.string().optional(),
     tags: z.array(z.string()).superRefine((tags, ctx) => {
       try {
-        const canonical = validateBookmarkTags(tags);
+        validateBookmarkTags(tags);
         if (tags.some(tag => tag.trim() !== tag)) {
           ctx.addIssue({ code: "custom", message: "Bookmark source tags must not contain leading or trailing whitespace" });
         }
