@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "The Fun of Watching Fireworks",
+  "creator": "The American Analog Set",
+  "year": 1996,
+  "rating": 3,
+  "links": [
+    {
+      "label": "MusicBrainz",
+      "url": "https://musicbrainz.org/release-group/ec8f645c-e9af-3e46-a012-ce3cbbab26d9"
+    }
+  ]
+}

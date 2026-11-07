@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Oprem Dobro",
+  "creator": "Rambo Amadeus",
+  "year": 2005,
+  "rating": 3.5,
+  "links": [
+    {
+      "label": "MusicBrainz",
+      "url": "https://musicbrainz.org/release-group/38cb3fef-1182-357c-9960-87449bb3602c"
+    }
+  ]
+}

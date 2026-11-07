@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Psihološko propagandni komplet M-91",
+  "creator": "Rambo Amadeus",
+  "year": 1991,
+  "rating": 3.5,
+  "links": [
+    {
+      "label": "MusicBrainz",
+      "url": "https://musicbrainz.org/release-group/bc04409f-5028-49e3-9f77-e843d3b7171a"
+    }
+  ]
+}

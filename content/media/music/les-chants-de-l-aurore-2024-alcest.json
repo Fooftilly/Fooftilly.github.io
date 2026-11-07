@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Les chants de l'aurore",
+  "creator": "Alcest",
+  "year": 2024,
+  "rating": 3.5,
+  "links": [
+    {
+      "label": "MusicBrainz",
+      "url": "https://musicbrainz.org/release-group/ccab6913-ea21-472f-97a9-530a49203687"
+    }
+  ]
+}

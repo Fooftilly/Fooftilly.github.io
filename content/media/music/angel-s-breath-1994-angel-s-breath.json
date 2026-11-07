@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Angel's Breath",
+  "creator": "Angel's Breath",
+  "year": 1994,
+  "rating": 4,
+  "links": [
+    {
+      "label": "MusicBrainz",
+      "url": "https://musicbrainz.org/release-group/f1487e7d-5384-3bbd-a620-8eb70f9d1f4c"
+    }
+  ]
+}
