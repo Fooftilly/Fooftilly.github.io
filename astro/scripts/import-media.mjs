@@ -5,7 +5,7 @@ import { readdir, readFile, writeFile, unlink, mkdir } from "node:fs/promises";
 import { join, resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseMediaCsv } from "../src/lib/media-import.ts";
-import { mediaPath, mediaMatchKey, sameMedia, validateMediaRecord } from "../src/lib/media-model.ts";
+import { mediaPath, mediaMatchKey, mediaSourceLinks, sameMedia, validateMediaRecord } from "../src/lib/media-model.ts";
 
 const ROOT=fileURLToPath(new URL("../../",import.meta.url));
 const [kind,sourcePath,provider,...flags]=process.argv.slice(2);
@@ -39,7 +39,7 @@ if(!["music","films"].includes(kind)||!sourcePath||!["rym","letterboxd"].include
     const group=previousIdentities.get(key)??[];
     group.push(item);
     previousIdentities.set(key,group);
-    for(const link of item.record.links??[])previousUrls.set(link.url,item);
+    for(const link of mediaSourceLinks(item.record))previousUrls.set(link.url,item);
   }
   const queue=[];
   const newPaths=new Set();
@@ -49,7 +49,7 @@ if(!["music","films"].includes(kind)||!sourcePath||!["rym","letterboxd"].include
     const expected=JSON.stringify(record,null,2)+"\n";
     const conflict=previousPaths.get(path.toLowerCase()) ||
       (previousIdentities.get(mediaMatchKey(record))??[]).find(item=>sameMedia(item.record,record)) ||
-      (record.links??[]).map(link=>previousUrls.get(link.url)).find(Boolean);
+      mediaSourceLinks(record).map(link=>previousUrls.get(link.url)).find(Boolean);
     if(conflict){
       const existingText=await readFile(join(ROOT,conflict.path),"utf8");
       if(conflict.path===path && existingText===expected){unchanged++;continue;}
