@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Impossible Light",
+  "creator": "Uboa",
+  "year": 2024,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "847260e8-d4f8-480d-b9ab-abc4d094af28"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Enter the Wu-Tang (36 Chambers)",
+  "creator": "Wu-Tang Clan",
+  "year": 1993,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "610fb60f-900a-3c42-ac7d-f6b6aa8035f9"
+  }
+}

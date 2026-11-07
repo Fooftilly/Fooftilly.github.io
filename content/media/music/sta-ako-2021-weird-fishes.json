@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Šta ako",
+  "creator": "Weird Fishes",
+  "year": 2021,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "6aaef331-4594-43c0-beb3-bb5911f38aa3"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Godbluff",
+  "creator": "Van der Graaf Generator",
+  "year": 1975,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "ba2d7560-534b-32f2-902b-27ca534df345"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Empathogen",
+  "creator": "WILLOW",
+  "year": 2024,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "0b721989-3c5a-4071-9af8-b8ea37f41a66"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Totalno drukčiji od drugih",
+  "creator": "Vještice",
+  "year": 1989,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "f6fb336a-03b5-3572-96f2-0c432e4eda48"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "The Overview",
+  "creator": "Steven Wilson",
+  "year": 2025,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "9301c6fd-4f7f-41cc-b051-c7efa673f7c9"
+  }
+}

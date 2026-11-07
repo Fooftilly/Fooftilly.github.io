@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "The College Dropout",
+  "creator": "Kanye West",
+  "year": 2004,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "8a01217e-6947-3927-a39b-6691104694f1"
+  }
+}

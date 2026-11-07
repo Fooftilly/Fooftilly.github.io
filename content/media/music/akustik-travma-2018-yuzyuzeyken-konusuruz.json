@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Akustik Travma",
+  "creator": "Yüzyüzeyken Konuşuruz",
+  "year": 2018,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "b43de5bd-be8d-4c3b-bf4e-b20ef24fc5e1"
+  }
+}

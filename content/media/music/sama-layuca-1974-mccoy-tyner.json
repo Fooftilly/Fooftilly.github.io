@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Sama Layuca",
+  "creator": "McCoy Tyner",
+  "year": 1974,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "8034fd56-d4a5-3292-89bc-97f399ccdd67"
+  }
+}

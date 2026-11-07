@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Big City",
+  "creator": "Lenny White",
+  "year": 1977,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "ed62e0f6-fb70-383f-948f-7eb55712abaf"
+  }
+}

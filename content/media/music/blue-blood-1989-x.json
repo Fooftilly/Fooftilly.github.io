@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Blue Blood",
+  "creator": "X",
+  "year": 1989,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "e19eba92-e977-3153-b834-0715525a9eae"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Holy Wars",
+  "creator": "Tuxedomoon",
+  "year": 1985,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "5e79b9df-fd56-3b36-96db-903cc37cc9b8"
+  }
+}

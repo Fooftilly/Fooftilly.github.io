@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Famous Blue Raincoat: The Songs of Leonard Cohen",
+  "creator": "Jennifer Warnes",
+  "year": 1986,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "c6a91bc1-6397-3ab0-a0e1-75ca4a4b127a"
+  }
+}

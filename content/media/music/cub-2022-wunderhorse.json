@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Cub",
+  "creator": "Wunderhorse",
+  "year": 2022,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "7346ae63-9f69-41c6-b9d8-2cea4b431a98"
+  }
+}

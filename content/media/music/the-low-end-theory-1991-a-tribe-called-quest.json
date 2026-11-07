@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "The Low End Theory",
+  "creator": "A Tribe Called Quest",
+  "year": 1991,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "c3733436-fcba-3c08-b082-d548df5c5139"
+  }
+}

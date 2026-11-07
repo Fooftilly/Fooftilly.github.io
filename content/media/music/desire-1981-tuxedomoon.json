@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Desire",
+  "creator": "Tuxedomoon",
+  "year": 1981,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "04d1f21f-607e-4501-a8f3-bc2ae5505bc3"
+  }
+}

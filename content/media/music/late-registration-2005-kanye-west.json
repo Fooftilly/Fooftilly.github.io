@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Late Registration",
+  "creator": "Kanye West",
+  "year": 2005,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "c563d738-3841-31ce-b29d-ec6b40fd1e7b"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "xx",
+  "creator": "The xx",
+  "year": 2009,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "23355caf-a543-4b5f-80fe-449101868fc1"
+  }
+}

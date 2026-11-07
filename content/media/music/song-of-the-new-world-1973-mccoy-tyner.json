@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Song of the New World",
+  "creator": "McCoy Tyner",
+  "year": 1973,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "3902f5fa-655e-3165-a327-977b24f70732"
+  }
+}

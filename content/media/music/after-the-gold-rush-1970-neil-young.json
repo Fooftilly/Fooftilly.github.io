@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "After the Gold Rush",
+  "creator": "Neil Young",
+  "year": 1970,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "b6a3952b-9977-351c-a80a-73e023143858"
+  }
+}

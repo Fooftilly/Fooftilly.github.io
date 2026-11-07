@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Rain Dogs",
+  "creator": "Tom Waits",
+  "year": 1985,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "fb25a883-2270-3ec4-8c62-85c7ed857e6f"
+  }
+}
