@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Black Sabbath",
+  "creator": "Black Sabbath",
+  "year": 1970,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "826c9743-a3f0-3479-bf06-8df2e140ef1d"
+  }
+}

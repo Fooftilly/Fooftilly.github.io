@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Brat",
+  "creator": "Charli xcx",
+  "year": 2024,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "e0fdb431-0109-420d-8a37-f99eaeb4d671"
+  }
+}

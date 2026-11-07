@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Grasa de las capitales",
+  "creator": "Serú Girán",
+  "year": 1979,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "2e02ae17-685a-3b9e-b9bf-55294ea22447"
+  }
+}

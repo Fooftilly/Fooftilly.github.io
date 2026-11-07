@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Moondog",
+  "creator": "Moondog",
+  "year": 1969,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "7bbb9f70-fdb7-32c0-871c-19cc8f2d5118"
+  }
+}

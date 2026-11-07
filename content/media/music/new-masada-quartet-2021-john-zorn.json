@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "New Masada Quartet",
+  "creator": "John Zorn",
+  "year": 2021,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "c1ec13d0-083b-4865-a930-cc53221fe273"
+  }
+}

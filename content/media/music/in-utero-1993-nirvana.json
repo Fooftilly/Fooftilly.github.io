@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "In Utero",
+  "creator": "Nirvana",
+  "year": 1993,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "2a0981fb-9593-3019-864b-ce934d97a16e"
+  }
+}

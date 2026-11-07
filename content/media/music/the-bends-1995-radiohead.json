@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "The Bends",
+  "creator": "Radiohead",
+  "year": 1995,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "b8048f24-c026-3398-b23a-b5e50716cbc7"
+  }
+}

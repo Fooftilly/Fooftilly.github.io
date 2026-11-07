@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Ted Lucas",
+  "creator": "Ted Lucas",
+  "year": 1976,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "17a32a41-081a-4765-a09f-0b6ac16b86f9"
+  }
+}

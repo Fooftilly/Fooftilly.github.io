@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "★ [Blackstar]",
+  "creator": "David Bowie",
+  "year": 2016,
+  "rating": 5,
+  "refs": {
+    "musicbrainz": "1fd18f5b-9a92-41fd-a590-da6b5cc60d85"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Одбрана и последњи дани",
+  "creator": "Идоли",
+  "year": 1982,
+  "rating": 5,
+  "refs": {
+    "musicbrainz": "58848df3-b96e-32b6-b5ef-49d70e25bf1a"
+  }
+}
