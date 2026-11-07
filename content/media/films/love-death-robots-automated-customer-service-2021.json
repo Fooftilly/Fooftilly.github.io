@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Love, Death & Robots: Automated Customer Service",
+  "year": 2021,
+  "rating": 2.5,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/vhLk"
+    }
+  ]
+}

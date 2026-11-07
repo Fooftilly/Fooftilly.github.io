@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Harry Potter and the Prisoner of Azkaban",
+  "year": 2004,
+  "rating": 3.5,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/29Qy"
+    }
+  ]
+}

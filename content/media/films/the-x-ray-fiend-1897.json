@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "The X-Ray Fiend",
+  "year": 1897,
+  "rating": 2,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/3zmc"
+    }
+  ]
+}

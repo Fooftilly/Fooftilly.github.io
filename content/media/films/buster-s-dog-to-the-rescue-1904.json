@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Buster's Dog to the Rescue",
+  "year": 1904,
+  "rating": 2,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/5UeM"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "How to Lose a Guy in 10 Days",
+  "year": 2003,
+  "rating": 3.5,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/1XwG"
+    }
+  ]
+}

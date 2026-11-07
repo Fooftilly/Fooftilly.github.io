@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "John Wick: Chapter 3 – Parabellum",
+  "year": 2019,
+  "rating": 3.5,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/gmFw"
+    }
+  ]
+}

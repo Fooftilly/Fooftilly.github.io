@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Charade",
+  "year": 1963,
+  "rating": 5,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/23O2"
+    }
+  ]
+}

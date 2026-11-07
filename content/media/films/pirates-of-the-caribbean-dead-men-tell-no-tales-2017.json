@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Pirates of the Caribbean: Dead Men Tell No Tales",
+  "year": 2017,
+  "rating": 2.5,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/5a9m"
+    }
+  ]
+}

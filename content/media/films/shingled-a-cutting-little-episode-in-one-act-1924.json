@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "\"Shingled\" - A Cutting Little Episode In One Act",
+  "year": 1924,
+  "rating": 1.5,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/oKgc"
+    }
+  ]
+}

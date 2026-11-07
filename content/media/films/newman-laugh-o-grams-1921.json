@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Newman Laugh-O-Grams",
+  "year": 1921,
+  "rating": 1.5,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/a3Ik"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "The French Connection",
+  "year": 1971,
+  "rating": 4.5,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/296g"
+    }
+  ]
+}

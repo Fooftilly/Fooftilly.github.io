@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "'Bullitt': Steve McQueen's Commitment to Reality",
+  "year": 1998,
+  "rating": 3,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/aRR2"
+    }
+  ]
+}

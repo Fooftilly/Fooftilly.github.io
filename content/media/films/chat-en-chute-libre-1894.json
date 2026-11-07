@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Chat En Chute Libre",
+  "year": 1894,
+  "rating": 2,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/snAc"
+    }
+  ]
+}

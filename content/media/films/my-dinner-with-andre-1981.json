@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "My Dinner with Andre",
+  "year": 1981,
+  "rating": 5,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/1vLe"
+    }
+  ]
+}

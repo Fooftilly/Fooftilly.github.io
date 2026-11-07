@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Grave of the Fireflies",
+  "year": 1988,
+  "rating": 4.5,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/1RUM"
+    }
+  ]
+}

@@ -153,11 +153,18 @@ records to exercise the **actual content loader, static table renderer and
 source-to-HTML audit**. Those records are deleted before the next clean build;
 the release candidate and the manual Pages workflow never use CI fixtures.
 
-The **actual owner exports have not been supplied**; the pages initially
-show empty states, not placeholder personal ratings. Before the first bulk
-import, check representative rows and the exporter-specific column names.
-All changes go through Git PR review and a deliberately triggered
-manual GitHub Pages publication.
+The owner supplied real Letterboxd and RYM exports on November 7, 2026.
+Draft [PR #99](https://github.com/Fooftilly/Fooftilly.github.io/pull/99)
+stages only rated film entries; conflicting ratings were individually approved,
+and disputed film identities remain outside the import until verified.
+Unrated RYM rows, unverified album/EP/single release types, reviews, watchlists
+and diary dates are not imported. The rating model also supports optional
+per-disc album track scores and independent TV/anime season and episode scores,
+with explicit editors and static rendering/audit. No track or TV scores are
+generated from album or series ratings.
+See [MEDIA_IMPORT.md](MEDIA_IMPORT.md) for the evidence, decisions and
+remaining release-type verification. The Git PR must be reviewed before merging,
+and publishing still requires a separate manual GitHub Pages deployment.
 
 ## Privacy disclosure and visitor controls
 

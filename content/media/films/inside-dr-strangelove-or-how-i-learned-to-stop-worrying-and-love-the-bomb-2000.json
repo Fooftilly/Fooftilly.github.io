@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Inside: 'Dr. Strangelove or How I Learned to Stop Worrying and Love the Bomb'",
+  "year": 2000,
+  "rating": 3.5,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/5VHU"
+    }
+  ]
+}

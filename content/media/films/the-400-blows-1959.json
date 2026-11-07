@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "The 400 Blows",
+  "year": 1959,
+  "rating": 4.5,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/2b1C"
+    }
+  ]
+}

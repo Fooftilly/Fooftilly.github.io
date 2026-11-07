@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Conclusive: We Made Hot Fuzz",
+  "year": 2007,
+  "rating": 3,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/Gkay"
+    }
+  ]
+}
