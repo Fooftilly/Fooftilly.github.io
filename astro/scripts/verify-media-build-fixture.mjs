@@ -53,6 +53,11 @@ const fixtures = [
       schema: 1, kind: "music", title: "CI synthetic album (not for publication)",
       creator: "Café", year: 2020, rating: 3.5, status: "finished",
       links: [{ label: "Music source", url: "https://example.org/album" }],
+      tracks: [
+        {disc:1,number:1,title:"Opening",rating:4.5},
+        {disc:1,number:2,title:"Unrated track"},
+        {disc:2,number:1,title:"Finale",rating:3},
+      ],
     },
   },
   {
@@ -60,6 +65,11 @@ const fixtures = [
     record: {
       schema: 1, kind: "tv", title: "CI synthetic TV show (not for publication)",
       status: "planned",
+      seasons: [
+        {number:0,title:"Specials",episodes:[{number:1,title:"OVA",rating:4}]},
+        {number:1,rating:3.5,episodes:[{number:1,title:"Pilot",rating:4.5},
+                                     {number:2,title:"Unrated episode"}]},
+      ],
     },
   },
 ];
@@ -211,6 +221,11 @@ try {
   for (const {folder, record} of fixtures) {
     const html = await readFile(join(dist, folder, "index.html"), "utf8");
     assert.ok(html.includes(record.title), "Astro omitted synthetic " + folder + " record");
+    if (record.tracks) assert.ok(html.includes("data-media-track"), "Album track ratings omitted from HTML");
+    if (record.seasons) {
+      assert.ok(html.includes("data-media-season"), "Season ratings omitted from HTML");
+      assert.ok(html.includes("data-media-episode"), "Episode ratings omitted from HTML");
+    }
     assert.ok(html.includes("data-media-row"), "Media table lost static source rows: " + folder);
     assert.ok(html.includes("data-media-controls"), "Media search/sort controls were not rendered: " + folder);
   }
