@@ -74,6 +74,8 @@ jobs:
           test -s dist/new-media/index.html
           test -s dist/projects/index.html
           test -s dist/sh/projects/index.html
+          test -s dist/bookmarks/tags/index.html
+          test -s dist/sh/bookmarks/tags/index.html
           # Source-to-render project routes were checked by release-readiness.mjs.
           test -s dist/privacy/index.html
           test -s dist/sh/privacy/index.html
@@ -135,7 +137,7 @@ jobs:
 
           # These are required public routes and release artifacts, checked
           # independently after the exact revision is confirmed.
-          for route in / /sh/ /new-bookmark/ /bookmarks/ /search/ /media/ /music/ /films/ /tv/ /new-media/ /projects/ /sh/projects/ /privacy/ /sh/privacy/ /404.html /index.xml /sitemap.xml; do
+          for route in / /sh/ /new-bookmark/ /bookmarks/ /bookmarks/tags/ /sh/bookmarks/tags/ /search/ /media/ /music/ /films/ /tv/ /new-media/ /projects/ /sh/projects/ /privacy/ /sh/privacy/ /404.html /index.xml /sitemap.xml; do
             curl --fail --location --silent --show-error --max-time 12 \
               --output /dev/null "$base$route"
             echo "Verified $route"
