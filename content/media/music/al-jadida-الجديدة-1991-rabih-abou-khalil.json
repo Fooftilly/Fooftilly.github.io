@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Al-Jadida (الجديدة)",
+  "creator": "Rabih Abou-Khalil",
+  "year": 1991,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "a8f1c14a-dcc8-3931-93d1-4833ac0e99e0"
+  }
+}
