@@ -4,6 +4,10 @@ export type MediaKind = typeof MEDIA_KINDS[number];
 export const MEDIA_STATUSES = ["finished", "in-progress", "planned"] as const;
 export type MediaStatus = typeof MEDIA_STATUSES[number];
 export interface MediaLink { label: string; url: string }
+/** Compact, verified site references. Store an ID instead of repeated URL prefixes. */
+export type MediaPlatform = "imdb"|"tmdb"|"wikipedia"|"letterboxd"|"musicbrainz";
+export type MediaReferences = Partial<Record<MediaPlatform,string>>;
+
 export interface MediaTrack { disc: number; number: number; title: string; rating?: number }
 export interface MediaEpisode { number: number; title?: string; rating?: number }
 export interface MediaSeason { number: number; title?: string; rating?: number; episodes?: MediaEpisode[] }
@@ -17,6 +21,7 @@ export interface MediaRecord {
   status?: MediaStatus;
   notes?: string;
   links?: MediaLink[];
+  refs?: MediaReferences;
   tracks?: MediaTrack[];
   seasons?: MediaSeason[];
 }
@@ -33,6 +38,7 @@ export interface ExistingMediaRef {
   year?: number;
   creator?: string;
   links?: MediaLink[];
+  refs?: MediaReferences;
 }
 const ascii = (value: string) => value.normalize("NFKD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
 const safeText = (raw: unknown, label: string, max: number): string => {
@@ -57,6 +63,108 @@ function publicNotes(raw: unknown): string | undefined {
   }
   return notes;
 }
+/** Present familiar provider names without fabricating a per-title destination.
+ * The URL always comes from an explicit source record, never a search slug.
+ */
+export function mediaSourceLabel(rawUrl: string, fallback: string): string {
+  let host: string;
+  try { host=new URL(rawUrl).hostname.toLowerCase(); }
+  catch { return fallback; }
+  const is=(domain:string)=>host===domain||host.endsWith("."+domain);
+  if(is("imdb.com"))return "IMDb";
+  if(is("themoviedb.org"))return "TMDb";
+  if(is("wikipedia.org"))return "Wikipedia";
+  if(is("bfi.org.uk"))return "BFI";
+  if(is("criterion.com")||is("criterionchannel.com"))return "Criterion";
+  if(is("letterboxd.com")||host==="boxd.it")return "Letterboxd";
+  if(is("rateyourmusic.com"))return "RYM";
+  if(is("musicbrainz.org"))return "MusicBrainz";
+  if(is("allmusic.com"))return "AllMusic";
+  if(is("discogs.com"))return "Discogs";
+  if(is("bandcamp.com"))return "Bandcamp";
+  return fallback;
+}
+/** Return a canonical direct link only for a supported, validated ID. */
+const MEDIA_REF_LABELS: Record<MediaPlatform,string> = {
+  imdb:"IMDb", tmdb:"TMDb", wikipedia:"Wikipedia",
+  letterboxd:"Letterboxd", musicbrainz:"MusicBrainz",
+};
+const mbid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+export function mediaReferenceUrl(platform: MediaPlatform, id: string): string {
+  switch(platform){
+    case "imdb":
+      if(!/^tt[0-9]{7,}$/.test(id))break;
+      return "https://www.imdb.com/title/"+id+"/";
+    case "tmdb": {
+      const match=/^(movie|tv):([1-9][0-9]*)$/.exec(id);
+      if(match)return "https://www.themoviedb.org/"+match[1]+"/"+match[2];
+      break;
+    }
+    case "wikipedia": {
+      const match=/^([a-z]{2,12}):([^\\/?#\x00-\x1f]+)$/u.exec(id);
+      if(match && !/^[.]+$/.test(match[2]) && match[2].length<=220)
+        return "https://"+match[1]+".wikipedia.org/wiki/"+encodeURIComponent(match[2]);
+      break;
+    }
+    case "letterboxd":
+      if(/^[A-Za-z0-9]{2,16}$/.test(id))return "https://boxd.it/"+id;
+      break;
+    case "musicbrainz":
+      if(mbid.test(id))return "https://musicbrainz.org/release-group/"+id.toLowerCase();
+      break;
+  }
+  throw new Error("Invalid "+platform+" media reference ID");
+}
+/** Extract IDs only from canonical link shapes, never from a title or search URL. */
+export function mediaReferenceFromUrl(value: string): {platform:MediaPlatform;id:string}|null {
+  let url:URL;
+  try{url=new URL(value);}catch{return null;}
+  if(url.protocol!=="https:"||url.username||url.password||
+      url.search||url.hash||url.port)return null;
+  const host=url.hostname.toLowerCase(),path=url.pathname;
+  let ref:{platform:MediaPlatform;id:string}|null=null;
+  let m:RegExpMatchArray|null;
+  if((host==="www.imdb.com"||host==="imdb.com")&&(m=path.match(/^\/title\/(tt[0-9]{7,})\/?$/)))
+    ref={platform:"imdb",id:m[1]};
+  else if((host==="www.themoviedb.org"||host==="themoviedb.org")&&
+      (m=path.match(/^\/(movie|tv)\/([1-9][0-9]*)\/?$/)))
+    ref={platform:"tmdb",id:m[1]+":"+m[2]};
+  else if((m=host.match(/^([a-z]{2,12})\.wikipedia\.org$/))&&path.startsWith("/wiki/")&&path.length>6){
+    try{ref={platform:"wikipedia",id:m[1]+":"+decodeURIComponent(path.slice(6))};}
+    catch{return null;}
+  }
+  else if(host==="boxd.it"&&(m=path.match(/^\/([A-Za-z0-9]{2,16})\/?$/)))
+    ref={platform:"letterboxd",id:m[1]};
+  else if(host==="musicbrainz.org"&&(m=path.match(/^\/release-group\/([0-9a-f-]{36})\/?$/i)))
+    ref={platform:"musicbrainz",id:m[1]};
+  if(!ref)return null;
+  try{
+    const rebuilt=mediaReferenceUrl(ref.platform,ref.id);
+    if(new URL(rebuilt).pathname.replace(/\/$/,"")!==url.pathname.replace(/\/$/,""))return null;
+    return ref;
+  }catch{return null;}
+}
+export function mediaSourceLinks(record: Pick<MediaRecord,"refs"|"links">): MediaLink[] {
+  // Consistent across Git JSON, Astro schema normalization and client hydration.
+  const order: readonly MediaPlatform[]=["imdb","tmdb","wikipedia","letterboxd","musicbrainz"];
+  return [
+    ...order.flatMap(platform=>{
+      const id=record.refs?.[platform];
+      return id===undefined?[]:[{label:MEDIA_REF_LABELS[platform],url:mediaReferenceUrl(platform,id)}];
+    }),
+    ...(record.links??[]),
+  ];
+}
+/** Converts a user-pasted direct URL to a compact ref where lossless. */
+export function compactMediaLinks(links: readonly MediaLink[]): Pick<MediaRecord,"refs"|"links"> {
+  const refs:MediaReferences={},remaining:MediaLink[]=[];
+  for(const link of links){
+    const parsed=mediaReferenceFromUrl(link.url);
+    if(parsed && !refs[parsed.platform])refs[parsed.platform]=parsed.id;
+    else remaining.push(link);
+  }
+  return {...(Object.keys(refs).length?{refs}:{}),...(remaining.length?{links:remaining}:{})};
+}
 export function validateMediaLink(raw: unknown): MediaLink {
   if (!raw || typeof raw !== "object" || Array.isArray(raw)) throw new Error("Invalid external link");
   const obj = raw as Record<string,unknown>;
@@ -67,6 +175,9 @@ export function validateMediaLink(raw: unknown): MediaLink {
   try { url = new URL(value); } catch { throw new Error("Invalid external link URL"); }
   if (!["http:","https:"].includes(url.protocol) || !url.hostname || url.username || url.password) {
     throw new Error("Only absolute HTTP/HTTPS links without credentials are permitted");
+  }
+  if (url.hostname === "trakt.tv" || url.hostname.endsWith(".trakt.tv")) {
+    throw new Error("Trakt links are not supported");
   }
   return { label, url: url.href };
 }
@@ -142,7 +253,7 @@ export function validateMediaRecord(raw: unknown, expectedKind?: MediaKind): Med
   const obj=raw as Record<string,unknown>;
   if (obj.schema !== 1 || !MEDIA_KINDS.includes(obj.kind as MediaKind)) throw new Error("Unsupported media schema or category");
   if (expectedKind && obj.kind!==expectedKind) throw new Error("Media kind differs from directory");
-  const fields=["schema","kind","title","creator","year","rating","status","notes","links","tracks","seasons"];
+  const fields=["schema","kind","title","creator","year","rating","status","notes","links","refs","tracks","seasons"];
   if (Object.keys(obj).some(key=>!fields.includes(key))) throw new Error("Unexpected public media field (possible private metadata)");
   const result: MediaRecord={schema:1,kind:obj.kind as MediaKind,title:safeText(obj.title,"Title",250)};
   const creator=optionalText(obj.creator,"Artist/director/creator",220);
@@ -159,12 +270,25 @@ export function validateMediaRecord(raw: unknown, expectedKind?: MediaKind): Med
   }
   const notes=publicNotes(obj.notes);
   if(notes) result.notes=notes;
+  if(obj.refs!==undefined){
+    const refs=objectFields(obj.refs,["imdb","tmdb","wikipedia","letterboxd","musicbrainz"],"media refs");
+    const normalized:MediaReferences={};
+    for(const [platform,id] of Object.entries(refs) as [MediaPlatform,unknown][]){
+      if(typeof id!=="string")throw new Error("Media reference ID must be text");
+      mediaReferenceUrl(platform,id); // Validate before storing.
+      normalized[platform]=id;
+    }
+    if(Object.keys(normalized).length) result.refs=normalized;
+  }
   if(obj.links!==undefined){
     if(!Array.isArray(obj.links)||obj.links.length>8) throw new Error("Up to eight external links are supported");
     const links=obj.links.map(validateMediaLink);
-    if(new Set(links.map(l=>l.url)).size!==links.length) throw new Error("Duplicate external URL");
     if(links.length) result.links=links;
   }
+  const combined=mediaSourceLinks(result);
+  if(combined.length>8)throw new Error("Up to eight external references are supported");
+  if(new Set(combined.map(link=>new URL(link.url).href)).size!==combined.length)
+    throw new Error("Duplicate external URL");
   if(obj.tracks!==undefined){
     if(obj.kind!=="music")throw new Error("Tracks apply to music albums only");
     result.tracks=validateTracks(obj.tracks);
@@ -238,7 +362,7 @@ export function composeMediaDraft(raw: unknown, existing: readonly ExistingMedia
   const path=mediaPath(record);
   const duplicatePaths=existing.filter(x =>
     x.path.toLowerCase()===path.toLowerCase() || sameMedia(x,record) ||
-    Boolean(x.links?.some(l=>record.links?.some(k=>k.url===l.url)))
+    Boolean(mediaSourceLinks(x).some(l=>mediaSourceLinks(record).some(k=>k.url===l.url)))
   ).map(x=>x.path);
   return {path,json:JSON.stringify(record,null,2)+"\n",duplicatePaths};
 }

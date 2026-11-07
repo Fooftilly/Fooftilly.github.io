@@ -8,6 +8,22 @@
     {
       "label": "Letterboxd",
       "url": "https://boxd.it/7T2k"
+    },
+    {
+      "label": "IMDb",
+      "url": "https://www.imdb.com/title/tt0470752/"
+    },
+    {
+      "label": "TMDb",
+      "url": "https://www.themoviedb.org/movie/264660"
+    },
+    {
+      "label": "Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Ex_Machina_(film)"
+    },
+    {
+      "label": "BFI",
+      "url": "https://www.bfi.org.uk/film/337a9bd9-b9af-589e-8607-04105282d41f/ex-machina"
     }
   ]
 }

@@ -4,10 +4,7 @@
   "title": "Sherlock: The Abominable Bride",
   "year": 2016,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/dbTQ"
-    }
-  ]
+  "refs": {
+    "letterboxd": "dbTQ"
+  }
 }
