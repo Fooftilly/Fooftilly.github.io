@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Breakfast in America",
+  "creator": "Supertramp",
+  "year": 1979,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "d584f7e7-55b4-39a1-87e9-af3b86773132"
+  }
+}

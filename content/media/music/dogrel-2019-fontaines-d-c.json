@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Dogrel",
+  "creator": "Fontaines D.C.",
+  "year": 2019,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "84c01ae7-82e5-4965-a5b6-7aeaf539f85c"
+  }
+}

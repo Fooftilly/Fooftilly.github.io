@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Hounds of Love",
+  "creator": "Kate Bush",
+  "year": 1985,
+  "rating": 5,
+  "refs": {
+    "musicbrainz": "017f2a37-a78f-3578-9611-fa40408e5d90"
+  }
+}

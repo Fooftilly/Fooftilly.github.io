@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Heaven or Las Vegas",
+  "creator": "Cocteau Twins",
+  "year": 1990,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "12fab6b9-4eaf-33b0-963e-cae03ac332fe"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "A Trick of the Tail",
+  "creator": "Genesis",
+  "year": 1976,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "adcc32d7-cb30-3201-84fa-488e35c9c9ed"
+  }
+}

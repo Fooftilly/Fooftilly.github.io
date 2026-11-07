@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Faust",
+  "creator": "Faust",
+  "year": 1971,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "cff68c1a-3298-390c-8445-840f8a46bd39"
+  }
+}

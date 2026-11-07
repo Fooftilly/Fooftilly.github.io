@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Frances the Mute",
+  "creator": "The Mars Volta",
+  "year": 2005,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "ccca11eb-25ec-3063-9e26-1fcfbb5c4a0c"
+  }
+}
