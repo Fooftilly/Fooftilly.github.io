@@ -2,7 +2,7 @@
 import { computed, onMounted, ref } from "vue";
 import { BOOKMARK_CATEGORIES, draftCategoryFromSlug } from "../lib/bookmark-categories.ts";
 import { bookmarkDetailPath } from "../lib/bookmark-path.ts";
-import { parseBookmarkTags } from "../lib/bookmark-tags.ts";
+import { appendBookmarkTag, parseBookmarkTags } from "../lib/bookmark-tags.ts";
 import {
   composeBookmarkDraft,
   githubNewFileUrl,
@@ -10,7 +10,10 @@ import {
   type ExistingBookmarkRef,
 } from "../lib/bookmark-draft.ts";
 
-const props = defineProps<{ existing: ExistingBookmarkRef[] }>();
+const props = withDefaults(defineProps<{
+  existing: ExistingBookmarkRef[];
+  suggestedTags?: string[];
+}>(), { suggestedTags: () => [] });
 const title = ref("");
 const url = ref("");
 const category = ref(draftCategoryFromSlug(null));
@@ -19,6 +22,18 @@ const comments = ref("");
 const tags = ref("");
 const notes = ref("");
 const status = ref("");
+const displayedSuggestions = computed(() => props.suggestedTags.slice(0, 12));
+const selectedTagKeys = computed(() => new Set(
+  tags.value.split(",").map(tag => tag.trim().normalize("NFC").toLowerCase()).filter(Boolean)
+));
+function addSuggestedTag(suggested: string): void {
+  if (selectedTagKeys.value.has(suggested.normalize("NFC").toLowerCase())) return;
+  try {
+    tags.value = appendBookmarkTag(tags.value, suggested);
+  } catch (error) {
+    status.value = error instanceof Error ? error.message : "Invalid tag.";
+  }
+}
 const editorLimit = 4000; // Conservative URL length across browsers and GitHub redirects.
 // Paste this as the URL of a browser bookmark to capture the current page.
 // The capture bookmarklet opens the deployed public bookmark draft editor.
@@ -112,6 +127,16 @@ async function copy(value: string, description: string) {
         <input v-model="tags" type="text" data-bookmark-tag-input autocomplete="off"
                placeholder="Separate tag names with commas" />
       </label>
+      <div v-if="displayedSuggestions.length" class="tag-suggestions">
+        <p>Existing tags</p>
+        <div class="tag-suggestion-buttons">
+          <button v-for="suggested in displayedSuggestions" :key="suggested" type="button"
+            :data-bookmark-suggest-tag="suggested" :disabled="selectedTagKeys.has(suggested.normalize('NFC').toLowerCase())"
+            :aria-label="`Add tag: ${suggested}`" @click="addSuggestedTag(suggested)">
+            {{ suggested }}
+          </button>
+        </div>
+      </div>
       <label>
         Markdown notes (optional)
         <textarea v-model="notes" rows="4" maxlength="5000" placeholder="Longer personal notes" />
@@ -176,6 +201,10 @@ input, textarea {
 textarea { min-height: 5rem; resize: vertical; font-weight: normal; }
 .output { border-top: 1px solid var(--border); padding-top: 1.25rem; }
 .capture-help { margin: 1rem 0; }
+.tag-suggestions p { margin: 0 0 .4rem; color: var(--muted); font-size: .9rem; }
+.tag-suggestion-buttons { display: flex; flex-wrap: wrap; gap: .4rem; }
+.tag-suggestion-buttons button { padding: .4rem .6rem; border: 1px solid var(--border); border-radius: 0; background: var(--surface); color: var(--foreground); font: inherit; cursor: pointer; }
+.tag-suggestion-buttons button:disabled { opacity: .5; cursor: default; }
 .capture-help summary { cursor: pointer; }
 .capture-help button { padding: .6rem .8rem; border: 1px solid var(--border); border-radius: 0; background: var(--surface); color: var(--foreground); cursor: pointer; }
 .output label textarea { min-height: 12rem; font-family: ui-monospace, monospace; }

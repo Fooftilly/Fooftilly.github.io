@@ -23,3 +23,23 @@ test("browser locale must not affect duplicate detection in source and editor", 
   assert.throws(() => validateBookmarkTags(["Café","Cafe\u0301"]), /Duplicate bookmark tag/,
     "Composed and decomposed equivalents must have the same identity");
 });
+
+test("suggestions are derived from supplied published records and ordered by usage", async () => {
+  const { bookmarkTagSuggestions } = await import("../src/lib/bookmark-tags.ts");
+  const records=[
+    {tags:["Café culture", "Music"]}, {tags:["Cafe\u0301 culture"]},
+    {tags:["music", "Photography"]}, {tags:["Music"]}, {},
+  ];
+  assert.deepEqual(bookmarkTagSuggestions(records),["Music","Café culture","Photography"]);
+  assert.deepEqual(bookmarkTagSuggestions([]),[]);
+  assert.deepEqual(bookmarkTagSuggestions([{tags:[]}]),[]);
+});
+
+test("selecting a suggested tag after a trailing comma finishes a valid list", async () => {
+  const {appendBookmarkTag} = await import("../src/lib/bookmark-tags.ts");
+  assert.equal(appendBookmarkTag("Research, ", "Git-owned"), "Research, Git-owned");
+  assert.equal(appendBookmarkTag("Research,", "Café culture"), "Research, Café culture");
+  assert.equal(appendBookmarkTag("", "Music"), "Music");
+  assert.throws(() => appendBookmarkTag("one,,two", "three"), /Tags/);
+  assert.throws(() => appendBookmarkTag("Research", "research"), /Duplicate/);
+});
