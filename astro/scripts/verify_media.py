@@ -214,7 +214,14 @@ def visible_nested(text, kind, value):
 def source_media_links(record):
     """Independently reconstruct compact URL references for static parity."""
     values = []
-    for platform, identity in record.get("refs", {}).items():
+    refs = record.get("refs", {})
+    order = ("imdb", "tmdb", "wikipedia", "letterboxd", "musicbrainz")
+    if set(refs).difference(order):
+        raise AssertionError("Unsupported compact reference platform")
+    for platform in order:
+        if platform not in refs:
+            continue
+        identity = refs[platform]
         if not isinstance(identity, str):
             raise AssertionError("Invalid source media reference ID")
         if platform == "imdb" and re.fullmatch(r"tt[0-9]{7,}", identity):
