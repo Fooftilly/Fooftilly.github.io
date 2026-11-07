@@ -12,7 +12,6 @@ python3 astro/scripts/reconcile-media-exports.py \
   /private/path/letterboxd-export.zip \
   /private/path/rym-film-catalog.csv \
   /private/path/rym-music-export.csv \
-  --decisions astro/scripts/media-import-decisions.json \
   --output /private/path/media-import-review.json
 python3 -m unittest discover -s astro/scripts -p 'test_reconcile_media_exports.py'
 ```
@@ -45,16 +44,12 @@ Unicode-derived paths to the website's exact `mediaSlug` behavior.
 The film batch passed required Astro staging, TypeScript/JavaScript
 analysis, workflow syntax, and actions security checks.
 
-The owner chose each of the five actual rating conflicts; the
-choices are committed in `scripts/media-import-decisions.json`:
-
-| Film | Selected provider | Stars |
-| --- | --- | --- |
-| Before Sunset (2004) | RYM | 4 |
-| Blue Velvet (1986) | Letterboxd | 4 |
-| Parker (2013) | Letterboxd | 3.5 |
-| Sherlock: The Abominable Bride (2016) | RYM | 3 |
-| Steamboat Willie (1928) | Letterboxd | 2.5 |
+The owner confirmed the five cross-service rating conflicts in the
+review conversation for [PR #99](https://github.com/Fooftilly/Fooftilly.github.io/pull/99).
+The final media JSON records contain the chosen scores; no permanent
+one-time decision registry or static test of particular personal ratings is
+kept in the source tree. Future additions or corrections are requested in
+chat and submitted as ordinary reviewable GitHub changes.
 
 Metadata verified independently:
 - `Ex Machina`: original BFI catalog year **2014**, with A24 release
