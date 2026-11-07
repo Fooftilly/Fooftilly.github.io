@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   validateMediaRecord, mediaSlug, mediaPath, composeMediaDraft,
-  sameMedia, githubMediaEditorUrl, mediaEntryId, assertUniqueMediaCatalog,
+  sameMedia, githubMediaEditorUrl, mediaEntryId, assertUniqueMediaCatalog, mediaSourceLabel,
 } from "../src/lib/media-model.ts";
 
 const film = {
@@ -94,6 +94,29 @@ test("multiple media items may share a generic external reference URL", () => {
     record("content/media/music/first-album.json", "First album"),
     record("content/media/music/second-album.json", "Second album"),
   ]));
+});
+
+test("media link buttons use recognized provider labels without guessing destinations",()=>{
+  const cases=[
+    ["https://www.imdb.com/title/tt0050083/","IMDb"],
+    ["https://www.themoviedb.org/movie/389","TMDb"],
+    ["https://en.wikipedia.org/wiki/12_Angry_Men","Wikipedia"],
+    ["https://www.bfi.org.uk/film/example","BFI"],
+    ["https://www.criterionchannel.com/films/abc","Criterion"],
+    ["https://www.criterion.com/films/abc","Criterion"],
+    ["https://boxd.it/3bf2","Letterboxd"],
+    ["https://musicbrainz.org/release-group/abc","MusicBrainz"],
+    ["https://artist.bandcamp.com/album/example","Bandcamp"],
+  ];
+  for(const [url,expected] of cases){
+    assert.equal(mediaSourceLabel(url,"Other source"),expected);
+  }
+  assert.equal(mediaSourceLabel("https://example.org/film/one","Other source"),"Other source");
+  assert.equal(mediaSourceLabel("https://imdb.com.evil.example/film","External"),"External");
+  assert.throws(()=>validateMediaRecord({...film,links:[
+    {label:"Trakt",url:"https://trakt.tv/movies/something"}]}),/Trakt links are not supported/);
+  assert.throws(()=>validateMediaRecord({...film,links:[
+    {label:"Trakt",url:"https://api.trakt.tv/movies/something"}]}),/Trakt links are not supported/);
 });
 
 test("multiline public notes are preserved for real media reviews", () => {
