@@ -621,6 +621,21 @@ try {
       await evaluate("document.querySelector('[data-project-clear]').click()");
       await waitFor("document.querySelectorAll('.project-card').length",
         count => count === sourceProjects.length, "Cleared no-match search restores all project cards");
+      if (language === "sh") {
+        const displayedStatus = await evaluate("document.querySelector('.project-card .project-status')?.textContent.trim()");
+        if (displayedStatus) {
+          await evaluate("(()=>{const el=document.querySelector('[data-project-search]');el.value=" +
+            JSON.stringify(displayedStatus) + ";el.dispatchEvent(new Event('input',{bubbles:true}))})()");
+          await waitFor("new URL(location.href).searchParams.get('q')",
+            value => value === displayedStatus, "Localized status search has shareable URL state");
+          await waitFor("Array.from(document.querySelectorAll('.project-card .project-status')).some(el=>el.textContent.trim()===" +
+            JSON.stringify(displayedStatus) + ")",
+            Boolean, "Project browser finds the SH status displayed in the result cards");
+          await evaluate("document.querySelector('[data-project-clear]').click()");
+          await waitFor("document.querySelectorAll('.project-card').length",
+            count => count === sourceProjects.length, "Clearing localized status search restores every project");
+        }
+      }
     }
 
     if (sourceProjects.length) {

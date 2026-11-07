@@ -10,6 +10,15 @@ export interface PublicProject {
   tags: string[];
   status?: "Work in progress" | "Maintained" | "Archived";
 }
+/** A single source for the existing EN/SH project status labels. */
+const PROJECT_STATUS_SH: Record<NonNullable<PublicProject["status"]>, string> = {
+  "Work in progress": "U razvoju",
+  Maintained: "Aktivno",
+  Archived: "Arhivirano",
+};
+export function projectStatusLabel(status: PublicProject["status"], lang: "en" | "sh" = "en"): string {
+  return status ? (lang === "sh" ? PROJECT_STATUS_SH[status] : status) : "";
+}
 function fold(value: string): string {
   return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 }
@@ -17,7 +26,7 @@ export function filterProjects<T extends PublicProject>(projects: readonly T[], 
   const terms = fold(query.trim()).split(/\s+/).filter(Boolean);
   return projects.filter(project => {
     const text = fold([project.title,project.summary,project.summarySh ?? "",
-      project.status ?? "",...project.tags].join(" "));
+      project.status ?? "",projectStatusLabel(project.status, "sh"),...project.tags].join(" "));
     return terms.every(term => text.includes(term));
   });
 }

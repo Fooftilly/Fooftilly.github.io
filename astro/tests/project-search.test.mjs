@@ -33,3 +33,13 @@ test("shareable project search preserves unrelated parameters and fragments",()=
   const empty=projectSearchHref(url.href,"");
   assert.equal(new URL(empty,"https://www.peroniko.xyz").searchParams.has("q"),false);
 });
+
+test("search matches the SH status shown on the actual project card", async()=>{
+  const { projectStatusLabel } = await import("../src/lib/project-search.ts");
+  assert.equal(projectStatusLabel("Work in progress","sh"),"U razvoju");
+  assert.equal(projectStatusLabel("Maintained","sh"),"Aktivno");
+  assert.equal(projectStatusLabel("Archived","sh"),"Arhivirano");
+  assert.deepEqual(filterProjects(records,"U razvoju").map(x=>x.id),["one"]);
+  assert.deepEqual(filterProjects(records,"AKTIVNO").map(x=>x.id),["two"]);
+  assert.deepEqual(filterProjects(records,"Arhivirano").map(x=>x.id),["three"]);
+});

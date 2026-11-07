@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
 import { projectPath } from "../lib/project-catalog.ts";
-import { filterProjects, projectSearchHref, readProjectSearchQuery, type PublicProject } from "../lib/project-search.ts";
+import { filterProjects, projectSearchHref, projectStatusLabel, readProjectSearchQuery, type PublicProject } from "../lib/project-search.ts";
 
 const props = withDefaults(defineProps<{ projects: PublicProject[]; lang?: "en" | "sh" }>(), { lang: "en" });
 const hydrated = ref(false);
@@ -26,15 +26,6 @@ const labels = computed(() => props.lang === "sh" ? {
   empty: "No projects match this search.",
   source: "Source code",
 });
-function statusLabel(status: PublicProject["status"]): string {
-  if (props.lang !== "sh" || !status) return status ?? "";
-  const localized = {
-    "Work in progress": "U razvoju",
-    Maintained: "Aktivno",
-    Archived: "Arhivirano",
-  };
-  return localized[status];
-}
 const visible = computed(() => hydrated.value ? filterProjects(props.projects, query.value) : props.projects);
 function syncAddress(): void {
   if (!hydrated.value || typeof window === "undefined") return;
@@ -86,7 +77,7 @@ async function clearSearch(): Promise<void> {
       <li v-for="project in visible" :key="project.id" class="project-card">
         <h3><a :href="projectPath(project.id)">{{ project.title }}</a></h3>
         <p>{{ lang === "sh" && project.summarySh ? project.summarySh : project.summary }}</p>
-        <p v-if="project.status" class="project-status">{{ statusLabel(project.status) }}</p>
+        <p v-if="project.status" class="project-status">{{ projectStatusLabel(project.status, lang) }}</p>
         <ul class="project-tags" :aria-label="project.title + (lang === 'sh' ? ' — tehnologije' : ' technologies')">
           <li v-for="tag in project.tags" :key="tag">{{ tag }}</li>
         </ul>
