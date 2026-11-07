@@ -594,6 +594,49 @@ try {
       "Project cards must exactly match current source entries: " + route);
     assert.equal(desktop.alternate, true, "Project index language switch is missing: " + route);
     assert.equal(desktop.directSources, true, "Project card source links must be visible and localized: " + route);
+    await waitFor("document.querySelector('[data-project-search]') !== null",
+      Boolean, "Hydrated project browser exposes a real search field: " + route);
+    const sourceTitle = await evaluate("document.querySelector('.project-card h3 a')?.textContent.trim()");
+    if (sourceTitle) {
+      await evaluate("(()=>{const el=document.querySelector('[data-project-search]');el.value=" +
+        JSON.stringify(sourceTitle) + ";el.dispatchEvent(new Event('input',{bubbles:true}))})()");
+      await waitFor("document.querySelectorAll('.project-card').length",
+        count => count > 0 && count <= sourceProjects.length, "Source-owned project search filters displayed cards");
+      assert.ok(await evaluate("Array.from(document.querySelectorAll('.project-card h3 a')).some(a=>a.textContent.trim()===" +
+        JSON.stringify(sourceTitle) + ")"), "Search must retain the matching published project");
+      await waitFor("new URL(location.href).searchParams.get('q')",
+        value => value === sourceTitle, "Project search URL state must match edited text");
+      await evaluate("document.querySelector('[data-search-language-switch]').focus()");
+      await waitFor("new URL(document.querySelector('[data-search-language-switch]').href).searchParams.get('q')",
+        value => value === sourceTitle, "Project EN/SH language links preserve current search");
+      await evaluate("document.querySelector('[data-project-clear]').click()");
+      await waitFor("document.querySelectorAll('.project-card').length",
+        count => count === sourceProjects.length, "Cleared search restores every Git project");
+      assert.equal(await evaluate("document.activeElement === document.querySelector('[data-project-search]')"),true,
+        "Clear search retains keyboard focus in the form");
+      await evaluate("(()=>{const el=document.querySelector('[data-project-search]');el.value='zz-no-project-matches-test';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
+      await waitFor("document.querySelectorAll('.project-card').length",
+        count => count === 0, "Unknown search query must not show unrelated projects");
+      assert.ok(await evaluate("document.querySelector('[data-project-empty]') !== null"));
+      await evaluate("document.querySelector('[data-project-clear]').click()");
+      await waitFor("document.querySelectorAll('.project-card').length",
+        count => count === sourceProjects.length, "Cleared no-match search restores all project cards");
+      if (language === "sh") {
+        const displayedStatus = await evaluate("document.querySelector('.project-card .project-status')?.textContent.trim()");
+        if (displayedStatus) {
+          await evaluate("(()=>{const el=document.querySelector('[data-project-search]');el.value=" +
+            JSON.stringify(displayedStatus) + ";el.dispatchEvent(new Event('input',{bubbles:true}))})()");
+          await waitFor("new URL(location.href).searchParams.get('q')",
+            value => value === displayedStatus, "Localized status search has shareable URL state");
+          await waitFor("Array.from(document.querySelectorAll('.project-card .project-status')).some(el=>el.textContent.trim()===" +
+            JSON.stringify(displayedStatus) + ")",
+            Boolean, "Project browser finds the SH status displayed in the result cards");
+          await evaluate("document.querySelector('[data-project-clear]').click()");
+          await waitFor("document.querySelectorAll('.project-card').length",
+            count => count === sourceProjects.length, "Clearing localized status search restores every project");
+        }
+      }
+    }
 
     if (sourceProjects.length) {
       // Start on the detail link, then send a genuine keyboard Tab via DevTools.

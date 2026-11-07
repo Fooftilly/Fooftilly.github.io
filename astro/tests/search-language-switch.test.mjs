@@ -53,3 +53,14 @@ test("EN/SH search language switching retains tag filters but drops tracking", (
   assert.equal(target.searchParams.get("q"),"cafe");
   assert.equal(target.searchParams.has("utm_source"),false);
 });
+
+test("project index language switch preserves only active project search", () => {
+  const href=searchLanguageSwitchHref(
+    "https://www.peroniko.xyz/sh/projects/?q=Istra%C5%BEivanje&tag=unrelated&sort=title&utm=tracking",
+    "/projects/",
+  );
+  const next=new URL(href,"https://www.peroniko.xyz");
+  assert.equal(next.pathname,"/projects/");
+  assert.deepEqual([...next.searchParams.keys()],["q"]);
+  assert.equal(next.searchParams.get("q"),"Istraživanje");
+});
