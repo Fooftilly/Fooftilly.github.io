@@ -38,6 +38,17 @@ class ExportReconciliationTests(unittest.TestCase):
         self.assertEqual(len(result["rating_conflicts"]), 1)
         self.assertEqual(result["rating_conflicts"][0]["title"], "Two")
 
+    def test_zero_rating_rym_film_does_not_count_or_override_letterboxd(self):
+        lb = [{"Name": "A Film", "Year": "2001", "Rating": "4",
+               "Letterboxd URI": "https://boxd.it/film"}]
+        ry = [{"Title": "A Film", "Release_Date": "2001", "Rating": "0",
+               "Film_ID": "123"}]
+        report = reconcile(lb, ry, [])
+        self.assertEqual(report["summary"]["rym_rated_films"], 0)
+        self.assertEqual(report["summary"]["letterboxd_rated_films"], 1)
+        self.assertEqual(report["rating_conflicts"], [])
+        self.assertEqual(report["summary"]["films_same_identity_and_rating"], 0)
+
     def test_preserve_name_variants_for_review_not_auto_merge(self):
         lb = [{"Name": "The Movie", "Year": "2023", "Rating": "4",
                "Letterboxd URI": "link"}]
