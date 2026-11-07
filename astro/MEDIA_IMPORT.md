@@ -36,11 +36,14 @@ Owner decisions: **rated films and albums only**. Exclude unrated RYM
 entries (owner identifies them as singles), Letterboxd watchlist/diary,
 and all reviews. No TV/anime scores are available for import yet.
 
-Draft PR #99 stages **2,082 rated-film records** without review, diary or
-ownership fields. That is 2,079 conservative export candidates plus two
-separately identified 1922 `Cinderella` films and one Letterboxd film with
-no recorded release year. The last three use no guessed metadata or reviews. An independently coded pass canonicalized 12
-Unicode-derived paths to the website's exact `mediaSlug` behavior.
+Draft PR #99 stages **2,084 rated-film records** without review, diary or
+ownership fields. Starting with 2,079 conservative export candidates, it
+independently resolved two distinct 1922 `Cinderella` films, an undated
+Letterboxd film, the original-year/US-release distinction for Terence Dixon's
+Baldwin documentary, and a separate Canadian television film named
+`Marie-Antoinette` (2006). No release year or rating is fabricated.
+The import normalizes Unicode titles using the website's exact `mediaSlug`
+behavior rather than a Python approximation.
 The film batch passed required Astro staging, TypeScript/JavaScript
 analysis, workflow syntax, and actions security checks.
 
@@ -59,10 +62,16 @@ Metadata verified independently:
   industry screenings exist.
   [BFI](https://www.bfi.org.uk/film/b1df45fb-9a2b-507a-803b-b00114a8fe29/heathers),
   [AFI](https://catalog.afi.com/Film/58108-HEATHERS).
-- `Meeting the Man: James Baldwin in Paris`: the year is
-  **unresolved** because [Criterion](https://www.criterionchannel.com/films/Eez36hjg/meeting-the-man-james-baldwin-in-paris)
-  gives 1970 and [Film at Lincoln Center](https://www.filmlinc.org/films/meeting-the-man-james-baldwin-in-paris/)
-  gives 1971. Both export entries are withheld.
+- `Meeting the Man: James Baldwin in Paris`: staged once with its verified
+  **1970 original/premiere year** and the owner's 4-star rating. The
+  [Letterboxd release history](https://letterboxd.com/film/meeting-the-man-james-baldwin-in-paris/)
+  distinguishes the 1970 UK premiere from the 1971 US theatrical release.
+  [Criterion's film listing](https://www.criterionchannel.com/films/Eez36hjg/meeting-the-man-james-baldwin-in-paris)
+  also uses 1970, whereas
+  [Film at Lincoln Center](https://www.filmlinc.org/films/meeting-the-man-james-baldwin-in-paris/)
+  and [Criterion's editorial](https://www.criterion.com/current/posts/8033-james-baldwin-abroad)
+  use 1971. This is a documented date-convention difference, **not** a second film.
+  RYM and Letterboxd both rate the work 4 stars after normalization.
 - Two `Cinderella` films from 1922 are **distinct** (directors Lotte
   Reiniger and Walt Disney), not duplicates.
   [Reiniger](https://letterboxd.com/film/cinderella-1922/),
@@ -72,9 +81,15 @@ Metadata verified independently:
   assigning the two unverified export shortlinks** to either work.
 - The rated Letterboxd `Fashions - Filmed In Paris` entry is now staged
   with **no year** because the source omits one. Do not fabricate a release year.
-- `Marie Antoinette` (2006) and `Marie-Antoinette` (2006) need
-  independent identity matching against their source IDs before the
-  extra RYM record is imported. Never merge the records by title/year.
+- `Marie Antoinette` (2006) and `Marie-Antoinette` (2006) were verified
+  as **different films**, not duplicate titles. The first is the 123-minute
+  Sofia Coppola film ([Cannes](https://www.festival-cannes.com/en/f/marie-antoinette/)).
+  The RYM entry with a 21 December 2006 release is the separate 90-minute
+  Canadian/French television film, directed by Francis Leclerc and Yves
+  Simoneau ([IMDb release history](https://www.imdb.com/title/tt0475982/releaseinfo/),
+  [Box Office Mojo credits](https://www.boxofficemojo.com/title/tt0475982/credits/)).
+  They are staged with distinct director metadata so the first-party identity
+  model does not erroneously merge them. Both retain the owner's 3.5-star rating.
 
 The local preview listed 132 same-year article/alias matches with
 identical ratings. They are logged separately for audit and omitted as
