@@ -103,7 +103,7 @@ export function mediaReferenceUrl(platform: MediaPlatform, id: string): string {
     case "wikipedia": {
       const match=/^([a-z]{2,12}):([^\\/?#\x00-\x1f]+)$/u.exec(id);
       if(match && !/^[.]+$/.test(match[2]) && match[2].length<=220)
-        return "https://"+match[1]+".wikipedia.org/wiki/"+encodeURIComponent(match[2]).replace(/%2F/gi,"%252F");
+        return "https://"+match[1]+".wikipedia.org/wiki/"+encodeURIComponent(match[2]);
       break;
     }
     case "letterboxd":
@@ -119,7 +119,7 @@ export function mediaReferenceUrl(platform: MediaPlatform, id: string): string {
 export function mediaReferenceFromUrl(value: string): {platform:MediaPlatform;id:string}|null {
   let url:URL;
   try{url=new URL(value);}catch{return null;}
-  if(!["https:","http:"].includes(url.protocol)||url.username||url.password||
+  if(url.protocol!=="https:"||url.username||url.password||
       url.search||url.hash||url.port)return null;
   const host=url.hostname.toLowerCase(),path=url.pathname;
   let ref:{platform:MediaPlatform;id:string}|null=null;
