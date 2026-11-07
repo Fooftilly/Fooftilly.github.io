@@ -16,3 +16,13 @@ const projects = sortProjects(await getCollection("projects")).map(({ id, data }
 }));
 ---
 <ProjectBrowser projects={projects} lang={lang} client:load />
+<noscript>
+  <p class="project-nojs-notice">
+    {lang === "sh"
+      ? "Pretraga i filtriranje oznaka zahtijevaju JavaScript. Svi objavljeni projekti prikazani su ispod."
+      : "Search and tag filtering require JavaScript. All published projects remain listed below."}
+  </p>
+</noscript>
+<style>
+.project-nojs-notice{padding:.7rem 0;color:var(--muted)}
+</style>

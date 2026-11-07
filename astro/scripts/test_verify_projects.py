@@ -2,6 +2,7 @@
 from html import escape
 from pathlib import Path
 from string import Template
+from urllib.parse import quote_plus
 import unittest
 
 from verify_projects import (
@@ -10,6 +11,9 @@ from verify_projects import (
     verify_card_source_link,
     verify_project_disclosures,
     verify_project_license_link,
+    verify_project_tag_links,
+    verify_card_tag_parity,
+    project_source_tags,
 )
 
 FIXTURES = Path(__file__).resolve().parent / "fixtures"
@@ -17,6 +21,11 @@ CARD = Template((FIXTURES / "project-card.html").read_text(encoding="utf-8"))
 DETAIL = Template((FIXTURES / "project-detail.html").read_text(encoding="utf-8"))
 DISCLOSURES = Template((FIXTURES / "project-disclosures.html").read_text(encoding="utf-8"))
 LICENSE = Template((FIXTURES / "project-license.html").read_text(encoding="utf-8"))
+TAG = Template((FIXTURES / "project-tags.html").read_text(encoding="utf-8"))
+TAG_PLAIN = Template((FIXTURES / "project-tags-plain.html").read_text(encoding="utf-8"))
+TAG_DUPLICATE = Template((FIXTURES / "project-tags-duplicate.html").read_text(encoding="utf-8"))
+TAG_EMPTY = Template((FIXTURES / "project-tags-empty.html").read_text(encoding="utf-8"))
+TAG_OUTSIDE = Template((FIXTURES / "project-tags-outside.html").read_text(encoding="utf-8"))
 
 
 def card(slug, title, repository, label="Source code", accessible_name=None):
@@ -152,6 +161,67 @@ class ProjectSourceLinksTest(unittest.TestCase):
                                         "prks", "AGPL-3.0-only", url)
 
 
+
+
+class ProjectTagNavigationTest(unittest.TestCase):
+    def tag_html(self, label="Café & Tools", lang="en", href=None, template=TAG):
+        target = "/sh/projects/" if lang == "sh" else "/projects/"
+        url = target + "?tag=" + quote_plus(label) if href is None else href
+        return template.substitute(href=escape(url, quote=True), label=escape(label))
+
+    def test_both_locales_link_to_exact_project_search(self):
+        verify_project_tag_links(self.tag_html(), "en")
+        verify_project_tag_links(self.tag_html(lang="sh"), "sh")
+        verify_project_tag_links(self.tag_html(label="Knowledge management"), "en")
+        verify_project_tag_links("", "en", require_groups=False)
+
+    def test_tag_list_requires_a_navigable_link_per_tag(self):
+        for fixture in (TAG_PLAIN, TAG_DUPLICATE, TAG_EMPTY):
+            with self.assertRaises(AssertionError):
+                verify_project_tag_links(self.tag_html(template=fixture), "en")
+
+    def test_project_tag_links_reject_other_routes_search_and_wrong_locale(self):
+        for href in [
+            "/sh/projects/?tag=Research",
+            "/search/?tag=Research",
+            "https://www.peroniko.xyz/projects/?tag=Research",
+            "/projects/?q=Research",
+            "/projects/?tag=Other",
+            "/projects/?tag=Research&tag=Research",
+            "/projects/?tag=Research&utm_source=tracker",
+            "/projects/?tag=Research#private",
+        ]:
+            with self.assertRaises(AssertionError, msg=href):
+                verify_project_tag_links(self.tag_html(label="Research", href=href), "en")
+
+    def test_tag_audit_rejects_link_text_different_from_visible_label(self):
+        with self.assertRaisesRegex(AssertionError, "link label differs"):
+            verify_project_tag_links(self.tag_html(template=TAG_OUTSIDE), "en")
+
+    def test_card_tag_parity_rejects_missing_project_tag_links(self):
+        existing = cards(card("prks", "PRKS", "https://github.com/Fooftilly/PRKS"))
+        with self.assertRaisesRegex(AssertionError, "Project card tags differ"):
+            verify_card_tag_parity(existing, "prks", ["Research"], "en")
+
+    def test_tag_audit_returns_independent_label_groups(self):
+        self.assertEqual(verify_project_tag_links(self.tag_html(), "en"),
+                         [["Café & Tools"]])
+
+
+    def test_project_tag_source_parser_matches_reviewed_markdown(self):
+        source = (FIXTURES / "project-tags-source.md").read_text(encoding="utf-8")
+        self.assertEqual(project_source_tags(source, "fixture"),
+                         ["Café & Tools", "Knowledge management"])
+        self.assertRaisesRegex(AssertionError, "Invalid source project tags",
+                               project_source_tags, source.replace(
+                                   'tags: ["Café & Tools", "Knowledge management"]',
+                                   'tags: []'), "fixture")
+        self.assertRaisesRegex(AssertionError, "Missing or duplicate source project tags",
+                               project_source_tags, source.replace("tags:", "topics:"), "fixture")
+        self.assertRaisesRegex(AssertionError, "quoted flow array",
+                               project_source_tags, source.replace(
+                                   'tags: ["Café & Tools", "Knowledge management"]',
+                                   'tags: [Café & Tools, Knowledge management]'), "fixture")
 
 if __name__ == "__main__":
     unittest.main()

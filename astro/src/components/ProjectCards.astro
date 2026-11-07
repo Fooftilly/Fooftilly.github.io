@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import { sortProjects, projectPath } from "../lib/project-catalog.ts";
-import { projectStatusLabel } from "../lib/project-search.ts";
+import { projectStatusLabel, projectTagHref } from "../lib/project-search.ts";
 interface Props { limit?: number; lang?: "en"|"sh" }
 const {limit,lang="en"}=Astro.props;
 const sh=lang==="sh";
@@ -14,7 +14,7 @@ const projects=limit===undefined ? allProjects : allProjects.slice(0,limit);
     <p>{sh && data.summarySh ? data.summarySh : data.summary}</p>
     {data.status && <p class="project-status">{projectStatusLabel(data.status, lang)}</p>}
     <ul class="project-tags" aria-label={data.title+(sh?" — tehnologije":" technologies")}>
-      {data.tags.map(tag=><li>{tag}</li>)}
+      {data.tags.map(tag=><li><a href={projectTagHref(tag,lang)}>{tag}</a></li>)}
     </ul>
     <p class="project-source">
       <a href={data.repository} rel="noopener noreferrer" aria-label={`${sh?"Izvorni kod":"Source code"}: ${data.title}`}>
@@ -32,4 +32,5 @@ const projects=limit===undefined ? allProjects : allProjects.slice(0,limit);
 .project-source{margin-top:.9rem}
 .project-tags{display:flex;flex-wrap:wrap;list-style:none;gap:.4rem;margin:1rem 0 0;padding:0}
 .project-tags li{font-size:.8rem;border:1px solid var(--border);padding:.2rem .45rem;border-radius:0}
+.project-tags a{color:inherit;text-decoration:underline;text-underline-offset:.18em}
 </style>
