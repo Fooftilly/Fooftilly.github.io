@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Are You Experienced",
+  "creator": "The Jimi Hendrix Experience",
+  "year": 1967,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "da40e720-2097-3730-8a7f-0c2ddbff4a96"
+  }
+}

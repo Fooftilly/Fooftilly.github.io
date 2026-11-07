@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Alone at My Wedding",
+  "creator": "Kočani Orkestar",
+  "year": 2002,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "9f4d8883-26e6-3b0d-abf7-6b00c37d855c"
+  }
+}

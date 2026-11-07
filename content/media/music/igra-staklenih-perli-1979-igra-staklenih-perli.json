@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Igra staklenih perli",
+  "creator": "Igra staklenih perli",
+  "year": 1979,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "14e6a2ca-e7d0-3167-9ade-ad06eacc292c"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Tidal Memory Exo",
+  "creator": "Iglooghost",
+  "year": 2024,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "cc67c53b-1ce4-47d2-84f2-588c6fa4a598"
+  }
+}

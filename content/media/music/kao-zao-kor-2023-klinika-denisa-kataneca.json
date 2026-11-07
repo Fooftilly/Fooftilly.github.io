@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Kao zao kor",
+  "creator": "Klinika Denisa Kataneca",
+  "year": 2023,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "48739e5d-b0fb-4c76-bb71-daea80b306f2"
+  }
+}

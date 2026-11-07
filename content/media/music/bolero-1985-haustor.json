@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Bolero",
+  "creator": "Haustor",
+  "year": 1985,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "14b459b2-3c05-30de-93bc-1798ff701671"
+  }
+}

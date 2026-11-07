@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Deathconsciousness",
+  "creator": "Have a Nice Life",
+  "year": 2008,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "bb449522-eefd-3d7e-b712-b2cf7e9de0b1"
+  }
+}

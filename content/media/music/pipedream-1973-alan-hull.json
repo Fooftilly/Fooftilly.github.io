@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Pipedream",
+  "creator": "Alan Hull",
+  "year": 1973,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "173d6ec4-79c5-30d3-9650-b82d8f914e91"
+  }
+}

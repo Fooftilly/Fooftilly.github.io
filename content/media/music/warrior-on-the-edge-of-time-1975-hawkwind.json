@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Warrior on the Edge of Time",
+  "creator": "Hawkwind",
+  "year": 1975,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "f135db64-0d0f-32ca-9f2c-092a5d26aa58"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Kiss",
+  "creator": "Carly Rae Jepsen",
+  "year": 2012,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "e7ce6cac-d26e-470c-b8a1-97ecc07354df"
+  }
+}

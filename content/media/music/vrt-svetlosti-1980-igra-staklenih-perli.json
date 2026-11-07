@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Vrt svetlosti",
+  "creator": "Igra staklenih perli",
+  "year": 1980,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "6d466709-ce71-41d4-925a-e4ded9c86eb1"
+  }
+}

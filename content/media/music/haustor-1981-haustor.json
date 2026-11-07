@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Haustor",
+  "creator": "Haustor",
+  "year": 1981,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "25b6086d-3271-33e0-a087-1df119084001"
+  }
+}

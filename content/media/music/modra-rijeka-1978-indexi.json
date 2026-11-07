@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Modra rijeka",
+  "creator": "Indexi",
+  "year": 1978,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "59ee72de-d6f1-32e3-9fc7-b1aa876dad80"
+  }
+}
