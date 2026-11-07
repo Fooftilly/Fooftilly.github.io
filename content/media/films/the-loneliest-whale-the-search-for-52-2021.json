@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "The Loneliest Whale: The Search for 52",
+  "year": 2021,
+  "rating": 3,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/uXPm"
+    }
+  ]
+}

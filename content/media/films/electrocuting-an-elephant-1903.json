@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Electrocuting an Elephant",
+  "year": 1903,
+  "rating": 0.5,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/4BnS"
+    }
+  ]
+}

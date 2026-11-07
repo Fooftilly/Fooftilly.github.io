@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Elio Petri: Notes About a Filmmaker",
+  "year": 2005,
+  "rating": 3.5,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/9Ko6"
+    }
+  ]
+}

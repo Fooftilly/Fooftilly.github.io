@@ -49,6 +49,48 @@ class MediaOutputTests(unittest.TestCase):
         )
         return markup
 
+    def test_nested_ratings_parser_audits_exact_source_values(self):
+        from verify_media import expected_row
+        album = {"schema": 1, "kind": "music", "title": "Album",
+                 "tracks": [{"disc": 1, "number": 1, "title": "Intro", "rating": 4.5},
+                            {"disc": 1, "number": 2, "title": "Second"}]}
+        series = {"schema": 1, "kind": "tv", "title": "Anime",
+                  "seasons": [{"number": 0, "rating": 3,
+                               "episodes": [{"number": 1, "title": "OVA", "rating": 4.5}]}]}
+        album_html = (Path(__file__).with_name("fixtures") / "media-album-subratings.html").read_text(encoding="utf-8")
+        parsed = MediaParser()
+        parsed.feed(album_html)
+        self.assertEqual(parsed.rows[0]["tracks"], expected_row(album)["tracks"])
+        self.assertNotEqual(parsed.rows[0]["tracks"], [
+            {"disc": 1, "number": 1, "title": "Intro", "rating": 2.0}])
+        season_html = (Path(__file__).with_name("fixtures") / "media-series-subratings.html").read_text(encoding="utf-8")
+        parsed = MediaParser()
+        parsed.feed(season_html)
+        self.assertEqual(parsed.rows[0]["seasons"], expected_row(series)["seasons"])
+        self.assertEqual(parsed.rows[0]["episodes"], expected_row(series)["episodes"])
+
+    def test_normalized_nested_track_and_visible_rating_parity(self):
+        record = {"schema": 1, "kind": "music", "title": "Album",
+                  "rating": 4.0, "status": "finished",
+                  "tracks": [{"disc": 1, "number": 1,
+                              "title": " Intro ", "rating": 4.5}]}
+        (self.root / "content" / "media" / "music" / "album.json").write_text(
+            json.dumps(record), encoding="utf-8")
+        html = (Path(__file__).with_name("fixtures") /
+                "media-visible-track-score.html").read_text(encoding="utf-8")
+        page = self.astro / "dist" / "music" / "index.html"
+        page.write_text(html, encoding="utf-8")
+        self.assertEqual(verify_media_output(self.astro), 1)
+        for broken in (
+            html.replace('>4.5 / 5</span>', '>3.5 / 5</span>'),
+            html.replace('aria-label="4.5 out of 5 stars"',
+                         'aria-label="3.5 out of 5 stars"'),
+            html.replace('1.1 — Intro', '1.1 — Other'),
+        ):
+            page.write_text(broken, encoding="utf-8")
+            with self.assertRaisesRegex(AssertionError, "rendered data mismatch"):
+                verify_media_output(self.astro)
+
     def test_empty_collections_are_accepted_without_inventing_ratings(self):
         self.assertEqual(verify_media_output(self.astro), 0)
 

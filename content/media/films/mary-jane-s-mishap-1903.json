@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Mary Jane's Mishap",
+  "year": 1903,
+  "rating": 3,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/4isk"
+    }
+  ]
+}

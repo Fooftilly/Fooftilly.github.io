@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "The Hero's Journey",
+  "year": 2017,
+  "rating": 4,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/qz8K"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "The Lover in the Bag",
+  "year": 1898,
+  "rating": 2,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/5RCG"
+    }
+  ]
+}

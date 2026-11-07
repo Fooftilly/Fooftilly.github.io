@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Lyon : quai de l’Archevêché",
+  "year": 1896,
+  "rating": 2.5,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/5Lqk"
+    }
+  ]
+}

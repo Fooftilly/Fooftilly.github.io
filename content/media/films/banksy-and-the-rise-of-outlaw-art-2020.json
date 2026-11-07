@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Banksy and the Rise of Outlaw Art",
+  "year": 2020,
+  "rating": 3.5,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/p4y6"
+    }
+  ]
+}

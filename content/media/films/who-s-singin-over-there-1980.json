@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Who's Singin' Over There?",
+  "year": 1980,
+  "rating": 4,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/1HSc"
+    }
+  ]
+}

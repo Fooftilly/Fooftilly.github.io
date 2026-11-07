@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "The Man with Four Legs",
+  "year": 1983,
+  "rating": 4,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/cJNK"
+    }
+  ]
+}

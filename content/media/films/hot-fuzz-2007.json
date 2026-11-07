@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Hot Fuzz",
+  "year": 2007,
+  "rating": 4,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/2416"
+    }
+  ]
+}

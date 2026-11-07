@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Blank Narcissus (Passion of the Swamp)",
+  "year": 2022,
+  "rating": 3,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/C1FO"
+    }
+  ]
+}

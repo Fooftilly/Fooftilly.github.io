@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "The Naked Gun: From the Files of Police Squad!",
+  "year": 1988,
+  "rating": 3,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/18YE"
+    }
+  ]
+}

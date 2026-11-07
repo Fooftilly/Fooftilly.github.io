@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Harry Potter and the Half-Blood Prince",
+  "year": 2009,
+  "rating": 3.5,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/29FU"
+    }
+  ]
+}

@@ -67,6 +67,24 @@ const media = defineCollection({
     status: z.enum(["finished","in-progress","planned"]).optional(),
     notes: z.string().min(1).max(5000).optional(),
     links: z.array(z.object({label:z.string().min(1).max(48),url:z.string().url()}).strict()).max(8).optional(),
+    // Ratings are independent. A release or season score never becomes a
+    // guessed track/episode score. Track numbers are disc-relative.
+    tracks: z.array(z.object({
+      disc:z.number().int().min(1).max(50),
+      number:z.number().int().min(1).max(250),
+      title:z.string().min(1).max(250),
+      rating:z.number().min(0.5).max(5).refine(n=>Number.isInteger(n*2)).optional(),
+    }).strict()).min(1).max(500).optional(),
+    seasons: z.array(z.object({
+      number:z.number().int().min(0).max(200),
+      title:z.string().min(1).max(250).optional(),
+      rating:z.number().min(0.5).max(5).refine(n=>Number.isInteger(n*2)).optional(),
+      episodes:z.array(z.object({
+        number:z.number().int().min(1).max(1000),
+        title:z.string().min(1).max(250).optional(),
+        rating:z.number().min(0.5).max(5).refine(n=>Number.isInteger(n*2)).optional(),
+      }).strict()).min(1).max(500).optional(),
+    }).strict()).min(1).max(200).optional(),
   }).strict(),
 });
 

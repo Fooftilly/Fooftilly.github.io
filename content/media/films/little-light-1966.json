@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Little Light",
+  "year": 1966,
+  "rating": 3,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/Epfu"
+    }
+  ]
+}

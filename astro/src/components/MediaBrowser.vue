@@ -140,6 +140,40 @@ async function showMore(): Promise<void> {
                 <details v-if="item.notes" :open="mediaNotesExplainSearch(item, query)">
                   <summary>Notes</summary><p class="notes">{{ item.notes }}</p>
                 </details>
+                <details v-if="kind==='music' && item.tracks?.length" class="media-subratings">
+                  <summary>Album tracks ({{ item.tracks.length }})</summary>
+                  <ol class="subratings">
+                    <li v-for="track in item.tracks" :key="track.disc+':'+track.number"
+                        :data-media-track="JSON.stringify(track)">
+                      <span>{{ track.disc }}.{{ track.number }} — {{ track.title }}</span>
+                      <span :aria-label="track.rating===undefined?'Track not rated':track.rating+' out of 5 stars'">
+                        {{ track.rating===undefined?'Not rated':track.rating.toFixed(1)+' / 5' }}
+                      </span>
+                    </li>
+                  </ol>
+                </details>
+                <details v-if="kind==='tv' && item.seasons?.length" class="media-subratings">
+                  <summary>Seasons and episodes ({{ item.seasons.length }})</summary>
+                  <section v-for="season in item.seasons" :key="season.number"
+                           class="media-season"
+                           :data-media-season="JSON.stringify({number:season.number,...(season.title?{title:season.title}:{}),...(season.rating!==undefined?{rating:season.rating}:{})})">
+                    <h4>
+                      {{ season.number===0?'Specials':'Season '+season.number }}{{ season.title?' — '+season.title:'' }}
+                      <span :aria-label="season.rating===undefined?'Season not rated':season.rating+' out of 5 stars'">
+                        {{ season.rating===undefined?'Not rated':season.rating.toFixed(1)+' / 5' }}
+                      </span>
+                    </h4>
+                    <ol v-if="season.episodes?.length" class="subratings">
+                      <li v-for="episode in season.episodes" :key="episode.number"
+                          :data-media-episode="JSON.stringify({season:season.number,...episode})">
+                        <span>Episode {{ episode.number }}{{ episode.title?' — '+episode.title:'' }}</span>
+                        <span :aria-label="episode.rating===undefined?'Episode not rated':episode.rating+' out of 5 stars'">
+                          {{ episode.rating===undefined?'Not rated':episode.rating.toFixed(1)+' / 5' }}
+                        </span>
+                      </li>
+                    </ol>
+                  </section>
+                </details>
               </th>
               <td>{{ item.creator??"—" }}</td>
               <td>{{ item.year??"—" }}</td>
@@ -211,5 +245,13 @@ td{overflow-wrap:anywhere}
 details{margin-top:.5rem;font-size:.88rem;font-weight:400}
 details summary{cursor:pointer;color:var(--accent)}
 .notes{max-width:55ch;white-space:pre-wrap}
+.media-subratings{margin-top:.55rem}
+.media-subratings summary{font-weight:600}
+.subratings{margin:.45rem 0;padding-left:1.3rem;list-style:decimal}
+.subratings li{display:flex;justify-content:space-between;gap:.7rem;border-bottom:1px solid var(--border);padding:.3rem 0}
+.subratings li span:last-child,.media-season h4 span{font-size:.82rem;white-space:nowrap;color:var(--muted);font-variant-numeric:tabular-nums}
+.media-season{margin:.65rem 0}
+.media-season h4{display:flex;justify-content:space-between;gap:.7rem;margin:.3rem 0;font-size:.93rem}
+
 @media(max-width:700px){th,td{padding:.65rem .45rem;font-size:.88rem}}
 </style>

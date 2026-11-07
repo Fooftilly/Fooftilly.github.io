@@ -32,6 +32,9 @@ class MediaParser(HTMLParser):
         self.capture_notes = False
         self.h1 = []
         self.in_h1 = False
+        self.nested_item = None
+        self.season_active = False
+        self.season_heading = None
 
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
@@ -42,7 +45,9 @@ class MediaParser(HTMLParser):
         elif tag == "tr" and self.in_body:
             if self.row is not None:
                 raise AssertionError("Nested media table rows")
-            self.row = {"cells": [], "links": [], "notes": [], "rating_label": ""}
+            self.row = {"cells": [], "links": [], "notes": [], "rating_label": "",
+                        "tracks": [], "seasons": [], "episodes": [],
+                        "visible_tracks": [], "visible_seasons": [], "visible_episodes": []}
         elif tag in ("th", "td") and self.row is not None:
             self.cell = {"text": [], "links": [], "aria": attrs.get("aria-label", "")}
         elif tag == "a" and self.cell is not None:
@@ -52,7 +57,45 @@ class MediaParser(HTMLParser):
         elif tag == "p" and self.details_depth and "notes" in (attrs.get("class") or "").split():
             self.capture_notes = True
 
+        # Verify actual source-specific nested scores rendered inside <details>.
+        # The attributes are JSON owned by the static Astro renderer; no reviews
+        # or browser-only state is included in these parity checks.
+        if self.row is not None:
+            for attribute, target in (
+                ("data-media-track", "tracks"),
+                ("data-media-season", "seasons"),
+                ("data-media-episode", "episodes"),
+            ):
+                if attribute in attrs:
+                    self.row[target].append(json.loads(attrs[attribute]))
+            if tag == "section" and "data-media-season" in attrs:
+                self.season_active = True
+            elif tag == "h4" and self.season_active:
+                self.season_heading = {"text": [], "rating_aria": None}
+            elif tag == "li":
+                kind = ("tracks" if "data-media-track" in attrs else
+                        "episodes" if "data-media-episode" in attrs else None)
+                if kind:
+                    assert self.nested_item is None, "Nested media scores must not overlap"
+                    self.nested_item = {"kind": kind, "text": [], "rating_aria": None}
+            if tag == "span":
+                # Adjacent Vue-rendered spans need a semantic separator even
+                # when SSR does not emit a literal whitespace text node.
+                if self.nested_item is not None:
+                    self.nested_item["text"].append(" ")
+                if self.season_heading is not None:
+                    self.season_heading["text"].append(" ")
+                if "aria-label" in attrs:
+                    if self.nested_item is not None:
+                        self.nested_item["rating_aria"] = attrs["aria-label"]
+                    elif self.season_heading is not None:
+                        self.season_heading["rating_aria"] = attrs["aria-label"]
+
     def handle_data(self, text):
+        if self.nested_item is not None:
+            self.nested_item["text"].append(text)
+        if self.season_heading is not None:
+            self.season_heading["text"].append(text)
         if self.in_h1:
             self.h1.append(text)
         if self.capture_notes and self.row is not None:
@@ -63,6 +106,22 @@ class MediaParser(HTMLParser):
             self.anchor["text"].append(text)
 
     def handle_endtag(self, tag):
+        if tag == "li" and self.nested_item is not None and self.row is not None:
+            item = self.nested_item
+            self.row["visible_" + item["kind"]].append({
+                "text": normalized("".join(item["text"])),
+                "rating_aria": item["rating_aria"],
+            })
+            self.nested_item = None
+        elif tag == "h4" and self.season_heading is not None and self.row is not None:
+            item = self.season_heading
+            self.row["visible_seasons"].append({
+                "text": normalized("".join(item["text"])),
+                "rating_aria": item["rating_aria"],
+            })
+            self.season_heading = None
+        elif tag == "section" and self.season_active:
+            self.season_active = False
         if tag == "h1":
             self.in_h1 = False
         if tag == "a" and self.anchor is not None:
@@ -127,6 +186,30 @@ def rendered_year(record):
     return str(int(year))
 
 
+def normalized_nested_title(value):
+    return unicodedata.normalize("NFC", value.strip())
+
+
+def normalized_nested_record(record):
+    result = dict(record)
+    if "title" in result:
+        result["title"] = normalized_nested_title(result["title"])
+    return result
+
+
+def nested_rating_text(value):
+    return "Not rated" if value is None else f"{value:.1f} / 5"
+
+
+def nested_rating_aria(kind, value):
+    return f"{kind} not rated" if value is None else f"{value:g} out of 5 stars"
+
+
+def visible_nested(text, kind, value):
+    return {"text": normalized(text + " " + nested_rating_text(value)),
+            "rating_aria": nested_rating_aria(kind, value)}
+
+
 def expected_row(record, canonical_urls=None):
     if record["schema"] != 1 or record["kind"] not in KINDS:
         raise AssertionError("Invalid media record schema")
@@ -137,6 +220,10 @@ def expected_row(record, canonical_urls=None):
     ):
         raise AssertionError("Invalid rating in public record")
     links = record.get("links", [])
+    tracks = [normalized_nested_record(t) for t in record.get("tracks", [])]
+    seasons = [normalized_nested_record(s) for s in record.get("seasons", [])]
+    episodes = [(s["number"], normalized_nested_record(e))
+                for s in seasons for e in s.get("episodes", [])]
     return {
         "cells": [
             normalized(record["title"]),
@@ -153,6 +240,34 @@ def expected_row(record, canonical_urls=None):
         "rating_label": (
             f"{rating:g} out of 5 stars" if rating is not None else "Not rated"
         ),
+        "tracks": tracks,
+        "visible_tracks": [
+            visible_nested(f'{t["disc"]}.{t["number"]} — {t["title"]}',
+                           "Track", t.get("rating"))
+            for t in tracks
+        ],
+        "visible_seasons": [
+            visible_nested(
+                ("Specials" if s["number"] == 0 else f'Season {s["number"]}') +
+                (f' — {s["title"]}' if s.get("title") else ""),
+                "Season", s.get("rating"))
+            for s in seasons
+        ],
+        "visible_episodes": [
+            visible_nested(
+                f'Episode {e["number"]}' + (f' — {e["title"]}' if e.get("title") else ""),
+                "Episode", e.get("rating"))
+            for _, e in episodes
+        ],
+        "seasons": [
+            {field: season[field] for field in ("number", "title", "rating")
+             if field in season}
+            for season in seasons
+        ],
+        "episodes": [
+            {"season": season_number, **episode}
+            for season_number, episode in episodes
+        ],
     }
 
 

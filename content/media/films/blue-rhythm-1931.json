@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Blue Rhythm",
+  "year": 1931,
+  "rating": 2.5,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/543i"
+    }
+  ]
+}

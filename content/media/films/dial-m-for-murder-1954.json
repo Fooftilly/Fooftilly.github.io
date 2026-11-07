@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Dial M for Murder",
+  "year": 1954,
+  "rating": 4.5,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/2adW"
+    }
+  ]
+}

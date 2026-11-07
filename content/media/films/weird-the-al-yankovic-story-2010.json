@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Weird: The Al Yankovic Story",
+  "year": 2010,
+  "rating": 2.5,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/7Vug"
+    }
+  ]
+}

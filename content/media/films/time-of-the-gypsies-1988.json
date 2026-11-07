@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Time of the Gypsies",
+  "year": 1988,
+  "rating": 4,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/1E1Y"
+    }
+  ]
+}

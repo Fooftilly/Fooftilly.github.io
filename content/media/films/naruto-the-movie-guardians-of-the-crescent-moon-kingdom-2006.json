@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Naruto the Movie: Guardians of the Crescent Moon Kingdom",
+  "year": 2006,
+  "rating": 3,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/1Gbw"
+    }
+  ]
+}

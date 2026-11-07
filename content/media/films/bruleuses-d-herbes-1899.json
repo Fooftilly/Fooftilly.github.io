@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Brûleuses d'herbes",
+  "year": 1899,
+  "rating": 1,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/ysYK"
+    }
+  ]
+}

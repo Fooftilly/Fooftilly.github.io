@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Chip 'n Dale: Rescue Rangers",
+  "year": 2022,
+  "rating": 3,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/eSk2"
+    }
+  ]
+}

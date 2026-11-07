@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Flight of the Large Blue Fly",
+  "year": 1905,
+  "rating": 2.5,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/ducc"
+    }
+  ]
+}

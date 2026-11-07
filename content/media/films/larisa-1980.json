@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Larisa",
+  "year": 1980,
+  "rating": 4.5,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/7Ce4"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Sallie Gardner at a Gallop",
+  "year": 1878,
+  "rating": 2.5,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/5QQi"
+    }
+  ]
+}

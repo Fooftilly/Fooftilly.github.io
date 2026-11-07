@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Belgrade, Capital of the Kingdom of Yugoslavia",
+  "year": 1932,
+  "rating": 3,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/eTOi"
+    }
+  ]
+}

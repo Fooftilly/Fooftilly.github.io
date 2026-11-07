@@ -38,6 +38,42 @@ test("film/TV/music records accept no ratings and independent public references"
   }).links[0].url,"https://example.org/music/");
 });
 
+test("album track ratings preserve disc positions and never inherit album scores",()=>{
+  const album=validateMediaRecord({schema:1,kind:"music",title:"The Album",rating:4,
+    tracks:[{disc:1,number:1,title:"Opening",rating:4.5},
+            {disc:1,number:2,title:"Second"},
+            {disc:2,number:1,title:"Closing",rating:3}]});
+  assert.equal(album.rating,4);
+  assert.deepEqual(album.tracks.map(track=>track.rating),[4.5,undefined,3]);
+  assert.deepEqual(JSON.parse(composeMediaDraft(album,[]).json).tracks,album.tracks);
+  assert.throws(()=>validateMediaRecord({...album,
+    tracks:[{disc:1,number:1,title:"First"},{disc:1,number:1,title:"Other"}]}),
+    /Duplicate track position/);
+  assert.throws(()=>validateMediaRecord({...album,tracks:[{disc:0,number:1,title:"Invalid"}]}),/Disc/);
+  assert.throws(()=>validateMediaRecord({...album,tracks:[{disc:1,number:1,title:"X",rating:3.3}]}),/Track rating/);
+  assert.throws(()=>validateMediaRecord({...film,tracks:album.tracks}),/Tracks apply to music/);
+});
+
+test("TV/anime season and episode scores are independent with distinct numbering",()=>{
+  const series=validateMediaRecord({schema:1,kind:"tv",title:"Anime",rating:4,
+    seasons:[{number:0,title:"Specials",episodes:[{number:1,title:"OVA",rating:4.5}]},
+             {number:1,rating:3.5,episodes:[{number:1,title:"Pilot",rating:5},
+               {number:2,title:"Follow-up"}]},
+             {number:2}]});
+  assert.equal(series.seasons[0].episodes[0].rating,4.5);
+  assert.equal(series.seasons[1].episodes[1].rating,undefined);
+  assert.equal(series.seasons[2].rating,undefined);
+  assert.equal(series.rating,4);
+  assert.throws(()=>validateMediaRecord({...series,seasons:[{number:1},{number:1}]}),/Duplicate season/);
+  assert.throws(()=>validateMediaRecord({...series,seasons:[{number:1,episodes:[
+    {number:1},{number:1}]}]}),/Duplicate episode/);
+  assert.throws(()=>validateMediaRecord({...series,seasons:[{number:1,rating:5.5}]}),/Season rating/);
+  assert.throws(()=>validateMediaRecord({...series,seasons:[{number:1,episodes:[
+    {number:1,rating:0}]}]}),/Episode rating/);
+  assert.throws(()=>validateMediaRecord({...film,seasons:series.seasons}),/Seasons apply to TV/);
+  assert.throws(()=>validateMediaRecord({...series,seasons:[{number:1,privateData:"x"}]}),/Unexpected season field/);
+});
+
 test("duplicate checks include existing files, normalized titles and matching URLs",()=>{
   const draft=composeMediaDraft(film,[
     {path:mediaPath(film),kind:"films",title:film.title,creator:film.creator,year:film.year},

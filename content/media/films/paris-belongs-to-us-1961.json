@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Paris Belongs to Us",
+  "year": 1961,
+  "rating": 3.5,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/VtS"
+    }
+  ]
+}

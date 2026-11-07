@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref } from "vue";
 import { composeMediaDraft, githubMediaEditorUrl, mediaSourceLabel, type ExistingMediaRef, type MediaKind, type MediaRecord } from "../lib/media-model.ts";
+import { nextAvailableMediaPosition } from "../lib/media-editor-positions.ts";
 
 const props=defineProps<{existing:ExistingMediaRef[]}>();
 const kind=ref<MediaKind>("films");
@@ -37,6 +38,35 @@ const statusOptions:{value:""|"finished"|"in-progress"|"planned";label:string}[]
 ];
 const status=ref<""|"finished"|"in-progress"|"planned">("");
 const notes=ref("");
+// Optional nested scores are explicit user inputs, not calculated from the album/series rating.
+type Position = string | number;
+type TrackDraft = {disc:Position;number:Position;title:string;rating:number};
+type EpisodeDraft = {number:Position;title:string;rating:number};
+type SeasonDraft = {number:Position;title:string;rating:number;episodes:EpisodeDraft[]};
+const tracks=ref<TrackDraft[]>([]);
+const seasons=ref<SeasonDraft[]>([]);
+const numberOf=(value:Position,label:string):number=>{
+  const text=String(value??"").trim();
+  if(!/^\d+$/.test(text))throw new Error(label+" must be a nonnegative integer");
+  return Number(text);
+};
+function addTrack():void {
+  const disc=1;
+  const existing=tracks.value.filter(track=>Number(track.disc)===disc).map(track=>track.number);
+  tracks.value.push({disc,number:nextAvailableMediaPosition(existing,250),title:"",rating:0});
+}
+function addSeason():void {
+  seasons.value.push({
+    number:nextAvailableMediaPosition(seasons.value.map(season=>season.number),200),
+    title:"",rating:0,episodes:[],
+  });
+}
+function addEpisode(season:SeasonDraft):void {
+  season.episodes.push({
+    number:nextAvailableMediaPosition(season.episodes.map(episode=>episode.number),1000),
+    title:"",rating:0,
+  });
+}
 const primaryUrl=ref("");
 const secondaryUrl=ref("");
 const outputStatus=ref("");
@@ -64,6 +94,21 @@ const drafted=computed(()=>{
       url:secondaryUrl.value.trim()
     });
     if(links.length) input.links=links;
+    if(kind.value==="music" && tracks.value.length) input.tracks=tracks.value.map(track=>({
+      disc:numberOf(track.disc,"Disc"),number:numberOf(track.number,"Track number"),
+      title:track.title,
+      ...(track.rating>0?{rating:track.rating}:{})
+    }));
+    if(kind.value==="tv" && seasons.value.length) input.seasons=seasons.value.map(season=>({
+      number:numberOf(season.number,"Season number"),
+      ...(season.title.trim()?{title:season.title.trim()}:{}),
+      ...(season.rating>0?{rating:season.rating}:{}),
+      ...(season.episodes.length?{episodes:season.episodes.map(episode=>({
+        number:numberOf(episode.number,"Episode number"),
+        ...(episode.title.trim()?{title:episode.title.trim()}:{}),
+        ...(episode.rating>0?{rating:episode.rating}:{})
+      }))}:{})
+    }));
     return {value:composeMediaDraft(input,props.existing),error:""};
   } catch(error){
     return {value:null,error:error instanceof Error?error.message:"Invalid media entry"};
@@ -144,6 +189,70 @@ async function copy(value:string,label:string){
       <label>Another reference URL (optional)
         <input v-model="secondaryUrl" type="url" maxlength="2048" autocomplete="off" placeholder="https://..." />
       </label>
+      <fieldset v-if="kind==='music'" class="choice-field nested-ratings" data-album-tracks>
+        <legend>Album tracks (optional)</legend>
+        <p class="field-hint">Add tracks you want to identify or rate. A track rating never changes the album rating.</p>
+        <div v-for="(track,index) in tracks" :key="index" class="nested-entry">
+          <div class="two-cols">
+            <label>Disc
+              <input v-model="track.disc" type="number" min="1" max="50" step="1" inputmode="numeric" />
+            </label>
+            <label>Track number
+              <input v-model="track.number" type="number" min="1" max="250" step="1" inputmode="numeric" />
+            </label>
+          </div>
+          <label>Track title
+            <input v-model="track.title" type="text" maxlength="250" placeholder="Track name" />
+          </label>
+          <label>Track rating (optional)
+            <input v-model.number="track.rating" type="range" min="0" max="5" step="0.5"
+                   :aria-valuetext="track.rating===0?'Not rated':track.rating+' out of 5 stars'" />
+            <output>{{ track.rating===0?'Not rated':track.rating.toFixed(1)+' / 5' }}</output>
+          </label>
+          <button type="button" class="edit-nested" @click="tracks.splice(index,1)">Remove track</button>
+        </div>
+        <button type="button" class="edit-nested" data-add-track @click="addTrack">Add track</button>
+      </fieldset>
+      <fieldset v-if="kind==='tv'" class="choice-field nested-ratings" data-tv-seasons>
+        <legend>Seasons and episodes (optional)</legend>
+        <p class="field-hint">Season 0 is for specials. Episode numbers restart within each season. Scores are independent.</p>
+        <section v-for="(season,index) in seasons" :key="index" class="nested-entry">
+          <div class="two-cols">
+            <label>Season number
+              <input v-model="season.number" type="number" min="0" max="200" step="1" inputmode="numeric" />
+            </label>
+            <label>Season title (optional)
+              <input v-model="season.title" type="text" maxlength="250" placeholder="Season or anime arc" />
+            </label>
+          </div>
+          <label>Season rating (optional)
+            <input v-model.number="season.rating" type="range" min="0" max="5" step="0.5"
+                   :aria-valuetext="season.rating===0?'Not rated':season.rating+' out of 5 stars'" />
+            <output>{{ season.rating===0?'Not rated':season.rating.toFixed(1)+' / 5' }}</output>
+          </label>
+          <div v-for="(episode,episodeIndex) in season.episodes" :key="episodeIndex" class="nested-entry episode-entry">
+            <div class="two-cols">
+              <label>Episode number
+                <input v-model="episode.number" type="number" min="1" max="1000" step="1" inputmode="numeric" />
+              </label>
+              <label>Episode title (optional)
+                <input v-model="episode.title" type="text" maxlength="250" />
+              </label>
+            </div>
+            <label>Episode rating (optional)
+              <input v-model.number="episode.rating" type="range" min="0" max="5" step="0.5"
+                     :aria-valuetext="episode.rating===0?'Not rated':episode.rating+' out of 5 stars'" />
+              <output>{{ episode.rating===0?'Not rated':episode.rating.toFixed(1)+' / 5' }}</output>
+            </label>
+            <button type="button" class="edit-nested" @click="season.episodes.splice(episodeIndex,1)">Remove episode</button>
+          </div>
+          <div class="nested-actions">
+            <button type="button" class="edit-nested" @click="addEpisode(season)">Add episode</button>
+            <button type="button" class="edit-nested" @click="seasons.splice(index,1)">Remove season</button>
+          </div>
+        </section>
+        <button type="button" class="edit-nested" data-add-season @click="addSeason">Add season</button>
+      </fieldset>
       <label>Public notes (optional)
         <textarea v-model="notes" rows="4" maxlength="5000" placeholder="What should visitors know?"></textarea>
       </label>
@@ -185,6 +294,15 @@ async function copy(value:string,label:string){
 <style scoped>
 .media-editor{max-width:54rem}
 .fields{display:grid;gap:1.1rem;margin:1.5rem 0}
+.nested-ratings{display:grid;gap:.6rem}
+.nested-entry{display:grid;gap:.8rem;padding:.8rem;border:1px solid var(--border)}
+.episode-entry{margin-left:1rem}
+.nested-actions{display:flex;gap:.5rem;flex-wrap:wrap}
+.edit-nested{min-height:2.4rem;padding:.4rem .65rem;background:var(--surface);color:var(--foreground);border:1px solid var(--border);border-radius:0;cursor:pointer;font:inherit;justify-self:start}
+.edit-nested:hover,.edit-nested:focus-visible{border-color:var(--accent)}
+.nested-ratings input[type=range]{width:100%;accent-color:var(--accent)}
+.nested-ratings output{font-weight:400;font-size:.9rem;color:var(--muted)}
+
 label{display:grid;gap:.4rem;font-weight:600}
 input:not([type="range"]),textarea{width:100%;min-height:2.75rem;padding:.65rem;font:inherit;color:var(--foreground);
 background:var(--surface);border:1px solid var(--border);border-radius:0}

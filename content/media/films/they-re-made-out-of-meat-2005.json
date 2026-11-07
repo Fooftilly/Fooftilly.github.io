@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "They're Made Out of Meat",
+  "year": 2005,
+  "rating": 3.5,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/6q9k"
+    }
+  ]
+}

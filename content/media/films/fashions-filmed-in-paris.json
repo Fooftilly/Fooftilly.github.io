@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Fashions - Filmed In Paris",
+  "rating": 1,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/xfQm"
+    }
+  ]
+}

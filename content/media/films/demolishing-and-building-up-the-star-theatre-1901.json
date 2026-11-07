@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Demolishing and Building Up the Star Theatre",
+  "year": 1901,
+  "rating": 2.5,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/4eFE"
+    }
+  ]
+}

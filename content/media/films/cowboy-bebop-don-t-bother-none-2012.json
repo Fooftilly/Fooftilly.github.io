@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "films",
+  "title": "Cowboy Bebop: Don't Bother None",
+  "year": 2012,
+  "rating": 2.5,
+  "links": [
+    {
+      "label": "Letterboxd",
+      "url": "https://boxd.it/j4Em"
+    }
+  ]
+}
