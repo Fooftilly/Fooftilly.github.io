@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Stories From the City, Stories From the Sea",
+  "creator": "PJ Harvey",
+  "year": 2000,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "71641af7-d122-326a-b0bb-f76a8d09810c"
+  }
+}

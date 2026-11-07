@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Niz reku",
+  "creator": "Gazorpazorp",
+  "year": 2025,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "9d794bb4-4d6f-4034-9d87-8353d1342fb0"
+  }
+}

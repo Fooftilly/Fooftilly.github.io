@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "The Return of The Durutti Column",
+  "creator": "The Durutti Column",
+  "year": 1980,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "34af51e8-ef80-340c-9a72-c9ef8d5d9bb2"
+  }
+}
