@@ -182,7 +182,7 @@ async function showMore(): Promise<void> {
               </td>
               <td>{{ item.status==="in-progress" ? "In progress" : item.status==="finished" ? "Finished" : item.status==="planned" ? "Planned" : "—" }}</td>
               <td class="media-link-cell">
-                <div v-if="mediaSourceLinks(item).length" class="media-reference-buttons"
+                <div v-if="mediaSourceLinks(item).length" class="media-reference-buttons" role="group"
                      :aria-label="'External references for '+item.title">
                   <a v-for="link in mediaSourceLinks(item)" :key="link.url" :href="link.url"
                      class="media-reference-button" :data-media-provider="link.label"
