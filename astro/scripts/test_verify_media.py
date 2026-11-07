@@ -69,6 +69,37 @@ class MediaOutputTests(unittest.TestCase):
         self.assertEqual(parsed.rows[0]["seasons"], expected_row(series)["seasons"])
         self.assertEqual(parsed.rows[0]["episodes"], expected_row(series)["episodes"])
 
+    def test_normalized_nested_track_and_visible_rating_parity(self):
+        record = {"schema": 1, "kind": "music", "title": "Album",
+                  "rating": 4.0, "status": "finished",
+                  "tracks": [{"disc": 1, "number": 1,
+                              "title": " Intro ", "rating": 4.5}]}
+        (self.root / "content" / "media" / "music" / "album.json").write_text(
+            json.dumps(record), encoding="utf-8")
+        track_attr = json.dumps({"disc": 1, "number": 1,
+                                 "title": "Intro", "rating": 4.5})
+        html = ('<h1>Music</h1><table><tbody><tr>'
+                '<th scope="row">Album<details><ol>'
+                f'<li data-media-track=\'{track_attr}\'>'
+                '<span>1.1 — Intro</span>'
+                '<span aria-label="4.5 out of 5 stars">4.5 / 5</span>'
+                '</li></ol></details></th>'
+                '<td>—</td><td>—</td>'
+                '<td aria-label="4 out of 5 stars">4.0 / 5</td>'
+                '<td>Finished</td><td>—</td></tr></tbody></table>')
+        page = self.astro / "dist" / "music" / "index.html"
+        page.write_text(html, encoding="utf-8")
+        self.assertEqual(verify_media_output(self.astro), 1)
+        for broken in (
+            html.replace('>4.5 / 5</span>', '>3.5 / 5</span>'),
+            html.replace('aria-label="4.5 out of 5 stars"',
+                         'aria-label="3.5 out of 5 stars"'),
+            html.replace('1.1 — Intro', '1.1 — Other'),
+        ):
+            page.write_text(broken, encoding="utf-8")
+            with self.assertRaisesRegex(AssertionError, "rendered data mismatch"):
+                verify_media_output(self.astro)
+
     def test_empty_collections_are_accepted_without_inventing_ratings(self):
         self.assertEqual(verify_media_output(self.astro), 0)
 
