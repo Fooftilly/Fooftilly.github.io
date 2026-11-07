@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Štorije in baldorije",
+  "creator": "Iztok Mlakar",
+  "year": 1994,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "23b7af39-fcd6-3784-ae37-0687055ed9dd"
+  }
+}

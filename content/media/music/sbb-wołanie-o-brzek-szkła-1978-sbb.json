@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "SBB [Wołanie o brzęk szkła]",
+  "creator": "SBB",
+  "year": 1978,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "28624c94-c899-4ebb-8fe4-02a207e967c3"
+  }
+}
