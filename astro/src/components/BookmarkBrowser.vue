@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
-import { filterAndSortBookmarks, type Bookmark, type BookmarkSort } from "../lib/bookmark-filter.ts";
+import { filterAndSortBookmarks, visibleBookmarkPage, BOOKMARK_PAGE_SIZE, type Bookmark, type BookmarkSort } from "../lib/bookmark-filter.ts";
 import { bookmarkCategoryDisplayLabel } from "../lib/bookmark-categories.ts";
 import { bookmarkFilterHref, readBookmarkQueryState } from "../lib/bookmark-query-state.ts";
 
@@ -55,7 +55,7 @@ async function clearFilters(): Promise<void> {
 }
 const category = ref("all");
 const sort = ref<BookmarkSort>("newest");
-const limit = ref(50);
+const limit = ref(BOOKMARK_PAGE_SIZE);
 const categories = computed(() =>
   [...new Set(props.items.map((item) => item.category))].sort((a, b) => a.localeCompare(b))
 );
@@ -71,7 +71,7 @@ const matches = computed(() => filterAndSortBookmarks(props.items, {
   sort: sort.value,
   lang: props.lang,
 }));
-const visible = computed(() => matches.value.slice(0, limit.value));
+const visible = computed(() => visibleBookmarkPage(matches.value, limit.value, hydrated.value));
 
 const hydrated = ref(false);
 const syncAddress = (): void => {
@@ -87,7 +87,7 @@ const restoreFromAddress = (): void => {
   query.value = restored.query;
   category.value = restored.category;
   sort.value = restored.sort;
-  limit.value = 50;
+  limit.value = BOOKMARK_PAGE_SIZE;
   hydrated.value = true;
   // Normalize malformed or stale category/sort links without changing history.
   syncAddress();
@@ -100,7 +100,7 @@ onMounted(() => {
 onUnmounted(() => window.removeEventListener("popstate", restoreFromAddress));
 
 watch([query, category, sort], () => {
-  limit.value = 50;
+  limit.value = BOOKMARK_PAGE_SIZE;
   syncAddress();
 });
 </script>
@@ -159,7 +159,7 @@ watch([query, category, sort], () => {
     </ul>
     <p v-if="matches.length === 0" class="empty-result">{{ labels.none }}</p>
     <button v-if="visible.length < matches.length" class="more-button" type="button"
-      @click="limit += 50">
+      @click="limit += BOOKMARK_PAGE_SIZE">
       {{ labels.more }}
     </button>
   </section>

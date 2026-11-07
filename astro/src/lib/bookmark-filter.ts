@@ -60,3 +60,12 @@ export function filterAndSortBookmarks<T extends Bookmark>(
       || a.id.localeCompare(b.id);
   });
 }
+
+/** Static HTML contains the entire Git-owned collection so the site remains
+ * usable without JavaScript. After hydration, Vue progressively limits DOM
+ * rows while keeping counts and filtering based on the complete source.
+ */
+export const BOOKMARK_PAGE_SIZE = 50;
+export function visibleBookmarkPage<T>(matches: readonly T[], limit: number, hydrated: boolean): readonly T[] {
+  return hydrated ? matches.slice(0, Math.max(0, Math.floor(limit))) : matches;
+}

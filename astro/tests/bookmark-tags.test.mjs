@@ -14,3 +14,10 @@ test("invalid, duplicate and oversized tags are not silently discarded",()=>{
   assert.throws(()=>validateBookmarkTags(Array.from({length:13},(_,i)=>"tag"+i)),/at most 12/);
   assert.deepEqual(validateBookmarkTags(["Mutable","Categories"]),["Mutable","Categories"]);
 });
+
+test("browser locale must not affect duplicate detection in source and editor", () => {
+  assert.throws(() => parseBookmarkTags("I, i"), /Duplicate bookmark tag/);
+  assert.throws(() => validateBookmarkTags(["I","i"]), /Duplicate bookmark tag/);
+  assert.deepEqual(validateBookmarkTags(["İ","i"]), ["İ","i"]);
+  assert.deepEqual(validateBookmarkTags([]), [], "Empty source tag lists remain valid");
+});
