@@ -190,6 +190,27 @@ try {
       "(()=>{const el=document.querySelector('.media-collection');const island=el?.closest('astro-island');const controls=el?.querySelector('[data-media-controls]');return Boolean(el && island && !island.hasAttribute('ssr') && controls && getComputedStyle(controls).display!=='none');})()",
       Boolean, "media Vue island hydrated with visible controls",
     );
+    // A half-star slider must filter the real disposable catalog, produce a
+    // shareable URL and leave unrated rows visible when reset to Any rating.
+    const highRatedCount=mediaSource.films.filter(item=>item.rating!==undefined&&item.rating>=4.5).length;
+    assert.ok(highRatedCount>=1,"Fixture must include a high-rated film");
+    await evaluate("(()=>{const el=document.querySelector('[data-media-min-rating]');el.value='4.5';el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}))})()");
+    await waitFor("new URL(location.href).searchParams.get('min_rating')",
+      value=>value==="4.5","Half-star rating slider writes canonical URL state");
+    await waitFor("document.querySelector('[data-media-count]')?.textContent.trim()",
+      value=>value===highRatedCount+" of "+mediaSource.films.length+" entries",
+      "Rated filter must match source JSON and exclude unrated films");
+    assert.ok(await evaluate("Array.from(document.querySelectorAll('[data-media-row]')).every(row=>" +
+      "Number.parseFloat(row.querySelector('td[aria-label]')?.getAttribute('aria-label')??'0')>=4.5)"),
+      "Rated filter must not show lower-rated or unrated rows");
+    await evaluate("(()=>{history.replaceState(history.state,'',location.pathname+'?min_rating=3.5');window.dispatchEvent(new PopStateEvent('popstate'))})()");
+    await waitFor("document.querySelector('[data-media-min-rating]')?.value",
+      value=>value==="3.5","Rating threshold restores from history");
+    await evaluate("document.querySelector('[data-media-clear-filters]')?.click()");
+    await waitFor("new URL(location.href).searchParams.has('min_rating')",
+      value=>value===false,"Clear filters removes minimum rating state");
+    await waitFor("document.querySelector('[data-media-min-rating]')?.value",
+      value=>value==="0","Cleared rating slider returns to any rating");
     // Exercise popstate on the hydrated island and a genuine browser Back,
     // not just the URL codec used by the server-side fixture assertions.
     await evaluate("(()=>{history.pushState({media:'history'},'',location.pathname+'?q=emilie&status=finished&sort=year&utm_source=fixture');window.dispatchEvent(new PopStateEvent('popstate'))})()");

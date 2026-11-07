@@ -4,10 +4,10 @@ import { readMediaQueryState, mediaFilterHref } from "../src/lib/media-query-sta
 
 test("deep link restores supported sort options and Unicode search text", () => {
   assert.deepEqual(readMediaQueryState("?q=%C3%89milie%20%26%20Cafe&sort=year"), {
-    query: "Émilie & Cafe", sort: "year", status: "all",
+    query: "Émilie & Cafe", sort: "year", status: "all", minRating: 0,
   });
-  assert.deepEqual(readMediaQueryState("?sort=title"), {query: "", sort: "title", status: "all"});
-  assert.deepEqual(readMediaQueryState(""), {query: "", sort: "rating", status: "all"});
+  assert.deepEqual(readMediaQueryState("?sort=title"), {query: "", sort: "title", status: "all", minRating: 0});
+  assert.deepEqual(readMediaQueryState(""), {query: "", sort: "rating", status: "all", minRating: 0});
 });
 
 test("unknown sort values fall back to rating instead of changing collection order", () => {
@@ -69,9 +69,9 @@ test("restored history URLs round-trip through the public filter codec", () => {
     "/films/?sort=unsupported&status=retired&utm_source=bookmarks",
   ];
   const expected = [
-    {query:"blue",sort:"year",status:"finished"},
-    {query:"green",sort:"rating",status:"planned"},
-    {query:"",sort:"rating",status:"all"},
+    {query:"blue",sort:"year",status:"finished",minRating:0},
+    {query:"green",sort:"rating",status:"planned",minRating:0},
+    {query:"",sort:"rating",status:"all",minRating:0},
   ];
   for (const [index, href] of history.entries()) {
     const restored = readMediaQueryState(new URL(href, "https://www.peroniko.xyz").search);
@@ -87,4 +87,21 @@ test("restored history URLs round-trip through the public filter codec", () => {
       assert.equal(next.searchParams.has("status"), false);
     }
   }
+});
+
+test("half-star minimum rating URL state is canonical and safe",()=>{
+  for(const value of ["0.5","1","1.5","2","2.5","3","3.5","4","4.5","5"]){
+    assert.equal(readMediaQueryState("?min_rating="+value).minRating,Number(value));
+  }
+  for(const value of ["","0","-1","5.5","4.25","NaN","Infinity","1e2","0.0","003"]){
+    assert.equal(readMediaQueryState("?min_rating="+encodeURIComponent(value)).minRating,0);
+  }
+  const href=mediaFilterHref("https://www.peroniko.xyz/films/?min_rating=invalid&min_rating=3&utm=public#rows",
+    "","rating","finished",4.5);
+  const url=new URL(href,"https://www.peroniko.xyz");
+  assert.deepEqual(url.searchParams.getAll("min_rating"),["4.5"]);
+  assert.equal(url.searchParams.get("utm"),"public");
+  assert.equal(url.hash,"#rows");
+  assert.equal(readMediaQueryState(url.search).minRating,4.5);
+  assert.equal(mediaFilterHref(url.href,"","rating","all",0),"/films/?utm=public#rows");
 });

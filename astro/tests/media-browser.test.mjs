@@ -80,3 +80,11 @@ test("static media output retains complete source parity while hydrated lists pa
   assert.deepEqual(mediaVisiblePage([],50,true),[]);
   assert.equal(entries.length,127,"Hydration must never mutate source records");
 });
+
+test("minimum rating selection includes unrated at default and excludes it for positive thresholds", async () => {
+  const {matchesMediaMinimumRating} = await import("../src/lib/media-browser.ts");
+  const entries=[{rating:5},{rating:4.5},{rating:3.5},{}];
+  assert.deepEqual(entries.filter(x=>matchesMediaMinimumRating(x,0)),entries);
+  assert.deepEqual(entries.filter(x=>matchesMediaMinimumRating(x,4.5)),entries.slice(0,2));
+  assert.deepEqual(entries.filter(x=>matchesMediaMinimumRating(x,5)),entries.slice(0,1));
+});
