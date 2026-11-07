@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Spusti svetlost na put",
+  "creator": "Kralj Čačka",
+  "year": 2018,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "e3629faf-7776-4b56-b3ad-d60e1ec2419f"
+  }
+}

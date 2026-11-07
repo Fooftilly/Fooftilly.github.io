@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Sketches of the Red Districts",
+  "creator": "Laibach",
+  "year": 2023,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "4d16a0b8-f790-4b9c-8496-512e56abcc0e"
+  }
+}

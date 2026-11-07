@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Pozivi u stranu",
+  "creator": "KOIKOI",
+  "year": 2021,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "9ea67d63-b386-4df3-986c-d55345830340"
+  }
+}

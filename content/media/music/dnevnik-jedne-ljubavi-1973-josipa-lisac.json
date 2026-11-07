@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Dnevnik jedne ljubavi",
+  "creator": "Josipa Lisac",
+  "year": 1973,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "edcb7400-936a-3bb8-a9f0-d4ab37662487"
+  }
+}

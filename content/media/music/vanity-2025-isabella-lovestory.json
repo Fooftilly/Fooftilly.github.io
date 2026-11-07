@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Vanity",
+  "creator": "Isabella Lovestory",
+  "year": 2025,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "7ccbf18c-541c-45d1-8cb6-8afffc9b8d9e"
+  }
+}

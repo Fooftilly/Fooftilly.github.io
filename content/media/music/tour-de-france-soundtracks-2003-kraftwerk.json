@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Tour de France Soundtracks",
+  "creator": "Kraftwerk",
+  "year": 2003,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "e963cb1e-ec72-303d-9a3f-9fcb89188436"
+  }
+}

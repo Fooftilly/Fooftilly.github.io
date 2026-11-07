@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Jacknife",
+  "creator": "Jackie McLean",
+  "year": 1975,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "44a241bc-9755-38aa-b196-1dd56b7db41b"
+  }
+}

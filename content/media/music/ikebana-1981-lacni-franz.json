@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Ikebana",
+  "creator": "Lačni Franz",
+  "year": 1981,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "5fe232be-431f-3f6a-9119-4356a4558c27"
+  }
+}

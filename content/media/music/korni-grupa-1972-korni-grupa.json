@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Korni grupa",
+  "creator": "Korni Grupa",
+  "year": 1972,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "b1dc815c-3753-48e4-8b32-44bf7f3f4bf6"
+  }
+}

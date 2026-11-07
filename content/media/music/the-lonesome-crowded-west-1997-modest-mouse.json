@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "The Lonesome Crowded West",
+  "creator": "Modest Mouse",
+  "year": 1997,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "041884b1-1ac5-3c8b-93cc-ac928c78c4a0"
+  }
+}

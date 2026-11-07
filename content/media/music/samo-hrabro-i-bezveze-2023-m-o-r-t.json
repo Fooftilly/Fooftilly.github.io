@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Samo hrabro i bezveze!",
+  "creator": "M.O.R.T.",
+  "year": 2023,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "1636bc6c-a7e7-4b53-ae35-85f92f0efe9e"
+  }
+}

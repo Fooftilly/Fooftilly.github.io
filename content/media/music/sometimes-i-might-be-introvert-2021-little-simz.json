@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Sometimes I Might Be Introvert",
+  "creator": "Little Simz",
+  "year": 2021,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "e95de3f4-84db-4d24-8d06-fd970576a6ef"
+  }
+}

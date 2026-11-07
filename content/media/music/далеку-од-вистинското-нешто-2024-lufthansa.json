@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Далеку од вистинското нешто",
+  "creator": "Lufthansa",
+  "year": 2024,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "fae765c9-754f-4598-b1a6-043e761e5017"
+  }
+}

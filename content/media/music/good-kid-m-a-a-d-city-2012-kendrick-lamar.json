@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Good Kid, M.A.A.D City",
+  "creator": "Kendrick Lamar",
+  "year": 2012,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "499c19c8-0dab-4824-884b-6191d145e95b"
+  }
+}

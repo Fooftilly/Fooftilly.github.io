@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Submarine",
+  "creator": "The Marías",
+  "year": 2024,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "217f8621-5905-48eb-a837-000aeb7b7500"
+  }
+}

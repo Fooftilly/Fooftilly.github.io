@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Status Update Music",
+  "creator": "leroy",
+  "year": 2026,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "36330382-de30-4699-9703-5ab0ee8d8f06"
+  }
+}

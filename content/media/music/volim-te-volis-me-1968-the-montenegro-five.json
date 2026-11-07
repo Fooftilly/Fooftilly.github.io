@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Volim te, voliš me",
+  "creator": "The Montenegro Five",
+  "year": 1968,
+  "rating": 1.5,
+  "refs": {
+    "musicbrainz": "df0301af-50f8-44b1-ac5d-155cedac9916"
+  }
+}
