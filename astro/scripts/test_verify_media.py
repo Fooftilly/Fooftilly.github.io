@@ -76,17 +76,8 @@ class MediaOutputTests(unittest.TestCase):
                               "title": " Intro ", "rating": 4.5}]}
         (self.root / "content" / "media" / "music" / "album.json").write_text(
             json.dumps(record), encoding="utf-8")
-        track_attr = json.dumps({"disc": 1, "number": 1,
-                                 "title": "Intro", "rating": 4.5})
-        html = ('<h1>Music</h1><table><tbody><tr>'
-                '<th scope="row">Album<details><ol>'
-                f'<li data-media-track=\'{track_attr}\'>'
-                '<span>1.1 — Intro</span>'
-                '<span aria-label="4.5 out of 5 stars">4.5 / 5</span>'
-                '</li></ol></details></th>'
-                '<td>—</td><td>—</td>'
-                '<td aria-label="4 out of 5 stars">4.0 / 5</td>'
-                '<td>Finished</td><td>—</td></tr></tbody></table>')
+        html = (Path(__file__).with_name("fixtures") /
+                "media-visible-track-score.html").read_text(encoding="utf-8")
         page = self.astro / "dist" / "music" / "index.html"
         page.write_text(html, encoding="utf-8")
         self.assertEqual(verify_media_output(self.astro), 1)
