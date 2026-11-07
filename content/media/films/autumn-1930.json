@@ -4,10 +4,7 @@
   "title": "Autumn",
   "year": 1930,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/AsO"
-    }
-  ]
+  "refs": {
+    "letterboxd": "AsO"
+  }
 }

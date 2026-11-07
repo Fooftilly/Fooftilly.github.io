@@ -4,10 +4,7 @@
   "title": "Doctor Who: Meanwhile in the TARDIS: Part 2",
   "year": 2010,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/ke5y"
-    }
-  ]
+  "refs": {
+    "letterboxd": "ke5y"
+  }
 }

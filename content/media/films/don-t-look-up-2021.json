@@ -4,10 +4,7 @@
   "title": "Don't Look Up",
   "year": 2021,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/o0Hc"
-    }
-  ]
+  "refs": {
+    "letterboxd": "o0Hc"
+  }
 }

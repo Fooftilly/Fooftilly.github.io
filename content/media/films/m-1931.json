@@ -4,10 +4,7 @@
   "title": "M",
   "year": 1931,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/29vq"
-    }
-  ]
+  "refs": {
+    "letterboxd": "29vq"
+  }
 }

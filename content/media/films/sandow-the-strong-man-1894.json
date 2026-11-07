@@ -4,10 +4,7 @@
   "title": "Sandow: The Strong Man",
   "year": 1894,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5DJo"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5DJo"
+  }
 }

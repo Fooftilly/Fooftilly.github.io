@@ -4,10 +4,7 @@
   "title": "Just Rambling Along",
   "year": 1918,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/tlG"
-    }
-  ]
+  "refs": {
+    "letterboxd": "tlG"
+  }
 }

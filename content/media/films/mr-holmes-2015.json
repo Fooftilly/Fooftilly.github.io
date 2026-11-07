@@ -4,10 +4,7 @@
   "title": "Mr. Holmes",
   "year": 2015,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/8EBw"
-    }
-  ]
+  "refs": {
+    "letterboxd": "8EBw"
+  }
 }

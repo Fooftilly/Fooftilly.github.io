@@ -4,10 +4,7 @@
   "title": "Mouse Mania",
   "year": 1978,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/pGqY"
-    }
-  ]
+  "refs": {
+    "letterboxd": "pGqY"
+  }
 }

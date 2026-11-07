@@ -4,10 +4,7 @@
   "title": "The Last Serb in Croatia",
   "year": 2019,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/lqKg"
-    }
-  ]
+  "refs": {
+    "letterboxd": "lqKg"
+  }
 }

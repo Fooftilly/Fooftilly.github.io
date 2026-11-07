@@ -4,10 +4,7 @@
   "title": "The Mad Dog",
   "year": 1932,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4UIU"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4UIU"
+  }
 }

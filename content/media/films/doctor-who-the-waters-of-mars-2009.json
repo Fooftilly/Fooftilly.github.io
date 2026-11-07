@@ -4,10 +4,7 @@
   "title": "Doctor Who: The Waters of Mars",
   "year": 2009,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/8Hae"
-    }
-  ]
+  "refs": {
+    "letterboxd": "8Hae"
+  }
 }

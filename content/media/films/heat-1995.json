@@ -4,10 +4,7 @@
   "title": "Heat",
   "year": 1995,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2bg8"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2bg8"
+  }
 }

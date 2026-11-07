@@ -4,10 +4,7 @@
   "title": "The Blacksmiths",
   "year": 1895,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4bfe"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4bfe"
+  }
 }

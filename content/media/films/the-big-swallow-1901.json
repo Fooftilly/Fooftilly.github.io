@@ -4,10 +4,7 @@
   "title": "The Big Swallow",
   "year": 1901,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3kt8"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3kt8"
+  }
 }

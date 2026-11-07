@@ -4,10 +4,7 @@
   "title": "Three Tickets to Hollywood",
   "year": 1993,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1HRy"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1HRy"
+  }
 }

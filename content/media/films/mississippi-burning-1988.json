@@ -4,10 +4,7 @@
   "title": "Mississippi Burning",
   "year": 1988,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/28r8"
-    }
-  ]
+  "refs": {
+    "letterboxd": "28r8"
+  }
 }

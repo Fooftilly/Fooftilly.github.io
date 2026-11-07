@@ -4,10 +4,7 @@
   "title": "Charlie Wilson's War",
   "year": 2007,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/21yc"
-    }
-  ]
+  "refs": {
+    "letterboxd": "21yc"
+  }
 }

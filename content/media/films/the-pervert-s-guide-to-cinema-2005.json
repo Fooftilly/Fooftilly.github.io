@@ -4,10 +4,7 @@
   "title": "The Pervert's Guide to Cinema",
   "year": 2005,
   "rating": 4.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1e48"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1e48"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Mickey's Pal Pluto",
   "year": 1933,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/532o"
-    }
-  ]
+  "refs": {
+    "letterboxd": "532o"
+  }
 }

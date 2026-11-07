@@ -4,10 +4,7 @@
   "title": "Rough Sea at Dover",
   "year": 1895,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5tjq"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5tjq"
+  }
 }

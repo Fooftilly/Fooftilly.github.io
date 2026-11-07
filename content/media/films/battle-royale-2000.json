@@ -4,10 +4,7 @@
   "title": "Battle Royale",
   "year": 2000,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/25zS"
-    }
-  ]
+  "refs": {
+    "letterboxd": "25zS"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Special Education",
   "year": 1977,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/7Vzg"
-    }
-  ]
+  "refs": {
+    "letterboxd": "7Vzg"
+  }
 }

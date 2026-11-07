@@ -4,10 +4,7 @@
   "title": "The Temptation of St. Anthony",
   "year": 1898,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3yqW"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3yqW"
+  }
 }

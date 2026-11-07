@@ -4,10 +4,7 @@
   "title": "City of God",
   "year": 2002,
   "rating": 4.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2a2a"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2a2a"
+  }
 }

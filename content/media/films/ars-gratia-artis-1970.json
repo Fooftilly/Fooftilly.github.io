@@ -4,10 +4,7 @@
   "title": "Ars gratia artis",
   "year": 1970,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/ft0I"
-    }
-  ]
+  "refs": {
+    "letterboxd": "ft0I"
+  }
 }

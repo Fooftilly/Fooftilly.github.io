@@ -4,10 +4,7 @@
   "title": "The Practical Pig",
   "year": 1939,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3Gu8"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3Gu8"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Waiting for Godot",
   "year": 2001,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/11XO"
-    }
-  ]
+  "refs": {
+    "letterboxd": "11XO"
+  }
 }

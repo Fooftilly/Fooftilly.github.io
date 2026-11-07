@@ -4,10 +4,7 @@
   "title": "Jane B. by Agnès V.",
   "year": 1988,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/xxw"
-    }
-  ]
+  "refs": {
+    "letterboxd": "xxw"
+  }
 }

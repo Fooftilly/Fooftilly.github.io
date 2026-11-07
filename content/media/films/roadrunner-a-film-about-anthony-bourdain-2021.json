@@ -4,10 +4,7 @@
   "title": "Roadrunner: A Film About Anthony Bourdain",
   "year": 2021,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/nRb2"
-    }
-  ]
+  "refs": {
+    "letterboxd": "nRb2"
+  }
 }

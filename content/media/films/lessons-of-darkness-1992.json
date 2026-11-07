@@ -4,10 +4,7 @@
   "title": "Lessons of Darkness",
   "year": 1992,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/x7I"
-    }
-  ]
+  "refs": {
+    "letterboxd": "x7I"
+  }
 }

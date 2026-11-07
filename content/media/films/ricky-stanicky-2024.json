@@ -4,10 +4,7 @@
   "title": "Ricky Stanicky",
   "year": 2024,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/CFjo"
-    }
-  ]
+  "refs": {
+    "letterboxd": "CFjo"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Cleaning Up!!?",
   "year": 1921,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/6AFA"
-    }
-  ]
+  "refs": {
+    "letterboxd": "6AFA"
+  }
 }

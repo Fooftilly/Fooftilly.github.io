@@ -4,10 +4,7 @@
   "title": "Before Sunrise",
   "year": 1995,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2bcU"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2bcU"
+  }
 }

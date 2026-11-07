@@ -4,10 +4,7 @@
   "title": "No Reservations",
   "year": 2007,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/256w"
-    }
-  ]
+  "refs": {
+    "letterboxd": "256w"
+  }
 }

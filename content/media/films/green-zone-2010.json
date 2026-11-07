@@ -4,10 +4,7 @@
   "title": "Green Zone",
   "year": 2010,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1zNS"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1zNS"
+  }
 }

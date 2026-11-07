@@ -4,10 +4,7 @@
   "title": "Impossible Figures and Other Stories I",
   "year": 2021,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/ol4q"
-    }
-  ]
+  "refs": {
+    "letterboxd": "ol4q"
+  }
 }

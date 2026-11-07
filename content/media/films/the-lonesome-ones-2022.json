@@ -4,10 +4,7 @@
   "title": "The Lonesome Ones",
   "year": 2022,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/E5TE"
-    }
-  ]
+  "refs": {
+    "letterboxd": "E5TE"
+  }
 }

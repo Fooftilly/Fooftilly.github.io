@@ -4,10 +4,7 @@
   "title": "Interstellar",
   "year": 2014,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4VZ8"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4VZ8"
+  }
 }

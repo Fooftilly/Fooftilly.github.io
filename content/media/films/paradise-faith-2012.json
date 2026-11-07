@@ -4,10 +4,7 @@
   "title": "Paradise: Faith",
   "year": 2012,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4erW"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4erW"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "The China Shop",
   "year": 1934,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2frk"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2frk"
+  }
 }

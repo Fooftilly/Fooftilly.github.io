@@ -4,10 +4,7 @@
   "title": "Sherlock: The Six Thatchers",
   "year": 2017,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/uDZw"
-    }
-  ]
+  "refs": {
+    "letterboxd": "uDZw"
+  }
 }

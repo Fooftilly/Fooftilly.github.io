@@ -4,10 +4,7 @@
   "title": "The Conversation",
   "year": 1974,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2a38"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2a38"
+  }
 }

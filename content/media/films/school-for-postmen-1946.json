@@ -4,10 +4,7 @@
   "title": "School for Postmen",
   "year": 1946,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2uAG"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2uAG"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Love, Death & Robots: Snow in the Desert",
   "year": 2021,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/vhLO"
-    }
-  ]
+  "refs": {
+    "letterboxd": "vhLO"
+  }
 }

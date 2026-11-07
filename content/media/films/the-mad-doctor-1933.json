@@ -4,10 +4,7 @@
   "title": "The Mad Doctor",
   "year": 1933,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3tAW"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3tAW"
+  }
 }

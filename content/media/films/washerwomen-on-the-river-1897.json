@@ -4,10 +4,7 @@
   "title": "Washerwomen on the River",
   "year": 1897,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5MG4"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5MG4"
+  }
 }

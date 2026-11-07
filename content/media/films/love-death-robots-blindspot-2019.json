@@ -4,10 +4,7 @@
   "title": "Love, Death & Robots: Blindspot",
   "year": 2019,
   "rating": 1.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/lJH6"
-    }
-  ]
+  "refs": {
+    "letterboxd": "lJH6"
+  }
 }

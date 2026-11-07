@@ -4,10 +4,7 @@
   "title": "A Day's Pleasure",
   "year": 1919,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/wAY"
-    }
-  ]
+  "refs": {
+    "letterboxd": "wAY"
+  }
 }

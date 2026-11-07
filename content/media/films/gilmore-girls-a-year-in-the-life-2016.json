@@ -4,10 +4,7 @@
   "title": "Gilmore Girls: A Year in the Life",
   "year": 2016,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/f9og"
-    }
-  ]
+  "refs": {
+    "letterboxd": "f9og"
+  }
 }

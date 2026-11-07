@@ -4,10 +4,7 @@
   "title": "Thirteen at Dinner",
   "year": 1985,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/224M"
-    }
-  ]
+  "refs": {
+    "letterboxd": "224M"
+  }
 }

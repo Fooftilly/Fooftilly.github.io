@@ -4,10 +4,7 @@
   "title": "Lonesome Ghosts",
   "year": 1937,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1haI"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1haI"
+  }
 }

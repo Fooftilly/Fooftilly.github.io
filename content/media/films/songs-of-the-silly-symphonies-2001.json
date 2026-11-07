@@ -4,10 +4,7 @@
   "title": "Songs of the Silly Symphonies",
   "year": 2001,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/abcG"
-    }
-  ]
+  "refs": {
+    "letterboxd": "abcG"
+  }
 }

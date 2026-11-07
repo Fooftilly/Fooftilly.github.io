@@ -4,10 +4,7 @@
   "title": "The Golden Touch",
   "year": 1935,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/l0g"
-    }
-  ]
+  "refs": {
+    "letterboxd": "l0g"
+  }
 }

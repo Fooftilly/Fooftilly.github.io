@@ -4,10 +4,7 @@
   "title": "Two-Gun Mickey",
   "year": 1934,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5m5w"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5m5w"
+  }
 }

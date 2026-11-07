@@ -4,10 +4,7 @@
   "title": "Montenegro: A Land Divided",
   "year": 2021,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/qx2g"
-    }
-  ]
+  "refs": {
+    "letterboxd": "qx2g"
+  }
 }

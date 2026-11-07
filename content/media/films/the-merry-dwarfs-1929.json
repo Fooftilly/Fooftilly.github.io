@@ -4,10 +4,7 @@
   "title": "The Merry Dwarfs",
   "year": 1929,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2dnA"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2dnA"
+  }
 }

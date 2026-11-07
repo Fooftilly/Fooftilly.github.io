@@ -4,10 +4,7 @@
   "title": "The Bourne Identity",
   "year": 2002,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/26EO"
-    }
-  ]
+  "refs": {
+    "letterboxd": "26EO"
+  }
 }

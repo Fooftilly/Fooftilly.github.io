@@ -4,10 +4,7 @@
   "title": "The Opry House",
   "year": 1929,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5Kww"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5Kww"
+  }
 }

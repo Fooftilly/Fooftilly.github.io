@@ -4,10 +4,7 @@
   "title": "Zivan Makes a Punk Festival",
   "year": 2014,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/ahPE"
-    }
-  ]
+  "refs": {
+    "letterboxd": "ahPE"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Mickey's Man Friday",
   "year": 1935,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5BDS"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5BDS"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Leptirica",
   "year": 1973,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/6y72"
-    }
-  ]
+  "refs": {
+    "letterboxd": "6y72"
+  }
 }

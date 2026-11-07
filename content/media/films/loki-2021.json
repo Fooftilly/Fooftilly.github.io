@@ -4,10 +4,7 @@
   "title": "Loki",
   "year": 2021,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/sbHg"
-    }
-  ]
+  "refs": {
+    "letterboxd": "sbHg"
+  }
 }

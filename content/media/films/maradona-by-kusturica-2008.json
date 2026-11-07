@@ -4,10 +4,7 @@
   "title": "Maradona by Kusturica",
   "year": 2008,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1ZC2"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1ZC2"
+  }
 }

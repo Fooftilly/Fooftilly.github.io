@@ -4,10 +4,7 @@
   "title": "Miniature Theatre",
   "year": 1909,
   "rating": 1.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5UU4"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5UU4"
+  }
 }

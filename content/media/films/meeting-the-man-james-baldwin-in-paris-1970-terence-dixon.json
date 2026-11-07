@@ -5,10 +5,7 @@
   "creator": "Terence Dixon",
   "year": 1970,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/oKjA"
-    }
-  ]
+  "refs": {
+    "letterboxd": "oKjA"
+  }
 }

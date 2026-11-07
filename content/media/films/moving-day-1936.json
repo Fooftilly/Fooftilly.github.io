@@ -4,10 +4,7 @@
   "title": "Moving Day",
   "year": 1936,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2gB6"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2gB6"
+  }
 }

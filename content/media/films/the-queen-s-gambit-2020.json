@@ -4,10 +4,7 @@
   "title": "The Queen's Gambit",
   "year": 2020,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/s1Ym"
-    }
-  ]
+  "refs": {
+    "letterboxd": "s1Ym"
+  }
 }

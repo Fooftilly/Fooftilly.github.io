@@ -4,10 +4,7 @@
   "title": "Jackie",
   "year": 2016,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/d6bu"
-    }
-  ]
+  "refs": {
+    "letterboxd": "d6bu"
+  }
 }

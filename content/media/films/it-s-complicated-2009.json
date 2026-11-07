@@ -4,10 +4,7 @@
   "title": "It's Complicated",
   "year": 2009,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1zUY"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1zUY"
+  }
 }

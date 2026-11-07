@@ -4,10 +4,7 @@
   "title": "Queenpins",
   "year": 2021,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/niBu"
-    }
-  ]
+  "refs": {
+    "letterboxd": "niBu"
+  }
 }

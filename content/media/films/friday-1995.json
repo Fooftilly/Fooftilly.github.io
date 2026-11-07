@@ -4,10 +4,7 @@
   "title": "Friday",
   "year": 1995,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1VLO"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1VLO"
+  }
 }

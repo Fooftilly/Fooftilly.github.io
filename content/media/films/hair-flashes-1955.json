@@ -4,10 +4,7 @@
   "title": "Hair Flashes",
   "year": 1955,
   "rating": 1,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/sWeU"
-    }
-  ]
+  "refs": {
+    "letterboxd": "sWeU"
+  }
 }

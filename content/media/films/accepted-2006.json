@@ -4,10 +4,7 @@
   "title": "Accepted",
   "year": 2006,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1XO6"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1XO6"
+  }
 }

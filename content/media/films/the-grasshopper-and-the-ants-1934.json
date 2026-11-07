@@ -4,10 +4,7 @@
   "title": "The Grasshopper and the Ants",
   "year": 1934,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2PLq"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2PLq"
+  }
 }

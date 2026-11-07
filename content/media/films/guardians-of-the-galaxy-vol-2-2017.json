@@ -4,10 +4,7 @@
   "title": "Guardians of the Galaxy Vol. 2",
   "year": 2017,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/8MxC"
-    }
-  ]
+  "refs": {
+    "letterboxd": "8MxC"
+  }
 }

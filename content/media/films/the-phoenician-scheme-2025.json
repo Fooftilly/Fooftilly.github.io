@@ -4,10 +4,7 @@
   "title": "The Phoenician Scheme",
   "year": 2025,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/H0Ca"
-    }
-  ]
+  "refs": {
+    "letterboxd": "H0Ca"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "The Nanny and the Soldier",
   "year": 1897,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5JE0"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5JE0"
+  }
 }

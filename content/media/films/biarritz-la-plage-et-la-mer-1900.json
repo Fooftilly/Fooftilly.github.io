@@ -4,10 +4,7 @@
   "title": "Biarritz : la plage et la mer",
   "year": 1900,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/aqUo"
-    }
-  ]
+  "refs": {
+    "letterboxd": "aqUo"
+  }
 }

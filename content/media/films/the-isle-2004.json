@@ -4,10 +4,7 @@
   "title": "The Isle",
   "year": 2004,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/D0E8"
-    }
-  ]
+  "refs": {
+    "letterboxd": "D0E8"
+  }
 }

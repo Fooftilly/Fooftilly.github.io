@@ -4,10 +4,7 @@
   "title": "Hospitals: The White Mafia",
   "year": 1973,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2q76"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2q76"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "There Will Be Blood",
   "year": 2007,
   "rating": 4.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/20Z2"
-    }
-  ]
+  "refs": {
+    "letterboxd": "20Z2"
+  }
 }

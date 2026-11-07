@@ -4,10 +4,7 @@
   "title": "Gorilla Bathes at Noon",
   "year": 1993,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5f1M"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5f1M"
+  }
 }

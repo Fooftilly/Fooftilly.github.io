@@ -4,10 +4,7 @@
   "title": "Workers Repairing a Sidewalk with Bitumen",
   "year": 1898,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5Yh6"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5Yh6"
+  }
 }

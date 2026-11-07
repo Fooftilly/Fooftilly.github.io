@@ -4,10 +4,7 @@
   "title": "The Web",
   "year": 2013,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/cjy0"
-    }
-  ]
+  "refs": {
+    "letterboxd": "cjy0"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Duel Scene, \"By Right of Sword\"",
   "year": 1904,
   "rating": 1.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5Udk"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5Udk"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Warcraft",
   "year": 2016,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2czK"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2czK"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Free to Play",
   "year": 2014,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/7zhu"
-    }
-  ]
+  "refs": {
+    "letterboxd": "7zhu"
+  }
 }

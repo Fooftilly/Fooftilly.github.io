@@ -4,10 +4,7 @@
   "title": "S.W.A.T.",
   "year": 2003,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1Z8G"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1Z8G"
+  }
 }

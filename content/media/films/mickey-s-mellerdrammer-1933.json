@@ -4,10 +4,7 @@
   "title": "Mickey's Mellerdrammer",
   "year": 1933,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/52Y2"
-    }
-  ]
+  "refs": {
+    "letterboxd": "52Y2"
+  }
 }

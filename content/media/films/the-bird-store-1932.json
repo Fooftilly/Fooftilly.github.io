@@ -4,10 +4,7 @@
   "title": "The Bird Store",
   "year": 1932,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2fru"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2fru"
+  }
 }

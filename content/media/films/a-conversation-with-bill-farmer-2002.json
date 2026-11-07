@@ -4,10 +4,7 @@
   "title": "A Conversation with Bill Farmer",
   "year": 2002,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5XcY"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5XcY"
+  }
 }

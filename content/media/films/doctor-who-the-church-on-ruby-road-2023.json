@@ -4,10 +4,7 @@
   "title": "Doctor Who: The Church on Ruby Road",
   "year": 2023,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/HDIG"
-    }
-  ]
+  "refs": {
+    "letterboxd": "HDIG"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "A Sammy in Siberia",
   "year": 1919,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5nlg"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5nlg"
+  }
 }

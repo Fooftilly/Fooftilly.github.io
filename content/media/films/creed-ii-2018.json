@@ -4,10 +4,7 @@
   "title": "Creed II",
   "year": 2018,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/hgl8"
-    }
-  ]
+  "refs": {
+    "letterboxd": "hgl8"
+  }
 }

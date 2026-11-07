@@ -4,10 +4,7 @@
   "title": "Doctor Who: The Woman Who Fell to Earth",
   "year": 2018,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/qFYW"
-    }
-  ]
+  "refs": {
+    "letterboxd": "qFYW"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Alice and the Dog Catcher",
   "year": 1924,
   "rating": 1.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5psy"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5psy"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Attack on Titan: Crimson Bow and Arrow",
   "year": 2014,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/dbCK"
-    }
-  ]
+  "refs": {
+    "letterboxd": "dbCK"
+  }
 }

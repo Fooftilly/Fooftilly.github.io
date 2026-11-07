@@ -4,10 +4,7 @@
   "title": "Love, Death & Robots: Zima Blue",
   "year": 2019,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/lJGM"
-    }
-  ]
+  "refs": {
+    "letterboxd": "lJGM"
+  }
 }

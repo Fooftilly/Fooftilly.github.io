@@ -4,10 +4,7 @@
   "title": "Love, Death & Robots: Night of the Mini Dead",
   "year": 2022,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/AW6s"
-    }
-  ]
+  "refs": {
+    "letterboxd": "AW6s"
+  }
 }

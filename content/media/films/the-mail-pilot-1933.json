@@ -4,10 +4,7 @@
   "title": "The Mail Pilot",
   "year": 1933,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/eqw"
-    }
-  ]
+  "refs": {
+    "letterboxd": "eqw"
+  }
 }

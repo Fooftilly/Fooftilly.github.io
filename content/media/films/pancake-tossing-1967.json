@@ -4,10 +4,7 @@
   "title": "Pancake Tossing",
   "year": 1967,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/ofLe"
-    }
-  ]
+  "refs": {
+    "letterboxd": "ofLe"
+  }
 }

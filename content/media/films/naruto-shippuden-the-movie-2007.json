@@ -4,10 +4,7 @@
   "title": "Naruto Shippuden the Movie",
   "year": 2007,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1CBg"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1CBg"
+  }
 }

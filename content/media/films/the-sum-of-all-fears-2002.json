@@ -4,10 +4,7 @@
   "title": "The Sum of All Fears",
   "year": 2002,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/242I"
-    }
-  ]
+  "refs": {
+    "letterboxd": "242I"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Hachi: A Dog's Tale",
   "year": 2009,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1q4a"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1q4a"
+  }
 }

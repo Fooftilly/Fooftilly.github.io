@@ -4,10 +4,7 @@
   "title": "A Busy Day for the Corset Models",
   "year": 1904,
   "rating": 1,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/qZBI"
-    }
-  ]
+  "refs": {
+    "letterboxd": "qZBI"
+  }
 }

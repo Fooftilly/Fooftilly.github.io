@@ -4,10 +4,7 @@
   "title": "Rush Hour 3",
   "year": 2007,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/23gk"
-    }
-  ]
+  "refs": {
+    "letterboxd": "23gk"
+  }
 }

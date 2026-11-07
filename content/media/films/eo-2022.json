@@ -4,10 +4,7 @@
   "title": "EO",
   "year": 2022,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/txhc"
-    }
-  ]
+  "refs": {
+    "letterboxd": "txhc"
+  }
 }

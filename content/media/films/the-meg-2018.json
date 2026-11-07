@@ -4,10 +4,7 @@
   "title": "The Meg",
   "year": 2018,
   "rating": 1.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/bAL4"
-    }
-  ]
+  "refs": {
+    "letterboxd": "bAL4"
+  }
 }

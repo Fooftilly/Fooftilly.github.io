@@ -4,10 +4,7 @@
   "title": "Rope",
   "year": 1948,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/28yo"
-    }
-  ]
+  "refs": {
+    "letterboxd": "28yo"
+  }
 }

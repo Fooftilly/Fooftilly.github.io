@@ -4,10 +4,7 @@
   "title": "Wynken, Blynken & Nod",
   "year": 1938,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/l2G"
-    }
-  ]
+  "refs": {
+    "letterboxd": "l2G"
+  }
 }

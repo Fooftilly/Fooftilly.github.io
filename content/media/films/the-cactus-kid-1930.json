@@ -4,10 +4,7 @@
   "title": "The Cactus Kid",
   "year": 1930,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/14uq"
-    }
-  ]
+  "refs": {
+    "letterboxd": "14uq"
+  }
 }

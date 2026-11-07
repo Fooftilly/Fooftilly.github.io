@@ -4,10 +4,7 @@
   "title": "A Funny Shave",
   "year": 1905,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5USC"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5USC"
+  }
 }

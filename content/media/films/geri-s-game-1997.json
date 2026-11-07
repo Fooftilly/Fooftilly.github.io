@@ -4,10 +4,7 @@
   "title": "Geri's Game",
   "year": 1997,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1P6U"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1P6U"
+  }
 }

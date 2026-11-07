@@ -4,10 +4,7 @@
   "title": "Horse Shoeing",
   "year": 1893,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/c0J4"
-    }
-  ]
+  "refs": {
+    "letterboxd": "c0J4"
+  }
 }

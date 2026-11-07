@@ -4,10 +4,7 @@
   "title": "Baby Driver",
   "year": 2017,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/bhF2"
-    }
-  ]
+  "refs": {
+    "letterboxd": "bhF2"
+  }
 }

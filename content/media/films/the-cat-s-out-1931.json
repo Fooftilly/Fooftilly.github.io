@@ -4,10 +4,7 @@
   "title": "The Cat's Out",
   "year": 1931,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/xb6"
-    }
-  ]
+  "refs": {
+    "letterboxd": "xb6"
+  }
 }

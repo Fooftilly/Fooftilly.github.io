@@ -4,10 +4,7 @@
   "title": "Explosion en mer",
   "year": 1898,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/cI3Q"
-    }
-  ]
+  "refs": {
+    "letterboxd": "cI3Q"
+  }
 }

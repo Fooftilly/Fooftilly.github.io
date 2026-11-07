@@ -4,10 +4,7 @@
   "title": "Toma",
   "year": 2021,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/rmn0"
-    }
-  ]
+  "refs": {
+    "letterboxd": "rmn0"
+  }
 }

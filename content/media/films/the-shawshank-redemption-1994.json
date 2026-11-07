@@ -4,10 +4,7 @@
   "title": "The Shawshank Redemption",
   "year": 1994,
   "rating": 4.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2aHi"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2aHi"
+  }
 }

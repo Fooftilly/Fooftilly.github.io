@@ -4,10 +4,7 @@
   "title": "How to Train Your Dragon",
   "year": 2010,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1WRy"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1WRy"
+  }
 }

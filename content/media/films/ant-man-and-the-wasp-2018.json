@@ -4,10 +4,7 @@
   "title": "Ant-Man and the Wasp",
   "year": 2018,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/cqUW"
-    }
-  ]
+  "refs": {
+    "letterboxd": "cqUW"
+  }
 }

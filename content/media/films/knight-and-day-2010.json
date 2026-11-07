@@ -4,10 +4,7 @@
   "title": "Knight and Day",
   "year": 2010,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/17po"
-    }
-  ]
+  "refs": {
+    "letterboxd": "17po"
+  }
 }

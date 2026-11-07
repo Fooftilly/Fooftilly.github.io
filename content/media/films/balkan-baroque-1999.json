@@ -4,10 +4,7 @@
   "title": "Balkan Baroque",
   "year": 1999,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/6Xr2"
-    }
-  ]
+  "refs": {
+    "letterboxd": "6Xr2"
+  }
 }

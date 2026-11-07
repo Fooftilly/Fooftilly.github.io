@@ -4,10 +4,7 @@
   "title": "Weird Years",
   "year": 1988,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/sAU"
-    }
-  ]
+  "refs": {
+    "letterboxd": "sAU"
+  }
 }

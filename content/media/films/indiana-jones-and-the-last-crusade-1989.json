@@ -4,10 +4,7 @@
   "title": "Indiana Jones and the Last Crusade",
   "year": 1989,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2baO"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2baO"
+  }
 }

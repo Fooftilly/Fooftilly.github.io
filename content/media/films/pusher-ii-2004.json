@@ -4,10 +4,7 @@
   "title": "Pusher II",
   "year": 2004,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1U7y"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1U7y"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Wolfwalkers",
   "year": 2020,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/fGrC"
-    }
-  ]
+  "refs": {
+    "letterboxd": "fGrC"
+  }
 }

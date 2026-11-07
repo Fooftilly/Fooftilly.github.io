@@ -4,10 +4,7 @@
   "title": "Professor Balthazar: Some Like It Cold",
   "year": 1972,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/vtiE"
-    }
-  ]
+  "refs": {
+    "letterboxd": "vtiE"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "The Clever Baker",
   "year": 1904,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/gf9S"
-    }
-  ]
+  "refs": {
+    "letterboxd": "gf9S"
+  }
 }

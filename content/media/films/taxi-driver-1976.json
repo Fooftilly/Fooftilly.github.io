@@ -4,10 +4,7 @@
   "title": "Taxi Driver",
   "year": 1976,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2b8y"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2b8y"
+  }
 }

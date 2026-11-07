@@ -4,10 +4,7 @@
   "title": "Meet the Parents",
   "year": 2000,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/28vE"
-    }
-  ]
+  "refs": {
+    "letterboxd": "28vE"
+  }
 }

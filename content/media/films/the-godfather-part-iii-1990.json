@@ -4,10 +4,7 @@
   "title": "The Godfather Part III",
   "year": 1990,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2aN6"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2aN6"
+  }
 }

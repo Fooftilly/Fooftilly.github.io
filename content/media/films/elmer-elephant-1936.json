@@ -4,10 +4,7 @@
   "title": "Elmer Elephant",
   "year": 1936,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/ySg"
-    }
-  ]
+  "refs": {
+    "letterboxd": "ySg"
+  }
 }

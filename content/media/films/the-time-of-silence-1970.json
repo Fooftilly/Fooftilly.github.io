@@ -4,10 +4,7 @@
   "title": "The Time of Silence",
   "year": 1970,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/koke"
-    }
-  ]
+  "refs": {
+    "letterboxd": "koke"
+  }
 }

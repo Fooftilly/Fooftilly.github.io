@@ -4,10 +4,7 @@
   "title": "Puss in Boots: The Last Wish",
   "year": 2022,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/aaie"
-    }
-  ]
+  "refs": {
+    "letterboxd": "aaie"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Spider-Man 3",
   "year": 2007,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2a7Y"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2a7Y"
+  }
 }

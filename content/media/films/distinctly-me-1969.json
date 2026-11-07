@@ -4,10 +4,7 @@
   "title": "Distinctly Me",
   "year": 1969,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/dHao"
-    }
-  ]
+  "refs": {
+    "letterboxd": "dHao"
+  }
 }

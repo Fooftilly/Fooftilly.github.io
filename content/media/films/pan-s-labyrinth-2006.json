@@ -4,10 +4,7 @@
   "title": "Pan's Labyrinth",
   "year": 2006,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/28No"
-    }
-  ]
+  "refs": {
+    "letterboxd": "28No"
+  }
 }

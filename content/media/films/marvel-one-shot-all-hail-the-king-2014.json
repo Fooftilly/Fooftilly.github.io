@@ -4,10 +4,7 @@
   "title": "Marvel One-Shot: All Hail the King",
   "year": 2014,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/7suG"
-    }
-  ]
+  "refs": {
+    "letterboxd": "7suG"
+  }
 }

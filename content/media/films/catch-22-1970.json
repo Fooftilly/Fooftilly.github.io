@@ -4,10 +4,7 @@
   "title": "Catch-22",
   "year": 1970,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1WrK"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1WrK"
+  }
 }

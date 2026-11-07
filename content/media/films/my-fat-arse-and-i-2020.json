@@ -4,10 +4,7 @@
   "title": "My Fat Arse and I",
   "year": 2020,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/rPV6"
-    }
-  ]
+  "refs": {
+    "letterboxd": "rPV6"
+  }
 }

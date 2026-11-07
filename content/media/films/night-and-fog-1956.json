@@ -4,10 +4,7 @@
   "title": "Night and Fog",
   "year": 1956,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/29A6"
-    }
-  ]
+  "refs": {
+    "letterboxd": "29A6"
+  }
 }

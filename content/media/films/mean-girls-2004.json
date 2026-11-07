@@ -4,10 +4,7 @@
   "title": "Mean Girls",
   "year": 2004,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1VNg"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1VNg"
+  }
 }

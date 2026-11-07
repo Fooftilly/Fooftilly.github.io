@@ -4,10 +4,7 @@
   "title": "Alice Rattled by Rats",
   "year": 1925,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/15FE"
-    }
-  ]
+  "refs": {
+    "letterboxd": "15FE"
+  }
 }

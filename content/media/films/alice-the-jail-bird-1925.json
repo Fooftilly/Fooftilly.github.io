@@ -4,10 +4,7 @@
   "title": "Alice the Jail Bird",
   "year": 1925,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/19Di"
-    }
-  ]
+  "refs": {
+    "letterboxd": "19Di"
+  }
 }

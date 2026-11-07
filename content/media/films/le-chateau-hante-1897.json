@@ -4,10 +4,7 @@
   "title": "Le château hanté",
   "year": 1897,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3y76"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3y76"
+  }
 }

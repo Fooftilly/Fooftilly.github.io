@@ -4,10 +4,7 @@
   "title": "Ice Age",
   "year": 2002,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2apS"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2apS"
+  }
 }

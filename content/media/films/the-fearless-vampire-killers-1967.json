@@ -4,10 +4,7 @@
   "title": "The Fearless Vampire Killers",
   "year": 1967,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/25Ri"
-    }
-  ]
+  "refs": {
+    "letterboxd": "25Ri"
+  }
 }

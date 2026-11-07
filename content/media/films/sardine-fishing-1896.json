@@ -4,10 +4,7 @@
   "title": "Sardine Fishing",
   "year": 1896,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/arac"
-    }
-  ]
+  "refs": {
+    "letterboxd": "arac"
+  }
 }

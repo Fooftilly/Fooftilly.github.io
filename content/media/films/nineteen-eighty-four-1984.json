@@ -4,10 +4,7 @@
   "title": "Nineteen Eighty-Four",
   "year": 1984,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1YZE"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1YZE"
+  }
 }

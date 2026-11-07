@@ -4,10 +4,7 @@
   "title": "Skeleton Frolic",
   "year": 1937,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3uuA"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3uuA"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Wendell & Wild",
   "year": 2022,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/iwtu"
-    }
-  ]
+  "refs": {
+    "letterboxd": "iwtu"
+  }
 }

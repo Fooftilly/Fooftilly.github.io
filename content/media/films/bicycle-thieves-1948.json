@@ -4,10 +4,7 @@
   "title": "Bicycle Thieves",
   "year": 1948,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/23hW"
-    }
-  ]
+  "refs": {
+    "letterboxd": "23hW"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Birdman or (The Unexpected Virtue of Ignorance)",
   "year": 2014,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5RFA"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5RFA"
+  }
 }

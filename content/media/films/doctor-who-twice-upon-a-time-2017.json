@@ -4,10 +4,7 @@
   "title": "Doctor Who: Twice Upon a Time",
   "year": 2017,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/hQTg"
-    }
-  ]
+  "refs": {
+    "letterboxd": "hQTg"
+  }
 }

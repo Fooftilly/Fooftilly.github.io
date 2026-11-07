@@ -4,10 +4,7 @@
   "title": "Drumline",
   "year": 2002,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1Q2Y"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1Q2Y"
+  }
 }

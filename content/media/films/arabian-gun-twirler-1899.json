@@ -4,10 +4,7 @@
   "title": "Arabian Gun Twirler",
   "year": 1899,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5SSU"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5SSU"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Touchdown Mickey",
   "year": 1932,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4UH8"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4UH8"
+  }
 }

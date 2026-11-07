@@ -4,10 +4,7 @@
   "title": "Ferdinand the Bull",
   "year": 1938,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/Loe"
-    }
-  ]
+  "refs": {
+    "letterboxd": "Loe"
+  }
 }

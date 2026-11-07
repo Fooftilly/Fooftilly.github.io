@@ -4,10 +4,7 @@
   "title": "Traces of a Black Haired Girl",
   "year": 1972,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3H8C"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3H8C"
+  }
 }

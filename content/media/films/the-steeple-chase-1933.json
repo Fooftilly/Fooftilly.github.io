@@ -4,10 +4,7 @@
   "title": "The Steeple Chase",
   "year": 1933,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/532S"
-    }
-  ]
+  "refs": {
+    "letterboxd": "532S"
+  }
 }

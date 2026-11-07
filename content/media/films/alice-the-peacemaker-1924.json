@@ -4,10 +4,7 @@
   "title": "Alice the Peacemaker",
   "year": 1924,
   "rating": 1.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/a13u"
-    }
-  ]
+  "refs": {
+    "letterboxd": "a13u"
+  }
 }

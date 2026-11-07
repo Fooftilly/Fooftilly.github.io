@@ -4,10 +4,7 @@
   "title": "Napoleon",
   "year": 2023,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/shJM"
-    }
-  ]
+  "refs": {
+    "letterboxd": "shJM"
+  }
 }

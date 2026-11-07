@@ -4,10 +4,7 @@
   "title": "Space Age Hair Fashions",
   "year": 1962,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/sWh0"
-    }
-  ]
+  "refs": {
+    "letterboxd": "sWh0"
+  }
 }

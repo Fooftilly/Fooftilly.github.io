@@ -4,10 +4,7 @@
   "title": "Harry Potter 20th Anniversary: Return to Hogwarts",
   "year": 2022,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/xXJk"
-    }
-  ]
+  "refs": {
+    "letterboxd": "xXJk"
+  }
 }

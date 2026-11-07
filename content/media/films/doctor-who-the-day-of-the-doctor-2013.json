@@ -4,10 +4,7 @@
   "title": "Doctor Who: The Day of the Doctor",
   "year": 2013,
   "rating": 4.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/a4Bk"
-    }
-  ]
+  "refs": {
+    "letterboxd": "a4Bk"
+  }
 }

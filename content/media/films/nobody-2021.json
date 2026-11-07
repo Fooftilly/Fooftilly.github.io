@@ -4,10 +4,7 @@
   "title": "Nobody",
   "year": 2021,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/mLqS"
-    }
-  ]
+  "refs": {
+    "letterboxd": "mLqS"
+  }
 }

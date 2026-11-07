@@ -4,10 +4,7 @@
   "title": "Kill Bill: Vol. 2",
   "year": 2004,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2au4"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2au4"
+  }
 }

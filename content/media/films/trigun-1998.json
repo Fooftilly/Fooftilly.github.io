@@ -4,10 +4,7 @@
   "title": "TRIGUN",
   "year": 1998,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/px2y"
-    }
-  ]
+  "refs": {
+    "letterboxd": "px2y"
+  }
 }

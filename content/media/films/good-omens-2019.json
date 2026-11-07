@@ -4,10 +4,7 @@
   "title": "Good Omens",
   "year": 2019,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/jUOI"
-    }
-  ]
+  "refs": {
+    "letterboxd": "jUOI"
+  }
 }

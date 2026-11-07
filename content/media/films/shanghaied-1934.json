@@ -4,10 +4,7 @@
   "title": "Shanghaied",
   "year": 1934,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5m8K"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5m8K"
+  }
 }

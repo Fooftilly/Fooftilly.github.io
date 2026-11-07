@@ -4,10 +4,7 @@
   "title": "V for Vendetta",
   "year": 2005,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/29Ik"
-    }
-  ]
+  "refs": {
+    "letterboxd": "29Ik"
+  }
 }

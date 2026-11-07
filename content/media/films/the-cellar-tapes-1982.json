@@ -4,10 +4,7 @@
   "title": "The Cellar Tapes",
   "year": 1982,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/57am"
-    }
-  ]
+  "refs": {
+    "letterboxd": "57am"
+  }
 }

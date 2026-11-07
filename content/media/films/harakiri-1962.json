@@ -4,10 +4,7 @@
   "title": "Harakiri",
   "year": 1962,
   "rating": 5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1NTU"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1NTU"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Investigation of a Citizen Named Volonté",
   "year": 2004,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/gdmA"
-    }
-  ]
+  "refs": {
+    "letterboxd": "gdmA"
+  }
 }

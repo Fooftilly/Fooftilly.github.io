@@ -4,10 +4,7 @@
   "title": "Princess Mononoke",
   "year": 1997,
   "rating": 4.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2b4w"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2b4w"
+  }
 }

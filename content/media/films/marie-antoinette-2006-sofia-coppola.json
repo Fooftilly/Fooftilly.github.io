@@ -4,11 +4,8 @@
   "title": "Marie Antoinette",
   "year": 2006,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/27Wa"
-    }
-  ],
-  "creator": "Sofia Coppola"
+  "creator": "Sofia Coppola",
+  "refs": {
+    "letterboxd": "27Wa"
+  }
 }

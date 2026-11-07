@@ -4,10 +4,7 @@
   "title": "Trafalgar Square Riot",
   "year": 1913,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/nHwa"
-    }
-  ]
+  "refs": {
+    "letterboxd": "nHwa"
+  }
 }

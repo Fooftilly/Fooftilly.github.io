@@ -4,10 +4,7 @@
   "title": "The Seventh Seal",
   "year": 1957,
   "rating": 4.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2ahO"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2ahO"
+  }
 }

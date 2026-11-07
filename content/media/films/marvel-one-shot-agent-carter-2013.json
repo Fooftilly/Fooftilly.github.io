@@ -4,10 +4,7 @@
   "title": "Marvel One-Shot: Agent Carter",
   "year": 2013,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/6jeC"
-    }
-  ]
+  "refs": {
+    "letterboxd": "6jeC"
+  }
 }

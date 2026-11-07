@@ -4,10 +4,7 @@
   "title": "Les Escaliers du Pont de l'Alma",
   "year": 1900,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/6ObO"
-    }
-  ]
+  "refs": {
+    "letterboxd": "6ObO"
+  }
 }

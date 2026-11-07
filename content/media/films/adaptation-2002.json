@@ -4,10 +4,7 @@
   "title": "Adaptation.",
   "year": 2002,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/26mA"
-    }
-  ]
+  "refs": {
+    "letterboxd": "26mA"
+  }
 }

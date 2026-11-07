@@ -4,10 +4,7 @@
   "title": "The Dictator",
   "year": 2012,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2DEW"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2DEW"
+  }
 }

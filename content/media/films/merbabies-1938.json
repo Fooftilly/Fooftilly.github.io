@@ -4,10 +4,7 @@
   "title": "Merbabies",
   "year": 1938,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/wrC"
-    }
-  ]
+  "refs": {
+    "letterboxd": "wrC"
+  }
 }

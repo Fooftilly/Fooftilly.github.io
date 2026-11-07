@@ -4,10 +4,7 @@
   "title": "Mr. Smith Goes to Washington",
   "year": 1939,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/25Ms"
-    }
-  ]
+  "refs": {
+    "letterboxd": "25Ms"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Doctor Who: The Star Beast",
   "year": 2023,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/HDIc"
-    }
-  ]
+  "refs": {
+    "letterboxd": "HDIc"
+  }
 }

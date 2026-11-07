@@ -4,10 +4,7 @@
   "title": "Happy You and Merry Me",
   "year": 1936,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/64Lw"
-    }
-  ]
+  "refs": {
+    "letterboxd": "64Lw"
+  }
 }

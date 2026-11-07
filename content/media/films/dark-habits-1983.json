@@ -4,10 +4,7 @@
   "title": "Dark Habits",
   "year": 1983,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/20tg"
-    }
-  ]
+  "refs": {
+    "letterboxd": "20tg"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "The Wave",
   "year": 1891,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/a2Xy"
-    }
-  ]
+  "refs": {
+    "letterboxd": "a2Xy"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Fencing",
   "year": 1892,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3znu"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3znu"
+  }
 }

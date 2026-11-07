@@ -4,10 +4,7 @@
   "title": "Tangled",
   "year": 2010,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/15gO"
-    }
-  ]
+  "refs": {
+    "letterboxd": "15gO"
+  }
 }

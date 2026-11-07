@@ -4,10 +4,7 @@
   "title": "I Am Cuba, the Siberian Mammoth",
   "year": 2004,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2I3c"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2I3c"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Hitman: Agent 47",
   "year": 2015,
   "rating": 1,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/7iA0"
-    }
-  ]
+  "refs": {
+    "letterboxd": "7iA0"
+  }
 }

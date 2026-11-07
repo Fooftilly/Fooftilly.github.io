@@ -4,10 +4,7 @@
   "title": "Midnight Cowboy",
   "year": 1969,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/25Hi"
-    }
-  ]
+  "refs": {
+    "letterboxd": "25Hi"
+  }
 }

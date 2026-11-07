@@ -4,10 +4,7 @@
   "title": "The Green Mile",
   "year": 1999,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2agG"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2agG"
+  }
 }

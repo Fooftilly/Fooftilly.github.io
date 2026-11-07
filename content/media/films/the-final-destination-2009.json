@@ -4,10 +4,7 @@
   "title": "The Final Destination",
   "year": 2009,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1EmW"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1EmW"
+  }
 }

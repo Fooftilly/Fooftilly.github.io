@@ -4,10 +4,7 @@
   "title": "The Infernal Cake-Walk",
   "year": 1903,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3lBi"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3lBi"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Cannibal Capers",
   "year": 1930,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/xKA"
-    }
-  ]
+  "refs": {
+    "letterboxd": "xKA"
+  }
 }

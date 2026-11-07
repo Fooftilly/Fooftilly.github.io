@@ -4,10 +4,7 @@
   "title": "The China Plate",
   "year": 1931,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3ASe"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3ASe"
+  }
 }

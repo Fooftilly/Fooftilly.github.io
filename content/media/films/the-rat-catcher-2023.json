@@ -4,10 +4,7 @@
   "title": "The Rat Catcher",
   "year": 2023,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/Is8a"
-    }
-  ]
+  "refs": {
+    "letterboxd": "Is8a"
+  }
 }

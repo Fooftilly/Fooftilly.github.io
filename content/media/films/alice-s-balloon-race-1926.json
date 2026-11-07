@@ -4,10 +4,7 @@
   "title": "Alice's Balloon Race",
   "year": 1926,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/10Xo"
-    }
-  ]
+  "refs": {
+    "letterboxd": "10Xo"
+  }
 }

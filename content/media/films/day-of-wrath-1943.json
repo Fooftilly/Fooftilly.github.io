@@ -4,10 +4,7 @@
   "title": "Day of Wrath",
   "year": 1943,
   "rating": 4.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/ZtM"
-    }
-  ]
+  "refs": {
+    "letterboxd": "ZtM"
+  }
 }

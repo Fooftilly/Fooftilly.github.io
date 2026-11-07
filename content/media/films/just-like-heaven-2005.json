@@ -4,10 +4,7 @@
   "title": "Just Like Heaven",
   "year": 2005,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1ZoO"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1ZoO"
+  }
 }

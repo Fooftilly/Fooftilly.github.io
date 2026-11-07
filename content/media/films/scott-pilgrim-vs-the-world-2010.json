@@ -4,10 +4,7 @@
   "title": "Scott Pilgrim vs. the World",
   "year": 2010,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1Aq6"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1Aq6"
+  }
 }

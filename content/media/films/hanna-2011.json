@@ -4,10 +4,7 @@
   "title": "Hanna",
   "year": 2011,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/DBE"
-    }
-  ]
+  "refs": {
+    "letterboxd": "DBE"
+  }
 }

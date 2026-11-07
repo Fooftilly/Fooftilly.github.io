@@ -4,10 +4,7 @@
   "title": "How I Learned to Fly",
   "year": 2022,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/z7y4"
-    }
-  ]
+  "refs": {
+    "letterboxd": "z7y4"
+  }
 }

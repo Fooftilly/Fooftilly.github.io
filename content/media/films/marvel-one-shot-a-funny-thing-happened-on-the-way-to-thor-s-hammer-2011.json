@@ -4,10 +4,7 @@
   "title": "Marvel One-Shot: A Funny Thing Happened on the Way to Thor's Hammer",
   "year": 2011,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2DQo"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2DQo"
+  }
 }

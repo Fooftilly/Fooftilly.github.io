@@ -4,10 +4,7 @@
   "title": "Donald's Nephews",
   "year": 1938,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2bGA"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2bGA"
+  }
 }

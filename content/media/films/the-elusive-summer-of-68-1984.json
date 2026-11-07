@@ -4,10 +4,7 @@
   "title": "The Elusive Summer of '68",
   "year": 1984,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4GVA"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4GVA"
+  }
 }

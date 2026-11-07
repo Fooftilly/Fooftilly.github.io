@@ -4,10 +4,7 @@
   "title": "Blade Runner 2049",
   "year": 2017,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/b8wK"
-    }
-  ]
+  "refs": {
+    "letterboxd": "b8wK"
+  }
 }

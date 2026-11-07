@@ -4,10 +4,7 @@
   "title": "Something Good — Negro Kiss",
   "year": 1898,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/kPtM"
-    }
-  ]
+  "refs": {
+    "letterboxd": "kPtM"
+  }
 }

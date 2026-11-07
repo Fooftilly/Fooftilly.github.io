@@ -4,10 +4,7 @@
   "title": "Mickey's Rival",
   "year": 1936,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2gDm"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2gDm"
+  }
 }

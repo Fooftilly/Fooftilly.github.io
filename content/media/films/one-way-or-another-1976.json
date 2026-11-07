@@ -4,10 +4,7 @@
   "title": "One Way or Another",
   "year": 1976,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/Lyo"
-    }
-  ]
+  "refs": {
+    "letterboxd": "Lyo"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Bernie",
   "year": 2011,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3eWe"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3eWe"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Picnic Days",
   "year": 1935,
   "rating": 1,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/ofAU"
-    }
-  ]
+  "refs": {
+    "letterboxd": "ofAU"
+  }
 }

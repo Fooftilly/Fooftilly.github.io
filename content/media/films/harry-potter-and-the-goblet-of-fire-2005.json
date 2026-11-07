@@ -4,10 +4,7 @@
   "title": "Harry Potter and the Goblet of Fire",
   "year": 2005,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/29Qo"
-    }
-  ]
+  "refs": {
+    "letterboxd": "29Qo"
+  }
 }

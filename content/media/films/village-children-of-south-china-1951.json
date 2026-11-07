@@ -4,10 +4,7 @@
   "title": "Village Children of South China",
   "year": 1951,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/t9JQ"
-    }
-  ]
+  "refs": {
+    "letterboxd": "t9JQ"
+  }
 }

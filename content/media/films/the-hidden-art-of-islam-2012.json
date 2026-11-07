@@ -4,10 +4,7 @@
   "title": "The Hidden Art of Islam",
   "year": 2012,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/9zQo"
-    }
-  ]
+  "refs": {
+    "letterboxd": "9zQo"
+  }
 }

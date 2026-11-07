@@ -4,10 +4,7 @@
   "title": "Dragoons Crossing the Sâone",
   "year": 1896,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4NSI"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4NSI"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Black Lagoon",
   "year": 2006,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/rb0Y"
-    }
-  ]
+  "refs": {
+    "letterboxd": "rb0Y"
+  }
 }

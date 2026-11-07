@@ -4,10 +4,7 @@
   "title": "Love, Death & Robots: Ice Age",
   "year": 2019,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/lJG8"
-    }
-  ]
+  "refs": {
+    "letterboxd": "lJG8"
+  }
 }

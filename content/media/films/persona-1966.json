@@ -4,10 +4,7 @@
   "title": "Persona",
   "year": 1966,
   "rating": 4.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/29B4"
-    }
-  ]
+  "refs": {
+    "letterboxd": "29B4"
+  }
 }

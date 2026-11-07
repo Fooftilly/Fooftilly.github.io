@@ -4,10 +4,7 @@
   "title": "John Wick",
   "year": 2014,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/7dEc"
-    }
-  ]
+  "refs": {
+    "letterboxd": "7dEc"
+  }
 }

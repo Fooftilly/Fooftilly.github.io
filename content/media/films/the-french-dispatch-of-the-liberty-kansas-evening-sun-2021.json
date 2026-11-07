@@ -4,10 +4,7 @@
   "title": "The French Dispatch of the Liberty, Kansas Evening Sun",
   "year": 2021,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/jLP8"
-    }
-  ]
+  "refs": {
+    "letterboxd": "jLP8"
+  }
 }

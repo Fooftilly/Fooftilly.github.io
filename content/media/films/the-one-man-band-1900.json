@@ -4,10 +4,7 @@
   "title": "The One-Man Band",
   "year": 1900,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/Gri"
-    }
-  ]
+  "refs": {
+    "letterboxd": "Gri"
+  }
 }

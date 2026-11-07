@@ -4,10 +4,7 @@
   "title": "Love, Death & Robots: Kill Team Kill",
   "year": 2022,
   "rating": 1.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/AW6M"
-    }
-  ]
+  "refs": {
+    "letterboxd": "AW6M"
+  }
 }

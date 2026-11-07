@@ -4,10 +4,7 @@
   "title": "Cyrano de Bergerac",
   "year": 1900,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5TsS"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5TsS"
+  }
 }

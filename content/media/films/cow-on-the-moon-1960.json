@@ -4,10 +4,7 @@
   "title": "Cow on the Moon",
   "year": 1960,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/9AKw"
-    }
-  ]
+  "refs": {
+    "letterboxd": "9AKw"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Killers of the Flower Moon",
   "year": 2023,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/gHp0"
-    }
-  ]
+  "refs": {
+    "letterboxd": "gHp0"
+  }
 }

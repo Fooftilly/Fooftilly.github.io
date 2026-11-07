@@ -4,10 +4,7 @@
   "title": "The Gratinated Brains of Pupilija Ferkeverk",
   "year": 1971,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/7J9K"
-    }
-  ]
+  "refs": {
+    "letterboxd": "7J9K"
+  }
 }

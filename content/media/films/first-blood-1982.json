@@ -4,10 +4,7 @@
   "title": "First Blood",
   "year": 1982,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/28U0"
-    }
-  ]
+  "refs": {
+    "letterboxd": "28U0"
+  }
 }

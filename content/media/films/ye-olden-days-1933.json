@@ -4,10 +4,7 @@
   "title": "Ye Olden Days",
   "year": 1933,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2eV4"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2eV4"
+  }
 }

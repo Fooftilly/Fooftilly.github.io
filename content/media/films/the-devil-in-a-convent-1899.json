@@ -4,10 +4,7 @@
   "title": "The Devil in a Convent",
   "year": 1899,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3yqM"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3yqM"
+  }
 }

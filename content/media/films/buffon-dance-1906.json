@@ -4,10 +4,7 @@
   "title": "Buffon Dance",
   "year": 1906,
   "rating": 1.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/xluQ"
-    }
-  ]
+  "refs": {
+    "letterboxd": "xluQ"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "The Boys from Marx and Engels Street",
   "year": 2014,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/9epm"
-    }
-  ]
+  "refs": {
+    "letterboxd": "9epm"
+  }
 }

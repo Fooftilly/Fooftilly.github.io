@@ -4,10 +4,7 @@
   "title": "Psych 2: Lassie Come Home",
   "year": 2020,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/lpbY"
-    }
-  ]
+  "refs": {
+    "letterboxd": "lpbY"
+  }
 }

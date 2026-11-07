@@ -4,10 +4,7 @@
   "title": "Unbreakable",
   "year": 2000,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1XV2"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1XV2"
+  }
 }

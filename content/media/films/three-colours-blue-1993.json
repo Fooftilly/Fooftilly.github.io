@@ -4,10 +4,7 @@
   "title": "Three Colours: Blue",
   "year": 1993,
   "rating": 5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2b7K"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2b7K"
+  }
 }

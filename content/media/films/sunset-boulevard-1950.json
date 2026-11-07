@@ -4,10 +4,7 @@
   "title": "Sunset Boulevard",
   "year": 1950,
   "rating": 4.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2a20"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2a20"
+  }
 }

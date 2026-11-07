@@ -4,10 +4,7 @@
   "title": "Deadpool: No Good Deed",
   "year": 2017,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/kq7G"
-    }
-  ]
+  "refs": {
+    "letterboxd": "kq7G"
+  }
 }

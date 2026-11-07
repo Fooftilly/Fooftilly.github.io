@@ -4,10 +4,7 @@
   "title": "Brooklyn, Fulton Street",
   "year": 1896,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5Lo4"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5Lo4"
+  }
 }

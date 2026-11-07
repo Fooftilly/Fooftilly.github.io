@@ -4,10 +4,7 @@
   "title": "Black Widow",
   "year": 2021,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/hWV8"
-    }
-  ]
+  "refs": {
+    "letterboxd": "hWV8"
+  }
 }

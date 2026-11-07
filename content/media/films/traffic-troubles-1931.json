@@ -4,10 +4,7 @@
   "title": "Traffic Troubles",
   "year": 1931,
   "rating": 2.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/53Cc"
-    }
-  ]
+  "refs": {
+    "letterboxd": "53Cc"
+  }
 }

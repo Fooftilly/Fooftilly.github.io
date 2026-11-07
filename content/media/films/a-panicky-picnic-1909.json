@@ -4,10 +4,7 @@
   "title": "A Panicky Picnic",
   "year": 1909,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4MhG"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4MhG"
+  }
 }

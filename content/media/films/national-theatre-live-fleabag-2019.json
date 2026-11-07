@@ -4,10 +4,7 @@
   "title": "National Theatre Live: Fleabag",
   "year": 2019,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/mXOW"
-    }
-  ]
+  "refs": {
+    "letterboxd": "mXOW"
+  }
 }

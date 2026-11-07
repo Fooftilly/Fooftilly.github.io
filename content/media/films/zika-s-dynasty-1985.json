@@ -4,10 +4,7 @@
   "title": "Zika's Dynasty",
   "year": 1985,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/sBe"
-    }
-  ]
+  "refs": {
+    "letterboxd": "sBe"
+  }
 }

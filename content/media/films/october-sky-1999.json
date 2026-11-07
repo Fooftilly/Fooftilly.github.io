@@ -4,10 +4,7 @@
   "title": "October Sky",
   "year": 1999,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1Q7u"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1Q7u"
+  }
 }

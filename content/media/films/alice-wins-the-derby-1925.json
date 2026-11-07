@@ -4,10 +4,7 @@
   "title": "Alice Wins the Derby",
   "year": 1925,
   "rating": 1.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/cZpO"
-    }
-  ]
+  "refs": {
+    "letterboxd": "cZpO"
+  }
 }

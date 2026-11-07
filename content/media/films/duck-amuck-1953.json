@@ -4,10 +4,7 @@
   "title": "Duck Amuck",
   "year": 1953,
   "rating": 4.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/x66"
-    }
-  ]
+  "refs": {
+    "letterboxd": "x66"
+  }
 }

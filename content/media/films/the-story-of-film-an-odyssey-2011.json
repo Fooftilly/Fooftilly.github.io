@@ -4,10 +4,7 @@
   "title": "The Story of Film: An Odyssey",
   "year": 2011,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/A10C"
-    }
-  ]
+  "refs": {
+    "letterboxd": "A10C"
+  }
 }

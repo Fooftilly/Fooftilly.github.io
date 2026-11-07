@@ -4,10 +4,7 @@
   "title": "Sans Soleil",
   "year": 1983,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/28B8"
-    }
-  ]
+  "refs": {
+    "letterboxd": "28B8"
+  }
 }

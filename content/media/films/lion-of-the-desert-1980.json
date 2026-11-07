@@ -4,10 +4,7 @@
   "title": "Lion of the Desert",
   "year": 1980,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1t3u"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1t3u"
+  }
 }

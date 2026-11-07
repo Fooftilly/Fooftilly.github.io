@@ -4,10 +4,7 @@
   "title": "Mysterious Object at Noon",
   "year": 2000,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/3gqu"
-    }
-  ]
+  "refs": {
+    "letterboxd": "3gqu"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Light-Play Opus I",
   "year": 1921,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5o3M"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5o3M"
+  }
 }

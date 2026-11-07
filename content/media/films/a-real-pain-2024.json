@@ -4,10 +4,7 @@
   "title": "A Real Pain",
   "year": 2024,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/CjNG"
-    }
-  ]
+  "refs": {
+    "letterboxd": "CjNG"
+  }
 }

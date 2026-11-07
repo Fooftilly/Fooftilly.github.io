@@ -4,10 +4,7 @@
   "title": "Police Academy 3: Back in Training",
   "year": 1986,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/1Sv4"
-    }
-  ]
+  "refs": {
+    "letterboxd": "1Sv4"
+  }
 }

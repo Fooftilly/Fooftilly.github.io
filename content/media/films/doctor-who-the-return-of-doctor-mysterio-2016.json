@@ -4,10 +4,7 @@
   "title": "Doctor Who: The Return of Doctor Mysterio",
   "year": 2016,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/o24Q"
-    }
-  ]
+  "refs": {
+    "letterboxd": "o24Q"
+  }
 }

@@ -4,10 +4,7 @@
   "title": "Doctor Who: The End of Time",
   "year": 2009,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/KBxi"
-    }
-  ]
+  "refs": {
+    "letterboxd": "KBxi"
+  }
 }

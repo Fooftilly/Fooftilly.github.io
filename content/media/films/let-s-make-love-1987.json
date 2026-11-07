@@ -4,10 +4,7 @@
   "title": "Let's Make Love",
   "year": 1987,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/a6Jq"
-    }
-  ]
+  "refs": {
+    "letterboxd": "a6Jq"
+  }
 }

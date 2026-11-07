@@ -4,10 +4,7 @@
   "title": "Hotel Transylvania 3: Summer Vacation",
   "year": 2018,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/e1zI"
-    }
-  ]
+  "refs": {
+    "letterboxd": "e1zI"
+  }
 }

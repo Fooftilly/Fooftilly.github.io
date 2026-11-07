@@ -4,10 +4,7 @@
   "title": "The Working Class Goes to Heaven",
   "year": 1971,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/pCe"
-    }
-  ]
+  "refs": {
+    "letterboxd": "pCe"
+  }
 }

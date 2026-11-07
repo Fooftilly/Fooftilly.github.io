@@ -4,10 +4,7 @@
   "title": "Three",
   "year": 1965,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/65H6"
-    }
-  ]
+  "refs": {
+    "letterboxd": "65H6"
+  }
 }

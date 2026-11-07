@@ -4,10 +4,7 @@
   "title": "It Rains in My Village",
   "year": 1968,
   "rating": 4,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/4aco"
-    }
-  ]
+  "refs": {
+    "letterboxd": "4aco"
+  }
 }

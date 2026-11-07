@@ -4,10 +4,7 @@
   "title": "Elizabeth Taylor: The Lost Tapes",
   "year": 2024,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/MN7U"
-    }
-  ]
+  "refs": {
+    "letterboxd": "MN7U"
+  }
 }

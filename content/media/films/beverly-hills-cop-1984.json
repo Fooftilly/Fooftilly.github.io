@@ -4,10 +4,7 @@
   "title": "Beverly Hills Cop",
   "year": 1984,
   "rating": 3.5,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/2baE"
-    }
-  ]
+  "refs": {
+    "letterboxd": "2baE"
+  }
 }

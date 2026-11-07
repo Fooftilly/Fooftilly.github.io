@@ -4,10 +4,7 @@
   "title": "Tuileries Basin",
   "year": 1896,
   "rating": 2,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/5Lpw"
-    }
-  ]
+  "refs": {
+    "letterboxd": "5Lpw"
+  }
 }

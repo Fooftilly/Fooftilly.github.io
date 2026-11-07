@@ -4,10 +4,7 @@
   "title": "Rocky Balboa",
   "year": 2006,
   "rating": 3,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/291q"
-    }
-  ]
+  "refs": {
+    "letterboxd": "291q"
+  }
 }

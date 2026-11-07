@@ -4,10 +4,7 @@
   "title": "Mendiant d'amour",
   "year": 1911,
   "rating": 1,
-  "links": [
-    {
-      "label": "Letterboxd",
-      "url": "https://boxd.it/DTGy"
-    }
-  ]
+  "refs": {
+    "letterboxd": "DTGy"
+  }
 }
