@@ -30,11 +30,15 @@ RESOURCE_ATTRIBUTES = {
 }
 
 
-def is_eager_external_target(raw: str, site: str) -> bool:
+def is_eager_external_target(raw: str, site: str, *, allow_inline: bool = False) -> bool:
     """Recognize cross-origin network targets and suspicious executable schemes."""
     url = urlsplit(raw.strip())
     canonical = urlsplit(site)
     if not raw.strip():
+        return False
+    if allow_inline and url.scheme == "data":
+        # Embedded media bytes are not network requests; script/data URLs
+        # still use the stricter default rejection path.
         return False
     if url.scheme or url.netloc:
         return not (
@@ -65,7 +69,7 @@ class EagerResources(HTMLParser):
             attribute = "src"
         if tag == "video":
             poster = data.get("poster")
-            if poster is not None and is_eager_external_target(poster, self.site):
+            if poster is not None and is_eager_external_target(poster, self.site, allow_inline=True):
                 self.violations.append(f"video[poster]={poster[:140]!r}")
         if tag == "image":
             attribute = "href" if "href" in data else "xlink:href"
@@ -82,13 +86,16 @@ class EagerResources(HTMLParser):
                 # may also contain commas; these cannot introduce an HTTP URL.
                 for candidate in srcset.split(","):
                     url = candidate.strip().split(maxsplit=1)
-                    if url and is_eager_external_target(url[0], self.site):
+                    if url and is_eager_external_target(url[0], self.site, allow_inline=True):
                         self.violations.append(
                             f"{tag}[{srcset_attribute}]={url[0][:140]!r}"
                         )
         if attribute:
             target = data.get(attribute)
-            if target is not None and is_eager_external_target(target, self.site):
+            if target is not None and is_eager_external_target(
+                target, self.site,
+                allow_inline=tag in {"img", "audio", "video", "source", "track", "image"},
+            ):
                 self.violations.append(f"{tag}[{attribute}]={target[:140]!r}")
 
 
