@@ -785,7 +785,7 @@ try {
     "no-referrer","YouTube iframe must not send the source page referrer");
   assert.equal(await evaluate("document.querySelector('[data-load-youtube]')?.hidden"),true,
     "YouTube player button hides after activation");
-  assert.equal(await evaluate("document.querySelector('a[href*="youtube.com/watch"]')!==null"),true,
+  assert.equal(await evaluate("Array.from(document.querySelectorAll('a')).some(a=>a.href.includes('youtube.com/watch'))"),true,
     "Original YouTube bookmark link remains accessible");
   console.log("Browser consent smoke: fixed desktop/mobile cookie overlay, settings reopening, keyboard focus and no eager Google tag passed");
 
