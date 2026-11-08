@@ -4,7 +4,7 @@ import {
   validateMediaRecord, mediaSlug, mediaPath, composeMediaDraft,
   sameMedia, githubMediaEditorUrl, mediaEntryId, assertUniqueMediaCatalog, mediaSourceLabel,
   mediaReferenceUrl, mediaReferenceFromUrl, mediaSourceLinks, compactMediaLinks,
-  composeMediaReferenceEdit, githubExistingMediaEditorUrl,
+  composeMediaReferenceEdit, composeMediaRatingsEdit, githubExistingMediaEditorUrl,
 } from "../src/lib/media-model.ts";
 
 const film = {
@@ -398,4 +398,54 @@ test("long Unicode edition suffixes are deterministic and valid",()=>{
   assert.equal(mediaPath(a),mediaPath(a));
   assert.doesNotThrow(()=>validateMediaRecord(a));
   assert.doesNotThrow(()=>validateMediaRecord(b));
+});
+
+test("existing album rating editor adds tracks without rewriting imported album data",()=>{
+  const album={schema:1,kind:"music",title:"Album",creator:"Artist",year:2024,
+    edition:"Verified 7-inch",rating:4,notes:"Published note",
+    refs:{musicbrainz:"05affa96-5959-32da-8d75-1c9eb985ca59"},
+    links:[{label:"Source",url:"https://example.org/album"}]};
+  const entry={...album,id:"music/album-2024-artist-verified-7-inch",
+    path:"content/media/music/album-2024-artist-verified-7-inch.json"};
+  const input={rating:4,tracks:[{disc:1,number:1,title:"First take",rating:4.5},
+                                {disc:1,number:2,title:"Second take"}]};
+  const edited=composeMediaRatingsEdit(entry,input);
+  assert.equal(edited.changed,true);
+  assert.equal(edited.path,entry.path);
+  assert.deepEqual(JSON.parse(edited.json),{...album,tracks:input.tracks});
+  assert.equal(entry.tracks,undefined,"Drafting never modifies original tracks");
+  assert.deepEqual(JSON.parse(composeMediaRatingsEdit(entry,{rating:4}).json),album);
+  assert.equal(composeMediaRatingsEdit(entry,{rating:4}).changed,false);
+});
+
+test("existing TV nested ratings are independent and preserve unrelated metadata",()=>{
+  const record={schema:1,kind:"tv",title:"Series",rating:3.5,status:"finished",
+    seasons:[{number:1,title:"First",rating:4,episodes:[
+      {number:1,title:"Pilot",rating:2.5},{number:2,title:"Finale"}]}]};
+  const entry={...record,id:"tv/series",path:"content/media/tv/series.json"};
+  const nextSeasons=[{number:1,title:"First",rating:4.5,episodes:[
+    {number:1,title:"Pilot",rating:5},{number:2,title:"Finale",rating:3.5}]}];
+  const result=composeMediaRatingsEdit(entry,{rating:0,seasons:nextSeasons});
+  const {rating:_rating,...withoutRating}=record;
+  assert.deepEqual(JSON.parse(result.json),{...withoutRating,seasons:nextSeasons});
+  assert.equal(JSON.parse(result.json).rating,undefined);
+  assert.equal(entry.seasons[0].episodes[0].rating,2.5);
+  assert.equal(JSON.parse(composeMediaRatingsEdit(entry,{rating:3.5}).json).rating,3.5);
+});
+
+test("existing media rating editor rejects invalid ratings, positions and cross-category data",()=>{
+  const album={schema:1,kind:"music",title:"Album",rating:4,
+    id:"music/album",path:"content/media/music/album.json"};
+  assert.throws(()=>composeMediaRatingsEdit(album,{rating:5.5}),/Rating/);
+  assert.throws(()=>composeMediaRatingsEdit(album,{rating:3.3}),/Rating/);
+  assert.throws(()=>composeMediaRatingsEdit(album,{rating:4,tracks:[
+    {disc:1,number:1,title:"First"},{disc:1,number:1,title:"Duplicate"}]}),/Duplicate track position/);
+  assert.throws(()=>composeMediaRatingsEdit(album,{rating:4,tracks:[
+    {disc:1,number:0,title:"Invalid"}]}),/Track number/);
+  assert.throws(()=>composeMediaRatingsEdit(album,{rating:4,seasons:[]}),/Seasons are only/);
+  const film={...album,kind:"films",id:"films/album",path:"content/media/films/album.json"};
+  assert.throws(()=>composeMediaRatingsEdit(film,{rating:2,tracks:[]}),/Films do not/);
+  const series={...album,kind:"tv",id:"tv/album",path:"content/media/tv/album.json"};
+  assert.throws(()=>composeMediaRatingsEdit(series,{rating:2,tracks:[]}),/Tracks are only/);
+  assert.throws(()=>composeMediaRatingsEdit({...album,path:"content/media/music/../evil.json"},{rating:4}),/mismatch/);
 });
