@@ -7,6 +7,7 @@ import { createServer } from "node:http";
 import { mkdtemp, readFile, readdir, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { extname, join, resolve, sep } from "node:path";
+import { isExternalHttpRequest, networkAuditLabel } from "./consent-network-audit.mjs";
 
 const sleep = (ms) => new Promise((done) => setTimeout(done, ms));
 const dist = resolve("dist");
@@ -122,8 +123,18 @@ try {
   });
   const pending = new Map();
   let sequence = 0;
+  const unconsentedRequests = [];
+  let checkUnconsentedRequests = false;
   socket.addEventListener("message", ({ data }) => {
     const message = JSON.parse(data);
+    // CDP records the attempted request even when the remote server is down:
+    // testing only loaded DOM tags would miss JS fetch, CSS url() and imports.
+    if (checkUnconsentedRequests && message.method === "Network.requestWillBeSent") {
+      const targetUrl = message.params?.request?.url;
+      if (typeof targetUrl === "string" && isExternalHttpRequest(targetUrl, origin)) {
+        unconsentedRequests.push(networkAuditLabel(targetUrl));
+      }
+    }
     const promise = pending.get(message.id);
     if (!promise) return;
     pending.delete(message.id);
@@ -640,6 +651,11 @@ try {
     console.log("Media fixture URL smoke: EN collection deep links, reload, status/search/sort filters and reset passed");
     console.log("Media fixture Chromium smoke: Vue hydration, search, live count and sort passed");
   } else {
+  // Guard actual pre-consent HTTP requests, not only static DOM attributes.
+  // The page-target CDP event observes script, CSS, font, image, and fetch
+  // requests regardless of whether the remote request eventually succeeds.
+  await command("Network.enable");
+  checkUnconsentedRequests = true;
   // Consent must appear as a fixed cookie overlay, not as an inline footer.
   await navigate("/");
   await waitFor(
@@ -666,6 +682,8 @@ try {
   assert.equal(desktopConsent.settings, true);
   assert.equal(desktopConsent.focused, true, "Cookie banner should be discoverable to keyboard users");
   assert.equal(desktopConsent.gaLoaded, false, "No Google tag without opt-in");
+  assert.deepEqual([...new Set(unconsentedRequests)], [],
+    "First-visit homepage must not request resources from third-party origins");
   assert.ok(desktopConsent.left >= 0 && desktopConsent.right <= desktopConsent.viewportWidth + 1);
   assert.ok(desktopConsent.top >= 0 && desktopConsent.bottom <= desktopConsent.viewportHeight + 1);
   await evaluate("document.querySelector('[data-analytics-decline]').click()");
@@ -696,6 +714,22 @@ try {
   assert.ok(mobileConsent.top >= 0 && mobileConsent.bottom <= mobileConsent.viewportHeight + 1, "Mobile cookie notice must fit viewport height");
   await command("Emulation.clearDeviceMetricsOverride");
   await evaluate("document.querySelector('[data-analytics-decline]').click()");
+  // With consent denied, check representative pages that hydrate different
+  // browser islands and an actual bookmark detail (Giscus click-to-load).
+  const publicDetail = bookmarkRecords.find(record => record.detailUrl)?.detailUrl;
+  const privacyRoutes = ["/sh/", "/projects/", "/sh/projects/", "/sh/search/",
+    "/media/", "/new-bookmark/", ...(publicDetail ? [publicDetail] : [])];
+  for (const route of privacyRoutes) {
+    await navigate(route);
+    assert.equal(await evaluate("document.querySelector('[data-ga-loader]')===null"), true,
+      "Denied consent must not load Google Analytics on " + route);
+    assert.deepEqual([...new Set(unconsentedRequests)], [],
+      "Unexpected third-party requests before/without consent on " + route);
+  }
+  checkUnconsentedRequests = false;
+  await command("Network.disable");
+  console.log("Browser consent network smoke: no third-party HTTP requests before/after denial on " +
+    (privacyRoutes.length + 1) + " representative routes");
   console.log("Browser consent smoke: fixed desktop/mobile cookie overlay, settings reopening, keyboard focus and no eager Google tag passed");
 
   // Project cards are static links, not Vue islands. Reuse the existing Chrome
