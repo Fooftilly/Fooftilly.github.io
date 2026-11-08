@@ -2,7 +2,7 @@
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import NewMedia from "../../components/NewMedia.vue";
 import { loadMedia } from "../../lib/media-store.ts";
-const existing=(await loadMedia()).map(({path,kind,title,year,creator,links,refs})=>({path,kind,title,year,creator,links,refs}));
+const existing=(await loadMedia()).map(({path,kind,title,edition,year,creator,links,refs})=>({path,kind,title,edition,year,creator,links,refs}));
 ---
 <SiteLayout title="Add media" description="Add media.">
   <NewMedia existing={existing} client:load />

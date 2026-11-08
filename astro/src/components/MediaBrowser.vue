@@ -188,7 +188,7 @@ async function showMore(): Promise<void> {
           <tbody ref="tableBody">
             <tr v-for="item in visible" :key="item.id" data-media-row>
               <th scope="row">
-                {{ item.title }}
+                {{ item.title }}{{ item.edition ? " · " + item.edition : "" }}
                 <details v-if="item.notes" :open="mediaNotesExplainSearch(item, query)">
                   <summary>Notes</summary><p class="notes">{{ item.notes }}</p>
                 </details>

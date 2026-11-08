@@ -61,6 +61,16 @@ const fixtures = [
     },
   },
   {
+    folder: "music",
+    record: {schema:1,kind:"music",title:"CI edition identity fixture",creator:"CI Artist",
+      year:1978,edition:"Part 1",rating:4},
+  },
+  {
+    folder: "music",
+    record: {schema:1,kind:"music",title:"CI edition identity fixture",creator:"CI Artist",
+      year:1978,edition:"Part 2",rating:3.5},
+  },
+  {
     folder: "tv",
     record: {
       schema: 1, kind: "tv", title: "CI synthetic TV show (not for publication)",
@@ -221,6 +231,7 @@ try {
   for (const {folder, record} of fixtures) {
     const html = await readFile(join(dist, folder, "index.html"), "utf8");
     assert.ok(html.includes(record.title), "Astro omitted synthetic " + folder + " record");
+    if(record.edition)assert.ok(html.includes(record.edition),"Edition missing from rendered media table");
     if (record.tracks) assert.ok(html.includes("data-media-track"), "Album track ratings omitted from HTML");
     if (record.seasons) {
       assert.ok(html.includes("data-media-season"), "Season ratings omitted from HTML");

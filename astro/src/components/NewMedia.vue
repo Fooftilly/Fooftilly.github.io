@@ -13,6 +13,7 @@ onMounted(() => {
   }
 });
 const title=ref("");
+const edition=ref("");
 const creator=ref("");
 const year=ref<string|number>("");
 const rating=ref(0); // 0 means no rating; saved values are 0.5 through 5.
@@ -75,6 +76,7 @@ const editorLimit=3900;
 const drafted=computed(()=>{
   try {
     const input:MediaRecord={schema:1,kind:kind.value,title:title.value.trim()};
+    if(edition.value.trim()) input.edition=edition.value.trim();
     if(creator.value.trim()) input.creator=creator.value.trim();
     const yearText=String(year.value ?? "").trim();
     if(yearText){
@@ -150,6 +152,11 @@ async function copy(value:string,label:string){
       </fieldset>
       <label>Title
         <input v-model="title" type="text" maxlength="250" required placeholder="Title" autocomplete="off" />
+      </label>
+      <label>Edition or version (optional)
+        <input v-model="edition" type="text" maxlength="120" autocomplete="off"
+               placeholder="Part 1 · EMI 31C 016 06894" />
+        <span class="field-hint">Only add a verified version, format or catalog number.</span>
       </label>
       <label>Artist, director, or creator (optional)
         <input v-model="creator" type="text" maxlength="500" placeholder="Who made it?" />

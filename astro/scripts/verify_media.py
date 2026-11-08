@@ -270,7 +270,7 @@ def expected_row(record, canonical_urls=None):
                 for s in seasons for e in s.get("episodes", [])]
     return {
         "cells": [
-            normalized(record["title"]),
+            normalized(record["title"] + (" · " + record["edition"] if record.get("edition") else "")),
             normalized(record.get("creator") or "—"),
             rendered_year(record),
             f"{rating:.1f} / 5" if rating is not None else "—",
