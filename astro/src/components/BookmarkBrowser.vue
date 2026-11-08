@@ -48,6 +48,7 @@ const labels = computed(() => props.lang === "sh" ? {
 });
 const query = ref("");
 const searchInput = ref<HTMLInputElement | null>(null);
+const bookmarkList = ref<HTMLUListElement | null>(null);
 async function clearFilters(): Promise<void> {
   query.value = "";
   category.value = "all";
@@ -84,6 +85,19 @@ const matches = computed(() => filterAndSortBookmarks(props.items, {
 const visible = computed(() => visibleBookmarkPage(matches.value, limit.value, hydrated.value));
 
 const hydrated = ref(false);
+/** Move focus to the first new result when the Show more button vanishes on
+ * the final page; avoid returning keyboard users to the start of the page.
+ */
+async function showMore(): Promise<void> {
+  const previous = visible.value.length;
+  limit.value += BOOKMARK_PAGE_SIZE;
+  await nextTick();
+  const firstNew = bookmarkList.value?.querySelectorAll<HTMLLIElement>("li.bookmark-entry")[previous];
+  if (firstNew) {
+    firstNew.tabIndex = -1;
+    firstNew.focus();
+  }
+}
 const syncAddress = (): void => {
   if (!hydrated.value || typeof window === "undefined") return;
   const next = bookmarkFilterHref(window.location.href, {
@@ -164,7 +178,7 @@ watch([query, category, sort, tag], () => {
         {{ labels.clear }}
       </button>
     </div>
-    <ul class="bookmark-list" :aria-label="lang === 'sh' ? 'Sačuvani linkovi' : 'Bookmarks'">
+    <ul ref="bookmarkList" class="bookmark-list" :aria-label="lang === 'sh' ? 'Sačuvani linkovi' : 'Bookmarks'">
       <li v-for="item in visible" :key="item.id" class="bookmark-entry">
         <a v-if="item.url" :href="item.url" target="_blank" rel="noopener noreferrer">{{ item.title }}</a>
         <span v-else>{{ item.title }}</span>
@@ -183,7 +197,7 @@ watch([query, category, sort, tag], () => {
     </ul>
     <p v-if="matches.length === 0" class="empty-result">{{ labels.none }}</p>
     <button v-if="visible.length < matches.length" class="more-button" type="button"
-      @click="limit += BOOKMARK_PAGE_SIZE">
+      @click="showMore">
       {{ labels.more }}
     </button>
   </section>
