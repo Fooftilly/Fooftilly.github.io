@@ -95,7 +95,7 @@ const drafted=computed(()=>{
       label:mediaSourceLabel(secondaryUrl.value.trim(),"Additional reference"),
       url:secondaryUrl.value.trim()
     });
-    if(links.length) Object.assign(input,compactMediaLinks(links));
+    if(links.length) Object.assign(input,compactMediaLinks(links,kind.value));
     if(kind.value==="music" && tracks.value.length) input.tracks=tracks.value.map(track=>({
       disc:numberOf(track.disc,"Disc"),number:numberOf(track.number,"Track number"),
       title:track.title,
