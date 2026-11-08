@@ -8,6 +8,25 @@ export interface MediaLink { label: string; url: string }
 export type MediaPlatform = "imdb"|"tmdb"|"wikipedia"|"letterboxd"|"musicbrainz";
 export type MediaReferences = Partial<Record<MediaPlatform,string>>;
 export const MEDIA_REFERENCE_PLATFORMS: readonly MediaPlatform[] = ["imdb","tmdb","wikipedia","letterboxd","musicbrainz"];
+/** Provider IDs identify works in a specific category; Wikipedia is shared. */
+const MEDIA_REFERENCE_PLATFORMS_BY_KIND: Record<MediaKind, readonly MediaPlatform[]> = {
+  music: ["musicbrainz","wikipedia"],
+  films: ["imdb","tmdb","wikipedia","letterboxd"],
+  tv: ["imdb","tmdb","wikipedia"],
+};
+export function mediaReferencePlatformsForKind(kind: MediaKind): readonly MediaPlatform[] {
+  return MEDIA_REFERENCE_PLATFORMS_BY_KIND[kind];
+}
+export function mediaReferenceAllowed(kind: MediaKind, platform: MediaPlatform, id: string): boolean {
+  return mediaReferencePlatformsForKind(kind).includes(platform) &&
+    (platform!=="tmdb" ||
+      (kind==="films" && id.startsWith("movie:")) ||
+      (kind==="tv" && id.startsWith("tv:")));
+}
+function assertMediaReferenceAllowed(kind: MediaKind, platform: MediaPlatform, id: string): void {
+  if(!mediaReferenceAllowed(kind,platform,id))
+    throw new Error(platform+" provider reference is not supported for "+kind+" records");
+}
 
 
 export interface MediaTrack { disc: number; number: number; title: string; rating?: number }
@@ -164,11 +183,12 @@ export function mediaSourceLinks(record: Pick<MediaRecord,"refs"|"links">): Medi
   ];
 }
 /** Converts a user-pasted direct URL to a compact ref where lossless. */
-export function compactMediaLinks(links: readonly MediaLink[]): Pick<MediaRecord,"refs"|"links"> {
+export function compactMediaLinks(links: readonly MediaLink[], kind: MediaKind): Pick<MediaRecord,"refs"|"links"> {
   const refs:MediaReferences={},remaining:MediaLink[]=[];
   for(const link of links){
     const parsed=mediaReferenceFromUrl(link.url);
-    if(parsed && !refs[parsed.platform])refs[parsed.platform]=parsed.id;
+    if(parsed && mediaReferenceAllowed(kind,parsed.platform,parsed.id) && !refs[parsed.platform])
+      refs[parsed.platform]=parsed.id;
     else remaining.push(link);
   }
   return {...(Object.keys(refs).length?{refs}:{}),...(remaining.length?{links:remaining}:{})};
@@ -285,6 +305,7 @@ export function validateMediaRecord(raw: unknown, expectedKind?: MediaKind): Med
     const normalized:MediaReferences={};
     for(const [platform,id] of Object.entries(refs) as [MediaPlatform,unknown][]){
       if(typeof id!=="string")throw new Error("Media reference ID must be text");
+      assertMediaReferenceAllowed(result.kind,platform,id);
       mediaReferenceUrl(platform,id); // Validate before storing.
       normalized[platform]=id;
     }
@@ -423,6 +444,9 @@ export function composeMediaReferenceEdit(
     if(typeof raw!=="string")throw new Error("Provider ID must be text");
     let value=raw.trim();
     if(!value)continue;
+    // Even callers that bypass the Vue form must not create category-invalid refs.
+    if(!mediaReferencePlatformsForKind(entry.kind).includes(platform))
+      throw new Error(platform+" provider reference is not supported for "+entry.kind+" records");
     if(value.startsWith("https://")){
       const parsed=mediaReferenceFromUrl(value);
       if(!parsed||parsed.platform!==platform)
@@ -431,6 +455,7 @@ export function composeMediaReferenceEdit(
     }
     // Canonical provider URLs preserve case-sensitive ID paths such as boxd.it.
     // Only MusicBrainz UUIDs are case-insensitive; the URL builder normalizes them.
+    assertMediaReferenceAllowed(entry.kind,platform,value);
     const canonicalUrl=mediaReferenceUrl(platform,value);
     if(platform==="musicbrainz")value=value.toLowerCase();
     if(value!==entry.refs?.[platform] && catalog.some(other=>other.path!==entry.path &&
