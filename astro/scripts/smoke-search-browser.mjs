@@ -8,6 +8,7 @@ import { mkdtemp, readFile, readdir, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { extname, join, resolve, sep } from "node:path";
 import { isExternalHttpRequest, networkAuditLabel } from "./consent-network-audit.mjs";
+import { chromiumPageWebSocketUrl } from "./chromium-devtools-target.mjs";
 
 const sleep = (ms) => new Promise((done) => setTimeout(done, ms));
 const dist = resolve("dist");
@@ -49,8 +50,9 @@ try {
     delete chromeEnv.DBUS_SESSION_BUS_ADDRESS;
     chrome = spawn(process.env.CHROME_BIN || "google-chrome", [
       "--headless=new", "--no-sandbox", "--disable-gpu", "--disable-dev-shm-usage",
-      "--no-first-run", "--no-default-browser-check", "--remote-allow-origins=*",
-      "--remote-debugging-port=0", "--user-data-dir=" + profile, "about:blank",
+      "--no-first-run", "--no-default-browser-check",
+      "--remote-debugging-address=127.0.0.1", "--remote-debugging-port=0",
+      "--user-data-dir=" + profile, "about:blank",
     ], { stdio: ["ignore", "ignore", "pipe"], env: chromeEnv });
     let chromeStderr = "";
     chrome.stderr?.on("data", (chunk) => {
@@ -116,7 +118,11 @@ try {
   const opened = await fetch("http://127.0.0.1:" + port + "/json/new?about:blank", { method: "PUT" });
   assert.equal(opened.status, 200, "Unable to open browser target");
   const target = await opened.json();
-  socket = new WebSocket(target.webSocketDebuggerUrl);
+  assert.equal(target.type, "page", "Chromium must create a page target");
+  // All test data and browser assertions stay inside the disposable local
+  // preview/Chromium process. Do not trust a CDP-provided remote WebSocket URL.
+  const debuggerUrl = chromiumPageWebSocketUrl(target.webSocketDebuggerUrl, port, target.id);
+  socket = new WebSocket(debuggerUrl);
   await new Promise((done, fail) => {
     socket.addEventListener("open", done, { once: true });
     socket.addEventListener("error", fail, { once: true });
