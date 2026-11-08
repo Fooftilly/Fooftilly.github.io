@@ -300,7 +300,7 @@ test("provider editor converts duplicated direct links and rejects unsafe or con
   assert.throws(()=>composeMediaReferenceEdit(stored,{musicbrainz:id},[stored,other]),/already assigned/);
   for(const invalid of ["https://musicbrainz.org/release/"+id,"https://evil.example/release-group/"+id,"javascript:alert(1)","bad-uuid"])
     assert.throws(()=>composeMediaReferenceEdit(stored,{musicbrainz:invalid},[stored]),/Invalid/);
-  assert.throws(()=>composeMediaReferenceEdit(stored,{imdb:link},[stored]),/Invalid/);
+  assert.throws(()=>composeMediaReferenceEdit(stored,{imdb:link},[stored]),/not supported/);
   assert.throws(()=>composeMediaReferenceEdit({...stored,path:"content/media/music/../evil.json"},{},[]),/mismatch|Invalid/);
   assert.throws(()=>githubExistingMediaEditorUrl("content/media/films/../evil.json"),/Invalid/);
 });
