@@ -2,6 +2,7 @@
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
 import { compareMediaListings, matchesMediaSearch, matchesMediaStatus, matchesMediaMinimumRating, searchableMediaText, mediaNotesExplainSearch, mediaVisiblePage, MEDIA_PAGE_SIZE, type MediaSort, type MediaStatusFilter } from "../lib/media-browser.ts";
 import { mediaFilterHref, readMediaQueryState } from "../lib/media-query-state.ts";
+import MediaRatingEditor from "./MediaRatingEditor.vue";
 import { mediaSourceLinks, composeMediaReferenceEdit, githubExistingMediaEditorUrl, MEDIA_REFERENCE_PLATFORMS, type MediaKind, type StoredMedia, type MediaPlatform, type MediaProviderCatalogRef } from "../lib/media-model.ts";
 
 const props=defineProps<{kind:MediaKind;entries:StoredMedia[];otherProviderRefs:MediaProviderCatalogRef[]}>();
@@ -16,6 +17,7 @@ const limit=ref(MEDIA_PAGE_SIZE);
 const missingRefsOnly=ref(false);
 // The owner must commit changes through GitHub. No public write API is exposed.
 const editing=ref<StoredMedia|null>(null);
+const ratingsEditing=ref<StoredMedia|null>(null);
 const providerDialog=ref<HTMLDialogElement|null>(null);
 const providerInputs=ref<Record<MediaPlatform,string>>({
   imdb:"",tmdb:"",wikipedia:"",letterboxd:"",musicbrainz:"",
@@ -247,6 +249,10 @@ async function showMore(): Promise<void> {
                   @click="editProviderIds(item)">
                   {{ MEDIA_REFERENCE_PLATFORMS.some(platform=>Boolean(item.refs?.[platform]))?'Edit IDs':'Add ID' }}
                 </button>
+                <button type="button" class="media-edit-ids" data-media-rating-edit
+                  :aria-label="'Edit ratings for '+item.title" @click="ratingsEditing=item">
+                  Edit ratings
+                </button>
               </td>
             </tr>
           </tbody>
@@ -263,6 +269,7 @@ async function showMore(): Promise<void> {
       </p>
     </template>
   </section>
+  <MediaRatingEditor v-if="ratingsEditing" :entry="ratingsEditing" @close="ratingsEditing=null" />
   <dialog v-if="editing" ref="providerDialog" class="media-provider-dialog"
           aria-label="Edit media provider IDs" @close="editing=null">
     <div class="provider-editor">

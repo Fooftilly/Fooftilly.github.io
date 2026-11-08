@@ -495,7 +495,7 @@ export function composeMediaRatingsEdit(entry: StoredMedia, input: MediaRatingsI
     throw new Error("Films do not have tracks or seasons");
   }
 
-  validateMediaRecord(next,entry.kind);
+  const validated=validateMediaRecord(next,entry.kind);
   const scoreFields=(record:MediaRecord)=>JSON.stringify({
     rating:record.rating??null,
     tracks:record.tracks??null,
@@ -503,8 +503,8 @@ export function composeMediaRatingsEdit(entry: StoredMedia, input: MediaRatingsI
   });
   return {
     path:entry.path,
-    json:JSON.stringify(next,null,2)+"\n",
-    changed:scoreFields(entry)!==scoreFields(next),
+    json:JSON.stringify(validated,null,2)+"\n",
+    changed:scoreFields(entry)!==scoreFields(validated),
   };
 }
 
