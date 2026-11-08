@@ -262,7 +262,9 @@ are rejected rather than silently shortened.
 A copyable browser bookmarklet can capture the current tab's title and URL
 into the form at `www.peroniko.xyz`. New captures carry the URL and title in
 the editor page's **fragment** (`#url=…&title=…`), not in the HTTP request query
-string sent to GitHub Pages/CDN. The bookmarklet also opens with `noreferrer`\nso the source page is not disclosed through the HTTP `Referer` header.\nExisting `?url=…&title=…` prefill links remain
+string sent to GitHub Pages/CDN. The bookmarklet also opens with `noreferrer`
+so the source page is not disclosed through the HTTP `Referer` header.
+Existing `?url=…&title=…` prefill links remain
 supported but can expose their query contents to the hosting server. The bookmarklet
 does not create a file or send the page to any other service. No GitHub
 write token, OAuth client credentials or public write endpoint exist in
