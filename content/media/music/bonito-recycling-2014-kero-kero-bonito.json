@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Bonito Recycling",
+  "creator": "Kero Kero Bonito",
+  "year": 2014,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "3646c6ef-4b59-4333-8edc-e228d9247386"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "American Industrial Ballads",
+  "creator": "P. Seeger",
+  "year": 1956,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "b60aceec-9c58-3828-997a-c7f32e124f26"
+  }
+}

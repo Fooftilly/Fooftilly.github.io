@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Stone Alliance",
+  "creator": "Stone Alliance",
+  "year": 1977,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "60c9580c-0d16-4696-8c18-418e27c15d87"
+  }
+}

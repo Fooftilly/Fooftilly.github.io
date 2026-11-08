@@ -225,6 +225,16 @@ test("multiline public notes are preserved for real media reviews", () => {
   assert.throws(() => validateMediaRecord({...film,notes:"Unsafe\u0002note"}),/unsafe control codes/);
 });
 
+
+test("classical ensemble credits round-trip up to the shared 500-character creator limit",()=>{
+  const fullCredit="Staatsorchester Stuttgart / Lithuanian Chamber Orchestra / The 12 Cellists of the Berlin Philharmonic Orchestra / Dennis Russell Davies / Saulius Sondeckis / Gidon Kremer / Keith Jarrett / Tatjana Grindenko / Alfred Schnittke";
+  assert.ok(fullCredit.length > 220 && fullCredit.length <= 500);
+  const album={schema:1,kind:"music",title:"Tabula rasa",creator:fullCredit,year:1984,rating:4};
+  assert.equal(validateMediaRecord(album).creator,fullCredit);
+  assert.equal(JSON.parse(composeMediaDraft(album,[]).json).creator,fullCredit);
+  assert.throws(()=>validateMediaRecord({...album,creator:"x".repeat(501)}),/1–500 printable characters/);
+});
+
 test("reject unsafe URLs, unexpected private fields and invalid metadata before GitHub handoff",()=>{
   assert.throws(()=>validateMediaRecord({...film,privateReview:"sensitive"}),/Unexpected public media field/);
   assert.throws(()=>validateMediaRecord({...film,year:2023.5}),/Year must be an integer/);

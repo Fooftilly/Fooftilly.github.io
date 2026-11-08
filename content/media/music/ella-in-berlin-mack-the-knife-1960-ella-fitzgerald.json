@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Ella in Berlin: Mack the Knife",
+  "creator": "Ella Fitzgerald",
+  "year": 1960,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "b6e1a652-1378-4e67-9104-04e458e7d2a4"
+  }
+}

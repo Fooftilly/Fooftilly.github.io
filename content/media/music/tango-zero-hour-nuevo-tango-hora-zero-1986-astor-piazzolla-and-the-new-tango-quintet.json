@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Tango: Zero Hour / Nuevo Tango: Hora Zero",
+  "creator": "Astor Piazzolla and The New Tango Quintet",
+  "year": 1986,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "d5fb541b-beae-3151-a0f0-c0a6d97573d8"
+  }
+}

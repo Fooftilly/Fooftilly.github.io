@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Tinderbox",
+  "creator": "Siouxsie & The Banshees",
+  "year": 1986,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "9575d8eb-3d5f-4028-af88-0492e17b4898"
+  }
+}

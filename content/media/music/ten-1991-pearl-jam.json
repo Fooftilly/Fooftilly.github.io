@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Ten",
+  "creator": "Pearl Jam",
+  "year": 1991,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "cea5d18a-1924-3cda-bebc-38933834b25d"
+  }
+}

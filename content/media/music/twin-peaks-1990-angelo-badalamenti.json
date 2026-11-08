@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Twin Peaks",
+  "creator": "Angelo Badalamenti",
+  "year": 1990,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "d76e8ddb-ee99-3f9e-baf5-a66123a18774"
+  }
+}

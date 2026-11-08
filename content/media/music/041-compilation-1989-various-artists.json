@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "041 Compilation",
+  "creator": "Various Artists",
+  "year": 1989,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "ec37f942-d2bd-438d-9715-35d9ac1f611f"
+  }
+}

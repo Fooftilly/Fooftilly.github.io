@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "The Masses",
+  "creator": "The Cardinall's Musick / Andrew Carwood",
+  "year": 2000,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "cc5aa37c-fb66-4947-a71b-3ebfd37a19da"
+  }
+}

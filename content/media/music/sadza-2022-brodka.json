@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Sadza",
+  "creator": "Brodka",
+  "year": 2022,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "4949ae0a-fbbe-4431-b36e-932c7a9b8c18"
+  }
+}

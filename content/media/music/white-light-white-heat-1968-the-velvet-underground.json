@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "White Light / White Heat",
+  "creator": "The Velvet Underground",
+  "year": 1968,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "fc0885e0-0284-3f9d-81ee-17c5e7196346"
+  }
+}

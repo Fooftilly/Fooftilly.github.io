@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "The Beatles [White Album]",
+  "creator": "The Beatles",
+  "year": 1968,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "055be730-dcad-31bf-b550-45ba9c202aa3"
+  }
+}

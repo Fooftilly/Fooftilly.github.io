@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Gunfighter Ballads and Trail Songs",
+  "creator": "Marty Robbins",
+  "year": 1959,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "81e9ea0b-e334-35b3-9d10-f9a5f8bea5ae"
+  }
+}

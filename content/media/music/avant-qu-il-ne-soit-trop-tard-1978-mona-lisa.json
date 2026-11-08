@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Avant qu'il ne soit trop tard",
+  "creator": "Mona Lisa",
+  "year": 1978,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "d5582860-aadc-36f4-accb-4d68ebb0e825"
+  }
+}

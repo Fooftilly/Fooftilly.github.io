@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Lightnin' Hopkins",
+  "creator": "Lightnin' Hopkins",
+  "year": 1959,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "235109ec-a4c1-3c3e-a56b-4e30616f3676"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Fleet Foxes",
+  "creator": "Fleet Foxes",
+  "year": 2008,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "af9a5099-04c5-3aaf-b0d1-fa160bd92e02"
+  }
+}

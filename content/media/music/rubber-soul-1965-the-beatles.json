@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Rubber Soul",
+  "creator": "The Beatles",
+  "year": 1965,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "dca03435-8adb-30a5-ba82-5a162267ff38"
+  }
+}

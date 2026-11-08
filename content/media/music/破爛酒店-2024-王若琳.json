@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "破爛酒店",
+  "creator": "王若琳",
+  "year": 2024,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "8eca69e3-0dea-451e-a07f-20d20992d755"
+  }
+}

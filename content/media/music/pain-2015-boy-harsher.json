@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Pain",
+  "creator": "Boy Harsher",
+  "year": 2015,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "0dce3b90-4c53-47f8-ab15-8a992359a8b2"
+  }
+}

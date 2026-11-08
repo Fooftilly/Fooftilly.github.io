@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Nocturnes",
+  "creator": "Maurizio Pollini",
+  "year": 2005,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "ab1aaf60-c10e-4007-bc49-a96b9d0bc99c"
+  }
+}

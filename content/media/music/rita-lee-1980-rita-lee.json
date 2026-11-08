@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Rita Lee",
+  "creator": "Rita Lee",
+  "year": 1980,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "ac812687-462e-4455-8fb4-a88641362604"
+  }
+}

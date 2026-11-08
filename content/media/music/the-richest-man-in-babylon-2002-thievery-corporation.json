@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "The Richest Man in Babylon",
+  "creator": "Thievery Corporation",
+  "year": 2002,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "fc36583b-e0a9-3a21-adf3-b1bda73fb059"
+  }
+}

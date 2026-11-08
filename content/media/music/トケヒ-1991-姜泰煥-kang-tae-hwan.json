@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "トケビ",
+  "creator": "姜泰煥 [Kang Tae Hwan]",
+  "year": 1991,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "3a2e3d60-9e2b-40d9-8598-177b3564c64d"
+  }
+}

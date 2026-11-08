@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Power to the People",
+  "creator": "Joe Henderson",
+  "year": 1970,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "7f698111-ff1b-32ee-88b6-d1dac454d413"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Dum dum",
+  "creator": "EKV",
+  "year": 1991,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "13030e6d-55b5-3320-9470-911eaf39508e"
+  }
+}

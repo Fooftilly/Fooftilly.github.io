@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Perfect From Now On",
+  "creator": "Built to Spill",
+  "year": 1997,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "e79d22e8-bad6-4b4b-a7b1-ea62796b7eee"
+  }
+}

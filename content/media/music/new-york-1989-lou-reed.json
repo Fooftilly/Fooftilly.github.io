@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "New York",
+  "creator": "Lou Reed",
+  "year": 1989,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "bf543d9f-f0de-3f46-87b4-f9cddf58806b"
+  }
+}

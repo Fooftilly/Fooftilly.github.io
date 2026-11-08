@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Ellington at Newport",
+  "creator": "Duke Ellington",
+  "year": 1956,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "c7af2ab6-81b0-3f92-8253-9417d00f1361"
+  }
+}

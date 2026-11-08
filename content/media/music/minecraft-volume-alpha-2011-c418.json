@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Minecraft: Volume Alpha",
+  "creator": "C418",
+  "year": 2011,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "7f4856cd-f078-4c0d-aef7-48474d8fa890"
+  }
+}

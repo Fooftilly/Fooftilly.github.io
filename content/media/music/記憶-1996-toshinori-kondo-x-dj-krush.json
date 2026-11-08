@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "記憶",
+  "creator": "Toshinori Kondo X DJ Krush",
+  "year": 1996,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "6deaea4a-1fff-397e-8e5a-4928a1cbe0c1"
+  }
+}

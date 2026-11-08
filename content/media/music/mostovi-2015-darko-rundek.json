@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Mostovi",
+  "creator": "Darko Rundek",
+  "year": 2015,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "12183e6c-983d-4be2-80a3-e3a5982106f0"
+  }
+}

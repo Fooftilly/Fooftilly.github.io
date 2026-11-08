@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "English Rose",
+  "creator": "Fleetwood Mac",
+  "year": 1969,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "52738bb8-951b-3d51-8e21-3b9951e9f898"
+  }
+}

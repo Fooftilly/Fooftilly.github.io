@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Permanent Waves",
+  "creator": "Rush",
+  "year": 1980,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "664ffb4c-8178-3f99-b0d3-0bab3a51f793"
+  }
+}

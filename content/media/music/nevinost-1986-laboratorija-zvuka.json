@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Nevinost",
+  "creator": "Laboratorija Zvuka",
+  "year": 1986,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "9da1884f-08c4-47d8-853c-20c1b5219376"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Звезда по имени Солнце",
+  "creator": "Кино",
+  "year": 1989,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "dc09a068-cac5-3b2e-8ca3-cb6b230237cb"
+  }
+}

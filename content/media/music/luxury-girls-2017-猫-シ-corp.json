@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Luxury Girls",
+  "creator": "猫 シ Corp.",
+  "year": 2017,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "3133511a-0981-4371-91f2-b5df93f2a188"
+  }
+}

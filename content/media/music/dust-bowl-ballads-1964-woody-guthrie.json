@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Dust Bowl Ballads",
+  "creator": "Woody Guthrie",
+  "year": 1964,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "df936d57-468d-3ba7-b437-f7b557241635"
+  }
+}

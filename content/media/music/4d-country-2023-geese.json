@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "4D Country",
+  "creator": "Geese",
+  "year": 2023,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "3e64f190-c47e-4b10-a844-0bb0d45475a6"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Zašto ne volim sneg",
+  "creator": "Smak",
+  "year": 1981,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "cd187f2d-4b86-330d-89ae-9d36cdec643b"
+  }
+}

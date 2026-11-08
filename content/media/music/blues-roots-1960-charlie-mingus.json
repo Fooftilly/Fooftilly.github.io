@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Blues & Roots",
+  "creator": "Charlie Mingus",
+  "year": 1960,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "58a66044-fe3b-3b04-98b0-b955c24a2f62"
+  }
+}

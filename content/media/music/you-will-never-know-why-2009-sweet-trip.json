@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "You Will Never Know Why",
+  "creator": "Sweet Trip",
+  "year": 2009,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "243b849d-2e2f-4002-babd-6d11c6ca088d"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Reflection",
+  "creator": "아버지",
+  "year": 2016,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "6e8b0809-26d1-48d7-bebe-1a8c60a119c3"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Expensive Shit",
+  "creator": "Fela Ransome Kuti & Africa 70",
+  "year": 1975,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "b16d9280-f25e-3648-8a8e-1141efd55669"
+  }
+}

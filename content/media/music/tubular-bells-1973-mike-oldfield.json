@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Tubular Bells",
+  "creator": "Mike Oldfield",
+  "year": 1973,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "d3f057b4-7e89-3018-9f84-9835ed9b4732"
+  }
+}

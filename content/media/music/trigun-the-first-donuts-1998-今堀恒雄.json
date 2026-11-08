@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Trigun: The First Donuts",
+  "creator": "今堀恒雄",
+  "year": 1998,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "2b825cc9-2dee-388a-9c1e-ba9e27fc233a"
+  }
+}

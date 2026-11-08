@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "East Pakistan Sky",
+  "creator": "Ustad Saami",
+  "year": 2021,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "9044397b-51f8-4c7d-8081-996906a49030"
+  }
+}

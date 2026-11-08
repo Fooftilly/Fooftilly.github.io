@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "The Black Saint and the Sinner Lady",
+  "creator": "Mingus",
+  "year": 1963,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "48070ee2-1865-3b11-ba36-360b1453a37a"
+  }
+}

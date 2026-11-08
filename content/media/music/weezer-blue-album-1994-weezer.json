@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Weezer [Blue Album]",
+  "creator": "Weezer",
+  "year": 1994,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "c7b245c9-8099-32ea-af95-893acedde2cf"
+  }
+}

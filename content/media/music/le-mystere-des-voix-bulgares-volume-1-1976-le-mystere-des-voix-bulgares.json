@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Le mystère des voix bulgares : volume 1",
+  "creator": "Le Mystère des Voix Bulgares",
+  "year": 1976,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "ac5b8d06-08ed-3060-8c6b-0880f16dff5b"
+  }
+}

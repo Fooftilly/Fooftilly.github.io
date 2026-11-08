@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Bronca Buenos Aires",
+  "creator": "Jorge López Ruiz",
+  "year": 1971,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "6b2027dc-8796-4e42-9e27-6691f49bc01b"
+  }
+}

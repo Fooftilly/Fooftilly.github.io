@@ -152,7 +152,7 @@ async function copy(value:string,label:string){
         <input v-model="title" type="text" maxlength="250" required placeholder="Title" autocomplete="off" />
       </label>
       <label>Artist, director, or creator (optional)
-        <input v-model="creator" type="text" maxlength="220" placeholder="Who made it?" />
+        <input v-model="creator" type="text" maxlength="500" placeholder="Who made it?" />
       </label>
       <div class="two-cols">
         <label>Release year (optional)

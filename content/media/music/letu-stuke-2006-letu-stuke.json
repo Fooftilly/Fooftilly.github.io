@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Letu štuke",
+  "creator": "Letu Štuke",
+  "year": 2006,
+  "rating": 3,
+  "refs": {
+    "musicbrainz": "3d47281c-e4aa-3499-915e-967a1fe73ee4"
+  }
+}

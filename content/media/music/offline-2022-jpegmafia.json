@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Offline!",
+  "creator": "JPEGMAFIA",
+  "year": 2022,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "f16b861e-791c-4e8b-825f-97f77c271b0e"
+  }
+}

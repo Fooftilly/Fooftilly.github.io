@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "qp",
+  "creator": "青葉市子",
+  "year": 2018,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "a88a4b11-2f62-4e8a-ba62-fb4f372fcf6d"
+  }
+}

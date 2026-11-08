@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Mandjou",
+  "creator": "Ambassadeur International",
+  "year": 1979,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "1779096f-c582-4a9b-a72f-e8e956ef0065"
+  }
+}

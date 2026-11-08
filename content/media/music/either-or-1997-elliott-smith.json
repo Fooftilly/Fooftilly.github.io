@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Either / Or",
+  "creator": "Elliott Smith",
+  "year": 1997,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "dfb85157-313b-3f5f-8739-a5162bcb6345"
+  }
+}

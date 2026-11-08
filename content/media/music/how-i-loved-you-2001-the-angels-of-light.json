@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "How I Loved You",
+  "creator": "The Angels of Light",
+  "year": 2001,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "b7a7b9f0-6cd6-31e5-bfa2-863873da6ca4"
+  }
+}

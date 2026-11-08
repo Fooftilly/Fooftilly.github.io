@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Undercurrent",
+  "creator": "Bill Evans & Jim Hall",
+  "year": 1962,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "cf24f192-7cfc-3413-a80d-390b523dfbca"
+  }
+}

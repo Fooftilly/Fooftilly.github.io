@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "The Rise and Fall of a Midwest Princess",
+  "creator": "Chappell Roan",
+  "year": 2023,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "eda0f5d3-44eb-42cf-bcfd-5c9f93e05c7a"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Safe as Milk",
+  "creator": "Captain Beefheart and His Magic Band",
+  "year": 1967,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "7e71ad8b-6cbd-3cc0-8087-3ab222e91c20"
+  }
+}

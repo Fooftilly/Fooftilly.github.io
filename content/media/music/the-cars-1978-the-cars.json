@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "The Cars",
+  "creator": "The Cars",
+  "year": 1978,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "36172f3d-9b55-37f1-9fd4-0cbd2f3af0ce"
+  }
+}

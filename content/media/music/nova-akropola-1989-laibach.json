@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Nova akropola",
+  "creator": "Laibach",
+  "year": 1989,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "217b91ca-be8d-3217-a1b9-46a31df6b8ae"
+  }
+}

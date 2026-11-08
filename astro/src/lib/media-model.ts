@@ -256,7 +256,7 @@ export function validateMediaRecord(raw: unknown, expectedKind?: MediaKind): Med
   const fields=["schema","kind","title","creator","year","rating","status","notes","links","refs","tracks","seasons"];
   if (Object.keys(obj).some(key=>!fields.includes(key))) throw new Error("Unexpected public media field (possible private metadata)");
   const result: MediaRecord={schema:1,kind:obj.kind as MediaKind,title:safeText(obj.title,"Title",250)};
-  const creator=optionalText(obj.creator,"Artist/director/creator",220);
+  const creator=optionalText(obj.creator,"Artist/director/creator",500);
   if(creator) result.creator=creator;
   if(obj.year!==undefined){
     if(typeof obj.year!=="number" || !Number.isInteger(obj.year) || obj.year<1800 || obj.year>2200)

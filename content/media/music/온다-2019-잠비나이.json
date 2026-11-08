@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "온다",
+  "creator": "잠비나이",
+  "year": 2019,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "992160f2-4851-433b-961d-bafe985b0545"
+  }
+}

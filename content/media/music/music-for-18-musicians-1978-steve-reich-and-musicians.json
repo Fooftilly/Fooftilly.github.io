@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Music for 18 Musicians",
+  "creator": "Steve Reich and Musicians",
+  "year": 1978,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "4885c9c3-5026-3bc6-a5bc-1d7ac896dab1"
+  }
+}

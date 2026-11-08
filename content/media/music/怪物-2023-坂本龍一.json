@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "怪物",
+  "creator": "坂本龍一",
+  "year": 2023,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "bf0dbf67-ce80-4858-9a46-2c3f96491919"
+  }
+}

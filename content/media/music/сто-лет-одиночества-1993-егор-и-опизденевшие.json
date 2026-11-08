@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Сто лет одиночества",
+  "creator": "Егор и Опизденевшие",
+  "year": 1993,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "52dba503-ceb2-308b-acb3-ea7892ad0fda"
+  }
+}

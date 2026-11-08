@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "King of the Delta Blues Singers",
+  "creator": "Robert Johnson",
+  "year": 1961,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "2609603b-cd7d-3ccf-aa58-94c38defac2c"
+  }
+}

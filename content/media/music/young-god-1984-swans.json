@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Young God",
+  "creator": "Swans",
+  "year": 1984,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "4f3ed151-c75e-3629-9ee2-fd1ce4479e70"
+  }
+}

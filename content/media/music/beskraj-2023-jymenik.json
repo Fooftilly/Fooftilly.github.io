@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Beskraj",
+  "creator": "Jymenik",
+  "year": 2023,
+  "rating": 2.5,
+  "refs": {
+    "musicbrainz": "db5e109a-57e2-4c01-9909-17ba6118300e"
+  }
+}

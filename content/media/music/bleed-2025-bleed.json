@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Bleed",
+  "creator": "Bleed",
+  "year": 2025,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "f9727ecc-40ae-42cd-b58e-e3179df9d6db"
+  }
+}

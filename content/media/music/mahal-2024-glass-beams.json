@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Mahal",
+  "creator": "Glass Beams",
+  "year": 2024,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "613a09e3-97da-4a18-9236-cdac95f4bb2c"
+  }
+}

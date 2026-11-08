@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Knocknarea",
+  "creator": "Maruja",
+  "year": 2023,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "50277780-eb8b-4ff9-84fa-0f497ec0492e"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Lo mato",
+  "creator": "Willie Colón",
+  "year": 1973,
+  "rating": 4.5,
+  "refs": {
+    "musicbrainz": "e82d46ec-eb25-3234-be7c-b071ad185ea4"
+  }
+}

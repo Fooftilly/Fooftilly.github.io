@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "I Have a Special Plan for This World",
+  "creator": "Current 93",
+  "year": 2000,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "e9d40f4e-6833-388c-bf56-7538f5c1dc15"
+  }
+}

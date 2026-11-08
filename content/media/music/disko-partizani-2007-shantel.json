@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Disko Partizani!",
+  "creator": "Shantel",
+  "year": 2007,
+  "rating": 2.5,
+  "refs": {
+    "musicbrainz": "854e2599-27b1-3df8-b1b5-94413588232e"
+  }
+}

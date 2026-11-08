@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Zazal",
+  "creator": "Egschiglen",
+  "year": 2002,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "2ea1b153-abac-348a-9634-f95bcb2c84a1"
+  }
+}

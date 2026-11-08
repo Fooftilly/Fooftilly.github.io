@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Intro Bonito",
+  "creator": "Kero Kero Bonito",
+  "year": 2013,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "073fcde7-820f-4fc8-b3e4-f6b0994cc0fc"
+  }
+}

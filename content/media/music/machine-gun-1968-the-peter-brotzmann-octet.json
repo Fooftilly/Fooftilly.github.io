@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Machine Gun",
+  "creator": "The Peter Brötzmann Octet",
+  "year": 1968,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "be1d0c36-59b0-3dc7-8bcf-4e5f4009ec85"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Sgt. Peppers Lonely Hearts Club Band",
+  "creator": "The Beatles",
+  "year": 1967,
+  "rating": 3.5,
+  "refs": {
+    "musicbrainz": "9f7a4c28-8fa2-3113-929c-c47a9f7982c3"
+  }
+}

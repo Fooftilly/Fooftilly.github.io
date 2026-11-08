@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Gulag Orkestar",
+  "creator": "Beirut",
+  "year": 2006,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "ce71dcab-b10c-3ac4-9303-6b61d4501270"
+  }
+}

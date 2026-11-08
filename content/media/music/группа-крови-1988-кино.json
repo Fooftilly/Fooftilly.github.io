@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "music",
+  "title": "Группа крови",
+  "creator": "Кино",
+  "year": 1988,
+  "rating": 4,
+  "refs": {
+    "musicbrainz": "7ff1eff0-a8c8-37dc-807e-eea5a9e173b5"
+  }
+}
