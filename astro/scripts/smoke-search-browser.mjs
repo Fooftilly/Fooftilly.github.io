@@ -960,6 +960,10 @@ try {
     JSON.stringify(emptyQuery) + ";el.dispatchEvent(new Event('input',{bubbles:true}))})()");
   await waitFor("new URL(location.href).searchParams.get('q')",
     value => value === emptyQuery, "empty search URL state");
+  // The actual language link must reflect the live URL *before* focus/click,
+  // including when a visitor copies its destination without activating it.
+  await waitFor("new URL(document.querySelector('[data-search-language-switch]').href).searchParams.get('q')",
+    value => value === emptyQuery, "SH language link stays current during typing");
   await waitFor("document.querySelectorAll('li.bookmark-entry').length",
     value => value === 0, "empty search results");
   assert.equal(await evaluate("document.querySelector('.empty-result')?.textContent.trim()"),
@@ -978,6 +982,21 @@ try {
     value => value === "true", "browser Back restores prior bookmark sort");
   assert.equal(await evaluate("new URL(location.href).searchParams.has('utm_source')"), false,
     "Restoring an earlier history entry must not leak later tracking parameters");
+  await waitFor("new URL(document.querySelector('[data-search-language-switch]').href).searchParams.get('q')",
+    value => value === emptyQuery, "SH language link tracks browser Back before focus");
+
+  // Restored BFCache pages may fire pageshow without a new Vue mount. Re-read
+  // the address and synchronize both the controls and language link.
+  await evaluate("(()=>{history.replaceState(history.state,'',location.pathname+'?q=pageshow-check-ci&sort=oldest');window.dispatchEvent(new Event('pageshow'))})()");
+  await waitFor("document.querySelector('.bookmark-browser input[type=search]')?.value",
+    value => value === "pageshow-check-ci", "bookmark pageshow restores search");
+  await waitFor("document.querySelector('[data-bookmark-sort=oldest]')?.getAttribute('aria-pressed')",
+    value => value === "true", "bookmark pageshow restores sort");
+  await waitFor("new URL(document.querySelector('[data-search-language-switch]').href).searchParams.get('q')",
+    value => value === "pageshow-check-ci", "bookmark pageshow refreshes language link");
+  await evaluate("(()=>{history.replaceState(history.state,'',location.pathname+'?q=" + emptyQuery + "');window.dispatchEvent(new Event('pageshow'))})()");
+  await waitFor("document.querySelector('.bookmark-browser input[type=search]')?.value",
+    value => value === emptyQuery, "bookmark pageshow re-restores previous query");
 
   if (categoryForSearch && activeCategories.length > 1) {
     const label = categoryForSearch.label;
@@ -1039,6 +1058,8 @@ try {
       JSON.stringify(updatedQuery) + ";el.dispatchEvent(new Event('input',{bubbles:true}))})()");
     await waitFor("new URL(location.href).searchParams.get('q')",
       value => value === updatedQuery, "Live SH search updates current URL before switching");
+    await waitFor("new URL(document.querySelector('[data-search-language-switch]').href).searchParams.get('q')",
+      value => value === updatedQuery, "Language link href is updated without focus or activation");
     await evaluate("document.querySelector('[data-search-language-switch]').click()");
     await waitFor("location.pathname", value => value === "/search/", "SH-to-EN search switch");
     assert.deepEqual(await evaluate("(()=>{const p=new URL(location.href).searchParams;return [p.get('q'),p.get('category'),p.get('sort'),p.has('utm_campaign')]})()"),
