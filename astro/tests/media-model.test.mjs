@@ -303,3 +303,36 @@ test("provider editor converts duplicated direct links and rejects unsafe or con
   assert.throws(()=>composeMediaReferenceEdit({...stored,path:"content/media/music/../evil.json"},{},[]),/mismatch|Invalid/);
   assert.throws(()=>githubExistingMediaEditorUrl("content/media/films/../evil.json"),/Invalid/);
 });
+
+test("provider editor rejects canonical direct-provider pages on other categories or plain links",()=>{
+  const active={schema:1,kind:"music",title:"Song collection",year:2024,
+    id:"music/song-collection-2024",path:"content/media/music/song-collection-2024.json"};
+  const imdb="tt1234567";
+  const imdbUrl=mediaReferenceUrl("imdb",imdb);
+  const other={path:"content/media/films/feature-2022.json",
+    links:[{label:"Film reference",url:imdbUrl}]};
+  assert.throws(()=>composeMediaReferenceEdit(active,{imdb},[active,other]),/already assigned/);
+  assert.throws(()=>composeMediaReferenceEdit(active,{imdb:imdbUrl},[active,other]),/already assigned/);
+  const otherRef={path:"content/media/tv/series-2024.json",refs:{wikipedia:"en:Example_Article"}};
+  assert.throws(()=>composeMediaReferenceEdit(active,{wikipedia:"en:Example_Article"},[active,otherRef]),/already assigned/);
+  // Existing unrelated reviews or artist homepages are not unique identities.
+  const generic={path:"content/media/music/another-2024.json",
+    links:[{label:"Artist homepage",url:"https://example.org/artist"}]};
+  assert.doesNotThrow(()=>composeMediaReferenceEdit(active,{imdb},[active,generic]));
+});
+
+test("provider editor preserves case-sensitive Letterboxd IDs without false positives",()=>{
+  const first={schema:1,kind:"films",title:"First film",id:"films/first",path:"content/media/films/first.json"};
+  const upper={path:"content/media/films/second.json",refs:{letterboxd:"5PZe"}};
+  const lower={path:"content/media/films/third.json",refs:{letterboxd:"5pzE"}};
+  assert.deepEqual(JSON.parse(composeMediaReferenceEdit(first,{letterboxd:"5pzE"},[first,upper]).json).refs,
+    {letterboxd:"5pzE"});
+  assert.deepEqual(JSON.parse(composeMediaReferenceEdit(first,{letterboxd:"5PZe"},[first,lower]).json).refs,
+    {letterboxd:"5PZe"});
+  assert.throws(()=>composeMediaReferenceEdit(first,{letterboxd:"5pzE"},[first,lower]),/already assigned/);
+  assert.throws(()=>composeMediaReferenceEdit(first,{letterboxd:"https://boxd.it/5PZe"},[first,upper]),/already assigned/);
+  // MusicBrainz UUIDs remain case-insensitive; normalizing them is intentional.
+  const id="05affa96-5959-32da-8d75-1c9eb985ca59";
+  const other={path:"content/media/music/release.json",refs:{musicbrainz:id}};
+  assert.throws(()=>composeMediaReferenceEdit(first,{musicbrainz:id.toUpperCase()},[first,other]),/already assigned/);
+});

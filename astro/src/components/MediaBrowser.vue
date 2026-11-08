@@ -2,9 +2,9 @@
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
 import { compareMediaListings, matchesMediaSearch, matchesMediaStatus, matchesMediaMinimumRating, searchableMediaText, mediaNotesExplainSearch, mediaVisiblePage, MEDIA_PAGE_SIZE, type MediaSort, type MediaStatusFilter } from "../lib/media-browser.ts";
 import { mediaFilterHref, readMediaQueryState } from "../lib/media-query-state.ts";
-import { mediaSourceLinks, composeMediaReferenceEdit, githubExistingMediaEditorUrl, MEDIA_REFERENCE_PLATFORMS, type MediaKind, type StoredMedia, type MediaPlatform } from "../lib/media-model.ts";
+import { mediaSourceLinks, composeMediaReferenceEdit, githubExistingMediaEditorUrl, MEDIA_REFERENCE_PLATFORMS, type MediaKind, type StoredMedia, type MediaPlatform, type MediaProviderCatalogRef } from "../lib/media-model.ts";
 
-const props=defineProps<{kind:MediaKind;entries:StoredMedia[]}>();
+const props=defineProps<{kind:MediaKind;entries:StoredMedia[];otherProviderRefs:MediaProviderCatalogRef[]}>();
 const title=computed(()=>props.kind==="music"?"Music":props.kind==="films"?"Films":"TV series");
 const creatorLabel=computed(()=>props.kind==="music"?"Artist":props.kind==="films"?"Director":"Creator");
 const query=ref("");
@@ -43,7 +43,7 @@ function editProviderIds(item:StoredMedia):void {
 const updatedReferences=computed(()=>{
   if(!editing.value)return {value:null,error:""};
   try {
-    return {value:composeMediaReferenceEdit(editing.value,providerInputs.value,props.entries),error:""};
+    return {value:composeMediaReferenceEdit(editing.value,providerInputs.value,[...props.entries,...props.otherProviderRefs]),error:""};
   } catch(error){
     return {value:null,error:error instanceof Error?error.message:"Invalid provider ID"};
   }

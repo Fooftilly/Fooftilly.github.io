@@ -33,6 +33,9 @@ export interface MediaDraft {
   json: string;
   duplicatePaths: string[];
 }
+/** Minimal public provider data required to check collisions across all media categories. */
+export type MediaProviderCatalogRef = Pick<StoredMedia,"path"|"refs"|"links">;
+
 export interface ExistingMediaRef {
   path: string;
   kind: MediaKind;
@@ -385,7 +388,7 @@ export interface MediaReferenceEdit { path: string; json: string; changed: boole
 export function composeMediaReferenceEdit(
   entry: StoredMedia,
   inputs: Readonly<Partial<Record<MediaPlatform,string>>>,
-  catalog: readonly StoredMedia[],
+  catalog: readonly MediaProviderCatalogRef[],
 ): MediaReferenceEdit {
   if(entry.path!=="content/media/"+entry.id+".json")throw new Error("Media identity/path mismatch");
   githubExistingMediaEditorUrl(entry.path);
@@ -401,10 +404,15 @@ export function composeMediaReferenceEdit(
         throw new Error("Invalid direct "+platform+" URL; paste the provider ID or a canonical direct link");
       value=parsed.id;
     }
-    mediaReferenceUrl(platform,value); // Shared strict provider and URL validation.
+    // Canonical provider URLs preserve case-sensitive ID paths such as boxd.it.
+    // Only MusicBrainz UUIDs are case-insensitive; the URL builder normalizes them.
+    const canonicalUrl=mediaReferenceUrl(platform,value);
     if(platform==="musicbrainz")value=value.toLowerCase();
-    if(value!==entry.refs?.[platform] && catalog.some(other=>
-      other.path!==entry.path && other.refs?.[platform]?.toLowerCase()===value.toLowerCase()))
+    if(value!==entry.refs?.[platform] && catalog.some(other=>other.path!==entry.path &&
+      mediaSourceLinks(other).some(link=>{
+        const parsed=mediaReferenceFromUrl(link.url);
+        return parsed?.platform===platform && mediaReferenceUrl(platform,parsed.id)===canonicalUrl;
+      })))
       throw new Error("This "+platform+" ID is already assigned to a different media record");
     refs[platform]=value;
   }
