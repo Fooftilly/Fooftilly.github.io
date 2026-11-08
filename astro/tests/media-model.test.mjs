@@ -170,7 +170,8 @@ test("compact direct references expand to exact source URL and label",()=>{
   for(const [platform,id,url,label] of samples){
     assert.equal(mediaReferenceUrl(platform,id),url);
     assert.deepEqual(mediaReferenceFromUrl(url),{platform,id});
-    const record=validateMediaRecord({schema:1,kind:"films",title:"Test",refs:{[platform]:id}});
+    const kind=platform==="musicbrainz" ? "music" : platform==="tmdb" && id.startsWith("tv:") ? "tv" : "films";
+    const record=validateMediaRecord({schema:1,kind,title:"Test",refs:{[platform]:id}});
     assert.deepEqual(mediaSourceLinks(record),[{label,url}]);
   }
   const draft=composeMediaDraft({schema:1,kind:"films",title:"Compact",
@@ -180,7 +181,7 @@ test("compact direct references expand to exact source URL and label",()=>{
   assert.deepEqual(compactMediaLinks([
     {label:"IMDB link",url:"https://www.imdb.com/title/tt0050083/"},
     {label:"Other",url:"https://example.org/review"},
-  ]),{refs:{imdb:"tt0050083"},links:[{label:"Other",url:"https://example.org/review"}]});
+  ],"films"),{refs:{imdb:"tt0050083"},links:[{label:"Other",url:"https://example.org/review"}]});
 });
 test("invalid or lossy platform identifiers never generate untrusted links",()=>{
   for(const [platform,id] of [
@@ -215,7 +216,7 @@ test("projected existing compact refs prevent duplicate drafts and preserve HTTP
     refs:{imdb:"tt0050083"}},[projected]);
   assert.deepEqual(variant.duplicatePaths,[projected.path]);
   const http={label:"Letterboxd",url:"http://boxd.it/29BI"};
-  assert.deepEqual(compactMediaLinks([http]),{links:[http]});
+  assert.deepEqual(compactMediaLinks([http],"films"),{links:[http]});
   assert.deepEqual(mediaSourceLinks(validateMediaRecord({schema:1,kind:"films",
     title:"HTTP",links:[http]})),[http]);
 });
@@ -305,8 +306,8 @@ test("provider editor converts duplicated direct links and rejects unsafe or con
 });
 
 test("provider editor rejects canonical direct-provider pages on other categories or plain links",()=>{
-  const active={schema:1,kind:"music",title:"Song collection",year:2024,
-    id:"music/song-collection-2024",path:"content/media/music/song-collection-2024.json"};
+  const active={schema:1,kind:"films",title:"Film collection",year:2024,
+    id:"films/film-collection-2024",path:"content/media/films/film-collection-2024.json"};
   const imdb="tt1234567";
   const imdbUrl=mediaReferenceUrl("imdb",imdb);
   const other={path:"content/media/films/feature-2022.json",
@@ -316,8 +317,8 @@ test("provider editor rejects canonical direct-provider pages on other categorie
   const otherRef={path:"content/media/tv/series-2024.json",refs:{wikipedia:"en:Example_Article"}};
   assert.throws(()=>composeMediaReferenceEdit(active,{wikipedia:"en:Example_Article"},[active,otherRef]),/already assigned/);
   // Existing unrelated reviews or artist homepages are not unique identities.
-  const generic={path:"content/media/music/another-2024.json",
-    links:[{label:"Artist homepage",url:"https://example.org/artist"}]};
+  const generic={path:"content/media/films/another-2024.json",
+    links:[{label:"Director homepage",url:"https://example.org/artist"}]};
   assert.doesNotThrow(()=>composeMediaReferenceEdit(active,{imdb},[active,generic]));
 });
 
@@ -334,7 +335,8 @@ test("provider editor preserves case-sensitive Letterboxd IDs without false posi
   // MusicBrainz UUIDs remain case-insensitive; normalizing them is intentional.
   const id="05affa96-5959-32da-8d75-1c9eb985ca59";
   const other={path:"content/media/music/release.json",refs:{musicbrainz:id}};
-  assert.throws(()=>composeMediaReferenceEdit(first,{musicbrainz:id.toUpperCase()},[first,other]),/already assigned/);
+  const album={schema:1,kind:"music",title:"Album",id:"music/album",path:"content/media/music/album.json"};
+  assert.throws(()=>composeMediaReferenceEdit(album,{musicbrainz:id.toUpperCase()},[album,other]),/already assigned/);
 });
 
 test("edition-qualified versions stay distinct but legacy paths remain unchanged",()=>{
@@ -448,4 +450,54 @@ test("existing media rating editor rejects invalid ratings, positions and cross-
   const series={...album,kind:"tv",id:"tv/album",path:"content/media/tv/album.json"};
   assert.throws(()=>composeMediaRatingsEdit(series,{rating:2,tracks:[]}),/Tracks are only/);
   assert.throws(()=>composeMediaRatingsEdit({...album,path:"content/media/music/../evil.json"},{rating:4}),/mismatch/);
+});
+
+test("provider IDs match the item's media category, including TMDb movie/TV types",()=>{
+  const base={schema:1,title:"A title"};
+  for(const [kind,platform,id] of [
+    ["music","musicbrainz","05affa96-5959-32da-8d75-1c9eb985ca59"],
+    ["music","wikipedia","en:Music"],
+    ["films","imdb","tt0050083"],
+    ["films","letterboxd","29BI"],
+    ["films","tmdb","movie:389"],
+    ["tv","tmdb","tv:1399"],
+    ["tv","imdb","tt1234567"],
+    ["tv","wikipedia","en:TV_series"],
+  ]) assert.deepEqual(validateMediaRecord({...base,kind,refs:{[platform]:id}}).refs,{[platform]:id});
+  for(const [kind,platform,id] of [
+    ["music","imdb","tt0050083"],["music","tmdb","movie:389"],
+    ["music","letterboxd","29BI"],
+    ["films","musicbrainz","05affa96-5959-32da-8d75-1c9eb985ca59"],
+    ["films","tmdb","tv:1399"],
+    ["tv","musicbrainz","05affa96-5959-32da-8d75-1c9eb985ca59"],
+    ["tv","letterboxd","29BI"],
+    ["tv","tmdb","movie:389"],
+  ]) {
+    const item={...base,kind,refs:{[platform]:id}};
+    assert.throws(()=>validateMediaRecord(item),/provider reference is not supported/);
+    const stored={...base,kind,id:kind+"/item",path:"content/media/"+kind+"/item.json"};
+    assert.throws(()=>composeMediaReferenceEdit(stored,{[platform]:id},[stored]),
+      /provider reference is not supported/);
+  }
+});
+
+test("category-aware URL compaction keeps unrelated links but only types valid refs",()=>{
+  const musicbrainz="https://musicbrainz.org/release-group/05affa96-5959-32da-8d75-1c9eb985ca59";
+  const movie="https://www.themoviedb.org/movie/389";
+  const series="https://www.themoviedb.org/tv/1399";
+  const items=[
+    {label:"MusicBrainz",url:musicbrainz},
+    {label:"IMDb",url:"https://www.imdb.com/title/tt0050083/"},
+    {label:"TMDb movie",url:movie},
+    {label:"TMDb series",url:series},
+  ];
+  const music=compactMediaLinks(items,"music");
+  assert.deepEqual(music.refs,{musicbrainz:"05affa96-5959-32da-8d75-1c9eb985ca59"});
+  assert.equal(music.links.length,3);
+  const film=compactMediaLinks(items,"films");
+  assert.deepEqual(film.refs,{imdb:"tt0050083",tmdb:"movie:389"});
+  assert.equal(film.links.length,2);
+  const tv=compactMediaLinks(items,"tv");
+  assert.deepEqual(tv.refs,{imdb:"tt0050083",tmdb:"tv:1399"});
+  assert.equal(tv.links.length,2);
 });
