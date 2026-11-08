@@ -7,6 +7,8 @@ export interface MediaLink { label: string; url: string }
 /** Compact, verified site references. Store an ID instead of repeated URL prefixes. */
 export type MediaPlatform = "imdb"|"tmdb"|"wikipedia"|"letterboxd"|"musicbrainz";
 export type MediaReferences = Partial<Record<MediaPlatform,string>>;
+export const MEDIA_REFERENCE_PLATFORMS: readonly MediaPlatform[] = ["imdb","tmdb","wikipedia","letterboxd","musicbrainz"];
+
 
 export interface MediaTrack { disc: number; number: number; title: string; rating?: number }
 export interface MediaEpisode { number: number; title?: string; rating?: number }
@@ -366,6 +368,66 @@ export function composeMediaDraft(raw: unknown, existing: readonly ExistingMedia
   ).map(x=>x.path);
   return {path,json:JSON.stringify(record,null,2)+"\n",duplicatePaths};
 }
+/** An existing record retains its source path; changing a provider must not
+ * create a new record or rewrite its title, score, notes or nested ratings.
+ * The static site only prepares the file: GitHub authentication and commit
+ * are required to save anything.
+ */
+export function githubExistingMediaEditorUrl(path: string): string {
+  if (!/^content\\/media\\/(?:music|films|tv)\\/[\\p{L}\\p{N}-]+\\.json$/u.test(path))
+    throw new Error("Invalid existing media path");
+  return "https://github.com/Fooftilly/Fooftilly.github.io/edit/master/" + encodeURI(path);
+}
+
+export interface MediaReferenceEdit { path: string; json: string; changed: boolean }
+
+/** Accept a provider ID or its canonical direct URL; never guess a match. */
+export function composeMediaReferenceEdit(
+  entry: StoredMedia,
+  inputs: Readonly<Partial<Record<MediaPlatform,string>>>,
+  catalog: readonly StoredMedia[],
+): MediaReferenceEdit {
+  if(entry.path!=="content/media/"+entry.id+".json")throw new Error("Media identity/path mismatch");
+  githubExistingMediaEditorUrl(entry.path);
+  const refs: MediaReferences={};
+  for(const platform of MEDIA_REFERENCE_PLATFORMS){
+    const raw=inputs[platform]??"";
+    if(typeof raw!=="string")throw new Error("Provider ID must be text");
+    let value=raw.trim();
+    if(!value)continue;
+    if(value.startsWith("https://")){
+      const parsed=mediaReferenceFromUrl(value);
+      if(!parsed||parsed.platform!==platform)
+        throw new Error("Invalid direct "+platform+" URL; paste the provider ID or a canonical direct link");
+      value=parsed.id;
+    }
+    mediaReferenceUrl(platform,value); // Shared strict provider and URL validation.
+    if(platform==="musicbrainz")value=value.toLowerCase();
+    if(value!==entry.refs?.[platform] && catalog.some(other=>
+      other.path!==entry.path && other.refs?.[platform]?.toLowerCase()===value.toLowerCase()))
+      throw new Error("This "+platform+" ID is already assigned to a different media record");
+    refs[platform]=value;
+  }
+  const {id:_id,path:_path,...record}=entry;
+  const next:MediaRecord={...record};
+  if(Object.keys(refs).length)next.refs=refs;
+  else delete next.refs;
+  // If a previously hand-entered canonical URL is converted to a compact ID,
+  // remove only that redundant URL. Preserve unrelated manually labeled links.
+  const links=next.links?.filter(link=>{
+    const parsed=mediaReferenceFromUrl(link.url);
+    return !(parsed && refs[parsed.platform]===parsed.id && entry.refs?.[parsed.platform]!==parsed.id);
+  });
+  if(links && links.length!==next.links?.length){
+    if(links.length)next.links=links;
+    else delete next.links;
+  }
+  validateMediaRecord(next,entry.kind);
+  const changed=MEDIA_REFERENCE_PLATFORMS.some(platform=>(entry.refs?.[platform]??"")!==(refs[platform]??"")) ||
+    (links?.length??0)!==(entry.links?.length??0);
+  return {path:entry.path,json:JSON.stringify(next,null,2)+"\\n",changed};
+}
+
 export function githubMediaEditorUrl(path:string,json:string):string{
   if(!/^content\/media\/(?:music|films|tv)\/[\p{L}\p{N}-]+\.json$/u.test(path)) throw new Error("Invalid media draft path");
   const url=new URL("https://github.com/Fooftilly/Fooftilly.github.io/new/master");
