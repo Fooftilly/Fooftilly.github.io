@@ -3,7 +3,7 @@
  * transmitted to GitHub Pages/CDN as a request query string.
  */
 export const captureBookmarklet =
-  'javascript:(()=>{const u=new URL("https://www.peroniko.xyz/new-bookmark/");u.hash=new URLSearchParams({url:location.href,title:document.title}).toString();window.open(u.href,"_blank","noopener");})();';
+  'javascript:(()=>{const u=new URL("https://www.peroniko.xyz/new-bookmark/");u.hash=new URLSearchParams({url:location.href,title:document.title}).toString();window.open(u.href,"_blank","noopener,noreferrer");})();';
 
 export interface BookmarkCapture {
   url: string;
