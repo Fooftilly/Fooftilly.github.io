@@ -336,3 +336,33 @@ test("provider editor preserves case-sensitive Letterboxd IDs without false posi
   const other={path:"content/media/music/release.json",refs:{musicbrainz:id}};
   assert.throws(()=>composeMediaReferenceEdit(first,{musicbrainz:id.toUpperCase()},[first,other]),/already assigned/);
 });
+
+test("edition-qualified versions stay distinct but legacy paths remain unchanged",()=>{
+  const base={schema:1,kind:"music",title:"4 Sucessos",creator:"Kate Bush",year:1978};
+  const first=validateMediaRecord({...base,edition:"Part 1 EMI 31C 016 06894",rating:4});
+  const second=validateMediaRecord({...base,edition:"Part 2 EMI 31C 016 07144",rating:3.5});
+  assert.equal(mediaPath(base),"content/media/music/4-sucessos-1978-kate-bush.json");
+  assert.equal(mediaPath(first),"content/media/music/4-sucessos-1978-kate-bush-part-1-emi-31c-016-06894.json");
+  assert.notEqual(mediaPath(first),mediaPath(second));
+  assert.equal(sameMedia(first,second),false);
+  assert.equal(sameMedia(first,{...first,edition:"part 1 emi 31c 016 06894"}),true);
+  assert.equal(sameMedia(base,first),true);
+  const stored=x=>({...x,id:mediaPath(x).slice(14,-5),path:mediaPath(x)});
+  assert.doesNotThrow(()=>assertUniqueMediaCatalog([stored(first),stored(second)]));
+  assert.throws(()=>assertUniqueMediaCatalog([stored(first),stored(base)]),/Duplicate media identity/);
+  assert.throws(()=>assertUniqueMediaCatalog([stored(first),stored({...second,edition:"Part 1 EMI 31C 016 06894"})]),/Duplicate media/);
+  assert.equal(composeMediaDraft(second,[stored(first)]).duplicatePaths.length,0);
+  assert.deepEqual(composeMediaDraft(first,[stored(first)]).duplicatePaths,[mediaPath(first)]);
+  assert.equal(JSON.parse(composeMediaDraft(second,[]).json).edition,second.edition);
+});
+
+test("edition suffix remains visible for long credits and rejects invalid edition text",()=>{
+  const base={schema:1,kind:"music",title:"Concert",creator:"A".repeat(250),year:1998};
+  assert.equal(mediaSlug(base).length,110);
+  assert.ok(mediaSlug({...base,edition:"Live take B"}).endsWith("-live-take-b"));
+  assert.notEqual(mediaSlug({...base,edition:"Live take B"}),mediaSlug({...base,edition:"Live take C"}));
+  assert.ok(mediaSlug({...base,edition:"Live take B"}).length<=110);
+  assert.throws(()=>validateMediaRecord({...base,edition:"x".repeat(121)}),/Edition must be 1–120/);
+  assert.throws(()=>validateMediaRecord({...base,edition:"part 1\nprivate"}),/printable/);
+  assert.equal(validateMediaRecord(base).edition,undefined);
+});

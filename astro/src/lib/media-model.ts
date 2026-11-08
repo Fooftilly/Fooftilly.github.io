@@ -17,6 +17,8 @@ export interface MediaRecord {
   schema: 1;
   kind: MediaKind;
   title: string;
+  /** Verified, source-owned version or catalog number for a distinct edition. */
+  edition?: string;
   creator?: string;
   year?: number;
   rating?: number;
@@ -40,6 +42,7 @@ export interface ExistingMediaRef {
   path: string;
   kind: MediaKind;
   title: string;
+  edition?: string;
   year?: number;
   creator?: string;
   links?: MediaLink[];
@@ -258,9 +261,11 @@ export function validateMediaRecord(raw: unknown, expectedKind?: MediaKind): Med
   const obj=raw as Record<string,unknown>;
   if (obj.schema !== 1 || !MEDIA_KINDS.includes(obj.kind as MediaKind)) throw new Error("Unsupported media schema or category");
   if (expectedKind && obj.kind!==expectedKind) throw new Error("Media kind differs from directory");
-  const fields=["schema","kind","title","creator","year","rating","status","notes","links","refs","tracks","seasons"];
+  const fields=["schema","kind","title","edition","creator","year","rating","status","notes","links","refs","tracks","seasons"];
   if (Object.keys(obj).some(key=>!fields.includes(key))) throw new Error("Unexpected public media field (possible private metadata)");
   const result: MediaRecord={schema:1,kind:obj.kind as MediaKind,title:safeText(obj.title,"Title",250)};
+  const edition=optionalText(obj.edition,"Edition",120);
+  if(edition) result.edition=edition;
   const creator=optionalText(obj.creator,"Artist/director/creator",500);
   if(creator) result.creator=creator;
   if(obj.year!==undefined){
@@ -316,11 +321,15 @@ export function mediaEntryId(entry: string): string {
 }
 
 /** Source-agnostic filename derived from visible metadata, never a provider key. */
-export function mediaSlug(record: Pick<MediaRecord,"title"|"year"|"creator">): string {
+export function mediaSlug(record: Pick<MediaRecord,"title"|"year"|"creator"|"edition">): string {
   const parts=[record.title,record.year?.toString()??"",record.creator??""].filter(Boolean);
-  const slug=ascii(parts.join(" ")).replace(/[^\p{L}\p{N}]+/gu,"-").replace(/^-|-+$/g,"").slice(0,110).replace(/-+$/g,"");
-  if(!slug) throw new Error("Media title cannot form a safe filename");
-  return slug;
+  const base=ascii(parts.join(" ")).replace(/[^\p{L}\p{N}]+/gu,"-").replace(/^-|-+$/g,"");
+  if(!base) throw new Error("Media title cannot form a safe filename");
+  // Preserve every legacy path; reserve filename space for explicit editions.
+  if(!record.edition)return base.slice(0,110).replace(/-+$/g,"");
+  const edition=ascii(record.edition).replace(/[^\p{L}\p{N}]+/gu,"-").replace(/^-|-+$/g,"").slice(0,40).replace(/-+$/g,"");
+  if(!edition)throw new Error("Edition cannot form a safe filename");
+  return base.slice(0,109-edition.length).replace(/-+$/g,"")+"-"+edition;
 }
 export function mediaPath(record: MediaRecord): string {
   return "content/media/" + record.kind + "/" + mediaSlug(record) + ".json";
@@ -330,11 +339,14 @@ export function mediaMatchKey(record:Pick<MediaRecord,"kind"|"title"|"year">):st
   const title=ascii(record.title).replace(/[^\p{L}\p{N}]+/gu,"");
   return record.kind+"|"+title+"|"+(record.year??0);
 }
-export function sameMedia(a: Pick<MediaRecord,"kind"|"title"|"year"|"creator">,
-                           b: Pick<MediaRecord,"kind"|"title"|"year"|"creator">): boolean {
+export function sameMedia(a: Pick<MediaRecord,"kind"|"title"|"year"|"creator"|"edition">,
+                           b: Pick<MediaRecord,"kind"|"title"|"year"|"creator"|"edition">): boolean {
   if(mediaMatchKey(a)!==mediaMatchKey(b))return false;
   const norm=(s:string)=>ascii(s).replace(/[^\p{L}\p{N}]+/gu,"");
-  return !a.creator||!b.creator||norm(a.creator)===norm(b.creator);
+  if(a.creator&&b.creator&&norm(a.creator)!==norm(b.creator))return false;
+  // Unknown edition is not evidence of another release. Only explicitly
+  // identified *different* editions may share title, creator and year.
+  return !a.edition||!b.edition||norm(a.edition)===norm(b.edition);
 }
 /** Publication gate for reviewed JSON records, including hand-edited files.
  * Check the full collection, not just the category selected for one page.

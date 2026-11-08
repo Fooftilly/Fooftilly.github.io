@@ -61,6 +61,7 @@ const media = defineCollection({
     schema: z.literal(1),
     kind: z.enum(["music","films","tv"]),
     title: z.string().min(1).max(250),
+    edition: z.string().min(1).max(120).optional(),
     creator: z.string().min(1).max(500).optional(),
     year: z.number().int().min(1800).max(2200).optional(),
     rating: z.number().min(0.5).max(5).refine(n => Number.isInteger(n*2)).optional(),
