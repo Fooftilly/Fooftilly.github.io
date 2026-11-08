@@ -327,8 +327,21 @@ export function mediaSlug(record: Pick<MediaRecord,"title"|"year"|"creator"|"edi
   if(!base) throw new Error("Media title cannot form a safe filename");
   // Preserve every legacy path; reserve filename space for explicit editions.
   if(!record.edition)return base.slice(0,110).replace(/-+$/g,"");
-  const edition=ascii(record.edition).replace(/[^\p{L}\p{N}]+/gu,"-").replace(/^-|-+$/g,"").slice(0,40).replace(/-+$/g,"");
-  if(!edition)throw new Error("Edition cannot form a safe filename");
+  const normalizedEdition=ascii(record.edition).replace(/[^\p{L}\p{N}]+/gu,"-").replace(/^-|-+$/g,"");
+  if(!normalizedEdition)throw new Error("Edition cannot form a safe filename");
+  // A naive first-40-characters suffix conflates releases whose catalog
+  // numbers differ near the end. For long labels, retain a readable prefix
+  // plus a deterministic 64-bit FNV-1a digest of the *whole* normalized label.
+  // This is a filename discriminator, not an authentication/security hash.
+  let edition=normalizedEdition;
+  if(Array.from(normalizedEdition).length>40){
+    let hash=0xcbf29ce484222325n;
+    for(const byte of new TextEncoder().encode(normalizedEdition)){
+      hash=BigInt.asUintN(64,(hash^BigInt(byte))*0x100000001b3n);
+    }
+    edition=Array.from(normalizedEdition).slice(0,23).join("").replace(/-+$/g,"")+
+      "-"+hash.toString(16).padStart(16,"0");
+  }
   return base.slice(0,109-edition.length).replace(/-+$/g,"")+"-"+edition;
 }
 export function mediaPath(record: MediaRecord): string {
