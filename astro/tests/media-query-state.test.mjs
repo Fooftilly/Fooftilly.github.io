@@ -69,9 +69,9 @@ test("restored history URLs round-trip through the public filter codec", () => {
     "/films/?sort=unsupported&status=retired&utm_source=bookmarks",
   ];
   const expected = [
-    {query:"blue",sort:"year",status:"finished",minRating:0},
-    {query:"green",sort:"rating",status:"planned",minRating:0},
-    {query:"",sort:"rating",status:"all",minRating:0},
+    {query:"blue",sort:"year",status:"finished",minRating:0,missingRefsOnly:false},
+    {query:"green",sort:"rating",status:"planned",minRating:0,missingRefsOnly:false},
+    {query:"",sort:"rating",status:"all",minRating:0,missingRefsOnly:false},
   ];
   for (const [index, href] of history.entries()) {
     const restored = readMediaQueryState(new URL(href, "https://www.peroniko.xyz").search);

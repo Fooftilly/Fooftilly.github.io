@@ -4,6 +4,7 @@ import {
   validateMediaRecord, mediaSlug, mediaPath, composeMediaDraft,
   sameMedia, githubMediaEditorUrl, mediaEntryId, assertUniqueMediaCatalog, mediaSourceLabel,
   mediaReferenceUrl, mediaReferenceFromUrl, mediaSourceLinks, compactMediaLinks,
+  composeMediaReferenceEdit, githubExistingMediaEditorUrl,
 } from "../src/lib/media-model.ts";
 
 const film = {
