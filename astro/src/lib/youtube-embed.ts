@@ -54,5 +54,6 @@ export function mountConsentYouTube(root: ParentNode = document):void {
       button.setAttribute("aria-expanded","true");
       button.hidden=true;
     },{once:true});
+    button.setAttribute("data-youtube-ready","true");
   }
 }
