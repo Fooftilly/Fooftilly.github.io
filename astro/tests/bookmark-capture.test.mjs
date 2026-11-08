@@ -20,7 +20,7 @@ test("bookmarklet captures a full URL and Unicode title in a fragment, not an HT
   assert.equal(url.pathname, "/new-bookmark/");
   assert.equal(url.search, "", "Captured page data must not reach the static host request");
   assert.equal(disposition, "_blank");
-  assert.equal(features, "noopener");
+  assert.equal(features, "noopener,noreferrer", "Source referrer must not reach the editor host");
   assert.deepEqual(readBookmarkCapture(url.search, url.hash), {
     url: current, title, category: null,
   });
