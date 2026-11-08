@@ -8,6 +8,7 @@ import { mkdtemp, readFile, readdir, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { extname, join, resolve, sep } from "node:path";
 import { isExternalHttpRequest, networkAuditLabel } from "./consent-network-audit.mjs";
+import { youtubeVideoId } from "../src/lib/youtube-embed.ts";
 
 const sleep = (ms) => new Promise((done) => setTimeout(done, ms));
 const dist = resolve("dist");
@@ -95,6 +96,9 @@ try {
   if (!port) throw lastStartupError;
   const bookmarkCategories = JSON.parse(await readFile(resolve("src/data/bookmark-categories.json"), "utf8"));
   const bookmarkRecords = JSON.parse(await readFile(resolve(".audit/bookmarks-parity.json"), "utf8"));
+  const youtubeBookmark = bookmarkRecords.find(record =>
+    typeof record.url === "string" && record.detailUrl && youtubeVideoId(record.url));
+  assert.ok(youtubeBookmark, "Current bookmark source must include a YouTube video to verify embed privacy");
   // A non-JavaScript visitor must see *all* current source bookmarks in
   // Astro's generated HTML, not only the first page of the hydrated Vue view.
   const staticBookmarks = await readFile(join(dist, "bookmarks", "index.html"), "utf8");
@@ -209,6 +213,10 @@ try {
     await evaluate("document.querySelector('[data-media-ref-edit]').click()");
     await waitFor("Boolean(document.querySelector('.media-provider-dialog')?.open)",
       Boolean,"Provider ID dialog opens from existing film row");
+    assert.deepEqual(await evaluate("Array.from(document.querySelectorAll('[data-provider-field]')).map(el=>el.dataset.providerField).sort()"),
+      ["imdb","letterboxd","tmdb","wikipedia"],"Film editors must not offer MusicBrainz");
+    assert.match(await evaluate("document.querySelector('[data-provider-field=tmdb]')?.closest('label')?.textContent"),
+      /movie:123/,"Film TMDb field must request movie IDs");
     assert.equal(await evaluate("document.querySelector('[data-copy-media-refs]')"),null,
       "No replacement is offered before a provider ID changes");
     await evaluate("(()=>{const input=document.querySelector('[data-provider-field=imdb]');input.value='tt0123456';input.dispatchEvent(new Event('input',{bubbles:true}))})()");
@@ -532,6 +540,13 @@ try {
     await navigate("/music/?q=CI%20synthetic%20album%20(not%20for%20publication)");
     await waitFor("document.querySelectorAll('[data-media-row]').length",
       value=>value===1,"Existing album fixture can be selected by search");
+    await evaluate("document.querySelector('[data-media-ref-edit]').click()");
+    await waitFor("Boolean(document.querySelector('.media-provider-dialog')?.open)",
+      Boolean,"Existing music provider editor opens");
+    assert.deepEqual(await evaluate("Array.from(document.querySelectorAll('[data-provider-field]')).map(el=>el.dataset.providerField).sort()"),
+      ["musicbrainz","wikipedia"],"Music must not offer film or TV providers");
+    await evaluate("document.querySelector('.media-provider-dialog button:last-child').click()");
+    await waitFor("document.querySelector('.media-provider-dialog')===null",Boolean,"Music provider dialog closes");
     await evaluate("document.querySelector('[data-media-rating-edit]').click()");
     await waitFor("Boolean(document.querySelector('.media-ratings-dialog')?.open)",
       Boolean,"Existing album ratings editor opens");
