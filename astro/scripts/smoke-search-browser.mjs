@@ -721,6 +721,14 @@ try {
     "/media/", "/new-bookmark/", ...(publicDetail ? [publicDetail] : [])];
   for (const route of privacyRoutes) {
     await navigate(route);
+    // Most remote loads are triggered during parse, but Vue can also fetch
+    // after hydration. Observe the islands before asserting network silence.
+    await waitFor(
+      "Array.from(document.querySelectorAll('astro-island')).every(island=>!island.hasAttribute('ssr'))",
+      Boolean, "All Vue islands hydrate before privacy assertion: " + route,
+    );
+    assert.equal(await evaluate("localStorage.getItem('peroniko.analytics.consent.v1')"),
+      "denied", "Analytics rejection must survive navigation to " + route);
     assert.equal(await evaluate("document.querySelector('[data-ga-loader]')===null"), true,
       "Denied consent must not load Google Analytics on " + route);
     assert.deepEqual([...new Set(unconsentedRequests)], [],
