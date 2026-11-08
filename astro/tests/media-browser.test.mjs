@@ -95,5 +95,6 @@ test("edition strings are searchable visible metadata rather than hidden notes",
   assert.equal(matchesMediaSearch(searchableMediaText(item),"07144"),true);
   assert.equal(matchesMediaSearch(searchableMediaText(item),"part 2"),true);
   assert.equal(mediaNotesExplainSearch(item,"07144"),false);
-  assert.equal(mediaNotesExplainSearch(item,"part 1"),true);
+  assert.equal(mediaNotesExplainSearch(item,"note"),true);
+  assert.equal(mediaNotesExplainSearch(item,"part 2"),false);
 });

@@ -1240,6 +1240,18 @@ try {
     {schema:1,kind:"films",title:"A Test Film",year:2024,rating:4.5},
   );
   assert.equal(parsedMedia.links[0].url, "https://letterboxd.com/film/test/");
+  // Exercise the real new-media form rather than only the JSON model.
+  await evaluate("(()=>{const el=document.querySelector('.media-editor input[placeholder^=\\\"Part 1\\\"]');el.value='Part 2';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
+  await waitFor(
+    "(()=>{const v=document.querySelector('.media-editor .preview textarea[readonly]')?.value;return v?JSON.parse(v).edition:undefined})()",
+    value=>value==="Part 2","New media editor includes an explicit edition");
+  assert.equal(await evaluate("document.querySelector('.media-editor .preview code')?.textContent.trim()"),
+    "content/media/films/a-test-film-2024-part-2.json");
+  await evaluate("(()=>{const el=document.querySelector('.media-editor input[placeholder^=\\\"Part 1\\\"]');el.value='';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
+  await waitFor(
+    "(()=>{const v=document.querySelector('.media-editor .preview textarea[readonly]')?.value;return v?JSON.parse(v).edition===undefined:false})()",
+    Boolean,"Clearing edition restores the original media identity");
+
   assert.equal(await evaluate("document.querySelector('[data-media-rating]')?.getAttribute('aria-valuetext')"),"4.5 out of 5 stars");
   assert.equal(await evaluate("document.querySelector('.rating-value')?.textContent.trim()"),"4.5 / 5");
   await evaluate("document.querySelector('[data-media-status=planned]').click()");
