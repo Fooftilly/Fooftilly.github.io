@@ -190,6 +190,43 @@ try {
       "(()=>{const el=document.querySelector('.media-collection');const island=el?.closest('astro-island');const controls=el?.querySelector('[data-media-controls]');return Boolean(el && island && !island.hasAttribute('ssr') && controls && getComputedStyle(controls).display!=='none');})()",
       Boolean, "media Vue island hydrated with visible controls",
     );
+    // Existing-record provider editing must work in the hydrated browser, not
+    // only in pure model tests. No upload, API write or real JSON change occurs.
+    await evaluate("(()=>{const el=document.querySelector('[data-media-search]');el.value='CI synthetic film (not for publication)';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
+    await waitFor("document.querySelectorAll('[data-media-row]').length",
+      value=>value===1,"Provider editor test isolates the disposable film");
+    await evaluate("document.querySelector('[data-media-ref-edit]').click()");
+    await waitFor("Boolean(document.querySelector('.media-provider-dialog')?.open)",
+      Boolean,"Provider ID dialog opens from existing film row");
+    assert.equal(await evaluate("document.querySelector('[data-copy-media-refs]')"),null,
+      "No replacement is offered before a provider ID changes");
+    await evaluate("(()=>{const input=document.querySelector('[data-provider-field=imdb]');input.value='tt0123456';input.dispatchEvent(new Event('input',{bubbles:true}))})()");
+    await waitFor("document.querySelector('[data-copy-media-refs]')!==null",
+      Boolean,"Adding an IMDb ID generates replacement JSON");
+    const sourceReplacement=JSON.parse(await evaluate(
+      "document.querySelector('.media-provider-dialog textarea[readonly]')?.value"));
+    assert.equal(sourceReplacement.refs.imdb,"tt0123456");
+    assert.equal(sourceReplacement.title,firstFilmTitle);
+    assert.equal(sourceReplacement.rating,4.5);
+    assert.equal(sourceReplacement.notes,"Synthetic note.\nSecond paragraph.");
+    assert.equal(sourceReplacement.links.length,3,"Existing hand-entered links must survive");
+    const editLink=await evaluate("document.querySelector('.media-provider-dialog a[href]')?.href");
+    assert.ok(editLink?.startsWith("https://github.com/Fooftilly/Fooftilly.github.io/edit/master/content/media/films/"),
+      "Existing file editor must target edit, not new-file creation");
+    await evaluate("document.querySelector('.media-provider-dialog button:last-child').click()");
+    await waitFor("document.querySelector('.media-provider-dialog')===null",
+      Boolean,"Closing provider ID dialog removes the editor");
+    await evaluate("(()=>{const el=document.querySelector('[data-media-search]');el.value='';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
+    await evaluate("document.querySelector('[data-media-missing-ids]').click()");
+    await waitFor("new URL(location.href).searchParams.get('missing_id')",
+      value=>value==="1","Missing provider IDs filter creates shareable state");
+    const missingIdCount=mediaSource.films.filter(item=>!item.refs||!Object.keys(item.refs).length).length;
+    await waitFor("document.querySelector('[data-media-count]')?.textContent.trim()",
+      value=>value===missingIdCount+" of "+mediaSource.films.length+" entries",
+      "Provider ID filter matches the source JSON");
+    await evaluate("document.querySelector('[data-media-clear-filters]').click()");
+    await waitFor("new URL(location.href).searchParams.has('missing_id')",
+      value=>value===false,"Reset clears missing-ID filter from URL");
     // A half-star slider must filter the real disposable catalog, produce a
     // shareable URL and leave unrated rows visible when reset to Any rating.
     const highRatedCount=mediaSource.films.filter(item=>item.rating!==undefined&&item.rating>=4.5).length;
