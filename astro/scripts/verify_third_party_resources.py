@@ -73,6 +73,7 @@ class EagerResources(HTMLParser):
                 self.violations.append(f"video[poster]={poster[:140]!r}")
         if tag == "image":
             attribute = "href" if "href" in data else "xlink:href"
+        rel = set()
         if tag == "link":
             rel = set((data.get("rel") or "").lower().split())
             if not (rel & EAGER_LINK_RELATIONS):
@@ -94,7 +95,14 @@ class EagerResources(HTMLParser):
             target = data.get(attribute)
             if target is not None and is_eager_external_target(
                 target, self.site,
-                allow_inline=tag in {"img", "audio", "video", "source", "track", "image"},
+                allow_inline=(
+                    tag in {"img", "audio", "video", "source", "track", "image"}
+                    or (tag == "input" and attribute == "src")
+                    or (tag == "link" and (
+                        bool(rel & {"icon", "apple-touch-icon", "mask-icon"})
+                        or ("preload" in rel and data.get("as") == "image")
+                    ))
+                ),
             ):
                 self.violations.append(f"{tag}[{attribute}]={target[:140]!r}")
 
