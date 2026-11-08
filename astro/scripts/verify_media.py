@@ -29,6 +29,7 @@ class MediaParser(HTMLParser):
         self.row = None
         self.cell = None
         self.anchor = None
+        self.in_media_edit_button = False
         self.details_depth = 0
         self.capture_notes = False
         self.h1 = []
@@ -53,6 +54,8 @@ class MediaParser(HTMLParser):
             self.cell = {"text": [], "links": [], "aria": attrs.get("aria-label", "")}
         elif tag == "a" and self.cell is not None:
             self.anchor = {"href": attrs.get("href", ""), "text": []}
+        elif tag == "button" and self.cell is not None and "data-media-ref-edit" in attrs:
+            self.in_media_edit_button = True
         elif tag == "details" and self.cell is not None:
             self.details_depth += 1
         elif tag == "p" and self.details_depth and "notes" in (attrs.get("class") or "").split():
@@ -101,7 +104,7 @@ class MediaParser(HTMLParser):
             self.h1.append(text)
         if self.capture_notes and self.row is not None:
             self.row["notes"].append(text)
-        if self.cell is not None and self.details_depth == 0:
+        if self.cell is not None and self.details_depth == 0 and not self.in_media_edit_button:
             self.cell["text"].append(text)
         if self.anchor is not None:
             self.anchor["text"].append(text)
@@ -125,6 +128,8 @@ class MediaParser(HTMLParser):
             self.season_active = False
         if tag == "h1":
             self.in_h1 = False
+        if tag == "button" and self.in_media_edit_button:
+            self.in_media_edit_button = False
         if tag == "a" and self.anchor is not None:
             self.cell["links"].append(
                 (normalized("".join(self.anchor["text"])), self.anchor["href"])

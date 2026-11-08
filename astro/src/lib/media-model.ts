@@ -374,7 +374,7 @@ export function composeMediaDraft(raw: unknown, existing: readonly ExistingMedia
  * are required to save anything.
  */
 export function githubExistingMediaEditorUrl(path: string): string {
-  if (!/^content\\/media\\/(?:music|films|tv)\\/[\\p{L}\\p{N}-]+\\.json$/u.test(path))
+  if (!/^content\/media\/(?:music|films|tv)\/[\p{L}\p{N}-]+\.json$/u.test(path))
     throw new Error("Invalid existing media path");
   return "https://github.com/Fooftilly/Fooftilly.github.io/edit/master/" + encodeURI(path);
 }
@@ -425,7 +425,7 @@ export function composeMediaReferenceEdit(
   validateMediaRecord(next,entry.kind);
   const changed=MEDIA_REFERENCE_PLATFORMS.some(platform=>(entry.refs?.[platform]??"")!==(refs[platform]??"")) ||
     (links?.length??0)!==(entry.links?.length??0);
-  return {path:entry.path,json:JSON.stringify(next,null,2)+"\\n",changed};
+  return {path:entry.path,json:JSON.stringify(next,null,2)+"\n",changed};
 }
 
 export function githubMediaEditorUrl(path:string,json:string):string{
