@@ -574,6 +574,15 @@ try {
     await navigate("/tv/?q=CI%20synthetic%20TV%20show");
     await waitFor("document.querySelectorAll('[data-media-row]').length",
       value=>value===1,"TV fixture selected");
+    await evaluate("document.querySelector('[data-media-ref-edit]').click()");
+    await waitFor("Boolean(document.querySelector('.media-provider-dialog')?.open)",
+      Boolean,"TV provider editor opens");
+    assert.deepEqual(await evaluate("Array.from(document.querySelectorAll('[data-provider-field]')).map(el=>el.dataset.providerField).sort()"),
+      ["imdb","tmdb","wikipedia"],"TV must not offer Letterboxd or MusicBrainz");
+    assert.match(await evaluate("document.querySelector('[data-provider-field=tmdb]')?.closest('label')?.textContent"),
+      /tv:456/,"TV TMDb field must request series IDs");
+    await evaluate("document.querySelector('.media-provider-dialog button:last-child').click()");
+    await waitFor("document.querySelector('.media-provider-dialog')===null",Boolean,"TV provider dialog closes");
     await evaluate("document.querySelector('[data-media-rating-edit]').click()");
     await waitFor("Boolean(document.querySelector('.media-ratings-dialog')?.open)",
       Boolean,"TV nested rating editor opens");
@@ -753,6 +762,31 @@ try {
   await command("Network.disable");
   console.log("Browser consent network smoke: no third-party HTTP requests before/after denial on " +
     (privacyRoutes.length + 1) + " representative routes");
+
+  // A real source-owned YouTube bookmark must contain no iframe and make no
+  // third-party request until the visitor explicitly activates the player.
+  unconsentedRequests.length=0;
+  await command("Network.enable");
+  checkUnconsentedRequests=true;
+  await navigate(youtubeBookmark.detailUrl);
+  await waitFor("Boolean(document.querySelector('[data-load-youtube][data-youtube-ready]'))",
+    Boolean,"YouTube consent player is mounted on a real bookmark detail");
+  assert.equal(await evaluate("document.querySelectorAll('[data-youtube-container] iframe').length"),
+    0,"No YouTube iframe before explicit consent");
+  assert.deepEqual(unconsentedRequests,[],
+    "No external requests on first visit to a YouTube bookmark detail");
+  checkUnconsentedRequests=false;
+  await command("Network.disable");
+  await evaluate("document.querySelector('[data-load-youtube]').click()");
+  await waitFor("document.querySelector('[data-youtube-container] iframe')?.src",
+    value=>value==="https://www.youtube-nocookie.com/embed/"+youtubeVideoId(youtubeBookmark.url),
+    "User click creates the expected privacy-enhanced player");
+  assert.equal(await evaluate("document.querySelector('[data-youtube-container] iframe')?.referrerPolicy"),
+    "no-referrer","YouTube iframe must not send the source page referrer");
+  assert.equal(await evaluate("document.querySelector('[data-load-youtube]')?.hidden"),true,
+    "YouTube player button hides after activation");
+  assert.equal(await evaluate("document.querySelector('a[href*="youtube.com/watch"]')!==null"),true,
+    "Original YouTube bookmark link remains accessible");
   console.log("Browser consent smoke: fixed desktop/mobile cookie overlay, settings reopening, keyboard focus and no eager Google tag passed");
 
   // Project cards are static links, not Vue islands. Reuse the existing Chrome
