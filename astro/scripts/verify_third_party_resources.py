@@ -84,31 +84,21 @@ def audit_static_resources(dist: Path, site: str) -> None:
 
 
 def self_test_static_resources(site: str) -> None:
-    """Deterministic malicious/benign HTML fixtures run in the existing CI audit."""
-    safe = (
-        '<a href="https://www.youtube.com/watch?v=example">Video link</a>'
-        '<a href="https://giscus.app">Comments link</a>'
-        '<script src="/_astro/client.js"></script>'
-        '<link rel="stylesheet" href="/assets/site.css">'
-        '<link rel="canonical" href="https://www.peroniko.xyz/about/">'
-        '<iframe data-src="https://www.youtube-nocookie.com/embed/example"></iframe>'
-    )
+    """Exercise safe and unsafe HTML fixtures stored separately from Python."""
+    fixtures = Path(__file__).resolve().parent / "fixtures"
+    safe = (fixtures / "third-party-safe.html").read_text(encoding="utf-8")
     parser = EagerResources(site)
     parser.feed(safe)
+    parser.close()
     assert not parser.violations, parser.violations
-    forbidden = (
-        '<script src="https://giscus.app/client.js"></script>',
-        '<script src="javascript:alert(1)"></script>',
-        '<iframe src="https://www.youtube-nocookie.com/embed/abc"></iframe>',
-        '<iframe src="//www.youtube.com/embed/abc"></iframe>',
-        '<iframe srcdoc="<script src=\'https://example.org/track.js\'></script>"></iframe>',
-        '<embed src="https://www.youtube.com/embed/abc">',
-        '<object data="https://example.org/embed"></object>',
-        '<link rel="preconnect" href="https://www.google-analytics.com">',
-        '<link rel="stylesheet" href="https://example.org/theme.css">',
-        '<link rel="modulepreload" href="https://example.org/script.js">',
-    )
-    for html in forbidden:
+
+    forbidden = (fixtures / "third-party-forbidden.html").read_text(encoding="utf-8")
+    for line_number, html in enumerate(forbidden.splitlines(), 1):
+        if not html.strip():
+            continue
         check = EagerResources(site)
         check.feed(html)
-        assert check.violations, f"Eager resource escaped privacy audit: {html}"
+        check.close()
+        assert check.violations, (
+            f"Eager resource escaped privacy audit in fixture line {line_number}: {html}"
+        )
