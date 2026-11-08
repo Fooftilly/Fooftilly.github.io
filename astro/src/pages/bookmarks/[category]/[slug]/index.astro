@@ -4,10 +4,12 @@ import type { CollectionEntry } from "astro:content";
 import { getCollection, render } from "astro:content";
 import SiteLayout from "../../../../layouts/SiteLayout.astro";
 import ConsentComments from "../../../../components/ConsentComments.astro";
+import ConsentYouTube from "../../../../components/ConsentYouTube.astro";
 import { bookmarkDetailParams, bookmarkDetailPath } from "../../../../lib/bookmark-path.ts";
 import { bookmarkNeighborMap, type BookmarkAdjacency } from "../../../../lib/bookmark-neighbors.ts";
 import { categoryBySection, bookmarkCategoryPath } from "../../../../lib/bookmark-categories.ts";
 import { publicBookmarkUrl } from "../../../../lib/bookmark-public-url.ts";
+import { youtubeVideoId } from "../../../../lib/youtube-embed.ts";
 import { bookmarkTagSearchHref } from "../../../../lib/bookmark-query-state.ts";
 
 export const getStaticPaths = (async () => {
@@ -32,6 +34,7 @@ if (!category) throw new Error(`Unknown bookmark category in ${entry.id}`);
 const { Content } = await render(entry);
 const hasBody = Boolean(entry.body?.trim());
 const externalUrl = publicBookmarkUrl(entry.data.link ?? "");
+const youtubeId = externalUrl ? youtubeVideoId(externalUrl) : null;
 const date = entry.data.date?.toISOString().slice(0, 10) ?? "";
 const categoryPath = bookmarkCategoryPath(category.slug);
 const tags = entry.data.tags ?? [];
@@ -52,6 +55,7 @@ const tags = entry.data.tags ?? [];
     </ul>}
     {hasBody && <section class="bookmark-notes" aria-label="Bookmark notes"><Content /></section>}
   </article>
+  {youtubeId && <ConsentYouTube videoId={youtubeId} title={entry.data.title} />}
   {(adjacency.previous || adjacency.next) && <nav class="bookmark-neighbors" aria-label="Browse nearby bookmarks">
     {adjacency.previous && <a rel="prev" href={bookmarkDetailPath(adjacency.previous.id)}>Previous: {adjacency.previous.title}</a>}
     {adjacency.next && <a rel="next" href={bookmarkDetailPath(adjacency.next.id)}>Next: {adjacency.next.title}</a>}
