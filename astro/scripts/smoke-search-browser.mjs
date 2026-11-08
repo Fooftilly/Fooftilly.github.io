@@ -216,6 +216,29 @@ try {
     await evaluate("document.querySelector('.media-provider-dialog button:last-child').click()");
     await waitFor("document.querySelector('.media-provider-dialog')===null",
       Boolean,"Closing provider ID dialog removes the editor");
+    // Existing film ratings are edited in-place; no new public item is created.
+    await evaluate("document.querySelector('[data-media-rating-edit]').click()");
+    await waitFor("Boolean(document.querySelector('.media-ratings-dialog')?.open)",
+      Boolean,"Film ratings editor opens from an existing row");
+    assert.equal(await evaluate("document.querySelector('[data-copy-media-ratings]')"),null,
+      "No replacement is offered when the original rating has not changed");
+    await evaluate("(()=>{const i=document.querySelector('[data-edit-overall-rating]');i.value='5';i.dispatchEvent(new Event('input',{bubbles:true}))})()");
+    await waitFor("document.querySelector('[data-copy-media-ratings]')!==null",
+      Boolean,"Edited film score produces replacement JSON");
+    const filmRatingsReplacement=JSON.parse(await evaluate(
+      "document.querySelector('.media-ratings-dialog textarea[readonly]')?.value"));
+    assert.equal(filmRatingsReplacement.title,firstFilmTitle);
+    assert.equal(filmRatingsReplacement.rating,5);
+    assert.equal(filmRatingsReplacement.notes,"Synthetic note.\nSecond paragraph.");
+    assert.equal(filmRatingsReplacement.links.length,3);
+    assert.ok((await evaluate("document.querySelector('.media-ratings-dialog a[href]')?.href"))
+      .startsWith("https://github.com/Fooftilly/Fooftilly.github.io/edit/master/content/media/films/"));
+    await evaluate("(()=>{const i=document.querySelector('[data-edit-overall-rating]');i.value='0';i.dispatchEvent(new Event('input',{bubbles:true}))})()");
+    await waitFor("(()=>{const v=document.querySelector('.media-ratings-dialog textarea[readonly]')?.value;return v?JSON.parse(v).rating===undefined:false})()",
+      Boolean,"Clearing film score removes optional rating while retaining the record");
+    await evaluate("document.querySelector('[data-close-media-ratings]').click()");
+    await waitFor("document.querySelector('.media-ratings-dialog')===null",
+      Boolean,"Ratings dialog closes and releases its state");
     await evaluate("(()=>{const el=document.querySelector('[data-media-search]');el.value='';el.dispatchEvent(new Event('input',{bubbles:true}))})()");
     await evaluate("document.querySelector('[data-media-missing-ids]').click()");
     await waitFor("new URL(location.href).searchParams.get('missing_id')",
@@ -493,6 +516,55 @@ try {
     assert.equal(await evaluate("new URL(location.href).searchParams.get('utm_source')"),"fixture",
       "Clear filters preserves unrelated URL parameters");
 
+    // A published album may acquire independently reviewed track ratings
+    // without replacing its existing album score, source references or edition.
+    await navigate("/music/?q=CI%20synthetic%20album%20(not%20for%20publication)");
+    await waitFor("document.querySelectorAll('[data-media-row]').length",
+      value=>value===1,"Existing album fixture can be selected by search");
+    await evaluate("document.querySelector('[data-media-rating-edit]').click()");
+    await waitFor("Boolean(document.querySelector('.media-ratings-dialog')?.open)",
+      Boolean,"Existing album ratings editor opens");
+    assert.equal(await evaluate("document.querySelectorAll('[data-edit-track]').length"),3);
+    await evaluate("(()=>{const i=document.querySelector('[data-edit-track-rating]');i.value='5';i.dispatchEvent(new Event('input',{bubbles:true}))})()");
+    await waitFor("document.querySelector('[data-copy-media-ratings]')!==null",
+      Boolean,"Adjusting a track score creates an edit");
+    await evaluate("document.querySelector('[data-edit-add-track]').click()");
+    await evaluate("(()=>{const rows=document.querySelectorAll('[data-edit-track]');const i=rows[rows.length-1].querySelector('[data-edit-track-title]');i.value='Bonus cut';i.dispatchEvent(new Event('input',{bubbles:true}))})()");
+    await waitFor("(()=>{const v=document.querySelector('.media-ratings-dialog textarea[readonly]')?.value;return v?JSON.parse(v).tracks?.length===4:false})()",
+      Boolean,"Adding a manually verified album track updates the source JSON");
+    const albumRatingsReplacement=JSON.parse(await evaluate(
+      "document.querySelector('.media-ratings-dialog textarea[readonly]')?.value"));
+    assert.equal(albumRatingsReplacement.title,"CI synthetic album (not for publication)");
+    assert.equal(albumRatingsReplacement.rating,3.5,"Track ratings must not change the album rating");
+    assert.equal(albumRatingsReplacement.creator,"Café");
+    assert.equal(albumRatingsReplacement.links[0].url,"https://example.org/album");
+    assert.deepEqual(albumRatingsReplacement.tracks.map(x=>[x.disc,x.number,x.title,x.rating]),
+      [[1,1,"Opening",5],[1,2,"Unrated track",undefined],[2,1,"Finale",3],[1,3,"Bonus cut",undefined]]);
+    await evaluate("document.querySelector('[data-close-media-ratings]').click()");
+    await waitFor("document.querySelector('.media-ratings-dialog')===null",
+      Boolean,"Album editor closes");
+
+    // TV episode scores can be added without changing season or series scores.
+    await navigate("/tv/?q=CI%20synthetic%20TV%20show");
+    await waitFor("document.querySelectorAll('[data-media-row]').length",
+      value=>value===1,"TV fixture selected");
+    await evaluate("document.querySelector('[data-media-rating-edit]').click()");
+    await waitFor("Boolean(document.querySelector('.media-ratings-dialog')?.open)",
+      Boolean,"TV nested rating editor opens");
+    assert.equal(await evaluate("document.querySelectorAll('[data-edit-season]').length"),2);
+    await evaluate("(()=>{const items=document.querySelectorAll('[data-edit-episode-rating]');const i=items[items.length-1];i.value='4';i.dispatchEvent(new Event('input',{bubbles:true}))})()");
+    await waitFor("document.querySelector('[data-copy-media-ratings]')!==null",
+      Boolean,"A previously unrated episode can gain a score");
+    const tvRatingsReplacement=JSON.parse(await evaluate(
+      "document.querySelector('.media-ratings-dialog textarea[readonly]')?.value"));
+    assert.equal(tvRatingsReplacement.title,"CI synthetic TV show (not for publication)");
+    assert.equal(tvRatingsReplacement.seasons[0].episodes[0].rating,4);
+    assert.equal(tvRatingsReplacement.seasons[1].rating,3.5);
+    assert.equal(tvRatingsReplacement.seasons[1].episodes[0].rating,4.5);
+    assert.equal(tvRatingsReplacement.seasons[1].episodes[1].rating,4);
+    await evaluate("document.querySelector('[data-close-media-ratings]').click()");
+    await waitFor("document.querySelector('.media-ratings-dialog')===null",
+      Boolean,"TV editor closes");
     await navigate("/music/?q=cafe&sort=title");
     await waitFor(
       "document.querySelector('[data-media-search]')?.value",

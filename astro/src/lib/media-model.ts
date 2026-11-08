@@ -461,6 +461,53 @@ export function composeMediaReferenceEdit(
   return {path:entry.path,json:JSON.stringify(next,null,2)+"\n",changed};
 }
 
+/** Reviewable changes to a stored item's rating and optional nested scores.
+ * The path, original metadata and all external provider links are untouched.
+ */
+export interface MediaRatingsInput {
+  rating: number; // 0 means unrated; published values use 0.5–5.
+  tracks?: readonly MediaTrack[];
+  seasons?: readonly MediaSeason[];
+}
+
+export function composeMediaRatingsEdit(entry: StoredMedia, input: MediaRatingsInput): MediaReferenceEdit {
+  if(entry.path!=="content/media/"+entry.id+".json")throw new Error("Media identity/path mismatch");
+  githubExistingMediaEditorUrl(entry.path);
+  const {id:_id,path:_path,...record}=entry;
+  const next:MediaRecord={...record};
+  if(input.rating===0)delete next.rating;
+  else next.rating=input.rating;
+
+  if(entry.kind==="music"){
+    if(input.seasons!==undefined)throw new Error("Seasons are only editable for TV");
+    const tracks=input.tracks??entry.tracks??[];
+    if(tracks.length)next.tracks=tracks.map(track=>({...track}));
+    else delete next.tracks;
+  }else if(entry.kind==="tv"){
+    if(input.tracks!==undefined)throw new Error("Tracks are only editable for music");
+    const seasons=input.seasons??entry.seasons??[];
+    if(seasons.length)next.seasons=seasons.map(season=>({
+      ...season,
+      ...(season.episodes?{episodes:season.episodes.map(episode=>({...episode}))}:{}),
+    }));
+    else delete next.seasons;
+  }else if(input.tracks!==undefined||input.seasons!==undefined){
+    throw new Error("Films do not have tracks or seasons");
+  }
+
+  const validated=validateMediaRecord(next,entry.kind);
+  const scoreFields=(record:MediaRecord)=>JSON.stringify({
+    rating:record.rating??null,
+    tracks:record.tracks??null,
+    seasons:record.seasons??null,
+  });
+  return {
+    path:entry.path,
+    json:JSON.stringify(validated,null,2)+"\n",
+    changed:scoreFields(entry)!==scoreFields(validated),
+  };
+}
+
 export function githubMediaEditorUrl(path:string,json:string):string{
   if(!/^content\/media\/(?:music|films|tv)\/[\p{L}\p{N}-]+\.json$/u.test(path)) throw new Error("Invalid media draft path");
   const url=new URL("https://github.com/Fooftilly/Fooftilly.github.io/new/master");
