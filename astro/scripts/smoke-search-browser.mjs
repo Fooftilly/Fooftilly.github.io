@@ -997,6 +997,26 @@ try {
   assert.equal(await evaluate("document.querySelectorAll('.bookmark-browser [data-bookmark-category]').length"),
     availableCategories, "Search filter buttons must reflect categories present in current content");
   assert.equal(await evaluate("document.querySelectorAll('[data-bookmark-sort][aria-pressed=true]').length"), 1);
+  // The final Show more control disappears after its last page; otherwise
+  // keyboard focus falls out of the results. Test every page against the
+  // live Git-owned inventory rather than a fixed historical record count.
+  const bookmarkPageSize = 50;
+  await waitFor("document.querySelectorAll('.bookmark-browser li.bookmark-entry').length",
+    count => count === Math.min(bookmarkPageSize, bookmarkRecords.length),
+    "Hydrated bookmarks start with a single window");
+  for (let firstNewIndex = bookmarkPageSize; firstNewIndex < bookmarkRecords.length; firstNewIndex += bookmarkPageSize) {
+    assert.equal(await evaluate("Boolean(document.querySelector('.bookmark-browser .more-button'))"), true,
+      "Non-final bookmark page offers Show more");
+    await evaluate("document.querySelector('.bookmark-browser .more-button').click()");
+    await waitFor("document.querySelectorAll('.bookmark-browser li.bookmark-entry').length",
+      count => count === Math.min(firstNewIndex + bookmarkPageSize, bookmarkRecords.length),
+      "Bookmark Show more appends the next source-owned page");
+    await waitFor("document.activeElement === document.querySelectorAll('.bookmark-browser li.bookmark-entry')[" +
+      firstNewIndex + "]", Boolean,
+      "Bookmark pagination transfers keyboard focus to first newly loaded result");
+  }
+  assert.equal(await evaluate("document.querySelector('.bookmark-browser .more-button')===null"), true,
+    "Bookmark Show more disappears only after the final source-owned page");
   const emptyQuery = "no-matching-bookmark-ci-unique-unlikely";
   await evaluate("(()=>{const el=document.querySelector('input[type=search]');el.value=" +
     JSON.stringify(emptyQuery) + ";el.dispatchEvent(new Event('input',{bubbles:true}))})()");
