@@ -336,3 +336,66 @@ test("provider editor preserves case-sensitive Letterboxd IDs without false posi
   const other={path:"content/media/music/release.json",refs:{musicbrainz:id}};
   assert.throws(()=>composeMediaReferenceEdit(first,{musicbrainz:id.toUpperCase()},[first,other]),/already assigned/);
 });
+
+test("edition-qualified versions stay distinct but legacy paths remain unchanged",()=>{
+  const base={schema:1,kind:"music",title:"4 Sucessos",creator:"Kate Bush",year:1978};
+  const first=validateMediaRecord({...base,edition:"Part 1 EMI 31C 016 06894",rating:4});
+  const second=validateMediaRecord({...base,edition:"Part 2 EMI 31C 016 07144",rating:3.5});
+  assert.equal(mediaPath(base),"content/media/music/4-sucessos-1978-kate-bush.json");
+  assert.equal(mediaPath(first),"content/media/music/4-sucessos-1978-kate-bush-part-1-emi-31c-016-06894.json");
+  assert.notEqual(mediaPath(first),mediaPath(second));
+  assert.equal(sameMedia(first,second),false);
+  assert.equal(sameMedia(first,{...first,edition:"part 1 emi 31c 016 06894"}),true);
+  assert.equal(sameMedia(base,first),true);
+  const stored=x=>({...x,id:mediaPath(x).slice(14,-5),path:mediaPath(x)});
+  assert.doesNotThrow(()=>assertUniqueMediaCatalog([stored(first),stored(second)]));
+  assert.throws(()=>assertUniqueMediaCatalog([stored(first),stored(base)]),/Duplicate media identity/);
+  assert.throws(()=>assertUniqueMediaCatalog([stored(first),stored({...second,edition:"Part 1 EMI 31C 016 06894"})]),/Duplicate media/);
+  assert.equal(composeMediaDraft(second,[stored(first)]).duplicatePaths.length,0);
+  assert.deepEqual(composeMediaDraft(first,[stored(first)]).duplicatePaths,[mediaPath(first)]);
+  assert.equal(JSON.parse(composeMediaDraft(second,[]).json).edition,second.edition);
+});
+
+test("edition suffix remains visible for long credits and rejects invalid edition text",()=>{
+  const base={schema:1,kind:"music",title:"Concert",creator:"A".repeat(250),year:1998};
+  assert.equal(mediaSlug(base).length,110);
+  assert.ok(mediaSlug({...base,edition:"Live take B"}).endsWith("-live-take-b"));
+  assert.notEqual(mediaSlug({...base,edition:"Live take B"}),mediaSlug({...base,edition:"Live take C"}));
+  assert.ok(mediaSlug({...base,edition:"Live take B"}).length<=110);
+  assert.throws(()=>validateMediaRecord({...base,edition:"x".repeat(121)}),/Edition must be 1–120/);
+  assert.throws(()=>validateMediaRecord({...base,edition:"part 1\nprivate"}),/printable/);
+  assert.equal(validateMediaRecord(base).edition,undefined);
+});
+
+test("full edition label distinguishes long names with the same first 40 characters",()=>{
+  const base={schema:1,kind:"music",title:"4 Sucessos",creator:"Kate Bush",year:1978};
+  const a={...base,edition:"Original Brazilian pressing EMI 31C 016 06894"};
+  const b={...base,edition:"Original Brazilian pressing EMI 31C 016 07144"};
+  assert.equal(sameMedia(a,b),false);
+  assert.equal(a.edition.slice(0,40),b.edition.slice(0,40),
+    "The test must reproduce the old truncated-suffix collision");
+  const pa=mediaPath(a),pb=mediaPath(b);
+  assert.notEqual(pa,pb,"The complete edition labels must remain distinguishable");
+  assert.ok(pa.endsWith(".json")&&pb.endsWith(".json"));
+  assert.ok(mediaSlug(a).length<=110&&mediaSlug(b).length<=110);
+  assert.equal(mediaPath(a),pa,"Slug generation must be deterministic");
+  const prefix="4-sucessos-1978-kate-bush-original-brazilian";
+  assert.ok(pa.includes(prefix)&&pb.includes(prefix),
+    "A readable prefix must survive hashing");
+  const stored=x=>({...x,id:mediaPath(x).slice(14,-5),path:mediaPath(x)});
+  assert.deepEqual(composeMediaDraft(b,[stored(a)]).duplicatePaths,[]);
+  assert.doesNotThrow(()=>assertUniqueMediaCatalog([stored(a),stored(b)]));
+  assert.deepEqual(composeMediaDraft(b,[stored(b)]).duplicatePaths,[pb],
+    "A genuine duplicate edition must still be blocked");
+});
+
+test("long Unicode edition suffixes are deterministic and valid",()=>{
+  const record={schema:1,kind:"music",title:"Concert",creator:"Toshinori Kondo",year:2000};
+  const a={...record,edition:"超長い限定版コンサート記録".repeat(5)+" 第一巻"};
+  const b={...record,edition:"超長い限定版コンサート記録".repeat(5)+" 第二巻"};
+  assert.notEqual(mediaPath(a),mediaPath(b));
+  assert.ok(mediaSlug(a).length<=110&&mediaSlug(b).length<=110);
+  assert.equal(mediaPath(a),mediaPath(a));
+  assert.doesNotThrow(()=>validateMediaRecord(a));
+  assert.doesNotThrow(()=>validateMediaRecord(b));
+});

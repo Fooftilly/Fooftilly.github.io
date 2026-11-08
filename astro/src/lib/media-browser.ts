@@ -19,10 +19,10 @@ export const normalizeMediaSearch = (value: string): string => value.normalize("
 
 /** Index only media fields; external link labels are not metadata. */
 export function searchableMediaText(item: {
-  title:string;creator?:string;year?:number;status?:string;notes?:string
+  title:string;edition?:string;creator?:string;year?:number;status?:string;notes?:string
 }):string {
   const status = item.status === "in-progress" ? "in-progress In progress" : item.status ?? "";
-  return [item.title,item.creator??"",item.year?.toString()??"",status,item.notes??""].join(" ");
+  return [item.title,item.edition??"",item.creator??"",item.year?.toString()??"",status,item.notes??""].join(" ");
 }
 /** All search terms may occur in different table cells, including public notes. */
 export function matchesMediaSearch(rowText: string, query: string): boolean {
@@ -35,7 +35,7 @@ export function matchesMediaSearch(rowText: string, query: string): boolean {
  * in the row's title, creator, year or status. Keep default listings compact.
  */
 export function mediaNotesExplainSearch(
-  item: {title:string;creator?:string;year?:number;status?:string;notes?:string},
+  item: {title:string;edition?:string;creator?:string;year?:number;status?:string;notes?:string},
   query: string,
 ): boolean {
   if (!item.notes || !query.trim() || !matchesMediaSearch(searchableMediaText(item), query)) return false;

@@ -88,3 +88,13 @@ test("minimum rating selection includes unrated at default and excludes it for p
   assert.deepEqual(entries.filter(x=>matchesMediaMinimumRating(x,4.5)),entries.slice(0,2));
   assert.deepEqual(entries.filter(x=>matchesMediaMinimumRating(x,5)),entries.slice(0,1));
 });
+
+
+test("edition strings are searchable visible metadata rather than hidden notes",()=>{
+  const item={title:"4 Sucessos",edition:"Part 2 EMI 07144",creator:"Kate Bush",year:1978,notes:"A note about part 1"};
+  assert.equal(matchesMediaSearch(searchableMediaText(item),"07144"),true);
+  assert.equal(matchesMediaSearch(searchableMediaText(item),"part 2"),true);
+  assert.equal(mediaNotesExplainSearch(item,"07144"),false);
+  assert.equal(mediaNotesExplainSearch(item,"note"),true);
+  assert.equal(mediaNotesExplainSearch(item,"part 2"),false);
+});
