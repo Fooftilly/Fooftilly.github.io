@@ -13,6 +13,7 @@ from xml.etree import ElementTree as ET
 from verify_semantic_accessibility import verify_semantic_structure
 from verify_internal_links import audit_internal_links
 from verify_projects import verify_projects
+from verify_third_party_resources import audit_static_resources, self_test_static_resources
 from bookmark_categories import load_categories
 
 ASTRO = Path(__file__).resolve().parents[1]
@@ -343,4 +344,6 @@ if __name__ == "__main__":
     check_analytics_privacy()
     check_opt_in_comments()
     check_privacy_disclosure()
+    self_test_static_resources(SITE)
+    audit_static_resources(DIST, SITE)
     verify_projects(DIST, ASTRO.parent / "content/projects", SITE)
