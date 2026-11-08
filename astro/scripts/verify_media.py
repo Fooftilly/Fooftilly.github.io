@@ -54,7 +54,7 @@ class MediaParser(HTMLParser):
             self.cell = {"text": [], "links": [], "aria": attrs.get("aria-label", "")}
         elif tag == "a" and self.cell is not None:
             self.anchor = {"href": attrs.get("href", ""), "text": []}
-        elif tag == "button" and self.cell is not None and "data-media-ref-edit" in attrs:
+        elif tag == "button" and self.cell is not None and ("data-media-ref-edit" in attrs or "data-media-rating-edit" in attrs):
             self.in_media_edit_button = True
         elif tag == "details" and self.cell is not None:
             self.details_depth += 1
