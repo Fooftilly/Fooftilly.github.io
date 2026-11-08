@@ -91,6 +91,9 @@ const syncAddress = (): void => {
   });
   const current = window.location.pathname + window.location.search + window.location.hash;
   if (next !== current) window.history.replaceState(window.history.state, "", next);
+  // replaceState does not emit popstate. Refresh the EN/SH navigation link
+  // immediately so copying or inspecting its href reflects the live filters.
+  window.dispatchEvent(new Event("peroniko:search-state-change"));
 };
 const restoreFromAddress = (): void => {
   const restored = readBookmarkQueryState(window.location.search, categories.value, availableTags.value);
@@ -107,8 +110,12 @@ const restoreFromAddress = (): void => {
 onMounted(() => {
   restoreFromAddress();
   window.addEventListener("popstate", restoreFromAddress);
+  window.addEventListener("pageshow", restoreFromAddress);
 });
-onUnmounted(() => window.removeEventListener("popstate", restoreFromAddress));
+onUnmounted(() => {
+  window.removeEventListener("popstate", restoreFromAddress);
+  window.removeEventListener("pageshow", restoreFromAddress);
+});
 
 watch([query, category, sort, tag], () => {
   limit.value = BOOKMARK_PAGE_SIZE;
