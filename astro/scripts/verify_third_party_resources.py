@@ -3,8 +3,8 @@
 Ordinary outbound links are fine: merely displaying a bookmark should not
 fetch a video frame, remote script, or speculative connection. Consent-gated
 Giscus/GA scripts are inserted only after a visitor choice, not in static HTML.
-This audit does not inspect runtime JS or images; browser tests cover the
-existing GA/Giscus opt-in behavior.
+This audit checks static HTML resource attributes, including media URLs, but
+not CSS or runtime JavaScript. Browser tests cover GA/Giscus opt-in behavior.
 """
 from html.parser import HTMLParser
 from pathlib import Path
@@ -13,13 +13,20 @@ from urllib.parse import urlsplit
 
 EAGER_LINK_RELATIONS = {
     "stylesheet", "preconnect", "dns-prefetch", "preload", "modulepreload",
-    "prefetch", "prerender",
+    "prefetch", "prerender", "icon", "apple-touch-icon", "mask-icon",
+    "manifest",
 }
 RESOURCE_ATTRIBUTES = {
     "script": "src",
     "iframe": "src",
     "embed": "src",
     "object": "data",
+    "img": "src",
+    "audio": "src",
+    "video": "src",
+    "source": "src",
+    "track": "src",
+    "image": "href",  # Inline SVG image resources.
 }
 
 
@@ -54,11 +61,31 @@ class EagerResources(HTMLParser):
             # srcdoc can bootstrap remote resources without an external src.
             self.violations.append("iframe[srcdoc] (review embedded content)")
         attribute = RESOURCE_ATTRIBUTES.get(tag)
+        if tag == "input" and (data.get("type") or "").lower() == "image":
+            attribute = "src"
+        if tag == "video":
+            poster = data.get("poster")
+            if poster is not None and is_eager_external_target(poster, self.site):
+                self.violations.append(f"video[poster]={poster[:140]!r}")
+        if tag == "image":
+            attribute = "href" if "href" in data else "xlink:href"
         if tag == "link":
             rel = set((data.get("rel") or "").lower().split())
             if not (rel & EAGER_LINK_RELATIONS):
                 return
             attribute = "href"
+        if tag in {"img", "source", "link"} and (tag != "link" or attribute):
+            srcset_attribute = "imagesrcset" if tag == "link" else "srcset"
+            srcset = data.get(srcset_attribute)
+            if srcset:
+                # Srcset candidates are separated by commas. Normal image data URLs
+                # may also contain commas; these cannot introduce an HTTP URL.
+                for candidate in srcset.split(","):
+                    url = candidate.strip().split(maxsplit=1)
+                    if url and is_eager_external_target(url[0], self.site):
+                        self.violations.append(
+                            f"{tag}[{srcset_attribute}]={url[0][:140]!r}"
+                        )
         if attribute:
             target = data.get(attribute)
             if target is not None and is_eager_external_target(target, self.site):
