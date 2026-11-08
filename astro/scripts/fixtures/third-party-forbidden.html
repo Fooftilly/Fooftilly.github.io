@@ -8,3 +8,27 @@
 <link rel="preconnect" href="https://www.google-analytics.com">
 <link rel="stylesheet" href="https://example.org/theme.css">
 <link rel="modulepreload" href="https://example.org/script.js">
+
+<img src="https://images.example.org/tracker.png" alt="">
+<img src="//images.example.org/pixel.gif" alt="">
+<img srcset="/assets/small.png 1x, https://images.example.org/large.png 2x" alt="">
+<video src="https://media.example.org/movie.webm"></video>
+<video poster="https://media.example.org/poster.jpg"></video>
+<audio src="https://media.example.org/sound.mp3"></audio>
+<source src="https://media.example.org/stream.mp4">
+<source srcset="https://images.example.org/mobile.jpg 1x">
+<track src="https://media.example.org/subtitles.vtt">
+<input type="image" src="https://images.example.org/submit.png">
+<link rel="icon" href="https://images.example.org/favicon.ico">
+<link rel="manifest" href="https://assets.example.org/site.webmanifest">
+<link rel="preload" as="image" imagesrcset="https://images.example.org/preload.jpg 1x">
+<svg><image href="https://images.example.org/graphic.svg" /></svg>
+<svg><image xlink:href="https://images.example.org/legacy.svg" /></svg>
+
+<link rel="stylesheet" href="data:text/css,body%7Bdisplay:none%7D">
+<link rel="modulepreload" href="data:text/javascript,alert(1)">
+<script src="data:text/javascript,alert(1)"></script>
+
+<img srcset="/images/chart,axis:time.svg 1x, https://images.example.org/remote.png 2x" alt="">
+<img srcset="data:image/svg+xml,%3Csvg%3ESee,http://example.org%3C/svg%3E 1x, https://images.example.org/remote.png 2x" alt="">
+<link rel="preload" as="image" href="/assets/default.png" imagesrcset="data:image/svg+xml,%3Csvg%3ESee,http://example.org%3C/svg%3E 1x, https://images.example.org/remote.png 2x">
