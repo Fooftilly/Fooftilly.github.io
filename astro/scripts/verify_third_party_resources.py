@@ -51,6 +51,53 @@ def is_eager_external_target(raw: str, site: str, *, allow_inline: bool = False)
     return raw.lstrip().startswith("\\")
 
 
+SRCSET_SPACE = " \t\n\f\r"
+
+
+def srcset_urls(value: str) -> list[str]:
+    """Extract URL tokens with the HTML srcset whitespace/comma state machine.
+
+    Commas inside a URL (including data URLs) are not candidate separators.
+    A comma after a descriptor, or trailing a URL, ends a candidate.
+    """
+    urls: list[str] = []
+    position = 0
+    while position < len(value):
+        while position < len(value) and value[position] in SRCSET_SPACE + ",":
+            position += 1
+        if position == len(value):
+            break
+
+        start = position
+        while position < len(value) and value[position] not in SRCSET_SPACE:
+            position += 1
+        url = value[start:position]
+        if url.endswith(","):
+            url = url.rstrip(",")
+            if url:
+                urls.append(url)
+            continue
+
+        if url:
+            urls.append(url)
+
+        # Consume descriptors until the next candidate's separating comma.
+        # Commas inside descriptor parentheses do not separate candidates.
+        inside_parens = False
+        while position < len(value):
+            char = value[position]
+            position += 1
+            if inside_parens:
+                if char == ")":
+                    inside_parens = False
+            elif char == "(":
+                inside_parens = True
+            elif char == ",":
+                break
+
+    return urls
+
+
 class EagerResources(HTMLParser):
     """Inspect actual resource-fetching HTML attributes, not ordinary anchors."""
 
@@ -83,13 +130,10 @@ class EagerResources(HTMLParser):
             srcset_attribute = "imagesrcset" if tag == "link" else "srcset"
             srcset = data.get(srcset_attribute)
             if srcset:
-                # Srcset candidates are separated by commas. Normal image data URLs
-                # may also contain commas; these cannot introduce an HTTP URL.
-                for candidate in srcset.split(","):
-                    url = candidate.strip().split(maxsplit=1)
-                    if url and is_eager_external_target(url[0], self.site, allow_inline=True):
+                for url in srcset_urls(srcset):
+                    if is_eager_external_target(url, self.site, allow_inline=True):
                         self.violations.append(
-                            f"{tag}[{srcset_attribute}]={url[0][:140]!r}"
+                            f"{tag}[{srcset_attribute}]={url[:140]!r}"
                         )
         if attribute:
             target = data.get(attribute)
