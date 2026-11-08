@@ -260,7 +260,12 @@ filename and content before committing. Oversized captured URLs/titles
 are rejected rather than silently shortened.
 
 A copyable browser bookmarklet can capture the current tab's title and URL
-into the form at `www.peroniko.xyz`. The bookmarklet
+into the form at `www.peroniko.xyz`. New captures carry the URL and title in
+the editor page's **fragment** (`#url=…&title=…`), not in the HTTP request query
+string sent to GitHub Pages/CDN. The bookmarklet also opens with `noreferrer`
+so the source page is not disclosed through the HTTP `Referer` header.
+Existing `?url=…&title=…` prefill links remain
+supported but can expose their query contents to the hosting server. The bookmarklet
 does not create a file or send the page to any other service. No GitHub
 write token, OAuth client credentials or public write endpoint exist in
 the browser bundle. A maintainer must review and commit the generated
@@ -270,7 +275,8 @@ nothing changes on the site.
 `tests/bookmark-draft.test.mjs` validates source-compatible YAML, unsafe
 protocol/credential rejection, title and date checks, duplicate detection
 and unique filenames. The Chromium smoke verifies real Vue hydration,
-query-parameter capture, duplicate warning and safe GitHub editor handoff.
+fragment-based capture and legacy query-parameter prefill, duplicate warnings
+and safe GitHub editor handoff.
 The `/new-bookmark/` and `/new-media/` routes are included in the sitemap.
 Publishing remains manual-only through the existing validated GitHub Pages
 workflow; merging PRs cannot deploy to production.

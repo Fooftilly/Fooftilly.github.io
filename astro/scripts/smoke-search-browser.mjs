@@ -1206,6 +1206,20 @@ try {
   const draftPath = section => "content/bookmarks/" + section + "/" + draftStem + ".md";
   const openDraft = () => "/new-bookmark/?url=" + encodeURIComponent(draftUrl) +
     "&title=" + encodeURIComponent(draftTitle);
+  // New bookmarklet captures must stay in the URL fragment, not in an HTTP
+  // request query string. Legacy ?url=/title= links must continue to work.
+  const privateCapture = "/new-bookmark/#" + new URLSearchParams({
+    url: draftUrl, title: draftTitle,
+  });
+  await navigate(privateCapture);
+  await waitFor("document.querySelector('.new-bookmark .output code')?.textContent",
+    value => value === draftPath(defaultCategory.section),
+    "fragment-only capture restores the bookmark draft");
+  assert.equal(await evaluate("location.search"), "", "Capture must not have a request query");
+  assert.equal(await evaluate("document.querySelector('.new-bookmark input[type=url]')?.value"),
+    draftUrl, "Captured source URL survives the fragment handoff");
+  assert.equal(await evaluate("document.querySelector('.new-bookmark input[type=text]')?.value"),
+    draftTitle, "Captured title survives the fragment handoff");
   await navigate(openDraft());
   await waitFor("document.querySelector('.new-bookmark .output code')?.textContent",
     value => value === draftPath(defaultCategory.section), "new bookmark Vue hydration");

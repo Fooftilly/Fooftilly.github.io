@@ -2,6 +2,7 @@
 import { computed, onMounted, ref } from "vue";
 import { BOOKMARK_CATEGORIES, draftCategoryFromSlug } from "../lib/bookmark-categories.ts";
 import { bookmarkDetailPath } from "../lib/bookmark-path.ts";
+import { captureBookmarklet, readBookmarkCapture } from "../lib/bookmark-capture.ts";
 import { appendBookmarkTag, parseBookmarkTags } from "../lib/bookmark-tags.ts";
 import {
   composeBookmarkDraft,
@@ -35,15 +36,13 @@ function addSuggestedTag(suggested: string): void {
   }
 }
 const editorLimit = 4000; // Conservative URL length across browsers and GitHub redirects.
-// Paste this as the URL of a browser bookmark to capture the current page.
-// The capture bookmarklet opens the deployed public bookmark draft editor.
-const captureBookmarklet = 'javascript:(()=>{const u=new URL("https://www.peroniko.xyz/new-bookmark/");u.searchParams.set("url",location.href);u.searchParams.set("title",document.title);window.open(u.href,"_blank","noopener");})();';
-
+// A bookmarklet capture uses #url=/title= so the captured URL never reaches
+// the static hosting server as an HTTP request query string.
 onMounted(() => {
-  const parameters = new URLSearchParams(window.location.search);
-  url.value = parameters.get("url") ?? "";
-  title.value = parameters.get("title") ?? "";
-  category.value = draftCategoryFromSlug(parameters.get("category"));
+  const capture = readBookmarkCapture(window.location.search, window.location.hash);
+  url.value = capture.url;
+  title.value = capture.title;
+  category.value = draftCategoryFromSlug(capture.category);
   const now = new Date();
   date.value = new Date(now.getTime() - now.getTimezoneOffset() * 60000)
     .toISOString().slice(0, 10);
@@ -91,7 +90,7 @@ async function copy(value: string, description: string) {
     <p>Create a bookmark draft for GitHub review. Nothing is saved here.</p>
     <details class="capture-help">
       <summary>Capture a page with a browser bookmarklet</summary>
-      <p>Save the bookmarklet in your browser to fill in the URL and title from any page.</p>
+      <p>Save the bookmarklet in your browser to fill in the URL and title from any page. Captured details stay in the page address fragment, not the hosting server request.</p>
       <button type="button" @click="copy(captureBookmarklet, 'Bookmarklet')">Copy capture bookmarklet</button>
     </details>
 
