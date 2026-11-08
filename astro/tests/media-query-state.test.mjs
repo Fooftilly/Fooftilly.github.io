@@ -4,10 +4,10 @@ import { readMediaQueryState, mediaFilterHref } from "../src/lib/media-query-sta
 
 test("deep link restores supported sort options and Unicode search text", () => {
   assert.deepEqual(readMediaQueryState("?q=%C3%89milie%20%26%20Cafe&sort=year"), {
-    query: "Émilie & Cafe", sort: "year", status: "all", minRating: 0,
+    query: "Émilie & Cafe", sort: "year", status: "all", minRating: 0, missingRefsOnly: false,
   });
-  assert.deepEqual(readMediaQueryState("?sort=title"), {query: "", sort: "title", status: "all", minRating: 0});
-  assert.deepEqual(readMediaQueryState(""), {query: "", sort: "rating", status: "all", minRating: 0});
+  assert.deepEqual(readMediaQueryState("?sort=title"), {query: "", sort: "title", status: "all", minRating: 0, missingRefsOnly: false});
+  assert.deepEqual(readMediaQueryState(""), {query: "", sort: "rating", status: "all", minRating: 0, missingRefsOnly: false});
 });
 
 test("unknown sort values fall back to rating instead of changing collection order", () => {
@@ -69,9 +69,9 @@ test("restored history URLs round-trip through the public filter codec", () => {
     "/films/?sort=unsupported&status=retired&utm_source=bookmarks",
   ];
   const expected = [
-    {query:"blue",sort:"year",status:"finished",minRating:0},
-    {query:"green",sort:"rating",status:"planned",minRating:0},
-    {query:"",sort:"rating",status:"all",minRating:0},
+    {query:"blue",sort:"year",status:"finished",minRating:0,missingRefsOnly:false},
+    {query:"green",sort:"rating",status:"planned",minRating:0,missingRefsOnly:false},
+    {query:"",sort:"rating",status:"all",minRating:0,missingRefsOnly:false},
   ];
   for (const [index, href] of history.entries()) {
     const restored = readMediaQueryState(new URL(href, "https://www.peroniko.xyz").search);
@@ -104,4 +104,16 @@ test("half-star minimum rating URL state is canonical and safe",()=>{
   assert.equal(url.hash,"#rows");
   assert.equal(readMediaQueryState(url.search).minRating,4.5);
   assert.equal(mediaFilterHref(url.href,"","rating","all",0),"/films/?utm=public#rows");
+});
+
+test("missing provider IDs filter round-trips and rejects unsupported URL values",()=>{
+  const url=mediaFilterHref("https://www.peroniko.xyz/music/?q=album&missing_id=bogus&source=bookmarks#list",
+    "album","title","all",0,true);
+  const parsed=new URL(url,"https://www.peroniko.xyz");
+  assert.equal(parsed.searchParams.get("missing_id"),"1");
+  assert.equal(parsed.searchParams.get("source"),"bookmarks");
+  assert.equal(readMediaQueryState(parsed.search).missingRefsOnly,true);
+  assert.equal(readMediaQueryState("?missing_id=TRUE").missingRefsOnly,false);
+  assert.equal(readMediaQueryState("?missing_id=0").missingRefsOnly,false);
+  assert.equal(mediaFilterHref(parsed.href,"","rating","all",0,false),"/music/?source=bookmarks#list");
 });

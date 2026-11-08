@@ -1,7 +1,7 @@
 ---
 import MediaBrowser from "./MediaBrowser.vue";
-import type { MediaKind, StoredMedia } from "../lib/media-model.ts";
-interface Props { kind: MediaKind; entries: StoredMedia[] }
-const {kind,entries}=Astro.props;
+import type { MediaKind, StoredMedia, MediaProviderCatalogRef } from "../lib/media-model.ts";
+interface Props { kind: MediaKind; entries: StoredMedia[]; otherProviderRefs: MediaProviderCatalogRef[] }
+const {kind,entries,otherProviderRefs}=Astro.props;
 ---
-<MediaBrowser kind={kind} entries={entries} client:load />
+<MediaBrowser kind={kind} entries={entries} otherProviderRefs={otherProviderRefs} client:load />

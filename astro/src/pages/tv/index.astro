@@ -2,10 +2,15 @@
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import MediaTable from "../../components/MediaTable.astro";
 import { loadMedia } from "../../lib/media-store.ts";
-const entries=await loadMedia("tv");
+// Load the validated collection once; send only provider data for other
+// categories so the client can detect collisions without duplicating their metadata.
+const all=await loadMedia();
+const entries=all.filter(item=>item.kind==="tv");
+const otherProviderRefs=all.filter(item=>item.kind!=="tv")
+  .map(({path,refs,links})=>({path,refs,links}));
 ---
 <SiteLayout title="TV series" description="Series and ratings.">
   <h1>TV series</h1>
   <p><a href="/new-media/?kind=tv">Add a TV series</a>.</p>
-  <MediaTable kind="tv" entries={entries}/>
+  <MediaTable kind="tv" entries={entries} otherProviderRefs={otherProviderRefs}/>
 </SiteLayout>

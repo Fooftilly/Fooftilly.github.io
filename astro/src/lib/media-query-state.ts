@@ -5,6 +5,7 @@ export interface MediaQueryState {
   sort: MediaSort;
   status: MediaStatusFilter;
   minRating: number;
+  missingRefsOnly: boolean;
 }
 
 /** Restore only supported media filters; unknown sort values fall back to rating. */
@@ -22,19 +23,22 @@ export function readMediaQueryState(search: string): MediaQueryState {
     sort: sort === "title" || sort === "year" ? sort : "rating",
     status,
     minRating,
+    missingRefsOnly: params.get("missing_id")==="1",
   };
 }
 
 /** Keep unrelated route parameters and fragments intact when updating filters. */
-export function mediaFilterHref(href: string, query: string, sort: MediaSort, status: MediaStatusFilter = "all", minRating = 0): string {
+export function mediaFilterHref(href: string, query: string, sort: MediaSort, status: MediaStatusFilter = "all", minRating = 0, missingRefsOnly = false): string {
   const url = new URL(href);
   url.searchParams.delete("q");
   url.searchParams.delete("sort");
   url.searchParams.delete("status");
   url.searchParams.delete("min_rating");
+  url.searchParams.delete("missing_id");
   if (query.trim()) url.searchParams.set("q", query.trim());
   if (sort !== "rating") url.searchParams.set("sort", sort);
   if (status !== "all") url.searchParams.set("status", status);
   if (minRating > 0) url.searchParams.set("min_rating", String(minRating));
+  if (missingRefsOnly) url.searchParams.set("missing_id", "1");
   return url.pathname + url.search + url.hash;
 }

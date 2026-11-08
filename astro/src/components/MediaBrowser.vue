@@ -2,9 +2,9 @@
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
 import { compareMediaListings, matchesMediaSearch, matchesMediaStatus, matchesMediaMinimumRating, searchableMediaText, mediaNotesExplainSearch, mediaVisiblePage, MEDIA_PAGE_SIZE, type MediaSort, type MediaStatusFilter } from "../lib/media-browser.ts";
 import { mediaFilterHref, readMediaQueryState } from "../lib/media-query-state.ts";
-import { mediaSourceLinks, type MediaKind, type StoredMedia } from "../lib/media-model.ts";
+import { mediaSourceLinks, composeMediaReferenceEdit, githubExistingMediaEditorUrl, MEDIA_REFERENCE_PLATFORMS, type MediaKind, type StoredMedia, type MediaPlatform, type MediaProviderCatalogRef } from "../lib/media-model.ts";
 
-const props=defineProps<{kind:MediaKind;entries:StoredMedia[]}>();
+const props=defineProps<{kind:MediaKind;entries:StoredMedia[];otherProviderRefs:MediaProviderCatalogRef[]}>();
 const title=computed(()=>props.kind==="music"?"Music":props.kind==="films"?"Films":"TV series");
 const creatorLabel=computed(()=>props.kind==="music"?"Artist":props.kind==="films"?"Director":"Creator");
 const query=ref("");
@@ -13,6 +13,53 @@ const statusFilter=ref<MediaStatusFilter>("all");
 const minRating=ref(0);
 const minRatingLabel=computed(()=>minRating.value === 0 ? "Any rating (includes unrated)" : minRating.value.toFixed(1) + " stars or more");
 const limit=ref(MEDIA_PAGE_SIZE);
+const missingRefsOnly=ref(false);
+// The owner must commit changes through GitHub. No public write API is exposed.
+const editing=ref<StoredMedia|null>(null);
+const providerDialog=ref<HTMLDialogElement|null>(null);
+const providerInputs=ref<Record<MediaPlatform,string>>({
+  imdb:"",tmdb:"",wikipedia:"",letterboxd:"",musicbrainz:"",
+});
+const copyStatus=ref("");
+const providerFields:{platform:MediaPlatform;label:string;hint:string}[]=[
+  {platform:"musicbrainz",label:"MusicBrainz",hint:"Release-group UUID or direct link"},
+  {platform:"imdb",label:"IMDb",hint:"tt1234567 or direct title link"},
+  {platform:"tmdb",label:"TMDb",hint:"movie:123 or tv:456, or direct link"},
+  {platform:"wikipedia",label:"Wikipedia",hint:"en:Article_Title or direct article link"},
+  {platform:"letterboxd",label:"Letterboxd",hint:"Short boxd.it ID or direct link"},
+];
+function editProviderIds(item:StoredMedia):void {
+  editing.value=item;
+  providerInputs.value={
+    imdb:item.refs?.imdb??"",
+    tmdb:item.refs?.tmdb??"",
+    wikipedia:item.refs?.wikipedia??"",
+    letterboxd:item.refs?.letterboxd??"",
+    musicbrainz:item.refs?.musicbrainz??"",
+  };
+  copyStatus.value="";
+  void nextTick(()=>providerDialog.value?.showModal());
+}
+const updatedReferences=computed(()=>{
+  if(!editing.value)return {value:null,error:""};
+  try {
+    return {value:composeMediaReferenceEdit(editing.value,providerInputs.value,[...props.entries,...props.otherProviderRefs]),error:""};
+  } catch(error){
+    return {value:null,error:error instanceof Error?error.message:"Invalid provider ID"};
+  }
+});
+async function copyProviderJson():Promise<void> {
+  const result=updatedReferences.value.value;
+  if(!result?.changed)return;
+  try {
+    await navigator.clipboard.writeText(result.json);
+    copyStatus.value="Replacement JSON copied. Paste it over the existing GitHub file.";
+  } catch {
+    copyStatus.value="Clipboard unavailable. Select the replacement JSON below to copy manually.";
+  }
+}
+function closeProviderDialog():void { providerDialog.value?.close(); }
+
 const hydrated=ref(false);
 const searchInput=ref<HTMLInputElement|null>(null);
 const tableBody=ref<HTMLTableSectionElement|null>(null);
@@ -21,6 +68,7 @@ async function clearFilters():Promise<void> {
   sort.value="rating";
   statusFilter.value="all";
   minRating.value=0;
+  missingRefsOnly.value=false;
   // The reset button disappears once filters are cleared. Move keyboard
   // focus to the persistent search control after Vue has rendered.
   await nextTick();
@@ -40,7 +88,7 @@ const sortOptions:{value:MediaSort;label:string}[]=[
 ];
 function syncUrl(): void {
   if (typeof window === "undefined" || !hydrated.value) return;
-  const next = mediaFilterHref(window.location.href, query.value, sort.value, statusFilter.value, minRating.value);
+  const next = mediaFilterHref(window.location.href, query.value, sort.value, statusFilter.value, minRating.value, missingRefsOnly.value);
   const current = window.location.pathname + window.location.search + window.location.hash;
   if (next !== current) window.history.replaceState(window.history.state, "", next);
 }
@@ -51,6 +99,7 @@ const restoreFilters = (): void => {
   sort.value = state.sort;
   statusFilter.value = state.status;
   minRating.value = state.minRating;
+  missingRefsOnly.value = state.missingRefsOnly;
   hydrated.value = true;
   // A restored history entry may carry obsolete or repeated filter values.
   syncUrl();
@@ -65,12 +114,13 @@ onUnmounted(() => {
   window.removeEventListener("popstate", restoreFilters);
   window.removeEventListener("pageshow", restoreFilters);
 });
-watch([query, sort, statusFilter, minRating], () => {
+watch([query, sort, statusFilter, minRating, missingRefsOnly], () => {
   limit.value = MEDIA_PAGE_SIZE;
   syncUrl();
 });
 const matches=computed(()=>props.entries
-  .filter(item=>matchesMediaSearch(searchableMediaText(item),query.value) && matchesMediaStatus(item,statusFilter.value) && matchesMediaMinimumRating(item,minRating.value))
+  .filter(item=>matchesMediaSearch(searchableMediaText(item),query.value) && matchesMediaStatus(item,statusFilter.value) && matchesMediaMinimumRating(item,minRating.value) &&
+    (!missingRefsOnly.value || !MEDIA_REFERENCE_PLATFORMS.some(platform=>Boolean(item.refs?.[platform]))))
   .sort((a,b)=>compareMediaListings(a,b,sort.value))
 );
 // Server-render the complete source-owned catalog for non-JS visitors and
@@ -118,7 +168,9 @@ async function showMore(): Promise<void> {
             :aria-valuetext="minRatingLabel" />
           <output data-media-min-rating-label aria-live="polite">{{ minRatingLabel }}</output>
         </label>
-        <button v-if="hydrated && (query || sort !== 'rating' || statusFilter !== 'all' || minRating > 0)" class="clear-media"
+        <button type="button" class="missing-ref-filter" data-media-missing-ids
+          :aria-pressed="missingRefsOnly" @click="missingRefsOnly=!missingRefsOnly">Missing provider IDs only</button>
+        <button v-if="hydrated && (query || sort !== 'rating' || statusFilter !== 'all' || minRating > 0 || missingRefsOnly)" class="clear-media"
           type="button" data-media-clear-filters
           @click="clearFilters">Clear filters</button>
         <p data-media-count role="status" aria-live="polite" aria-atomic="true">
@@ -190,6 +242,11 @@ async function showMore(): Promise<void> {
                      target="_blank" rel="noopener noreferrer">{{ link.label }}</a>
                 </div>
                 <template v-else>—</template>
+                <button type="button" class="media-edit-ids" data-media-ref-edit
+                  :aria-label="(MEDIA_REFERENCE_PLATFORMS.some(platform=>Boolean(item.refs?.[platform]))?'Edit':'Add')+' provider IDs for '+item.title"
+                  @click="editProviderIds(item)">
+                  {{ MEDIA_REFERENCE_PLATFORMS.some(platform=>Boolean(item.refs?.[platform]))?'Edit IDs':'Add ID' }}
+                </button>
               </td>
             </tr>
           </tbody>
@@ -206,6 +263,44 @@ async function showMore(): Promise<void> {
       </p>
     </template>
   </section>
+  <dialog v-if="editing" ref="providerDialog" class="media-provider-dialog"
+          aria-label="Edit media provider IDs" @close="editing=null">
+    <div class="provider-editor">
+      <h2>Provider IDs: {{ editing.title }}</h2>
+      <p class="provider-help">
+        {{ editing.creator??'Unknown creator' }}{{ editing.year?' · '+editing.year:'' }}.
+        Paste an ID or canonical direct URL. Clear a field to remove its provider ID.
+        All other record details, including ratings, will be preserved.
+      </p>
+      <div class="provider-field-grid">
+        <label v-for="field in providerFields" :key="field.platform">
+          <strong>{{ field.label }}</strong>
+          <span class="provider-hint">{{ field.hint }}</span>
+          <input v-model="providerInputs[field.platform]" type="text" spellcheck="false"
+                 autocomplete="off" :data-provider-field="field.platform"
+                 :aria-label="field.label+' provider ID'"/>
+        </label>
+      </div>
+      <p v-if="updatedReferences.error" role="alert" class="provider-error">{{ updatedReferences.error }}</p>
+      <section v-if="updatedReferences.value?.changed" class="provider-result" aria-label="Updated media JSON">
+        <p>Copy the JSON, open the existing GitHub file, replace its contents and commit the change.
+          This site does not directly change repository files.</p>
+        <p><code>{{ updatedReferences.value?.path }}</code></p>
+        <div class="provider-actions">
+          <button type="button" data-copy-media-refs @click="copyProviderJson">Copy updated JSON</button>
+          <a :href="githubExistingMediaEditorUrl(editing.path)" target="_blank"
+             rel="noopener noreferrer">Open GitHub editor</a>
+        </div>
+        <textarea readonly :value="updatedReferences.value?.json??''" rows="7"
+                  aria-label="Replacement JSON for the selected media record"></textarea>
+      </section>
+      <p v-else-if="!updatedReferences.error" class="provider-help">No provider ID changes yet.</p>
+      <p v-if="copyStatus" class="provider-help" role="status">{{ copyStatus }}</p>
+      <div class="provider-actions">
+        <button type="button" @click="closeProviderDialog">Close</button>
+      </div>
+    </div>
+  </dialog>
 </template>
 <style scoped>
 .media-collection{margin-top:1.25rem;max-width:76rem}
@@ -221,6 +316,9 @@ async function showMore(): Promise<void> {
 .sort-controls button[aria-pressed="true"],.status-controls button[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);font-weight:700}
 .clear-media{padding:.5rem .7rem;min-height:2.75rem;border:1px solid var(--border);border-radius:0;background:var(--surface);color:var(--foreground);font:inherit;cursor:pointer}
 .clear-media:hover,.clear-media:focus-visible{border-color:var(--accent)}
+.missing-ref-filter{padding:.5rem .7rem;min-height:2.75rem;border:1px solid var(--border);border-radius:0;
+ background:var(--surface);color:var(--foreground);font:inherit;cursor:pointer}
+.missing-ref-filter[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);font-weight:700}
 [data-media-count]{color:var(--muted);margin:.3rem 0}
 .media-no-results{color:var(--muted)}
 .media-page-count{color:var(--muted);margin:0 0 .65rem}
@@ -254,4 +352,27 @@ details summary{cursor:pointer;color:var(--accent)}
 .media-season h4{display:flex;justify-content:space-between;gap:.7rem;margin:.3rem 0;font-size:.93rem}
 
 @media(max-width:700px){th,td{padding:.65rem .45rem;font-size:.88rem}}
+.media-edit-ids{display:block;margin-top:.35rem;padding:.3rem .5rem;border:1px solid var(--border);
+ background:var(--surface);color:var(--accent);font:inherit;font-size:.78rem;cursor:pointer;border-radius:0}
+.media-edit-ids:hover,.media-edit-ids:focus-visible{border-color:var(--accent)}
+.media-provider-dialog{width:min(94vw,45rem);max-height:90vh;overflow:auto;padding:1.3rem;
+ background:var(--surface);color:var(--foreground);border:1px solid var(--border);border-radius:0}
+.media-provider-dialog::backdrop{background:rgba(0,0,0,.64)}
+.provider-editor h2{margin:0 0 .5rem}
+.provider-help{color:var(--muted);font-size:.92rem}
+.provider-field-grid{display:grid;gap:.75rem;margin:1rem 0}
+.provider-field-grid label{display:grid;gap:.22rem}
+.provider-hint{color:var(--muted);font-size:.82rem}
+.provider-field-grid input,.provider-result textarea{width:100%;min-height:2.6rem;padding:.55rem .65rem;
+ background:var(--surface);color:var(--foreground);border:1px solid var(--border);border-radius:0;font:inherit}
+.provider-result{border-top:1px solid var(--border);margin-top:1rem}
+.provider-result code{overflow-wrap:anywhere}
+.provider-result textarea{font-family:ui-monospace,monospace;min-height:10rem;resize:vertical}
+.provider-error{border-left:3px solid var(--accent);padding-left:.7rem}
+.provider-actions{display:flex;flex-wrap:wrap;gap:.65rem;margin:.8rem 0}
+.provider-actions a,.provider-actions button{padding:.55rem .75rem;min-height:2.5rem;
+ border:1px solid var(--border);background:var(--surface);color:var(--accent);border-radius:0;
+ text-decoration:none;font:inherit;cursor:pointer}
+.provider-actions a:hover,.provider-actions button:hover{border-color:var(--accent)}
+
 </style>
