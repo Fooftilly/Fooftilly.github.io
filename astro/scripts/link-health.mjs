@@ -25,10 +25,9 @@ export function classifyResponse({ statusCode, headers = {}, body = '', truncate
   }
   if (encoding !== 'identity') return { status: 'uninspected-encoding', evidence: `Content-Encoding: ${encoding}` };
   if (!body.trim()) return { status: 'empty-response', evidence: 'No readable response body' };
-  const text = body
-    .replace(/<(?:script|style|noscript)\b[^>]*>[\s\S]*?<\/\s*(?:script|style|noscript)\s*>/gi, ' ')
-    .replace(/<[^>]*>/g, ' ').replace(/&(?:nbsp|amp|lt|gt|quot|#\d+);/gi, ' ')
-    .replace(/\s+/g, ' ').trim();
+  // This is a bounded, read-only heuristic, not an HTML sanitizer. Never
+  // render response markup: inspect only literal closure/challenge phrases.
+  const text = body.replace(/\s+/g, ' ').trim();
   if (/\b(?:just a moment|checking your browser|verify you are human|captcha challenge|access denied)\b/i.test(text.slice(0, 1000))) {
     return { status: 'challenge-suspected', evidence: text.slice(0, 180) };
   }
