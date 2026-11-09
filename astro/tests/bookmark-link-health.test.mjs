@@ -167,11 +167,11 @@ test('absolute request deadline fires even during continuous data activity, and 
 });
 
 test('adversarial robots wildcards terminate without regex backtracking',()=>{
-  const policy='User-agent: *\\nDisallow: /'+'*a'.repeat(25)+'b';
+  const policy='User-agent: *\nDisallow: /'+'*a'.repeat(25)+'b';
   const path='/'+'a'.repeat(60);
   const start=performance.now();
   assert.equal(robotsPermission(policy,path).allowed,true);
   assert.ok(performance.now()-start < 200,'robots matching must be bounded');
-  assert.equal(robotsPermission('User-agent: *\\nDisallow: /*a*b$','/helloab').allowed,false);
-  assert.equal(robotsPermission('User-agent: *\\nDisallow: /*a*b$','/helloabc').allowed,true);
+  assert.equal(robotsPermission('User-agent: *\nDisallow: /*a*b$','/helloab').allowed,false);
+  assert.equal(robotsPermission('User-agent: *\nDisallow: /*a*b$','/helloabc').allowed,true);
 });
