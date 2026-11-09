@@ -239,3 +239,10 @@ test('normalized robots specificity takes precedence over mixed Unicode spelling
   assert.equal(robotsPermission('User-agent: *\nDisallow: /café\nAllow: /caf%C3%A9','/caf%C3%A9').allowed,true,
     'Allow wins only for equally specific normalized rules');
 });
+
+test('robots wildcard still matches when the destination contains a literal asterisk',()=>{
+  const rule='User-agent: *\nDisallow: /*/private';
+  assert.equal(robotsPermission(rule,'/*/x/private').allowed,false);
+  assert.equal(robotsPermission(rule,'/word/x/private').allowed,false);
+  assert.equal(robotsPermission(rule,'/word/x/public').allowed,true);
+});

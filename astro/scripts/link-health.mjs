@@ -242,8 +242,9 @@ function robotPatternMatch(pattern, target) {
   const glob = anchored ? rule.slice(0,-1) : rule + '*';
   let i = 0, j = 0, star = -1, retry = 0;
   while (j < path.length) {
-    if (i < glob.length && glob[i] === path[j]) { i++; j++; }
-    else if (i < glob.length && glob[i] === '*') { star = i++; retry = j; }
+    // Wildcard syntax takes precedence even if the URL contains a literal *.
+    if (i < glob.length && glob[i] === '*') { star = i++; retry = j; }
+    else if (i < glob.length && glob[i] === path[j]) { i++; j++; }
     else if (star >= 0) { i = star + 1; j = ++retry; }
     else return false;
   }
