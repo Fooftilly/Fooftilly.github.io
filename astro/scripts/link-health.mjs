@@ -217,16 +217,141 @@ export async function requestPinnedPage(url, { timeoutMs = 7000, maxBytes = 6553
   });
 }
 
+/** Normalize robots paths to comparable octets: decode only escaped ASCII
+ * unreserved characters and encode raw Unicode as percent-escaped UTF-8.
+ * Reserved escapes stay encoded, so they cannot become * or $ operators.
+ */
+export function normalizeRobotsOctets(value) {
+  return value.replace(/%[0-9a-fA-F]{2}|[^\x00-\x7F]/gu, token => {
+    if (token[0] === '%') {
+      const char = String.fromCharCode(Number.parseInt(token.slice(1),16));
+      return /^[A-Za-z0-9._~-]$/.test(char) ? char : token.toUpperCase();
+    }
+    return encodeURIComponent(token).toUpperCase();
+  });
+}
+
 /** Prefix glob matcher. Two-pointer backtracking has a bounded number of
  * steps and cannot explode exponentially on untrusted robots.txt wildcards.
  */
 function robotPatternMatch(pattern, target) {
   if (!pattern) return false;
-  const anchored = pattern.endsWith('$');
-  const glob = anchored ? pattern.slice(0,-1) : pattern + '*';
+  const rule = normalizeRobotsOctets(pattern);
+  const path = normalizeRobotsOctets(target);
+  const anchored = rule.endsWith('
+    else if (star >= 0) { i = star + 1; j = ++retry; }
+    else return false;
+  }
+  while (i < glob.length && glob[i] === '*') i++;
+  return i === glob.length;
+}
+
+/** Standard longest-match precedence; unknown/non-200 robots are handled fail-closed upstream. */
+export function robotsPermission(text, path, agent = 'PeronikoLinkAudit') {
+  const groups = [];
+  let agents = [], rules = [], startedRules = false;
+  function push() {
+    if (agents.length) groups.push({agents,rules});
+    agents = []; rules = []; startedRules = false;
+  }
+  for (const raw of text.split(/\r?\n/)) {
+    const line = raw.replace(/\s*#.*$/, '').trim();
+    if (!line) continue;
+    const match = /^([\w-]+)\s*:\s*(.*?)\s*$/.exec(line);
+    if (!match) continue;
+    const [,key,value] = match;
+    if (key.toLowerCase() === 'user-agent') {
+      if (startedRules) push();
+      agents.push(value.toLowerCase());
+    } else if (agents.length && (key.toLowerCase() === 'allow' || key.toLowerCase() === 'disallow')) {
+      startedRules = true;
+      if (value.length <= 256) rules.push({type:key.toLowerCase(),pattern:value});
+      else rules.push({type:'unparsed-rule'});
+    } else if (agents.length && key.toLowerCase() === 'crawl-delay') {
+      startedRules = true;
+      if (/^\d{1,3}(?:\.\d{1,2})?$/.test(value)) rules.push({type:'crawl-delay',seconds:Number(value)});
+    }
+  }
+  push();
+  const query = agent.toLowerCase();
+  const applicable = groups.filter(group => group.agents.some(a => query.includes(a) && a !== '*'));
+  const active = applicable.length ? applicable : groups.filter(group => group.agents.includes('*'));
+  const activeRules = active.flatMap(group => group.rules);
+  // Never convert a parser resource limit into permission to crawl a URL.
+  if (activeRules.some(rule => rule.type === 'unparsed-rule'))
+    return {allowed:false, indeterminate:true,rule:null,delayMs:0};
+  const delaySeconds = Math.max(0,...activeRules
+    .filter(rule => rule.type === 'crawl-delay').map(rule => rule.seconds));
+  const matching = activeRules
+    .filter(rule => (rule.type === 'allow' || rule.type === 'disallow') && robotPatternMatch(rule.pattern,path));
+  matching.sort((a,b) => b.pattern.replace(/\*/g,'').length - a.pattern.replace(/\*/g,'').length ||
+    (a.type === 'allow' ? -1 : 1));
+  return { allowed: !matching.length || matching[0].type === 'allow',
+    rule: matching[0]?.pattern ?? null, delayMs:delaySeconds*1000 };
+}
+
+/** Every redirect undergoes URL, DNS and robots checks again; no deletion/rewrite. */
+export async function inspectDestination(raw, { requestPage = requestPinnedPage, maxRedirects = 3,
+  robotsCache = new Map(), lastVisitCache = new Map() } = {}) {
+  let url = publicWebUrl(raw);
+  if (!url) return { status: 'unsafe-target', evidence: 'Non-public URL or forbidden URL syntax' };
+  const visited = new Set();
+  const robots = robotsCache;
+  for (let redirects = 0; redirects <= maxRedirects; redirects++) {
+    if (visited.has(url.href)) return { status: 'redirect-loop', evidence: 'Redirect cycle' };
+    visited.add(url.href);
+    try {
+      if (!robots.has(url.origin)) {
+        const robotsUrl = new URL('/robots.txt',url);
+        const response = await requestPage(robotsUrl,{ maxBytes:16384 });
+        if (response.statusCode === 404 || response.statusCode === 410) {
+          robots.set(url.origin, { allowed:true });
+        } else if (response.statusCode === 200 && !response.truncated &&
+                   (!response.headers['content-encoding'] || response.headers['content-encoding'] === 'identity') &&
+                   String(response.headers['content-type'] ?? '').toLowerCase().includes('text/plain')) {
+          robots.set(url.origin, { text:response.body });
+        } else {
+          return { status: 'robots-inconclusive', evidence: `Robots response HTTP ${response.statusCode}; skipped target` };
+        }
+      }
+      const policy = robots.get(url.origin);
+      const permission = policy.text ? robotsPermission(policy.text, url.pathname + url.search) : { allowed:true };
+      if (permission.indeterminate) return { status: 'robots-inconclusive',
+        evidence: 'Unparseable robots rule; skipped target' };
+      if (!permission.allowed) return { status: 'robots-disallowed', evidence: permission.rule ?? 'Robots disallow' };
+      if (permission.delayMs > 15000) return { status:'robots-crawl-delay',
+        evidence:'Crawl-delay exceeds the bounded manual-check interval; skipped target' };
+      const prior = lastVisitCache.get(url.origin);
+      if (prior && permission.delayMs > 0) {
+        const remaining = Math.max(0,prior+permission.delayMs-Date.now());
+        if (remaining) await new Promise(done=>setTimeout(done,remaining));
+      }
+      lastVisitCache.set(url.origin,Date.now());
+      const result = await requestPage(url);
+      if (result.statusCode >= 300 && result.statusCode < 400) {
+        const location = result.headers.location;
+        if (!location || redirects === maxRedirects) return { status: 'redirect-inconclusive', http_status:result.statusCode, evidence:'Missing target or redirect limit exceeded' };
+        const next = publicWebUrl(new URL(location,url).href);
+        if (!next || (url.protocol === 'https:' && next.protocol !== 'https:')) {
+          return { status: 'unsafe-redirect', http_status:result.statusCode, evidence:'Redirect to blocked URL or HTTPS downgrade' };
+        }
+        url = next;
+        continue;
+      }
+      return { ...classifyResponse(result), final_url:url.href, http_status:result.statusCode, redirect_count:redirects };
+    } catch (error) {
+      return { status: error?.code === 'UNSAFE_DNS' || error?.code === 'UNSAFE_URL' ? 'unsafe-target' : 'network-inconclusive',
+        evidence: error?.code === 'ETIMEDOUT' ? 'Timeout' : String(error?.code ?? 'Request failure'),
+        final_url:url.href };
+    }
+  }
+  return { status: 'redirect-inconclusive', evidence:'Redirect limit exceeded' };
+}
+);
+  const glob = anchored ? rule.slice(0,-1) : rule + '*';
   let i = 0, j = 0, star = -1, retry = 0;
-  while (j < target.length) {
-    if (i < glob.length && glob[i] === target[j]) { i++; j++; }
+  while (j < path.length) {
+    if (i < glob.length && glob[i] === path[j]) { i++; j++; }
     else if (i < glob.length && glob[i] === '*') { star = i++; retry = j; }
     else if (star >= 0) { i = star + 1; j = ++retry; }
     else return false;

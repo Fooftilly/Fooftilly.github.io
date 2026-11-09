@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  classifyResponse, readableHtmlText, publicWebUrl, isPublicAddress, resolvePublicHost,
+  classifyResponse, readableHtmlText, normalizeRobotsOctets, publicWebUrl, isPublicAddress, resolvePublicHost,
   robotsPermission, inspectDestination, createRequestDeadline,
 } from '../scripts/link-health.mjs';
 
@@ -206,4 +206,28 @@ test('oversized robots rules fail closed instead of permitting a forbidden URL',
   assert.equal(requests,1);
   assert.equal(robotsPermission('User-agent: OtherBot\nDisallow: '+oversized,'/allowed').allowed,true,
     'An unrelated robots group must not block the configured agent');
+});
+
+test('robots checks compare escaped unreserved and non-ASCII paths consistently',async()=>{
+  assert.equal(normalizeRobotsOctets('/%70rivate'),'/private');
+  assert.equal(normalizeRobotsOctets('/café'),'/caf%C3%A9');
+  assert.equal(normalizeRobotsOctets('/caf%c3%a9'),'/caf%C3%A9');
+  assert.equal(normalizeRobotsOctets('/%2f%2a%24'), '/%2F%2A%24');
+  const policy='User-agent: *\nDisallow: /private';
+  assert.equal(robotsPermission(policy,'/%70rivate').allowed,false);
+  assert.equal(robotsPermission('User-agent: *\nDisallow: /café','/caf%C3%A9').allowed,false);
+  assert.equal(robotsPermission('User-agent: *\nDisallow: /caf%C3%A9','/café').allowed,false);
+  assert.equal(robotsPermission('User-agent: *\nDisallow: /%2A','/anything').allowed,true,
+    'An encoded asterisk must not act as a wildcard');
+  assert.equal(robotsPermission('User-agent: *\nDisallow: /private','/%2Fprivate').allowed,true,
+    'An encoded slash stays reserved during robots matching');
+  let requests=0;
+  const result=await inspectDestination('https://public.example.org/%70rivate',{requestPage:async url=>{
+    requests++;
+    if(url.pathname==='/robots.txt')
+      return {statusCode:200,headers:{'content-type':'text/plain'},body:policy};
+    throw new Error('The percent-encoded forbidden destination must not be fetched');
+  }});
+  assert.equal(result.status,'robots-disallowed');
+  assert.equal(requests,1);
 });
