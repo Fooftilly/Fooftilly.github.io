@@ -44,6 +44,10 @@ jobs:
         working-directory: astro
         run: npm test
 
+      - name: Inventory verified film-director coverage without external requests
+        working-directory: astro
+        run: npm run audit:film-directors -- --check
+
       - name: Check offline media-import reconciliation rules
         run: |
           python3 -m unittest discover -s astro/scripts -p 'test_reconcile_media_exports.py'
