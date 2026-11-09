@@ -2,6 +2,7 @@
   "schema": 1,
   "kind": "films",
   "title": "Ex Machina",
+  "creator": "Alex Garland",
   "year": 2014,
   "rating": 4,
   "links": [
