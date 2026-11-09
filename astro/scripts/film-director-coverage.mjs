@@ -33,9 +33,12 @@ export function filmDirectorCoverage(files) {
       throw new Error("Invalid or duplicate film source path: "+path);
     paths.add(path);
     const record=validateMediaRecord(raw,"films");
+    const identities=directIdentities(record);
+    const conflicting_provider_platforms=[...new Set(identities.map(x=>x.platform))]
+      .filter(platform=>identities.filter(x=>x.platform===platform).length>1);
     return {
       path,title:record.title,year:record.year??null,edition:record.edition??null,
-      creator:record.creator??null, identities:directIdentities(record),
+      creator:record.creator??null, identities,conflicting_provider_platforms,
       ambiguous_title_year:false,
     };
   }).sort((a,b)=>a.path.localeCompare(b.path,"en"));
@@ -60,6 +63,7 @@ export function filmDirectorCoverage(files) {
     missing_with_letterboxd:countPlatform("letterboxd"),
     missing_with_imdb:countPlatform("imdb"),
     missing_with_tmdb:countPlatform("tmdb"),
+    conflicting_provider_identity_records:records.filter(r=>r.conflicting_provider_platforms.length>0).length,
     ambiguous_title_year_groups:ambiguous.length,
     ambiguous_title_year_records:ambiguous.reduce((sum,g)=>sum+g.length,0),
   };
