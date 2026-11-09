@@ -62,7 +62,11 @@ test("review proposals require exact path AND canonical identity and permit mult
   assert.equal(inventory.records.find(x=>x.path.endsWith("example.json")).creator,null,
     "A review-only proposal must not mutate catalog records");
   assert.deepEqual(planDirectorProposals(inventory,[]),[],"No evidence means no guessed directors");
-  assert.throws(()=>planDirectorProposals(inventory,[{title:"Cinderella",year:1922,directors:["Guess"]}]),/No source film/);
+  assert.throws(()=>planDirectorProposals(inventory,[{title:"Cinderella",year:1922,directors:["Guess"]}]),/Unsupported director evidence entry/,
+    "Title/year-only guesses must be rejected before any lookup");
+  assert.throws(()=>planDirectorProposals(inventory,[{
+    ...evidence[0],path:"content/media/films/not-a-source.json",
+  }]),/No source film/);
   assert.throws(()=>planDirectorProposals(inventory,[{...evidence[0],identity:{platform:"imdb",id:"tt9999999"}}]),/exact source-owned/);
   assert.throws(()=>planDirectorProposals(inventory,[{...evidence[0],evidence_url:"https://example.org/guess"}]),/canonical URL/);
   assert.throws(()=>planDirectorProposals(inventory,[{...evidence[0],directors:["Director One","director one"]}]),/distinct/);
