@@ -17,12 +17,39 @@ test('auditing requires explicit opt-in and enforces a ten-link ceiling',()=>{
   assert.equal(parseOptions(['--help']).help,true);
 });
 
-test('source sampling is read-only and discovers the confirmed discontinued bookmark',async()=>{
-  const items=await readPublishedBookmarks();
-  assert.ok(items.length > 0);
-  const one=items.find(x=>x.id==='Resource/worldwide_traffic_cameras');
-  assert.ok(one,'The verified example must come from the Git-owned published source');
-  assert.equal(one.url,'https://trafficvision.live/');
-  assert.equal(one.source,'content/bookmarks/Resource/worldwide_traffic_cameras.md');
-  assert.equal(items.filter(x=>x.id===one.id).length,1);
+test('source discovery uses current content and honors drafts without a historical identity gate',async t=>{
+  const { mkdtemp, mkdir, writeFile, rm } = await import('node:fs/promises');
+  const { tmpdir } = await import('node:os');
+  const { join } = await import('node:path');
+  const root=await mkdtemp(join(tmpdir(),'peroniko-link-health-source-'));
+  t.after(()=>rm(root,{recursive:true,force:true}));
+  const category=join(root,'Resource');
+  await mkdir(category);
+  const yaml=(title,url,extra='')=>[
+    '---',
+    'title: '+JSON.stringify(title),
+    'link: '+JSON.stringify(url),
+    extra,
+    '---',
+    '',
+  ].join('\n');
+  await writeFile(join(category,'current.md'),yaml('Current example','https://example.org/'));
+  await writeFile(join(category,'hidden.md'),yaml('Draft example','https://example.org/draft','draft: true'));
+  await writeFile(join(category,'_index.md'),yaml('Category index','https://example.org/index'));
+  const first=await readPublishedBookmarks(root);
+  assert.deepEqual(first,[{
+    id:'Resource/current',title:'Current example',
+    source:'content/bookmarks/Resource/current.md',url:'https://example.org/',
+  }]);
+  await writeFile(join(category,'renamed.md'),yaml('Edited example','https://example.org/edited'));
+  await rm(join(category,'current.md'));
+  const second=await readPublishedBookmarks(root);
+  assert.deepEqual(second,[{
+    id:'Resource/renamed',title:'Edited example',
+    source:'content/bookmarks/Resource/renamed.md',url:'https://example.org/edited',
+  }]);
+  const current=await readPublishedBookmarks();
+  assert.ok(current.length>0,'There must be a current published inventory');
+  assert.equal(new Set(current.map(entry=>entry.id)).size,current.length);
+  assert.ok(current.every(entry=>entry.source==='content/bookmarks/'+entry.id+'.md'));
 });
