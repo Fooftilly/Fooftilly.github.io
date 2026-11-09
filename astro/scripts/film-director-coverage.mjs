@@ -39,9 +39,24 @@ export function filmDirectorCoverage(files) {
     return {
       path,title:record.title,year:record.year??null,edition:record.edition??null,
       creator:record.creator??null, identities,conflicting_provider_platforms,
-      ambiguous_title_year:false,
+      shared_provider_identities:[],ambiguous_title_year:false,
     };
   }).sort((a,b)=>a.path.localeCompare(b.path,"en"));
+  // Surface cross-file identity collisions in the review report itself, not
+  // only when somebody later submits a conflicting enrichment proposal.
+  const byIdentity=new Map();
+  for(const record of records)for(const identity of record.identities){
+    const key=identity.platform+"\u0000"+identity.id;
+    const entry=byIdentity.get(key)??{platform:identity.platform,id:identity.id,files:[]};
+    entry.files.push(record);
+    byIdentity.set(key,entry);
+  }
+  const shared=[...byIdentity.values()].filter(group=>group.files.length>1);
+  for(const group of shared)for(const record of group.files)
+    record.shared_provider_identities.push({
+      platform:group.platform,id:group.id,
+      other_paths:group.files.filter(other=>other.path!==record.path).map(other=>other.path),
+    });
   const byTitle=new Map();
   for(const record of records) {
     const key=normalizeTitle(record.title)+"\u0000"+(record.year??"unknown");
@@ -64,6 +79,8 @@ export function filmDirectorCoverage(files) {
     missing_with_imdb:countPlatform("imdb"),
     missing_with_tmdb:countPlatform("tmdb"),
     conflicting_provider_identity_records:records.filter(r=>r.conflicting_provider_platforms.length>0).length,
+    shared_provider_identity_groups:shared.length,
+    records_with_shared_provider_identity:records.filter(r=>r.shared_provider_identities.length>0).length,
     ambiguous_title_year_groups:ambiguous.length,
     ambiguous_title_year_records:ambiguous.reduce((sum,g)=>sum+g.length,0),
   };
