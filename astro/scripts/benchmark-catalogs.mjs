@@ -186,13 +186,15 @@ try {
         const root = route.kind === "media" ? ".media-collection" : ".bookmark-browser";
         await waitFor("Boolean(document.querySelector(" + JSON.stringify(root) +
           ")?.closest('astro-island:not([ssr])'))", Boolean, "Vue hydration " + route.path);
+        const hydratedAt = await evaluate("performance.now()");
         await sleep(150);
         const state = await evaluate("(()=>{const nav=performance.getEntriesByType('navigation')[0];" +
           "return {ttfb_ms:nav?.responseStart??null,load_ms:nav?.loadEventEnd??null," +
-          "hydration_observed_ms:performance.now(),lcp_ms:window.__benchmarkLcp??null," +
+          "hydration_observed_ms:null,lcp_ms:window.__benchmarkLcp??null," +
           "hydrated_rows:document.querySelectorAll(" +
           JSON.stringify(route.kind === "media" ? "[data-media-row]" : "li.bookmark-entry") +
           ").length};})()");
+        state.hydration_observed_ms = hydratedAt;
         const metrics = (await command("Performance.getMetrics")).metrics;
         const metric = name => metrics.find(x => x.name === name)?.value ?? null;
         const selector = route.kind === "media" ? ".media-collection input[data-media-search]" :
