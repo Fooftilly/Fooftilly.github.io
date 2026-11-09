@@ -4,7 +4,8 @@ import json
 import tempfile
 import unittest
 from verify_media import (MediaParser, normalize_external_url,
-                          normalize_external_urls, source_media_links, verify_media_output)
+                          normalize_external_urls, source_media_links, verify_media_output,
+                          verify_status_control_availability)
 
 
 PAGES = {"music": "Music", "films": "Films", "tv": "TV series"}
@@ -48,6 +49,24 @@ class MediaOutputTests(unittest.TestCase):
             encoding="utf-8"
         )
         return markup
+
+    def test_status_controls_track_actual_source_classifications(self):
+        verify_status_control_availability(self.astro)
+        self.put_film()
+        with self.assertRaisesRegex(AssertionError, "source-aware status controls for films"):
+            verify_status_control_availability(self.astro)
+        page = self.astro / "dist" / "films" / "index.html"
+        original = page.read_text(encoding="utf-8")
+        page.write_text(original.replace("<h1>Films</h1>",
+                         '<h1>Films</h1><div class="status-controls"></div>'),
+                        encoding="utf-8")
+        verify_status_control_availability(self.astro)
+        source = self.root / "content" / "media" / "films" / "a-film.json"
+        data = json.loads(source.read_text(encoding="utf-8"))
+        del data["status"]
+        source.write_text(json.dumps(data), encoding="utf-8")
+        with self.assertRaisesRegex(AssertionError, "source-aware status controls for films"):
+            verify_status_control_availability(self.astro)
 
     def test_nested_ratings_parser_audits_exact_source_values(self):
         from verify_media import expected_row

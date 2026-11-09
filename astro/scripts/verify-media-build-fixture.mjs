@@ -221,6 +221,15 @@ try {
     assert.ok(html.includes('href="'+filter+'?tag=Git-owned"'),
       "Every source-defined tag needs a first-party filtered search link: "+url);
   }
+  for (const [page,link] of [
+    ["bookmarks/index.html","/bookmarks/tags/"],
+    ["search/index.html","/bookmarks/tags/"],
+    ["sh/search/index.html","/sh/bookmarks/tags/"],
+  ]) {
+    const html = await readFile(join(dist,page),"utf8");
+    assert.ok(html.includes('href="'+link+'"'),
+      "Tag navigation must reappear when a published bookmark has tags: "+page);
+  }
   assert.ok(bookmarkDetail.includes('href="/search/?tag=CI+migration+tag"'),
     "Tagged bookmark details must navigate to exact-tag search");
   const emptyDetail = await readFile(join(dist,"bookmarks",bookmarkCategory.slug,emptyStem,"index.html"),"utf8");
@@ -239,6 +248,8 @@ try {
     }
     assert.ok(html.includes("data-media-row"), "Media table lost static source rows: " + folder);
     assert.ok(html.includes("data-media-controls"), "Media search/sort controls were not rendered: " + folder);
+    assert.ok(html.includes('class="status-controls"'),
+      "A classified CI media fixture must retain status filtering: " + folder);
   }
   assert.match(audit, /Verified \d+ independent media records/);
   // Run the real browser against the fixture build, then delete every fixture.

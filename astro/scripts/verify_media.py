@@ -365,5 +365,26 @@ def verify_media_output(root: Path):
     return total
 
 
+def verify_status_control_availability(root: Path):
+    """Audit source-driven control visibility on full generated Astro pages.
+
+    The row-parity verifier intentionally also supports minimal synthetic HTML
+    supplied by its independent unit tests; this check requires actual site
+    layout and is exercised separately by real and dedicated fixture builds.
+    """
+    source = root.parent / "content" / "media"
+    dist = root / "dist"
+    for kind in KINDS:
+        html = (dist / kind / "index.html").read_text(encoding="utf-8")
+        records = [json.loads(path.read_text(encoding="utf-8"))
+                   for path in sorted((source / kind).glob("*.json"))]
+        visible = 'class="status-controls"' in html
+        expected = any(record.get("status") in ("finished", "in-progress", "planned")
+                       for record in records)
+        assert visible == expected, f"Incorrect source-aware status controls for {kind}"
+
+
 if __name__ == "__main__":
-    verify_media_output(Path(__file__).resolve().parents[1])
+    project_root = Path(__file__).resolve().parents[1]
+    verify_media_output(project_root)
+    verify_status_control_availability(project_root)

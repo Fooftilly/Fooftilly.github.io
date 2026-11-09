@@ -3,16 +3,18 @@ import SiteLayout from "../../layouts/SiteLayout.astro";
 import BookmarkBrowser from "../../components/BookmarkBrowser.vue";
 import { loadBookmarks } from "../../lib/bookmark-data.ts";
 import { BOOKMARK_CATEGORIES, bookmarkCategoryPath } from "../../lib/bookmark-categories.ts";
+import { bookmarkTagCounts } from "../../lib/bookmark-tag-index.ts";
 
 const bookmarks = (await loadBookmarks()).map(({ id, title, category, url, date, detailUrl, notesUrl, comments, tags }) =>
   ({ id, title, category, url, date, detailUrl, notesUrl, comments, tags })
 );
+const hasTags = bookmarkTagCounts(bookmarks).length > 0;
 ---
 <SiteLayout title="Bookmarks" rssHref="/bookmarks/index.xml" description="Saved links by category.">
   <h1>Bookmarks</h1>
   <p><a href="/new-bookmark/">Add bookmark</a></p>
   <p class="collection-intro">Browse saved links by category.</p>
-  <p><a href="/bookmarks/tags/">Browse tags</a></p>
+  {hasTags && <p><a href="/bookmarks/tags/">Browse tags</a></p>}
   <nav aria-label="Bookmark categories" class="category-nav">
     {BOOKMARK_CATEGORIES.map((category) => <a href={bookmarkCategoryPath(category.slug)}>{category.label}</a>)}
   </nav>
