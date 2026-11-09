@@ -231,3 +231,11 @@ test('robots checks compare escaped unreserved and non-ASCII paths consistently'
   assert.equal(result.status,'robots-disallowed');
   assert.equal(requests,1);
 });
+
+test('normalized robots specificity takes precedence over mixed Unicode spelling',()=>{
+  const policy='User-agent: *\nDisallow: /café/x\nAllow: /caf%C3%A9';
+  assert.equal(robotsPermission(policy,'/caf%C3%A9/x').allowed,false);
+  assert.equal(robotsPermission(policy,'/caf%C3%A9').allowed,true);
+  assert.equal(robotsPermission('User-agent: *\nDisallow: /café\nAllow: /caf%C3%A9','/caf%C3%A9').allowed,true,
+    'Allow wins only for equally specific normalized rules');
+});

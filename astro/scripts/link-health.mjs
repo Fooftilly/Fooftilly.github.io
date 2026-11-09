@@ -289,8 +289,12 @@ export function robotsPermission(text, path, agent = 'PeronikoLinkAudit') {
     .filter(rule => rule.type === 'crawl-delay').map(rule => rule.seconds));
   const matching = activeRules
     .filter(rule => (rule.type === 'allow' || rule.type === 'disallow') && robotPatternMatch(rule.pattern,path));
-  matching.sort((a,b) => b.pattern.replace(/\*/g,'').length - a.pattern.replace(/\*/g,'').length ||
-    (a.type === 'allow' ? -1 : 1));
+  // Compare canonical octets rather than mixed literal/percent encodings.
+  // A longer matched path wins; Allow wins only if lengths are equal.
+  const specificity = rule => normalizeRobotsOctets(rule.pattern)
+    .replace(/\*/g,'').replace(/\$$/,'').length;
+  matching.sort((a,b) => specificity(b)-specificity(a) ||
+    (a.type === b.type ? 0 : (a.type === 'allow' ? -1 : 1)));
   return { allowed: !matching.length || matching[0].type === 'allow',
     rule: matching[0]?.pattern ?? null, delayMs:delaySeconds*1000 };
 }
