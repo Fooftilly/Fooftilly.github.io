@@ -112,6 +112,12 @@ jobs:
           CHROME_BIN: /usr/bin/google-chrome
         run: node scripts/smoke-search-browser.mjs
 
+      - name: Profile catalog HTML, hydration and filter responsiveness (no publish)
+        working-directory: astro
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: npm run benchmark:catalogs
+
       - name: Validate production revision stamp without publishing
         working-directory: astro
         env:
