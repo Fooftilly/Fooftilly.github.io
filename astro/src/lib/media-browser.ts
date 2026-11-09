@@ -8,6 +8,13 @@ export function matchesMediaStatus(entry: {status?: string}, filter: MediaStatus
   return filter === "all" || (filter === "unspecified" ? !entry.status : entry.status === filter);
 }
 
+/** A status-only filter is meaningful only when a source-owned entry has a
+ * real classification. A rating must never imply finished/planned status.
+ */
+export function hasMediaStatusData(entries: readonly {status?: string}[]): boolean {
+  return entries.some(item => item.status === "finished" || item.status === "in-progress" || item.status === "planned");
+}
+
 /** 0 keeps the entire collection, including unrated records. */
 export function matchesMediaMinimumRating(entry: {rating?: number}, minimum: number): boolean {
   return minimum === 0 || (entry.rating !== undefined && entry.rating >= minimum);

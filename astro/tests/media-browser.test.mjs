@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { normalizeMediaSearch, matchesMediaSearch, compareMediaListings, searchableMediaText, mediaNotesExplainSearch, matchesMediaStatus, mediaVisiblePage, MEDIA_PAGE_SIZE } from "../src/lib/media-browser.ts";
+import { normalizeMediaSearch, matchesMediaSearch, compareMediaListings, searchableMediaText, mediaNotesExplainSearch, matchesMediaStatus, hasMediaStatusData, mediaVisiblePage, MEDIA_PAGE_SIZE } from "../src/lib/media-browser.ts";
 
 test("media search is case- and accent-insensitive across visible table fields",()=>{
   assert.equal(normalizeMediaSearch("  CAFÉ\t Émilie "), "cafe emilie");
@@ -66,6 +66,15 @@ test("status filtering distinguishes missing values from the three published sta
     const matched = entries.map((entry,index)=>matchesMediaStatus(entry,filter)?index:-1).filter(index=>index>=0);
     assert.deepEqual(matched,filter==="all"?[0,1,2,3]:[["finished","in-progress","planned","unspecified"].indexOf(filter)]);
   }
+});
+
+test("status controls require source-owned classifications, never inferred from ratings",()=>{
+  assert.equal(hasMediaStatusData([]),false);
+  assert.equal(hasMediaStatusData([{rating:5},{rating:4.5},{}]),false);
+  assert.equal(hasMediaStatusData([{status:undefined},{status:"planned"}]),true);
+  assert.equal(hasMediaStatusData([{status:"finished"}]),true);
+  assert.equal(hasMediaStatusData([{status:"in-progress"}]),true);
+  assert.equal(hasMediaStatusData([{status:"unspecified"}]),false);
 });
 
 test("static media output retains complete source parity while hydrated lists page results",()=>{

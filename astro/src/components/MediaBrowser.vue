@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
-import { compareMediaListings, matchesMediaSearch, matchesMediaStatus, matchesMediaMinimumRating, searchableMediaText, mediaNotesExplainSearch, mediaVisiblePage, MEDIA_PAGE_SIZE, type MediaSort, type MediaStatusFilter } from "../lib/media-browser.ts";
+import { compareMediaListings, matchesMediaSearch, matchesMediaStatus, matchesMediaMinimumRating, searchableMediaText, mediaNotesExplainSearch, mediaVisiblePage, hasMediaStatusData, MEDIA_PAGE_SIZE, type MediaSort, type MediaStatusFilter } from "../lib/media-browser.ts";
 import { mediaFilterHref, readMediaQueryState } from "../lib/media-query-state.ts";
 import MediaRatingEditor from "./MediaRatingEditor.vue";
 import { mediaSourceLinks, composeMediaReferenceEdit, githubExistingMediaEditorUrl, MEDIA_REFERENCE_PLATFORMS, mediaReferencePlatformsForKind, type MediaKind, type StoredMedia, type MediaPlatform, type MediaProviderCatalogRef } from "../lib/media-model.ts";
@@ -11,6 +11,7 @@ const creatorLabel=computed(()=>props.kind==="music"?"Artist":props.kind==="film
 const query=ref("");
 const sort=ref<MediaSort>("rating");
 const statusFilter=ref<MediaStatusFilter>("all");
+const hasStatuses=computed(()=>hasMediaStatusData(props.entries));
 const minRating=ref(0);
 const minRatingLabel=computed(()=>minRating.value === 0 ? "Any rating (includes unrated)" : minRating.value.toFixed(1) + " stars or more");
 const limit=ref(MEDIA_PAGE_SIZE);
@@ -105,7 +106,8 @@ const restoreFilters = (): void => {
   const state = readMediaQueryState(window.location.search);
   query.value = state.query;
   sort.value = state.sort;
-  statusFilter.value = state.status;
+  // Old shared URLs must not apply a hidden status filter to an unclassified catalog.
+  statusFilter.value = hasStatuses.value ? state.status : "all";
   minRating.value = state.minRating;
   missingRefsOnly.value = state.missingRefsOnly;
   hydrated.value = true;
@@ -165,7 +167,7 @@ async function showMore(): Promise<void> {
             :data-media-sort="option.value" :aria-pressed="sort===option.value"
             @click="sort=option.value">{{ option.label }}</button>
         </div>
-        <div class="status-controls" role="group" aria-label="Filter by status">
+        <div v-if="hasStatuses" class="status-controls" role="group" aria-label="Filter by status">
           <button v-for="option in statusOptions" :key="option.value" type="button"
             :data-media-status-filter="option.value" :aria-pressed="statusFilter===option.value"
             @click="statusFilter=option.value">{{ option.label }}</button>
@@ -271,7 +273,7 @@ async function showMore(): Promise<void> {
         Show more
       </button>
       <p v-if="hydrated && !matches.length" class="media-no-results" role="status">
-        No matching {{ title.toLowerCase() }} entries. Try another search.
+        No matching {{ title.toLowerCase() }}. Try another search.
       </p>
     </template>
   </section>

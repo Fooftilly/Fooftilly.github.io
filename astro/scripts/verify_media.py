@@ -334,6 +334,11 @@ def verify_media_output(root: Path):
             data = json.loads(path.read_text(encoding="utf-8"))
             assert data["kind"] == kind, f"Media kind/path mismatch in {path}"
             records.append(data)
+        # Keep status filtering only when the corresponding source collection
+        # contains a real classification; fixture builds verify its reappearance.
+        assert ('class="status-controls"' in html) == any(
+            record.get("status") in ("finished", "in-progress", "planned") for record in records
+        ), f"Incorrect source-aware status controls for {kind}"
         if not records:
             assert f"No {heading.lower()} yet." in html, (
                 f"Missing truthful {kind} empty state"
