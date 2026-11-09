@@ -190,3 +190,20 @@ test('adversarial robots wildcards terminate without regex backtracking',()=>{
   assert.equal(robotsPermission('User-agent: *\nDisallow: /*a*b$','/helloab').allowed,false);
   assert.equal(robotsPermission('User-agent: *\nDisallow: /*a*b$','/helloabc').allowed,true);
 });
+
+test('oversized robots rules fail closed instead of permitting a forbidden URL',async()=>{
+  const oversized='/'+'x'.repeat(256);
+  const policy='User-agent: *\nDisallow: '+oversized;
+  assert.equal(robotsPermission(policy,oversized).indeterminate,true);
+  let requests=0;
+  const result=await inspectDestination('https://public.example.org'+oversized,{requestPage:async url=>{
+    requests++;
+    if(url.pathname==='/robots.txt')
+      return {statusCode:200,headers:{'content-type':'text/plain'},body:policy};
+    throw new Error('The target must not be requested after an oversized robots rule');
+  }});
+  assert.equal(result.status,'robots-inconclusive');
+  assert.equal(requests,1);
+  assert.equal(robotsPermission('User-agent: OtherBot\nDisallow: '+oversized,'/allowed').allowed,true,
+    'An unrelated robots group must not block the configured agent');
+});

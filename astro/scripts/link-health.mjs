@@ -255,6 +255,7 @@ export function robotsPermission(text, path, agent = 'PeronikoLinkAudit') {
     } else if (agents.length && (key.toLowerCase() === 'allow' || key.toLowerCase() === 'disallow')) {
       startedRules = true;
       if (value.length <= 256) rules.push({type:key.toLowerCase(),pattern:value});
+      else rules.push({type:'unparsed-rule'});
     } else if (agents.length && key.toLowerCase() === 'crawl-delay') {
       startedRules = true;
       if (/^\d{1,3}(?:\.\d{1,2})?$/.test(value)) rules.push({type:'crawl-delay',seconds:Number(value)});
@@ -264,9 +265,13 @@ export function robotsPermission(text, path, agent = 'PeronikoLinkAudit') {
   const query = agent.toLowerCase();
   const applicable = groups.filter(group => group.agents.some(a => query.includes(a) && a !== '*'));
   const active = applicable.length ? applicable : groups.filter(group => group.agents.includes('*'));
-  const delaySeconds = Math.max(0,...active.flatMap(group => group.rules)
+  const activeRules = active.flatMap(group => group.rules);
+  // Never convert a parser resource limit into permission to crawl a URL.
+  if (activeRules.some(rule => rule.type === 'unparsed-rule'))
+    return {allowed:false, indeterminate:true,rule:null,delayMs:0};
+  const delaySeconds = Math.max(0,...activeRules
     .filter(rule => rule.type === 'crawl-delay').map(rule => rule.seconds));
-  const matching = active.flatMap(group => group.rules)
+  const matching = activeRules
     .filter(rule => (rule.type === 'allow' || rule.type === 'disallow') && robotPatternMatch(rule.pattern,path));
   matching.sort((a,b) => b.pattern.replace(/\*/g,'').length - a.pattern.replace(/\*/g,'').length ||
     (a.type === 'allow' ? -1 : 1));
@@ -300,6 +305,8 @@ export async function inspectDestination(raw, { requestPage = requestPinnedPage,
       }
       const policy = robots.get(url.origin);
       const permission = policy.text ? robotsPermission(policy.text, url.pathname + url.search) : { allowed:true };
+      if (permission.indeterminate) return { status: 'robots-inconclusive',
+        evidence: 'Unparseable robots rule; skipped target' };
       if (!permission.allowed) return { status: 'robots-disallowed', evidence: permission.rule ?? 'Robots disallow' };
       if (permission.delayMs > 15000) return { status:'robots-crawl-delay',
         evidence:'Crawl-delay exceeds the bounded manual-check interval; skipped target' };
