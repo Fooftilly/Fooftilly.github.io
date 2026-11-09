@@ -276,6 +276,7 @@ export function robotsPermission(text, path, agent = 'PeronikoLinkAudit') {
     } else if (agents.length && key.toLowerCase() === 'crawl-delay') {
       startedRules = true;
       if (/^\d{1,3}(?:\.\d{1,2})?$/.test(value)) rules.push({type:'crawl-delay',seconds:Number(value)});
+      else if (value) rules.push({type:'unparsed-rule'});
     }
   }
   push();

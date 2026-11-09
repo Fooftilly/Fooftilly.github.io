@@ -128,6 +128,20 @@ test('robots failure, timeouts and rate limits are observations, not dead-link c
 });
 
 
+test('unparseable large crawl delays cannot silently authorize a fetch',async()=>{
+  const text='User-agent: *\nCrawl-delay: 1000\nAllow: /';
+  assert.equal(robotsPermission(text,'/path').indeterminate,true);
+  let requests=0;
+  const result=await inspectDestination('https://public.example.org/path',{requestPage:async url=>{
+    requests++;
+    if(url.pathname==='/robots.txt')return robots(text);
+    throw new Error('A large delay must skip the target request');
+  }});
+  assert.equal(result.status,'robots-inconclusive');
+  assert.equal(requests,1);
+  assert.equal(robotsPermission('User-agent: OtherBot\nCrawl-delay: 1000','/path').allowed,true);
+});
+
 test('robot crawl-delay is honored or safely skipped when excessively long', async()=>{
   const controls=robotsPermission('User-agent: *\nCrawl-delay: 2\nAllow: /','/');
   assert.equal(controls.allowed,true);
