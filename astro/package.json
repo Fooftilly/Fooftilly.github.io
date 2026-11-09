@@ -13,7 +13,8 @@
     "build": "astro build && node scripts/prepare-public-output.mjs",
     "preview": "astro preview",
     "test:parity": "node --test scripts/verify-bookmark-parity.mjs",
-    "test:routes": "node --test scripts/verify-bookmark-routes.mjs"
+    "test:routes": "node --test scripts/verify-bookmark-routes.mjs",
+    "audit:links": "node scripts/audit-bookmark-links.mjs"
   },
   "dependencies": {
     "@astrojs/vue": "7.1.2",
