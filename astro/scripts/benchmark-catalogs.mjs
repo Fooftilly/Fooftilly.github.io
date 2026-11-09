@@ -234,9 +234,25 @@ try {
   const summary = [
     "### Catalog performance — controlled local baseline",
     "",
-    "| Route | Viewport | HTML raw / Brotli KiB | SSR / hydrated rows | Median TTFB ms | Median LCP ms | Median observed filter settle ms | Median JS heap MiB |",
-    "| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |",
+    "Static payload (Brotli quality 5, **not** deployed CDN response bytes):",
+    "",
+    "| Route | Raw HTML KiB | Brotli KiB | Astro island props attr KiB | Full SSR rows |",
+    "| --- | ---: | ---: | ---: | ---: |",
   ];
+  for (const route of CATALOG_ROUTES) {
+    const stat = staticMetrics[route.path];
+    summary.push("| " + route.path + " | " +
+      (stat.html_bytes / 1024).toFixed(0) + " | " +
+      (stat.html_brotli_bytes / 1024).toFixed(0) + " | " +
+      (stat.island_props_attribute_bytes / 1024).toFixed(0) + " | " +
+      stat.ssr_rows + " |");
+  }
+  summary.push("",
+    "Headless browser sample medians (desktop and mobile-width viewports, same CI desktop CPU and loopback network):",
+    "",
+    "| Route | Viewport | Wire KiB | Hydrated rows | TTFB ms | Hydration observed ms | LCP ms | Filter settled ms | Heap MiB | DOM nodes |",
+    "| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+  );
   for (const route of CATALOG_ROUTES) {
     for (const viewport of viewports) {
       const observed = samples.filter(x => x.route === route.path && x.viewport === viewport.name);
@@ -244,17 +260,19 @@ try {
         const values = observed.map(x => x[key]).filter(Number.isFinite);
         return values.length ? median(values).toFixed(1) : "n/a";
       };
-      const stat = staticMetrics[route.path];
+      const heap = observed.map(x => x.js_heap_used_bytes).filter(Number.isFinite);
       summary.push("| " + route.path + " | " + viewport.name + " | " +
-        (stat.html_bytes / 1024).toFixed(0) + " / " + (stat.html_brotli_bytes / 1024).toFixed(0) +
-        " | " + stat.ssr_rows + " / " + mid("hydrated_rows") + " | " +
-        mid("ttfb_ms") + " | " + mid("lcp_ms") + " | " +
+        (median(observed.map(x => x.local_encoded_transfer_bytes)) / 1024).toFixed(0) +
+        " | " + mid("hydrated_rows") + " | " + mid("ttfb_ms") + " | " +
+        mid("hydration_observed_ms") + " | " + mid("lcp_ms") + " | " +
         mid("search_settle_observed_ms") + " | " +
-        (observed.some(x => Number.isFinite(x.js_heap_used_bytes)) ?
-          (median(observed.map(x => x.js_heap_used_bytes).filter(Number.isFinite)) / 1048576).toFixed(1) : "n/a") + " |");
+        (heap.length ? (median(heap) / 1048576).toFixed(1) : "n/a") +
+        " | " + mid("dom_nodes") + " |");
     }
   }
-  summary.push("", "Local headless Chromium measurements on a loopback preview; not production RUM, CDN delivery or true INP.", "");
+  summary.push("",
+    "Sizes count complete generated HTML and locally transferred page resources; island prop attributes are a serialized-data proxy, not post-hydration heap bytes.",
+    "Timing observations include instrumentation/polling overhead. Not production RUM, real-device mobile performance, field LCP or true INP.", "");
   console.log(summary.join("\n"));
   if (process.env.GITHUB_STEP_SUMMARY)
     await appendFile(process.env.GITHUB_STEP_SUMMARY, summary.join("\n") + "\n");
