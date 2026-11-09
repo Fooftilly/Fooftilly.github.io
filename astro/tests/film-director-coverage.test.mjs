@@ -106,6 +106,17 @@ test("distinct provider IDs in refs and direct links remain visible and block un
   assert.deepEqual(other.conflicting_provider_platforms,["imdb"]);
   assert.equal(coverage.summary.conflicting_provider_identity_records,1,
     "The report must flag records needing source identity reconciliation");
+  assert.equal(coverage.summary.shared_provider_identity_groups,1,
+    "The report must disclose the shared ref/link ID even before a proposal");
+  assert.equal(coverage.summary.records_with_shared_provider_identity,2);
+  assert.deepEqual(other.shared_provider_identities,[{
+    platform:"imdb",id:"tt1234567",
+    other_paths:["content/media/films/primary.json"],
+  }]);
+  assert.deepEqual(coverage.records.find(r=>r.path.endsWith("/primary.json")).shared_provider_identities,[{
+    platform:"imdb",id:"tt1234567",
+    other_paths:["content/media/films/alternative.json"],
+  }]);
   assert.equal(coverage.summary.missing_with_direct_identity,2);
 
   // Previously an unrecorded shared direct link would let this proposal
