@@ -9,16 +9,21 @@ const normalizeTitle=title=>title.normalize("NFKD").replace(/[\u0300-\u036f]/g,"
   .toLowerCase().replace(/[^\p{L}\p{N}]+/gu," ").trim();
 
 export function directIdentities(record) {
+  // One provider may have a compact ID and additional direct links pointing
+  // to different works. Keep every distinct (platform, ID) pair so a shared
+  // identity cannot disappear from collision checks.
   const ids=new Map();
-  for(const [platform,id] of Object.entries(record.refs??{}))
-    if(directPlatforms.has(platform))ids.set(platform,id);
+  const add=(platform,id)=>{
+    if(directPlatforms.has(platform))ids.set(platform+"\u0000"+id,{platform,id});
+  };
+  for(const [platform,id] of Object.entries(record.refs??{}))add(platform,id);
   for(const link of record.links??[]) {
     const parsed=mediaReferenceFromUrl(link.url);
-    if(parsed && directPlatforms.has(parsed.platform) && !ids.has(parsed.platform))
-      ids.set(parsed.platform,parsed.id);
+    if(parsed)add(parsed.platform,parsed.id);
   }
-  return [...ids].sort(([a],[b])=>a.localeCompare(b,"en"))
-    .map(([platform,id])=>({platform,id,url:mediaReferenceUrl(platform,id)}));
+  return [...ids.values()].sort((a,b)=>
+    a.platform.localeCompare(b.platform,"en")||a.id.localeCompare(b.id,"en"))
+    .map(({platform,id})=>({platform,id,url:mediaReferenceUrl(platform,id)}));
 }
 
 export function filmDirectorCoverage(files) {
@@ -85,6 +90,8 @@ export function planDirectorProposals(coverage,evidence) {
     const expected=record.identities.find(x=>x.platform===platform && x.id===id);
     if(!expected || item.evidence_url!==expected.url)
       throw new Error("Director evidence must match an exact source-owned provider ID and canonical URL: "+record.path);
+    if(record.identities.some(x=>x.platform===platform && x.id!==id))
+      throw new Error("Conflicting provider identities require manual reconciliation: "+record.path);
     if(coverage.records.filter(other=>other.identities.some(x=>x.platform===platform&&x.id===id)).length!==1)
       throw new Error("Director provider identity is shared by multiple records: "+record.path);
     if(!Array.isArray(item.directors) || !item.directors.length || item.directors.length>8 ||
