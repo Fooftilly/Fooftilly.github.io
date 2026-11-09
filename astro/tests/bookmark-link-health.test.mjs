@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   classifyResponse, publicWebUrl, isPublicAddress, resolvePublicHost,
-  robotsPermission, inspectDestination,
+  robotsPermission, inspectDestination, createRequestDeadline,
 } from '../scripts/link-health.mjs';
 
 const html = (body, statusCode=200, headers={}) => ({statusCode,headers:{'content-type':'text/html',...headers},body});
@@ -144,4 +144,34 @@ test('reused robots policy avoids unnecessary repeated requests for a sampled ho
 test('DNS resolution is bounded even if an upstream resolver stalls',async()=>{
   await assert.rejects(resolvePublicHost(new URL('https://public.example.org'),
     async()=>new Promise(()=>{}),12), {code:'ETIMEDOUT'});
+});
+
+test('absolute request deadline fires even during continuous data activity, and can be cancelled', async()=>{
+  const { EventEmitter } = await import('node:events');
+  const fake = new EventEmitter();
+  let destroyed = 0;
+  fake.destroy = error => {destroyed++;fake.emit('error',error);};
+  const stream = setInterval(()=>fake.emit('data','x'),5);
+  const failure = new Promise(resolve=>fake.once('error',resolve));
+  const cancel = createRequestDeadline(fake,35);
+  const error = await failure;
+  clearInterval(stream);
+  cancel();
+  assert.equal(error.code,'ETIMEDOUT');
+  assert.equal(destroyed,1);
+  let cancelled=false;
+  const stop=createRequestDeadline({destroy:()=>{cancelled=true;}},20);
+  stop();
+  await new Promise(resolve=>setTimeout(resolve,35));
+  assert.equal(cancelled,false,'a completed request must not be destroyed afterward');
+});
+
+test('adversarial robots wildcards terminate without regex backtracking',()=>{
+  const policy='User-agent: *\\nDisallow: /'+'*a'.repeat(25)+'b';
+  const path='/'+'a'.repeat(60);
+  const start=performance.now();
+  assert.equal(robotsPermission(policy,path).allowed,true);
+  assert.ok(performance.now()-start < 200,'robots matching must be bounded');
+  assert.equal(robotsPermission('User-agent: *\\nDisallow: /*a*b$','/helloab').allowed,false);
+  assert.equal(robotsPermission('User-agent: *\\nDisallow: /*a*b$','/helloabc').allowed,true);
 });

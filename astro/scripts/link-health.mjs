@@ -89,6 +89,13 @@ export async function resolvePublicHost(url, resolve = dnsLookup, timeoutMs = 70
   return answers.find(answer => answer.family === 4) ?? answers[0];
 }
 
+/** Total deadline, independent of whether a remote peer keeps streaming bytes. */
+export function createRequestDeadline(request, timeoutMs) {
+  const timeout = setTimeout(() => request.destroy(Object.assign(
+    new Error('Request deadline exceeded'), {code:'ETIMEDOUT'})),timeoutMs);
+  return () => clearTimeout(timeout);
+}
+
 /** Pin a validated public DNS answer for each individual request, including robots. */
 export async function requestPinnedPage(url, { timeoutMs = 7000, maxBytes = 65536, resolve = dnsLookup } = {}) {
   const selected = publicWebUrl(url.toString());
@@ -96,9 +103,11 @@ export async function requestPinnedPage(url, { timeoutMs = 7000, maxBytes = 6553
   const { address, family } = await resolvePublicHost(selected, resolve, timeoutMs);
   return new Promise((done, fail) => {
     let finished = false;
+    let cancelDeadline = () => {};
     const finish = (error, value) => {
       if (finished) return;
       finished = true;
+      cancelDeadline();
       if (error) fail(error); else done(value);
     };
     const request = (selected.protocol === 'https:' ? httpsRequest : httpRequest)(selected, {
@@ -132,18 +141,29 @@ export async function requestPinnedPage(url, { timeoutMs = 7000, maxBytes = 6553
       response.on('end', finishResponse);
       response.on('error', error => finish(error));
     });
+    cancelDeadline = createRequestDeadline(request,timeoutMs);
     request.setTimeout(timeoutMs, () => request.destroy(Object.assign(new Error('Request timed out'), { code: 'ETIMEDOUT' })));
     request.on('error', error => finish(error));
     request.end();
   });
 }
 
+/** Prefix glob matcher. Two-pointer backtracking has a bounded number of
+ * steps and cannot explode exponentially on untrusted robots.txt wildcards.
+ */
 function robotPatternMatch(pattern, target) {
   if (!pattern) return false;
   const anchored = pattern.endsWith('$');
-  const raw = anchored ? pattern.slice(0, -1) : pattern;
-  const escaped = raw.replace(/[.+?^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '.*');
-  return new RegExp('^' + escaped + (anchored ? '$' : '')).test(target);
+  const glob = anchored ? pattern.slice(0,-1) : pattern + '*';
+  let i = 0, j = 0, star = -1, retry = 0;
+  while (j < target.length) {
+    if (i < glob.length && glob[i] === target[j]) { i++; j++; }
+    else if (i < glob.length && glob[i] === '*') { star = i++; retry = j; }
+    else if (star >= 0) { i = star + 1; j = ++retry; }
+    else return false;
+  }
+  while (i < glob.length && glob[i] === '*') i++;
+  return i === glob.length;
 }
 
 /** Standard longest-match precedence; unknown/non-200 robots are handled fail-closed upstream. */
