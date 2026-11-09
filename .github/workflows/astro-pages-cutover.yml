@@ -91,7 +91,7 @@ jobs:
           set -euo pipefail
           sha256sum dist/sitemap.xml | awk '{print "sha256=" $1}' >> "$GITHUB_OUTPUT"
       - name: Upload validated Astro build only
-        uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
           path: astro/dist
 
