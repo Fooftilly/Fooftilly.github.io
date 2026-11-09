@@ -173,6 +173,10 @@ try {
     });
     for (const route of CATALOG_ROUTES) {
       for (let run = 0; run < iterations; run++) {
+        // A blank interstitial prevents a repeated same-path navigation from
+        // accidentally sampling the preceding document before it reloads.
+        await command("Page.navigate", { url: "about:blank" });
+        await waitFor("location.href==='about:blank'&&document.readyState==='complete'", Boolean, "blank interstitial");
         transferred = 0;
         requests = new Set();
         offOrigin = new Set();
@@ -193,14 +197,17 @@ try {
         const metric = name => metrics.find(x => x.name === name)?.value ?? null;
         const selector = route.kind === "media" ? ".media-collection input[data-media-search]" :
           ".bookmark-browser input[type=search]";
-        await evaluate("(()=>{const el=document.querySelector(" + JSON.stringify(selector) +
-          ");if(!el)throw new Error('Search input missing');window.__benchmarkStart=performance.now();" +
-          "el.value='zz-peroniko-benchmark-never-matches';" +
-          "el.dispatchEvent(new Event('input',{bubbles:true}));})()");
-        await waitFor("document.querySelectorAll(" +
-          JSON.stringify(route.kind === "media" ? "[data-media-row]" : "li.bookmark-entry") +
-          ").length===0", Boolean, "search input response " + route.path);
-        const searchSettle = await evaluate("performance.now()-window.__benchmarkStart");
+        let searchSettle = null;
+        if (state.hydrated_rows > 0) {
+          await evaluate("(()=>{const el=document.querySelector(" + JSON.stringify(selector) +
+            ");if(!el)throw new Error('Search input missing');window.__benchmarkStart=performance.now();" +
+            "el.value='zz-peroniko-benchmark-never-matches';" +
+            "el.dispatchEvent(new Event('input',{bubbles:true}));})()");
+          await waitFor("document.querySelectorAll(" +
+            JSON.stringify(route.kind === "media" ? "[data-media-row]" : "li.bookmark-entry") +
+            ").length===0", Boolean, "search input response " + route.path);
+          searchSettle = await evaluate("performance.now()-window.__benchmarkStart");
+        }
         if (offOrigin.size) throw new Error("Unexpected cross-origin request: " + [...offOrigin].join(", "));
         samples.push({
           route: route.path, viewport: viewport.name, iteration: run + 1,
@@ -241,7 +248,8 @@ try {
         " | " + stat.ssr_rows + " / " + mid("hydrated_rows") + " | " +
         mid("ttfb_ms") + " | " + mid("lcp_ms") + " | " +
         mid("search_settle_observed_ms") + " | " +
-        (median(observed.map(x => x.js_heap_used_bytes)) / 1048576).toFixed(1) + " |");
+        (observed.some(x => Number.isFinite(x.js_heap_used_bytes)) ?
+          (median(observed.map(x => x.js_heap_used_bytes).filter(Number.isFinite)) / 1048576).toFixed(1) : "n/a") + " |");
     }
   }
   summary.push("", "Local headless Chromium measurements on a loopback preview; not production RUM, CDN delivery or true INP.", "");
