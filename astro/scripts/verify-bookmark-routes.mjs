@@ -99,6 +99,19 @@ test("all original and new bookmark detail URLs are generated with correct canon
     }
   }
 
+  // A source-derived tag directory is not promoted from bookmark/search
+  // pages before any public bookmark actually has a published tag.
+  const tagged = manifest.some(record => Array.isArray(record.tags) && record.tags.length > 0);
+  for (const [page,link] of [
+    ["bookmarks/index.html","/bookmarks/tags/"],
+    ["search/index.html","/bookmarks/tags/"],
+    ["sh/search/index.html","/sh/bookmarks/tags/"],
+  ]) {
+    const html = await readFile(path.join(root,page),"utf8");
+    assert.equal(html.includes(`href="${link}"`), tagged,
+      `Incorrect tag-navigation availability on ${page}`);
+  }
+
   // Every category page must supply an Add action that selects its source
   // category in the existing GitHub-reviewed editor, not a generic fallback.
   for (const [section, slug] of categories) {

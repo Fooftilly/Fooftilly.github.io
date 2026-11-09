@@ -2,6 +2,7 @@
 import { getEntry } from "astro:content";
 import BookmarkBrowser from "./BookmarkBrowser.vue";
 import { loadBookmarks } from "../lib/bookmark-data.ts";
+import { bookmarkTagCounts } from "../lib/bookmark-tag-index.ts";
 
 interface Props { lang: "en" | "sh" }
 const { lang } = Astro.props;
@@ -11,13 +12,14 @@ if (!entry) throw new Error(`Missing original search page metadata: ${key}`);
 const bookmarks = (await loadBookmarks()).map(({ id, title, category, url, date, detailUrl, notesUrl, comments, tags }) =>
   ({ id, title, category, url, date, detailUrl, notesUrl, comments, tags })
 );
+const hasTags = bookmarkTagCounts(bookmarks).length > 0;
 ---
 <section class="search-page">
   <h1>{entry.data.title}</h1>
   <p>{lang === "sh"
     ? "Pretraži sačuvane linkove."
     : "Search saved bookmarks."}</p>
-  <p><a href={lang === "sh" ? "/sh/bookmarks/tags/" : "/bookmarks/tags/"}>{lang === "sh" ? "Pregled oznaka" : "Browse tags"}</a></p>
+  {hasTags && <p><a href={lang === "sh" ? "/sh/bookmarks/tags/" : "/bookmarks/tags/"}>{lang === "sh" ? "Pregled oznaka" : "Browse tags"}</a></p>}
   <BookmarkBrowser items={bookmarks} lang={lang} client:load />
 </section>
 <style>
