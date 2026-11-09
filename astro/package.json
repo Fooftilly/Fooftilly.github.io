@@ -14,7 +14,8 @@
     "preview": "astro preview",
     "test:parity": "node --test scripts/verify-bookmark-parity.mjs",
     "test:routes": "node --test scripts/verify-bookmark-routes.mjs",
-    "audit:links": "node scripts/audit-bookmark-links.mjs"
+    "audit:links": "node scripts/audit-bookmark-links.mjs",
+    "benchmark:catalogs": "node scripts/benchmark-catalogs.mjs"
   },
   "dependencies": {
     "@astrojs/vue": "7.1.2",
