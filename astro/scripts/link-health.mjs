@@ -314,6 +314,8 @@ export async function inspectDestination(raw, { requestPage = requestPinnedPage,
     try {
       if (!robots.has(url.origin)) {
         const robotsUrl = new URL('/robots.txt',url);
+        // A robots request counts toward this host's crawl pacing budget.
+        lastVisitCache.set(url.origin,Date.now());
         const response = await requestPage(robotsUrl,{ maxBytes:16384 });
         if (response.statusCode === 404 || response.statusCode === 410) {
           robots.set(url.origin, { allowed:true });

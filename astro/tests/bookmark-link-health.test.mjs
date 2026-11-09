@@ -260,3 +260,18 @@ test('robots wildcard still matches when the destination contains a literal aste
   assert.equal(robotsPermission(rule,'/word/x/private').allowed,false);
   assert.equal(robotsPermission(rule,'/word/x/public').allowed,true);
 });
+
+test('the first destination waits after robots.txt when crawl-delay is present',async()=>{
+  const visited=[];
+  const robotsPolicy='User-agent: *\nCrawl-delay: 0.05';
+  const result=await inspectDestination('https://public.example.org/path',{requestPage:async url=>{
+    visited.push({path:url.pathname,when:Date.now()});
+    if(url.pathname==='/robots.txt')
+      return {statusCode:200,headers:{'content-type':'text/plain'},body:robotsPolicy};
+    return {statusCode:200,headers:{'content-type':'text/html'},body:'<h1>Working site</h1>'};
+  }});
+  assert.equal(result.status,'reachable-unverified');
+  assert.deepEqual(visited.map(x=>x.path),['/robots.txt','/path']);
+  assert.ok(visited[1].when-visited[0].when>=35,
+    'The first target request must respect the host crawl-delay');
+});
