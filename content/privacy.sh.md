@@ -3,7 +3,7 @@ title: "Privatnost i kolačići"
 translationKey: "privacy"
 ---
 
-Ažurirano 4. novembra 2026.
+Ažurirano 8. novembra 2026.
 
 ## Hosting
 
@@ -23,9 +23,11 @@ Podešavanja čuvanja podataka na Google Analytics nalogu još nijesu provjerena
 
 Izbor se čuva u pregledaču (localStorage). Možete ga promijeniti preko opcije **Privatnost i analitika** u podnožju sajta. Povlačenjem pristanka zaustavlja se dalja analitika, a sajt pokušava da izbriše njene kolačiće. Ako je analitika već učitana, stranica se osvježava.
 
-## Komentari i linkovi
+## YouTube video-snimci, komentari i linkovi
 
-Giscus komentari se učitavaju samo ako ih sami otvorite. Za spoljne sajtove važe njihova pravila privatnosti. Obrasci za dodavanje linkova i medija pripremaju predloge; sami odlučujete hoćete li nastaviti na GitHub.
+Na stranicama sa YouTube video-snimcima ugrađeni plejer se učitava **tek kada kliknete na „Load YouTube video“**. Samo otvaranje stranice ne uspostavlja vezu sa YouTubeom. Koristi se `youtube-nocookie.com` (režim poboljšane privatnosti), ali se pri učitavanju plejera ipak uspostavlja veza sa YouTubeom/Googleom, koji može dobiti vašu IP adresu i postaviti kolačiće.
+
+Giscus komentari se učitavaju samo ako ih sami otvorite. Za ostale spoljne sajtove važe njihova pravila privatnosti. Obrasci za dodavanje linkova i medija pripremaju predloge; sami odlučujete hoćete li nastaviti na GitHub.
 
 ## Kontakt
 

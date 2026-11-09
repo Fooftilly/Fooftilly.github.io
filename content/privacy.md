@@ -3,7 +3,7 @@ title: "Privacy and cookies"
 translationKey: "privacy"
 ---
 
-Updated 4 November 2026.
+Updated 8 November 2026.
 
 ## Hosting
 
@@ -23,9 +23,11 @@ The Google Analytics property's data-retention setting is unverified.
 
 Your preference is saved in your browser's localStorage. Use **Privacy & analytics** in the footer to change it. Withdrawing consent stops further tracking and attempts to remove analytics cookies; if the tag has already loaded, the page reloads.
 
-## Comments and links
+## YouTube videos, comments and links
 
-Giscus comments load only when you request them. External sites have their own privacy policies. Bookmark and media forms prepare drafts; you choose whether to continue to GitHub.
+On bookmark pages that link to YouTube videos, the embedded player loads **only after you click “Load YouTube video.”** Viewing the page alone does not contact YouTube. The player uses `youtube-nocookie.com` (privacy-enhanced mode), but activating it still connects to YouTube/Google, which may receive your IP address and set cookies.
+
+Giscus comments load only when you request them. Other external sites have their own privacy policies. Bookmark and media forms prepare drafts; you choose whether to continue to GitHub.
 
 ## Contact
 

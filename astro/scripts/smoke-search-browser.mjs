@@ -9,6 +9,7 @@ import { tmpdir } from "node:os";
 import { extname, join, resolve, sep } from "node:path";
 import { isExternalHttpRequest, networkAuditLabel } from "./consent-network-audit.mjs";
 import { chromiumPageWebSocketUrl } from "./chromium-devtools-target.mjs";
+import { youtubeVideoId } from "../src/lib/youtube-embed.ts";
 
 const sleep = (ms) => new Promise((done) => setTimeout(done, ms));
 const dist = resolve("dist");
@@ -97,6 +98,9 @@ try {
   if (!port) throw lastStartupError;
   const bookmarkCategories = JSON.parse(await readFile(resolve("src/data/bookmark-categories.json"), "utf8"));
   const bookmarkRecords = JSON.parse(await readFile(resolve(".audit/bookmarks-parity.json"), "utf8"));
+  const youtubeBookmark = bookmarkRecords.find(record =>
+    typeof record.url === "string" && record.detailUrl && youtubeVideoId(record.url));
+  assert.ok(youtubeBookmark, "Current bookmark source must include a YouTube video to verify embed privacy");
   // A non-JavaScript visitor must see *all* current source bookmarks in
   // Astro's generated HTML, not only the first page of the hydrated Vue view.
   const staticBookmarks = await readFile(join(dist, "bookmarks", "index.html"), "utf8");
@@ -215,6 +219,10 @@ try {
     await evaluate("document.querySelector('[data-media-ref-edit]').click()");
     await waitFor("Boolean(document.querySelector('.media-provider-dialog')?.open)",
       Boolean,"Provider ID dialog opens from existing film row");
+    assert.deepEqual(await evaluate("Array.from(document.querySelectorAll('[data-provider-field]')).map(el=>el.dataset.providerField).sort()"),
+      ["imdb","letterboxd","tmdb","wikipedia"],"Film editors must not offer MusicBrainz");
+    assert.match(await evaluate("document.querySelector('[data-provider-field=tmdb]')?.closest('label')?.textContent"),
+      /movie:123/,"Film TMDb field must request movie IDs");
     assert.equal(await evaluate("document.querySelector('[data-copy-media-refs]')"),null,
       "No replacement is offered before a provider ID changes");
     await evaluate("(()=>{const input=document.querySelector('[data-provider-field=imdb]');input.value='tt0123456';input.dispatchEvent(new Event('input',{bubbles:true}))})()");
@@ -538,6 +546,13 @@ try {
     await navigate("/music/?q=CI%20synthetic%20album%20(not%20for%20publication)");
     await waitFor("document.querySelectorAll('[data-media-row]').length",
       value=>value===1,"Existing album fixture can be selected by search");
+    await evaluate("document.querySelector('[data-media-ref-edit]').click()");
+    await waitFor("Boolean(document.querySelector('.media-provider-dialog')?.open)",
+      Boolean,"Existing music provider editor opens");
+    assert.deepEqual(await evaluate("Array.from(document.querySelectorAll('[data-provider-field]')).map(el=>el.dataset.providerField).sort()"),
+      ["musicbrainz","wikipedia"],"Music must not offer film or TV providers");
+    await evaluate("document.querySelector('.media-provider-dialog button:last-child').click()");
+    await waitFor("document.querySelector('.media-provider-dialog')===null",Boolean,"Music provider dialog closes");
     await evaluate("document.querySelector('[data-media-rating-edit]').click()");
     await waitFor("Boolean(document.querySelector('.media-ratings-dialog')?.open)",
       Boolean,"Existing album ratings editor opens");
@@ -565,6 +580,15 @@ try {
     await navigate("/tv/?q=CI%20synthetic%20TV%20show");
     await waitFor("document.querySelectorAll('[data-media-row]').length",
       value=>value===1,"TV fixture selected");
+    await evaluate("document.querySelector('[data-media-ref-edit]').click()");
+    await waitFor("Boolean(document.querySelector('.media-provider-dialog')?.open)",
+      Boolean,"TV provider editor opens");
+    assert.deepEqual(await evaluate("Array.from(document.querySelectorAll('[data-provider-field]')).map(el=>el.dataset.providerField).sort()"),
+      ["imdb","tmdb","wikipedia"],"TV must not offer Letterboxd or MusicBrainz");
+    assert.match(await evaluate("document.querySelector('[data-provider-field=tmdb]')?.closest('label')?.textContent"),
+      /tv:456/,"TV TMDb field must request series IDs");
+    await evaluate("document.querySelector('.media-provider-dialog button:last-child').click()");
+    await waitFor("document.querySelector('.media-provider-dialog')===null",Boolean,"TV provider dialog closes");
     await evaluate("document.querySelector('[data-media-rating-edit]').click()");
     await waitFor("Boolean(document.querySelector('.media-ratings-dialog')?.open)",
       Boolean,"TV nested rating editor opens");
@@ -744,6 +768,31 @@ try {
   await command("Network.disable");
   console.log("Browser consent network smoke: no third-party HTTP requests before/after denial on " +
     (privacyRoutes.length + 1) + " representative routes");
+
+  // A real source-owned YouTube bookmark must contain no iframe and make no
+  // third-party request until the visitor explicitly activates the player.
+  unconsentedRequests.length=0;
+  await command("Network.enable");
+  checkUnconsentedRequests=true;
+  await navigate(youtubeBookmark.detailUrl);
+  await waitFor("Boolean(document.querySelector('[data-load-youtube][data-youtube-ready]'))",
+    Boolean,"YouTube consent player is mounted on a real bookmark detail");
+  assert.equal(await evaluate("document.querySelectorAll('[data-youtube-container] iframe').length"),
+    0,"No YouTube iframe before explicit consent");
+  assert.deepEqual(unconsentedRequests,[],
+    "No external requests on first visit to a YouTube bookmark detail");
+  checkUnconsentedRequests=false;
+  await command("Network.disable");
+  await evaluate("document.querySelector('[data-load-youtube]').click()");
+  await waitFor("document.querySelector('[data-youtube-container] iframe')?.src",
+    value=>value==="https://www.youtube-nocookie.com/embed/"+youtubeVideoId(youtubeBookmark.url),
+    "User click creates the expected privacy-enhanced player");
+  assert.equal(await evaluate("document.querySelector('[data-youtube-container] iframe')?.referrerPolicy"),
+    "no-referrer","YouTube iframe must not send the source page referrer");
+  assert.equal(await evaluate("document.querySelector('[data-load-youtube]')?.hidden"),true,
+    "YouTube player button hides after activation");
+  assert.equal(await evaluate("Array.from(document.querySelectorAll('a')).some(a=>a.href.includes('youtube.com/watch'))"),true,
+    "Original YouTube bookmark link remains accessible");
   console.log("Browser consent smoke: fixed desktop/mobile cookie overlay, settings reopening, keyboard focus and no eager Google tag passed");
 
   // Project cards are static links, not Vue islands. Reuse the existing Chrome

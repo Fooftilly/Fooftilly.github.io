@@ -3,7 +3,7 @@ import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
 import { compareMediaListings, matchesMediaSearch, matchesMediaStatus, matchesMediaMinimumRating, searchableMediaText, mediaNotesExplainSearch, mediaVisiblePage, MEDIA_PAGE_SIZE, type MediaSort, type MediaStatusFilter } from "../lib/media-browser.ts";
 import { mediaFilterHref, readMediaQueryState } from "../lib/media-query-state.ts";
 import MediaRatingEditor from "./MediaRatingEditor.vue";
-import { mediaSourceLinks, composeMediaReferenceEdit, githubExistingMediaEditorUrl, MEDIA_REFERENCE_PLATFORMS, type MediaKind, type StoredMedia, type MediaPlatform, type MediaProviderCatalogRef } from "../lib/media-model.ts";
+import { mediaSourceLinks, composeMediaReferenceEdit, githubExistingMediaEditorUrl, MEDIA_REFERENCE_PLATFORMS, mediaReferencePlatformsForKind, type MediaKind, type StoredMedia, type MediaPlatform, type MediaProviderCatalogRef } from "../lib/media-model.ts";
 
 const props=defineProps<{kind:MediaKind;entries:StoredMedia[];otherProviderRefs:MediaProviderCatalogRef[]}>();
 const title=computed(()=>props.kind==="music"?"Music":props.kind==="films"?"Films":"TV series");
@@ -26,10 +26,16 @@ const copyStatus=ref("");
 const providerFields:{platform:MediaPlatform;label:string;hint:string}[]=[
   {platform:"musicbrainz",label:"MusicBrainz",hint:"Release-group UUID or direct link"},
   {platform:"imdb",label:"IMDb",hint:"tt1234567 or direct title link"},
-  {platform:"tmdb",label:"TMDb",hint:"movie:123 or tv:456, or direct link"},
+  {platform:"tmdb",label:"TMDb",hint:"Movie/TV ID or direct link"},
   {platform:"wikipedia",label:"Wikipedia",hint:"en:Article_Title or direct article link"},
   {platform:"letterboxd",label:"Letterboxd",hint:"Short boxd.it ID or direct link"},
 ];
+const visibleProviderFields=computed(()=>providerFields.filter(field=>
+  editing.value && mediaReferencePlatformsForKind(editing.value.kind).includes(field.platform)));
+function providerHint(platform:MediaPlatform):string {
+  if(platform==="tmdb")return editing.value?.kind==="tv" ? "tv:456 or direct TV link" : "movie:123 or direct film link";
+  return providerFields.find(field=>field.platform===platform)?.hint??"Provider ID";
+}
 function editProviderIds(item:StoredMedia):void {
   editing.value=item;
   providerInputs.value={
@@ -280,9 +286,9 @@ async function showMore(): Promise<void> {
         All other record details, including ratings, will be preserved.
       </p>
       <div class="provider-field-grid">
-        <label v-for="field in providerFields" :key="field.platform">
+        <label v-for="field in visibleProviderFields" :key="field.platform">
           <strong>{{ field.label }}</strong>
-          <span class="provider-hint">{{ field.hint }}</span>
+          <span class="provider-hint">{{ providerHint(field.platform) }}</span>
           <input v-model="providerInputs[field.platform]" type="text" spellcheck="false"
                  autocomplete="off" :data-provider-field="field.platform"
                  :aria-label="field.label+' provider ID'"/>
