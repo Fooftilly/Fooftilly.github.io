@@ -160,6 +160,7 @@ try {
   await command("Network.enable");
   await command("Network.setCacheDisabled", { cacheDisabled: true });
   await command("Performance.enable");
+  await command("HeapProfiler.enable");
   await command("Page.addScriptToEvaluateOnNewDocument", {
     source: "window.__benchmarkLcp=null;try{new PerformanceObserver(list=>{" +
       "for(const entry of list.getEntries())window.__benchmarkLcp=entry.startTime;" +
@@ -195,8 +196,23 @@ try {
           JSON.stringify(route.kind === "media" ? "[data-media-row]" : "li.bookmark-entry") +
           ").length};})()");
         state.hydration_observed_ms = hydratedAt;
+        // These samples reuse a Chromium renderer. Collect unreachable prior-page
+        // objects before reading the isolate heap, rather than reporting
+        // arbitrary GC timing as a difference between catalog pages.
+        await command("HeapProfiler.collectGarbage");
         const metrics = (await command("Performance.getMetrics")).metrics;
         const metric = name => metrics.find(x => x.name === name)?.value ?? null;
+        const heapUsed = metric("JSHeapUsedSize");
+        assert.ok(Number.isFinite(heapUsed) && heapUsed > 0,
+          "Chromium must report post-GC JavaScript heap usage");
+        // Performance.getMetrics Nodes is renderer-wide and includes detached
+        // documents. Count nodes reachable from the active document instead,
+        // including text/comment nodes (not shadow trees or iframe documents).
+        const documentNodes = await evaluate("(()=>{const nodes=document.createNodeIterator(" +
+          "document,NodeFilter.SHOW_ALL);let count=0;while(nodes.nextNode())count++;" +
+          "return count;})()");
+        assert.ok(Number.isInteger(documentNodes) && documentNodes > state.hydrated_rows,
+          "Active document node count must include the hydrated result rows");
         const selector = route.kind === "media" ? ".media-collection input[data-media-search]" :
           ".bookmark-browser input[type=search]";
         let searchSettle = null;
@@ -214,7 +230,7 @@ try {
         samples.push({
           route: route.path, viewport: viewport.name, iteration: run + 1,
           ...state,
-          js_heap_used_bytes: metric("JSHeapUsedSize"), dom_nodes: metric("Nodes"),
+          js_heap_used_bytes: heapUsed, attached_document_nodes: documentNodes,
           search_settle_observed_ms: searchSettle, local_encoded_transfer_bytes: transferred,
         });
       }
@@ -225,7 +241,7 @@ try {
     environment: {
       node: process.version, chromium: process.env.CHROME_BIN || "google-chrome",
       iterations, network: "loopback; Brotli quality 5 for text; browser cache disabled",
-      note: "No live CDN TTFB, real-user INP, field LCP or full-process RSS. Browser input settle includes polling overhead.",
+      note: "No live CDN TTFB, real-user INP, field LCP or full-process RSS. Browser input settle includes polling overhead. JavaScript heap is renderer-isolate usage after an explicit GC, not exclusive catalog memory. Attached document nodes include text/comments but exclude detached documents, shadow trees and iframe contents.",
     },
     static: staticMetrics, samples,
   };
@@ -250,7 +266,7 @@ try {
   summary.push("",
     "Headless browser sample medians (desktop and mobile-width viewports, same CI desktop CPU and loopback network):",
     "",
-    "| Route | Viewport | Wire KiB | Hydrated rows | TTFB ms | Hydration observed ms | LCP ms | Filter settled ms | Heap MiB | DOM nodes |",
+    "| Route | Viewport | Wire KiB | Hydrated rows | TTFB ms | Hydration observed ms | LCP ms | Filter settled ms | Post-GC heap MiB | Attached document nodes |",
     "| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
   );
   for (const route of CATALOG_ROUTES) {
@@ -267,11 +283,12 @@ try {
         mid("hydration_observed_ms") + " | " + mid("lcp_ms") + " | " +
         mid("search_settle_observed_ms") + " | " +
         (heap.length ? (median(heap) / 1048576).toFixed(1) : "n/a") +
-        " | " + mid("dom_nodes") + " |");
+        " | " + mid("attached_document_nodes") + " |");
     }
   }
   summary.push("",
     "Sizes count complete generated HTML and locally transferred page resources; island prop attributes are a serialized-data proxy, not post-hydration heap bytes.",
+    "Heap samples follow explicit CDP garbage collection but include shared renderer runtime; attached document nodes count only the active document (including text/comments, excluding detached and shadow/iframe trees).",
     "Timing observations include instrumentation/polling overhead. Not production RUM, real-device mobile performance, field LCP or true INP.", "");
   console.log(summary.join("\n"));
   if (process.env.GITHUB_STEP_SUMMARY)
