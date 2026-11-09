@@ -86,6 +86,46 @@ test("shared external identities fail closed rather than merging or guessing ide
   }]),/shared by multiple/);
 });
 
+test("distinct provider IDs in refs and direct links remain visible and block unsafe proposals",()=>{
+  const primary={
+    schema:1,kind:"films",title:"Primary Film",year:2015,
+    refs:{imdb:"tt1234567"},
+  };
+  const alternative={
+    schema:1,kind:"films",title:"Another Film",year:2016,
+    refs:{imdb:"tt7654321"},
+    links:[{label:"IMDb alternative",url:"https://www.imdb.com/title/tt1234567/"}],
+  };
+  const coverage=filmDirectorCoverage([
+    {path:"content/media/films/primary.json",raw:primary},
+    {path:"content/media/films/alternative.json",raw:alternative},
+  ]);
+  const other=coverage.records.find(r=>r.path.endsWith("/alternative.json"));
+  assert.deepEqual(other.identities.map(x=>x.id),["tt1234567","tt7654321"],
+    "Do not discard different direct links simply because the platform already has a compact ID");
+  assert.equal(coverage.summary.missing_with_direct_identity,2);
+
+  // Previously an unrecorded shared direct link would let this proposal
+  // pass, incorrectly treating tt1234567 as unique to the primary film.
+  const primaryEvidence={
+    path:"content/media/films/primary.json",
+    identity:{platform:"imdb",id:"tt1234567"},
+    directors:["Director One"],evidence_url:"https://www.imdb.com/title/tt1234567/",
+  };
+  assert.throws(()=>planDirectorProposals(coverage,[primaryEvidence]),/shared by multiple records/);
+  // A conflicting ID *within* a single file must also be reconciled first.
+  assert.throws(()=>planDirectorProposals(coverage,[{
+    ...primaryEvidence,
+    path:"content/media/films/alternative.json",
+    identity:{platform:"imdb",id:"tt7654321"},
+    evidence_url:"https://www.imdb.com/title/tt7654321/",
+  }]),/Conflicting provider identities/);
+  assert.deepEqual(directIdentities({
+    refs:{imdb:"tt1234567"},
+    links:[{label:"Direct duplicate",url:"https://www.imdb.com/title/tt1234567/"}],
+  }).map(x=>x.id),["tt1234567"],"Exactly repeated IDs count once");
+});
+
 test("source file discovery ignores non-JSON files and the CLI is strictly local",async t=>{
   const dir=await mkdtemp(join(tmpdir(),"peroniko-film-coverage-"));
   t.after(()=>rm(dir,{recursive:true,force:true}));
