@@ -2,6 +2,7 @@
   "schema": 1,
   "kind": "films",
   "title": "12 Angry Men",
+  "creator": "Sidney Lumet",
   "year": 1957,
   "rating": 4.5,
   "refs": {
