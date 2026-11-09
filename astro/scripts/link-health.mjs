@@ -221,7 +221,7 @@ export async function requestPinnedPage(url, { timeoutMs = 7000, maxBytes = 6553
  * unreserved characters and encode raw Unicode as percent-escaped UTF-8.
  * Reserved escapes stay encoded, so they cannot become * or $ operators.
  */
-export export function normalizeRobotsOctets(value) {
+export function normalizeRobotsOctets(value) {
   return value.replace(/%[0-9a-fA-F]{2}|[^\x00-\x7F]/gu, token => {
     if (token[0] === '%') {
       const char = String.fromCharCode(Number.parseInt(token.slice(1),16));
