@@ -54,6 +54,7 @@ async function main(){
     s.missing_with_direct_identity+" (Letterboxd "+s.missing_with_letterboxd+
     ", IMDb "+s.missing_with_imdb+", TMDb "+s.missing_with_tmdb+
     "); without direct provider identity: "+s.missing_without_direct_identity+
+    ". Conflicting same-provider identity records: "+s.conflicting_provider_identity_records+
     ". Ambiguous same-title/year groups: "+s.ambiguous_title_year_groups+
     " ("+s.ambiguous_title_year_records+" records).");
   console.log("Provider references are lookup candidates, not independently verified directors.");
