@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  classifyResponse, publicWebUrl, isPublicAddress, resolvePublicHost,
+  classifyResponse, readableHtmlText, publicWebUrl, isPublicAddress, resolvePublicHost,
   robotsPermission, inspectDestination, createRequestDeadline,
 } from '../scripts/link-health.mjs';
 
@@ -24,6 +24,21 @@ test('HTTP 200 and a generic goodbye sentence never prove an operational site or
   assert.equal(classifyResponse(html('This is a story about a site that has closed')).status,'reachable-unverified');
   assert.equal(classifyResponse(html('This service has permanently shut down.')).status,'possible-closure');
   assert.equal(classifyResponse(html('<h1>Thank you, and goodbye</h1><p>The live camera site you knew as TrafficVision.Live has closed its doors.</p>')).status,'possible-closure');
+});
+
+test('closure evidence must come from visible page text, not scripts, comments or attributes',()=>{
+  const script='<script>const notice="The service has permanently shut down.";</script>';
+  const hidden='<style>.label:after{content:"The service has permanently shut down."}</style>';
+  const comment='<!-- The service has permanently shut down. -->';
+  const visible='<main><h1>Still online</h1></main>';
+  assert.equal(classifyResponse(html('<html>'+script+hidden+comment+visible+'</html>')).status,'reachable-unverified');
+  assert.equal(classifyResponse(html('<html>'+script+'<p>The service has permanently shut down.</p></html>')).status,'possible-closure');
+  assert.equal(classifyResponse(html('<script>const a=1<2;</script\t\n junk>'+visible)).status,'reachable-unverified');
+  assert.equal(classifyResponse(html('<template><p>The service has permanently shut down.</p></template>'+visible)).status,'reachable-unverified');
+  assert.equal(classifyResponse(html('<div data-title="The service has permanently shut down.">Still online</div>')).status,'reachable-unverified');
+  assert.equal(classifyResponse(html('<p>The service has <strong>permanently</strong> shut down.</p>')).status,'possible-closure');
+  assert.equal(classifyResponse(html('<p>The service has&nbsp;permanently shut down.</p>')).status,'possible-closure');
+  assert.equal(readableHtmlText('<p>hello</p><span>there</span>'),'hello there');
 });
 
 test('HTTP and browser-challenge classifications remain cautious',()=>{

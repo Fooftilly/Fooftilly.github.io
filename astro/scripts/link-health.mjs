@@ -12,6 +12,75 @@ const CLOSURE_PATTERNS = [
   /\bwe (?:have|are) (?:now )?(?:shutting|closing) (?:down|our doors)\b/i,
 ];
 
+/** Extract readable text nodes, skipping scripts/styles/comments instead of
+ * trying to sanitize HTML with regex. This is evidence extraction only; the
+ * returned text is never interpreted as HTML or sent to the public site.
+ */
+export function readableHtmlText(html) {
+  const ignored = new Set(['script', 'style', 'noscript', 'template']);
+  const space = char => char === ' ' || char === '\t' || char === '\n' ||
+    char === '\r' || char === '\f';
+  const letter = char => char && ((char >= 'a' && char <= 'z') ||
+    (char >= 'A' && char <= 'Z'));
+  function tagAt(index) {
+    let pos = index + 1;
+    const closing = html[pos] === '/';
+    if (closing) pos++;
+    while (space(html[pos])) pos++;
+    const start = pos;
+    while (letter(html[pos])) pos++;
+    if (pos === start || (html[pos] && !space(html[pos]) &&
+        html[pos] !== '>' && html[pos] !== '/')) return null;
+    const name = html.slice(start,pos).toLowerCase();
+    let quote = '';
+    for (; pos < html.length; pos++) {
+      const char = html[pos];
+      if (quote) {
+        if (char === quote) quote = '';
+      } else if (char === '"' || char === "'") {
+        quote = char;
+      } else if (char === '>') return {name,closing,end:pos+1};
+    }
+    return null;
+  }
+
+  const chunks = [];
+  let pos = 0, hidden = null;
+  while (pos < html.length) {
+    const next = html.indexOf('<',pos);
+    if (next === -1) {
+      if (!hidden) chunks.push(html.slice(pos));
+      break;
+    }
+    if (!hidden) chunks.push(html.slice(pos,next));
+    if (!hidden && html.startsWith('<!--',next)) {
+      const end = html.indexOf('-->',next+4);
+      pos = end === -1 ? html.length : end+3;
+      chunks.push(' ');
+      continue;
+    }
+    if (hidden && html[next+1] !== '/') {
+      pos = next+1;
+      continue;
+    }
+    const tag = tagAt(next);
+    if (!tag) {
+      if (!hidden) chunks.push('<');
+      pos = next+1;
+      continue;
+    }
+    if (hidden) {
+      if (tag.closing && tag.name === hidden) hidden = null;
+    } else if (!tag.closing && ignored.has(tag.name)) hidden = tag.name;
+    if (!hidden) chunks.push(' ');
+    pos = tag.end;
+  }
+  return chunks.join('').replace(/&(?:nbsp|amp|lt|gt|quot|apos|#160|#x0*a0);/gi, entity => {
+    if (/^&(?:nbsp|#160|#x0*a0);$/i.test(entity)) return ' ';
+    return ({'&amp;':'&','&lt;':'<','&gt;':'>','&quot;':'"','&apos;':"'"})[entity.toLowerCase()] ?? entity;
+  }).replace(/\s+/g,' ').trim();
+}
+
 /** An HTTP status alone never proves whether linked functionality remains usable. */
 export function classifyResponse({ statusCode, headers = {}, body = '', truncated = false }) {
   const contentType = String(headers['content-type'] ?? '').toLowerCase();
@@ -25,9 +94,9 @@ export function classifyResponse({ statusCode, headers = {}, body = '', truncate
   }
   if (encoding !== 'identity') return { status: 'uninspected-encoding', evidence: `Content-Encoding: ${encoding}` };
   if (!body.trim()) return { status: 'empty-response', evidence: 'No readable response body' };
-  // This is a bounded, read-only heuristic, not an HTML sanitizer. Never
-  // render response markup: inspect only literal closure/challenge phrases.
-  const text = body.replace(/\s+/g, ' ').trim();
+  // Ignore closure phrases in JavaScript, markup attributes and comments.
+  const text = contentType.includes('text/plain') ? body.replace(/\s+/g,' ').trim()
+    : readableHtmlText(body);
   if (/\b(?:just a moment|checking your browser|verify you are human|captcha challenge|access denied)\b/i.test(text.slice(0, 1000))) {
     return { status: 'challenge-suspected', evidence: text.slice(0, 180) };
   }
