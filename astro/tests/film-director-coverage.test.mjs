@@ -103,6 +103,9 @@ test("distinct provider IDs in refs and direct links remain visible and block un
   const other=coverage.records.find(r=>r.path.endsWith("/alternative.json"));
   assert.deepEqual(other.identities.map(x=>x.id),["tt1234567","tt7654321"],
     "Do not discard different direct links simply because the platform already has a compact ID");
+  assert.deepEqual(other.conflicting_provider_platforms,["imdb"]);
+  assert.equal(coverage.summary.conflicting_provider_identity_records,1,
+    "The report must flag records needing source identity reconciliation");
   assert.equal(coverage.summary.missing_with_direct_identity,2);
 
   // Previously an unrecorded shared direct link would let this proposal
