@@ -221,7 +221,7 @@ export async function requestPinnedPage(url, { timeoutMs = 7000, maxBytes = 6553
  * unreserved characters and encode raw Unicode as percent-escaped UTF-8.
  * Reserved escapes stay encoded, so they cannot become * or $ operators.
  */
-export function normalizeRobotsOctets(value) {
+export export function normalizeRobotsOctets(value) {
   return value.replace(/%[0-9a-fA-F]{2}|[^\x00-\x7F]/gu, token => {
     if (token[0] === '%') {
       const char = String.fromCharCode(Number.parseInt(token.slice(1),16));
@@ -238,7 +238,12 @@ function robotPatternMatch(pattern, target) {
   if (!pattern) return false;
   const rule = normalizeRobotsOctets(pattern);
   const path = normalizeRobotsOctets(target);
-  const anchored = rule.endsWith('
+  const anchored = rule.endsWith('$');
+  const glob = anchored ? rule.slice(0,-1) : rule + '*';
+  let i = 0, j = 0, star = -1, retry = 0;
+  while (j < path.length) {
+    if (i < glob.length && glob[i] === path[j]) { i++; j++; }
+    else if (i < glob.length && glob[i] === '*') { star = i++; retry = j; }
     else if (star >= 0) { i = star + 1; j = ++retry; }
     else return false;
   }
