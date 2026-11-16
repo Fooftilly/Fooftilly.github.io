@@ -21,7 +21,7 @@
   "dependencies": {
     "@astrojs/vue": "7.1.2",
     "astro": "7.4.4",
-    "vue": "3.5.44",
+    "vue": "3.5.45",
     "@astrojs/markdown-satteri": "0.4.6",
     "satteri": "0.11.6"
   },
