@@ -19,7 +19,7 @@
     "audit:film-directors": "node scripts/audit-film-directors.mjs"
   },
   "dependencies": {
-    "@astrojs/vue": "7.1.2",
+    "@astrojs/vue": "7.1.6",
     "astro": "7.4.13",
     "vue": "3.5.45",
     "@astrojs/markdown-satteri": "0.4.10",
